@@ -1,0 +1,878 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SearchAPIModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateTimeUtc" Type="datetime" Nullable="false" />
+          <Property Name="MachineName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Method" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Details" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StopWord">
+          <Key>
+            <PropertyRef Name="StopWordId" />
+          </Key>
+          <Property Name="StopWordId" Type="int" Nullable="false" />
+          <Property Name="StopWordName" Type="nvarchar" MaxLength="16" Nullable="false" />
+        </EntityType>
+        <Function Name="AddStopWord" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StopWord" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="API_CategoryCode_GetAll_v2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PublicAPI" Type="int" Mode="In" />
+          <Parameter Name="APIKey" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="API_Course_GetById_v2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CourseId" Type="int" Mode="In" />
+          <Parameter Name="PublicAPI" Type="int" Mode="In" />
+          <Parameter Name="APIKey" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="API_CourseList_Get_v2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CourseSearchText" Type="nvarchar" Mode="In" />
+          <Parameter Name="ProviderSearchText" Type="nvarchar" Mode="In" />
+          <Parameter Name="QualificationType" Type="nvarchar" Mode="In" />
+          <Parameter Name="QualificationLevel" Type="nvarchar" Mode="In" />
+          <Parameter Name="StudyMode" Type="nvarchar" Mode="In" />
+          <Parameter Name="AttendanceMode" Type="nvarchar" Mode="In" />
+          <Parameter Name="AttendancePattern" Type="nvarchar" Mode="In" />
+          <Parameter Name="EarliestStartDate" Type="datetime" Mode="In" />
+          <Parameter Name="LdscCategoryCode" Type="nvarchar" Mode="In" />
+          <Parameter Name="ErTtgStatus" Type="bit" Mode="In" />
+          <Parameter Name="A10Code" Type="nvarchar" Mode="In" />
+          <Parameter Name="IndLivingFlg" Type="bit" Mode="In" />
+          <Parameter Name="SkillForLifeFlg" Type="nvarchar" Mode="In" />
+          <Parameter Name="ErTTGFlag" Type="nvarchar" Mode="In" />
+          <Parameter Name="ErAppStatus" Type="nvarchar" Mode="In" />
+          <Parameter Name="AdultlrStatus" Type="nvarchar" Mode="In" />
+          <Parameter Name="OtherFundingStatus" Type="nvarchar" Mode="In" />
+          <Parameter Name="AppClosed" Type="datetime" Mode="In" />
+          <Parameter Name="FlexiStartDate" Type="bit" Mode="In" />
+          <Parameter Name="Location" Type="nvarchar" Mode="In" />
+          <Parameter Name="Distance" Type="float" Mode="In" />
+          <Parameter Name="PageNumber" Type="int" Mode="In" />
+          <Parameter Name="NumberOfRecordPerPage" Type="int" Mode="In" />
+          <Parameter Name="SortBy" Type="nvarchar" Mode="In" />
+          <Parameter Name="ProviderId" Type="int" Mode="In" />
+          <Parameter Name="PublicAPI" Type="int" Mode="In" />
+          <Parameter Name="DFEFunded" Type="bit" Mode="In" />
+          <Parameter Name="APIKey" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="API_CourseList_Get_v3" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CourseIncludeFreeText" Type="nvarchar" Mode="In" />
+          <Parameter Name="CourseExcludeFreeText" Type="nvarchar" Mode="In" />
+          <Parameter Name="CourseIncludeExactText" Type="nvarchar" Mode="In" />
+          <Parameter Name="CourseExcludeExactText" Type="nvarchar" Mode="In" />
+          <Parameter Name="ProviderSearchText" Type="nvarchar" Mode="In" />
+          <Parameter Name="QualificationType" Type="nvarchar" Mode="In" />
+          <Parameter Name="QualificationLevel" Type="nvarchar" Mode="In" />
+          <Parameter Name="StudyMode" Type="nvarchar" Mode="In" />
+          <Parameter Name="AttendanceMode" Type="nvarchar" Mode="In" />
+          <Parameter Name="AttendancePattern" Type="nvarchar" Mode="In" />
+          <Parameter Name="EarliestStartDate" Type="datetime" Mode="In" />
+          <Parameter Name="LdscCategoryCode" Type="nvarchar" Mode="In" />
+          <Parameter Name="ErTtgStatus" Type="bit" Mode="In" />
+          <Parameter Name="A10Code" Type="nvarchar" Mode="In" />
+          <Parameter Name="IndLivingFlg" Type="bit" Mode="In" />
+          <Parameter Name="SkillForLifeFlg" Type="nvarchar" Mode="In" />
+          <Parameter Name="ErTTGFlag" Type="nvarchar" Mode="In" />
+          <Parameter Name="ErAppStatus" Type="nvarchar" Mode="In" />
+          <Parameter Name="AdultlrStatus" Type="nvarchar" Mode="In" />
+          <Parameter Name="OtherFundingStatus" Type="nvarchar" Mode="In" />
+          <Parameter Name="AppClosed" Type="datetime" Mode="In" />
+          <Parameter Name="FlexiStartDate" Type="bit" Mode="In" />
+          <Parameter Name="Location" Type="nvarchar" Mode="In" />
+          <Parameter Name="Distance" Type="float" Mode="In" />
+          <Parameter Name="PageNumber" Type="int" Mode="In" />
+          <Parameter Name="NumberOfRecordPerPage" Type="int" Mode="In" />
+          <Parameter Name="SortBy" Type="nvarchar" Mode="In" />
+          <Parameter Name="ProviderId" Type="int" Mode="In" />
+          <Parameter Name="PublicAPI" Type="int" Mode="In" />
+          <Parameter Name="DFEFunded" Type="bit" Mode="In" />
+          <Parameter Name="APIKey" Type="nvarchar" Mode="In" />
+          <Parameter Name="CutoffPercentage" Type="int" Mode="In" />
+          <Parameter Name="ProviderFreeTextMatch" Type="int" Mode="In" />
+          <Parameter Name="CourseFreeTextMatch" Type="int" Mode="In" />
+          <Parameter Name="SearchCourseSummary" Type="int" Mode="In" />
+          <Parameter Name="SearchQualificationTitle" Type="int" Mode="In" />
+        </Function>
+        <Function Name="API_LearningAim_GetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LearningAimReference" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="API_Provider_GetAll_v2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PublicAPI" Type="int" Mode="In" />
+          <Parameter Name="APIKey" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="API_Provider_GetByProviderId_v2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProviderId" Type="int" Mode="In" />
+          <Parameter Name="PublicAPI" Type="int" Mode="In" />
+          <Parameter Name="APIKey" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="API_Venue_GetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="VenueId" Type="int" Mode="In" />
+          <Parameter Name="PublicAPI" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DropStopWord" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StopWord" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetStopWords" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ProviderRequestResponesLog_Insert_v2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ServiceMethod" Type="nvarchar" Mode="In" />
+          <Parameter Name="Request" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Response" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="TimeInMillisecond" Type="int" Mode="In" />
+          <Parameter Name="PublicAPI" Type="bit" Mode="In" />
+          <Parameter Name="APIKey" Type="nvarchar" Mode="In" />
+          <Parameter Name="RecordCount" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="SearchAPIModelStoreContainer">
+          <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StopWord" EntityType="Self.StopWord" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SearchAPIModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SFA_SearchAPIEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="StopWords" EntityType="SearchAPIModel.StopWord" />
+          <EntitySet Name="Logs" EntityType="SearchAPIModel.Log" />
+          <FunctionImport Name="API_CategoryCode_GetAll_v2" ReturnType="Collection(SearchAPIModel.API_CategoryCode_GetAll_v2_Result)">
+            <Parameter Name="PublicAPI" Mode="In" Type="Int32" />
+            <Parameter Name="APIKey" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="API_Course_GetById_v2" ReturnType="Collection(SearchAPIModel.API_Course_GetById_v2_Result)">
+            <Parameter Name="CourseId" Mode="In" Type="Int32" />
+            <Parameter Name="PublicAPI" Mode="In" Type="Int32" />
+            <Parameter Name="APIKey" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="API_CourseList_Get_v2" ReturnType="Collection(SearchAPIModel.API_CourseList_Get_v2_Result)">
+            <Parameter Name="CourseSearchText" Mode="In" Type="String" />
+            <Parameter Name="ProviderSearchText" Mode="In" Type="String" />
+            <Parameter Name="QualificationType" Mode="In" Type="String" />
+            <Parameter Name="QualificationLevel" Mode="In" Type="String" />
+            <Parameter Name="StudyMode" Mode="In" Type="String" />
+            <Parameter Name="AttendanceMode" Mode="In" Type="String" />
+            <Parameter Name="AttendancePattern" Mode="In" Type="String" />
+            <Parameter Name="EarliestStartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="LdscCategoryCode" Mode="In" Type="String" />
+            <Parameter Name="ErTtgStatus" Mode="In" Type="Boolean" />
+            <Parameter Name="A10Code" Mode="In" Type="String" />
+            <Parameter Name="IndLivingFlg" Mode="In" Type="Boolean" />
+            <Parameter Name="SkillForLifeFlg" Mode="In" Type="String" />
+            <Parameter Name="ErTTGFlag" Mode="In" Type="String" />
+            <Parameter Name="ErAppStatus" Mode="In" Type="String" />
+            <Parameter Name="AdultlrStatus" Mode="In" Type="String" />
+            <Parameter Name="OtherFundingStatus" Mode="In" Type="String" />
+            <Parameter Name="AppClosed" Mode="In" Type="DateTime" />
+            <Parameter Name="FlexiStartDate" Mode="In" Type="Boolean" />
+            <Parameter Name="Location" Mode="In" Type="String" />
+            <Parameter Name="Distance" Mode="In" Type="Double" />
+            <Parameter Name="PageNumber" Mode="In" Type="Int32" />
+            <Parameter Name="NumberOfRecordPerPage" Mode="In" Type="Int32" />
+            <Parameter Name="SortBy" Mode="In" Type="String" />
+            <Parameter Name="ProviderId" Mode="In" Type="Int32" />
+            <Parameter Name="PublicAPI" Mode="In" Type="Int32" />
+            <Parameter Name="DFEFunded" Mode="In" Type="Boolean" />
+            <Parameter Name="APIKey" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="API_LearningAim_GetById" ReturnType="Collection(SearchAPIModel.API_LearningAim_GetById_Result)">
+          <Parameter Name="LearningAimReference" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="API_Provider_GetByProviderId_v2" ReturnType="Collection(SearchAPIModel.API_Provider_GetByProviderId_v2_Result)">
+            <Parameter Name="ProviderId" Mode="In" Type="Int32" />
+            <Parameter Name="PublicAPI" Mode="In" Type="Int32" />
+            <Parameter Name="APIKey" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="API_Provider_GetAll_v2" ReturnType="Collection(SearchAPIModel.API_Provider_GetAll_v2_Result)">
+            <Parameter Name="PublicAPI" Mode="In" Type="Int32" />
+            <Parameter Name="APIKey" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="API_Venue_GetById" ReturnType="Collection(SearchAPIModel.API_Venue_GetById_Result)">
+            <Parameter Name="VenueId" Mode="In" Type="Int32" />
+            <Parameter Name="PublicAPI" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ProviderRequestResponesLog_Insert_v2">
+            <Parameter Name="ServiceMethod" Mode="In" Type="String" />
+            <Parameter Name="Request" Mode="In" Type="String" />
+            <Parameter Name="Response" Mode="In" Type="String" />
+            <Parameter Name="TimeInMillisecond" Mode="In" Type="Int32" />
+            <Parameter Name="PublicAPI" Mode="In" Type="Boolean" />
+            <Parameter Name="APIKey" Mode="In" Type="String" />
+            <Parameter Name="RecordCount" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="API_CourseList_Get_v3" ReturnType="Collection(SearchAPIModel.API_CourseList_Get_v2_Result)">
+            <Parameter Name="CourseIncludeFreeText" Mode="In" Type="String" />
+            <Parameter Name="CourseExcludeFreeText" Mode="In" Type="String" />
+            <Parameter Name="CourseIncludeExactText" Mode="In" Type="String" />
+            <Parameter Name="CourseExcludeExactText" Mode="In" Type="String" />
+            <Parameter Name="ProviderSearchText" Mode="In" Type="String" />
+            <Parameter Name="QualificationType" Mode="In" Type="String" />
+            <Parameter Name="QualificationLevel" Mode="In" Type="String" />
+            <Parameter Name="StudyMode" Mode="In" Type="String" />
+            <Parameter Name="AttendanceMode" Mode="In" Type="String" />
+            <Parameter Name="AttendancePattern" Mode="In" Type="String" />
+            <Parameter Name="EarliestStartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="LdscCategoryCode" Mode="In" Type="String" />
+            <Parameter Name="ErTtgStatus" Mode="In" Type="Boolean" />
+            <Parameter Name="A10Code" Mode="In" Type="String" />
+            <Parameter Name="IndLivingFlg" Mode="In" Type="Boolean" />
+            <Parameter Name="SkillForLifeFlg" Mode="In" Type="String" />
+            <Parameter Name="ErTTGFlag" Mode="In" Type="String" />
+            <Parameter Name="ErAppStatus" Mode="In" Type="String" />
+            <Parameter Name="AdultlrStatus" Mode="In" Type="String" />
+            <Parameter Name="OtherFundingStatus" Mode="In" Type="String" />
+            <Parameter Name="AppClosed" Mode="In" Type="DateTime" />
+            <Parameter Name="FlexiStartDate" Mode="In" Type="Boolean" />
+            <Parameter Name="Location" Mode="In" Type="String" />
+            <Parameter Name="Distance" Mode="In" Type="Double" />
+            <Parameter Name="PageNumber" Mode="In" Type="Int32" />
+            <Parameter Name="NumberOfRecordPerPage" Mode="In" Type="Int32" />
+            <Parameter Name="SortBy" Mode="In" Type="String" />
+            <Parameter Name="ProviderId" Mode="In" Type="Int32" />
+            <Parameter Name="PublicAPI" Mode="In" Type="Int32" />
+            <Parameter Name="DFEFunded" Mode="In" Type="Boolean" />
+            <Parameter Name="APIKey" Mode="In" Type="String" />
+            <Parameter Name="CutoffPercentage" Mode="In" Type="Int32" />
+            <Parameter Name="ProviderFreeTextMatch" Mode="In" Type="Int32" />
+            <Parameter Name="CourseFreeTextMatch" Mode="In" Type="Int32" />
+            <Parameter Name="SearchCourseSummary" Mode="In" Type="Int32" />
+            <Parameter Name="SearchQualificationTitle" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AddStopWord">
+            <Parameter Name="StopWord" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DropStopWord">
+            <Parameter Name="StopWord" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetStopWords" ReturnType="Collection(String)" />
+        </EntityContainer>
+        <EntityType Name="StopWord">
+          <Key>
+            <PropertyRef Name="StopWordId" />
+          </Key>
+          <Property Name="StopWordId" Type="Int32" Nullable="false" />
+          <Property Name="StopWordName" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateTimeUtc" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MachineName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Method" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Details" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="API_CategoryCode_GetAll_v2_Result">
+          <Property Type="Int32" Name="CategoryCodeId" Nullable="false" />
+          <Property Type="String" Name="CategoryCodeName" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="ParentCategoryCode" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="200" />
+          <Property Type="Boolean" Name="IsSearchable" Nullable="false" />
+          <Property Type="Int32" Name="TotalCourses" Nullable="false" />
+          <Property Type="Int32" Name="Level" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="API_Course_GetById_v2_Result">
+          <Property Type="Int32" Name="CourseId" Nullable="false" />
+          <Property Type="String" Name="CourseTitle" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="QualificationTypeRef" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Qualification_Level" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LDCS1" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="LDCS2" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="LDCS3" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="LDCS4" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="LDCS5" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="CourseSummary" Nullable="true" MaxLength="2000" />
+          <Property Type="String" Name="AwardingOrganisationName" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="AssessmentMethod" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="BookingUrl" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="UcasTariffPoints" Nullable="true" />
+          <Property Type="String" Name="QualificationDataType" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="EntryRequirements" Nullable="false" MaxLength="4000" />
+          <Property Type="String" Name="EquipmentRequired" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="LearningAimRef" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="QualificationRefAuthority" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="QualificationRef" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="QualificationTitle" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Url" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="ProviderId" Nullable="false" />
+          <Property Type="String" Name="ProviderName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="AddressLine1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="AddressLine2" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Town" Nullable="false" MaxLength="75" />
+          <Property Type="String" Name="County" Nullable="true" MaxLength="75" />
+          <Property Type="String" Name="Postcode" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Telephone" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Website" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="Ukprn" Nullable="false" />
+          <Property Type="String" Name="Fax" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="UPIN" Nullable="true" />
+          <Property Type="Boolean" Name="Loans24Plus" Nullable="false" />
+          <Property Type="String" Name="AttendanceModeBulkUploadRef" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AttendancePatternBulkUploadRef" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Duration_Description" Nullable="true" MaxLength="150" />
+          <Property Type="Int32" Name="DurationValue" Nullable="true" />
+          <Property Type="String" Name="DurationUnit" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="Price" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="String" Name="PriceAsText" Nullable="true" MaxLength="1000" />
+          <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="StartDateDescription" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="StudyModeBulkUploadRef" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TimeTable" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="RegionName" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="VenueId" Nullable="true" />
+          <Property Type="Boolean" Name="CanApplyAllYear" Nullable="false" />
+          <Property Type="DateTime" Name="ApplyFromDate" Nullable="true" />
+          <Property Type="String" Name="ApplyTo" Nullable="true" MaxLength="255" />
+          <Property Type="DateTime" Name="ApplyUntilDate" Nullable="true" />
+          <Property Type="String" Name="ApplyUntilText" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="EndDate" Nullable="true" />
+          <Property Type="String" Name="EnquiryTo" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="LanguageOfAssessment" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="LanguageOfInstruction" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="PlacesAvailable" Nullable="true" />
+          <Property Type="String" Name="ProviderOwnCourseInstanceRef" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="CourseInstanceUrl" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="A10FundingCode" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="OpportunityId" Nullable="false" />
+          <Property Type="Boolean" Name="CourseDfEFunded" Nullable="true" />
+          <Property Type="Double" Name="FEChoices_LearnerDestination" Nullable="true" />
+          <Property Type="Double" Name="FEChoices_LearnerSatisfaction" Nullable="true" />
+          <Property Type="Double" Name="FEChoices_EmployerSatisfaction" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="API_LearningAim_GetById_Result">
+          <Property Type="Int32" Name="LearningAimId" Nullable="false" />
+          <Property Type="String" Name="LearningAimRef" Nullable="false" MaxLength="10" />
+          <Property Type="DateTime" Name="AccreditationStartDate" Nullable="true" />
+          <Property Type="DateTime" Name="AccreditationEndDate" Nullable="true" />
+          <Property Type="DateTime" Name="CertificationEndDate" Nullable="true" />
+          <Property Type="String" Name="ErAppStatus" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ErTtgStatus" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="IndepLivingSkills" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Level2EntitlementCatDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Level3EntitlementCatDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="OtherfundingNonFundedStatus" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="QcaGlh" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SectorLeadBodyDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SkillsForLife" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="SkillsForLifeType_Desc" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="AdultlrStatus" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="API_CourseList_Get_v2_Result">
+          <Property Type="Int64" Name="RowNumber" Nullable="true" />
+          <Property Type="Decimal" Name="Distance" Nullable="true" Precision="7" Scale="3" />
+          <Property Type="Int32" Name="ProviderId" Nullable="false" />
+          <Property Type="String" Name="ProviderName" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="CourseId" Nullable="false" />
+          <Property Type="String" Name="CourseTitle" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="QualificationTypeRef" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="QualificationBulkUploadRef" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CourseSummary" Nullable="true" MaxLength="2000" />
+          <Property Type="String" Name="LDCS1" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="LDCS2" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="LDCS3" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="LDCS4" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="LDCS5" Nullable="true" MaxLength="12" />
+          <Property Type="Int32" Name="CourseInstanceId" Nullable="false" />
+          <Property Type="String" Name="StudyModeBulkUploadRef" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AttendanceModeBulkUploadRef" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AttendancePatternBulkUploadRef" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="StartDateDescription" Nullable="true" MaxLength="150" />
+          <Property Type="DateTime" Name="EndDate" Nullable="true" />
+          <Property Type="String" Name="RegionName" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="DurationUnitId" Nullable="true" />
+          <Property Type="String" Name="DurationAsText" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="DurationUnitBulkUploadRef" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="VenueName" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="AddressLine1" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="AddressLine2" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Town" Nullable="true" MaxLength="75" />
+          <Property Type="String" Name="County" Nullable="true" MaxLength="75" />
+          <Property Type="String" Name="Postcode" Nullable="true" MaxLength="30" />
+          <Property Type="Double" Name="Latitude" Nullable="true" />
+          <Property Type="Double" Name="Longitude" Nullable="true" />
+          <Property Type="Boolean" Name="Loans24Plus" Nullable="false" />
+          <Property Type="String" Name="A10FundingCode" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IndependentLivingSkills" Nullable="true" />
+          <Property Type="String" Name="SkillsForLife" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="ErAppStatus" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AdultLearnerFundingStatus" Nullable="true" MaxLength="16" />
+          <Property Type="DateTime" Name="ApplyUntilDate" Nullable="true" />
+          <Property Type="Boolean" Name="ProviderDfEFunded" Nullable="false" />
+          <Property Type="Double" Name="FEChoices_LearnerDestination" Nullable="true" />
+          <Property Type="Double" Name="FEChoices_LearnerSatisfaction" Nullable="true" />
+          <Property Type="Double" Name="FEChoices_EmployerSatisfaction" Nullable="true" />
+          <Property Type="Boolean" Name="CourseDfEFunded" Nullable="true" />
+          <Property Type="Int32" Name="RecordCount" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="API_Provider_GetByProviderId_v2_Result">
+          <Property Type="Int32" Name="ProviderId" Nullable="false" />
+          <Property Type="String" Name="ProviderName" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="Ukprn" Nullable="false" />
+          <Property Type="Int32" Name="ProviderTypeId" Nullable="false" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Website" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Telephone" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Fax" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="TradingName" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="LegalName" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="UPIN" Nullable="true" />
+          <Property Type="String" Name="ProviderNameAlias" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="CreatedDateTimeUtc" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="ModifiedDateTimeUtc" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="Loans24Plus" Nullable="false" />
+          <Property Type="Int32" Name="RecordStatusId" Nullable="false" />
+          <Property Type="String" Name="CreatedByUserId" Nullable="false" MaxLength="128" />
+          <Property Type="String" Name="ModifiedByUserId" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="AddressLine1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="AddressLine2" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Town" Nullable="false" MaxLength="75" />
+          <Property Type="String" Name="County" Nullable="true" MaxLength="75" />
+          <Property Type="String" Name="Postcode" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="ApplicationId" Nullable="false" />
+          <Property Type="Boolean" Name="DFE1619Funded" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="API_Provider_GetAll_v2_Result">
+          <Property Type="Int32" Name="ProviderId" Nullable="false" />
+          <Property Type="String" Name="ProviderName" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="Ukprn" Nullable="false" />
+          <Property Type="Int32" Name="ProviderTypeId" Nullable="false" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Website" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Telephone" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Fax" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="TradingName" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="LegalName" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="UPIN" Nullable="true" />
+          <Property Type="String" Name="ProviderNameAlias" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="CreatedDateTimeUtc" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="ModifiedDateTimeUtc" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="Loans24Plus" Nullable="false" />
+          <Property Type="Int32" Name="RecordStatusId" Nullable="false" />
+          <Property Type="String" Name="CreatedByUserId" Nullable="false" MaxLength="128" />
+          <Property Type="String" Name="ModifiedByUserId" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="AddressLine1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="AddressLine2" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Town" Nullable="false" MaxLength="75" />
+          <Property Type="String" Name="County" Nullable="true" MaxLength="75" />
+          <Property Type="String" Name="Postcode" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="ApplicationId" Nullable="false" />
+          <Property Type="Boolean" Name="DFE1619Funded" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="API_Venue_GetById_Result">
+          <Property Type="String" Name="VenueName" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="AddressLine1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="AddressLine2" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Town" Nullable="false" MaxLength="75" />
+          <Property Type="String" Name="County" Nullable="true" MaxLength="75" />
+          <Property Type="String" Name="Postcode" Nullable="false" MaxLength="30" />
+          <Property Type="Double" Name="Latitude" Nullable="true" />
+          <Property Type="Double" Name="Longitude" Nullable="true" />
+          <Property Type="String" Name="Telephone" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Website" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Fax" Nullable="true" MaxLength="35" />
+          <Property Type="String" Name="Facilities" Nullable="true" MaxLength="2000" />
+        </ComplexType>
+        <ComplexType Name="API_CourseList_Get_v3_Result">
+          <Property Type="Int64" Name="RowNumber" Nullable="true" />
+          <Property Type="Decimal" Name="Distance" Nullable="true" Precision="7" Scale="3" />
+          <Property Type="Int32" Name="ProviderId" Nullable="false" />
+          <Property Type="String" Name="ProviderName" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="CourseId" Nullable="false" />
+          <Property Type="String" Name="CourseTitle" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="QualificationTypeRef" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="QualificationBulkUploadRef" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CourseSummary" Nullable="true" MaxLength="2000" />
+          <Property Type="String" Name="LDCS1" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="LDCS2" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="LDCS3" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="LDCS4" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="LDCS5" Nullable="true" MaxLength="12" />
+          <Property Type="Int32" Name="CourseInstanceId" Nullable="false" />
+          <Property Type="String" Name="StudyModeBulkUploadRef" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AttendanceModeBulkUploadRef" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AttendancePatternBulkUploadRef" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="StartDateDescription" Nullable="true" MaxLength="150" />
+          <Property Type="DateTime" Name="EndDate" Nullable="true" />
+          <Property Type="String" Name="RegionName" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="DurationUnitId" Nullable="true" />
+          <Property Type="String" Name="DurationAsText" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="DurationUnitBulkUploadRef" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="VenueName" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="AddressLine1" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="AddressLine2" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Town" Nullable="true" MaxLength="75" />
+          <Property Type="String" Name="County" Nullable="true" MaxLength="75" />
+          <Property Type="String" Name="Postcode" Nullable="true" MaxLength="30" />
+          <Property Type="Double" Name="Latitude" Nullable="true" />
+          <Property Type="Double" Name="Longitude" Nullable="true" />
+          <Property Type="Boolean" Name="Loans24Plus" Nullable="false" />
+          <Property Type="String" Name="A10FundingCode" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IndependentLivingSkills" Nullable="true" />
+          <Property Type="String" Name="SkillsForLife" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="ErAppStatus" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AdultLearnerFundingStatus" Nullable="true" MaxLength="16" />
+          <Property Type="DateTime" Name="ApplyUntilDate" Nullable="true" />
+          <Property Type="Boolean" Name="ProviderDfEFunded" Nullable="false" />
+          <Property Type="Double" Name="FEChoices_LearnerDestination" Nullable="true" />
+          <Property Type="Double" Name="FEChoices_LearnerSatisfaction" Nullable="true" />
+          <Property Type="Double" Name="FEChoices_EmployerSatisfaction" Nullable="true" />
+          <Property Type="Boolean" Name="CourseDfEFunded" Nullable="true" />
+          <Property Type="Int32" Name="RecordCount" Nullable="true" />
+        </ComplexType>
+       </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SearchAPIModelStoreContainer" CdmEntityContainer="SFA_SearchAPIEntities">
+          <EntitySetMapping Name="StopWords">
+            <EntityTypeMapping TypeName="SearchAPIModel.StopWord">
+              <MappingFragment StoreEntitySet="StopWord">
+                <ScalarProperty Name="StopWordName" ColumnName="StopWordName" />
+                <ScalarProperty Name="StopWordId" ColumnName="StopWordId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logs">
+            <EntityTypeMapping TypeName="SearchAPIModel.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="Details" ColumnName="Details" />
+                <ScalarProperty Name="Method" ColumnName="Method" />
+                <ScalarProperty Name="MachineName" ColumnName="MachineName" />
+                <ScalarProperty Name="DateTimeUtc" ColumnName="DateTimeUtc" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="API_CategoryCode_GetAll_v2" FunctionName="SearchAPIModel.Store.API_CategoryCode_GetAll_v2">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SearchAPIModel.API_CategoryCode_GetAll_v2_Result">
+                <ScalarProperty Name="CategoryCodeId" ColumnName="CategoryCodeId" />
+                <ScalarProperty Name="CategoryCodeName" ColumnName="CategoryCodeName" />
+                <ScalarProperty Name="ParentCategoryCode" ColumnName="ParentCategoryCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsSearchable" ColumnName="IsSearchable" />
+                <ScalarProperty Name="TotalCourses" ColumnName="TotalCourses" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="API_Course_GetById_v2" FunctionName="SearchAPIModel.Store.API_Course_GetById_v2">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SearchAPIModel.API_Course_GetById_v2_Result">
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="CourseTitle" ColumnName="CourseTitle" />
+                <ScalarProperty Name="QualificationTypeRef" ColumnName="QualificationTypeRef" />
+                <ScalarProperty Name="Qualification_Level" ColumnName="Qualification_Level" />
+                <ScalarProperty Name="LDCS1" ColumnName="LDCS1" />
+                <ScalarProperty Name="LDCS2" ColumnName="LDCS2" />
+                <ScalarProperty Name="LDCS3" ColumnName="LDCS3" />
+                <ScalarProperty Name="LDCS4" ColumnName="LDCS4" />
+                <ScalarProperty Name="LDCS5" ColumnName="LDCS5" />
+                <ScalarProperty Name="CourseSummary" ColumnName="CourseSummary" />
+                <ScalarProperty Name="AwardingOrganisationName" ColumnName="AwardingOrganisationName" />
+                <ScalarProperty Name="AssessmentMethod" ColumnName="AssessmentMethod" />
+                <ScalarProperty Name="BookingUrl" ColumnName="BookingUrl" />
+                <ScalarProperty Name="UcasTariffPoints" ColumnName="UcasTariffPoints" />
+                <ScalarProperty Name="QualificationDataType" ColumnName="QualificationDataType" />
+                <ScalarProperty Name="EntryRequirements" ColumnName="EntryRequirements" />
+                <ScalarProperty Name="EquipmentRequired" ColumnName="EquipmentRequired" />
+                <ScalarProperty Name="LearningAimRef" ColumnName="LearningAimRef" />
+                <ScalarProperty Name="QualificationRefAuthority" ColumnName="QualificationRefAuthority" />
+                <ScalarProperty Name="QualificationRef" ColumnName="QualificationRef" />
+                <ScalarProperty Name="QualificationTitle" ColumnName="QualificationTitle" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="ProviderId" ColumnName="ProviderId" />
+                <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="Town" ColumnName="Town" />
+                <ScalarProperty Name="County" ColumnName="County" />
+                <ScalarProperty Name="Postcode" ColumnName="Postcode" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="Ukprn" ColumnName="Ukprn" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UPIN" ColumnName="UPIN" />
+                <ScalarProperty Name="Loans24Plus" ColumnName="Loans24Plus" />
+                <ScalarProperty Name="AttendanceModeBulkUploadRef" ColumnName="AttendanceModeBulkUploadRef" />
+                <ScalarProperty Name="AttendancePatternBulkUploadRef" ColumnName="AttendancePatternBulkUploadRef" />
+                <ScalarProperty Name="Duration_Description" ColumnName="Duration_Description" />
+                <ScalarProperty Name="DurationValue" ColumnName="DurationValue" />
+                <ScalarProperty Name="DurationUnit" ColumnName="DurationUnit" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="PriceAsText" ColumnName="PriceAsText" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="StartDateDescription" ColumnName="StartDateDescription" />
+                <ScalarProperty Name="StudyModeBulkUploadRef" ColumnName="StudyModeBulkUploadRef" />
+                <ScalarProperty Name="TimeTable" ColumnName="TimeTable" />
+                <ScalarProperty Name="RegionName" ColumnName="RegionName" />
+                <ScalarProperty Name="VenueId" ColumnName="VenueId" />
+                <ScalarProperty Name="CanApplyAllYear" ColumnName="CanApplyAllYear" />
+                <ScalarProperty Name="ApplyFromDate" ColumnName="ApplyFromDate" />
+                <ScalarProperty Name="ApplyTo" ColumnName="ApplyTo" />
+                <ScalarProperty Name="ApplyUntilDate" ColumnName="ApplyUntilDate" />
+                <ScalarProperty Name="ApplyUntilText" ColumnName="ApplyUntilText" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="EnquiryTo" ColumnName="EnquiryTo" />
+                <ScalarProperty Name="LanguageOfAssessment" ColumnName="LanguageOfAssessment" />
+                <ScalarProperty Name="LanguageOfInstruction" ColumnName="LanguageOfInstruction" />
+                <ScalarProperty Name="PlacesAvailable" ColumnName="PlacesAvailable" />
+                <ScalarProperty Name="ProviderOwnCourseInstanceRef" ColumnName="ProviderOwnCourseInstanceRef" />
+                <ScalarProperty Name="CourseInstanceUrl" ColumnName="CourseInstanceUrl" />
+                <ScalarProperty Name="A10FundingCode" ColumnName="A10FundingCode" />
+                <ScalarProperty Name="OpportunityId" ColumnName="OpportunityId" />
+                <ScalarProperty Name="CourseDfEFunded" ColumnName="CourseDfEFunded" />
+                <ScalarProperty Name="FEChoices_LearnerDestination" ColumnName="FEChoices_LearnerDestination" />
+                <ScalarProperty Name="FEChoices_LearnerSatisfaction" ColumnName="FEChoices_LearnerSatisfaction" />
+                <ScalarProperty Name="FEChoices_EmployerSatisfaction" ColumnName="FEChoices_EmployerSatisfaction" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="API_CourseList_Get_v2" FunctionName="SearchAPIModel.Store.API_CourseList_Get_v2">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SearchAPIModel.API_CourseList_Get_v2_Result">
+                <ScalarProperty Name="RowNumber" ColumnName="RowNumber" />
+                <ScalarProperty Name="Distance" ColumnName="Distance" />
+                <ScalarProperty Name="ProviderId" ColumnName="ProviderId" />
+                <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="CourseTitle" ColumnName="CourseTitle" />
+                <ScalarProperty Name="QualificationTypeRef" ColumnName="QualificationTypeRef" />
+                <ScalarProperty Name="QualificationBulkUploadRef" ColumnName="QualificationBulkUploadRef" />
+                <ScalarProperty Name="CourseSummary" ColumnName="CourseSummary" />
+                <ScalarProperty Name="LDCS1" ColumnName="LDCS1" />
+                <ScalarProperty Name="LDCS2" ColumnName="LDCS2" />
+                <ScalarProperty Name="LDCS3" ColumnName="LDCS3" />
+                <ScalarProperty Name="LDCS4" ColumnName="LDCS4" />
+                <ScalarProperty Name="LDCS5" ColumnName="LDCS5" />
+                <ScalarProperty Name="CourseInstanceId" ColumnName="CourseInstanceId" />
+                <ScalarProperty Name="StudyModeBulkUploadRef" ColumnName="StudyModeBulkUploadRef" />
+                <ScalarProperty Name="AttendanceModeBulkUploadRef" ColumnName="AttendanceModeBulkUploadRef" />
+                <ScalarProperty Name="AttendancePatternBulkUploadRef" ColumnName="AttendancePatternBulkUploadRef" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="StartDateDescription" ColumnName="StartDateDescription" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="RegionName" ColumnName="RegionName" />
+                <ScalarProperty Name="DurationUnitId" ColumnName="DurationUnitId" />
+                <ScalarProperty Name="DurationAsText" ColumnName="DurationAsText" />
+                <ScalarProperty Name="DurationUnitBulkUploadRef" ColumnName="DurationUnitBulkUploadRef" />
+                <ScalarProperty Name="VenueName" ColumnName="VenueName" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="Town" ColumnName="Town" />
+                <ScalarProperty Name="County" ColumnName="County" />
+                <ScalarProperty Name="Postcode" ColumnName="Postcode" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Loans24Plus" ColumnName="Loans24Plus" />
+                <ScalarProperty Name="A10FundingCode" ColumnName="A10FundingCode" />
+                <ScalarProperty Name="IndependentLivingSkills" ColumnName="IndependentLivingSkills" />
+                <ScalarProperty Name="SkillsForLife" ColumnName="SkillsForLife" />
+                <ScalarProperty Name="ErAppStatus" ColumnName="ErAppStatus" />
+                <ScalarProperty Name="AdultLearnerFundingStatus" ColumnName="AdultLearnerFundingStatus" />
+                <ScalarProperty Name="ApplyUntilDate" ColumnName="ApplyUntilDate" />
+                <ScalarProperty Name="ProviderDfEFunded" ColumnName="ProviderDfEFunded" />
+                <ScalarProperty Name="FEChoices_LearnerDestination" ColumnName="FEChoices_LearnerDestination" />
+                <ScalarProperty Name="FEChoices_LearnerSatisfaction" ColumnName="FEChoices_LearnerSatisfaction" />
+                <ScalarProperty Name="FEChoices_EmployerSatisfaction" ColumnName="FEChoices_EmployerSatisfaction" />
+                <ScalarProperty Name="CourseDfEFunded" ColumnName="CourseDfEFunded" />
+                <ScalarProperty Name="RecordCount" ColumnName="RecordCount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="API_LearningAim_GetById" FunctionName="SearchAPIModel.Store.API_LearningAim_GetById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SearchAPIModel.API_LearningAim_GetById_Result">
+                <ScalarProperty Name="LearningAimId" ColumnName="LearningAimId" />
+                <ScalarProperty Name="LearningAimRef" ColumnName="LearningAimRef" />
+                <ScalarProperty Name="AccreditationStartDate" ColumnName="AccreditationStartDate" />
+                <ScalarProperty Name="AccreditationEndDate" ColumnName="AccreditationEndDate" />
+                <ScalarProperty Name="CertificationEndDate" ColumnName="CertificationEndDate" />
+                <ScalarProperty Name="ErAppStatus" ColumnName="ErAppStatus" />
+                <ScalarProperty Name="ErTtgStatus" ColumnName="ErTtgStatus" />
+                <ScalarProperty Name="IndepLivingSkills" ColumnName="IndepLivingSkills" />
+                <ScalarProperty Name="Level2EntitlementCatDesc" ColumnName="Level2EntitlementCatDesc" />
+                <ScalarProperty Name="Level3EntitlementCatDesc" ColumnName="Level3EntitlementCatDesc" />
+                <ScalarProperty Name="OtherfundingNonFundedStatus" ColumnName="OtherfundingNonFundedStatus" />
+                <ScalarProperty Name="QcaGlh" ColumnName="QcaGlh" />
+                <ScalarProperty Name="SectorLeadBodyDesc" ColumnName="SectorLeadBodyDesc" />
+                <ScalarProperty Name="SkillsForLife" ColumnName="SkillsForLife" />
+                <ScalarProperty Name="SkillsForLifeType_Desc" ColumnName="SkillsForLifeType_Desc" />
+                <ScalarProperty Name="AdultlrStatus" ColumnName="AdultlrStatus" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="API_Provider_GetByProviderId_v2" FunctionName="SearchAPIModel.Store.API_Provider_GetByProviderId_v2">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SearchAPIModel.API_Provider_GetByProviderId_v2_Result">
+                <ScalarProperty Name="ProviderId" ColumnName="ProviderId" />
+                <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
+                <ScalarProperty Name="Ukprn" ColumnName="Ukprn" />
+                <ScalarProperty Name="ProviderTypeId" ColumnName="ProviderTypeId" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="TradingName" ColumnName="TradingName" />
+                <ScalarProperty Name="LegalName" ColumnName="LegalName" />
+                <ScalarProperty Name="UPIN" ColumnName="UPIN" />
+                <ScalarProperty Name="ProviderNameAlias" ColumnName="ProviderNameAlias" />
+                <ScalarProperty Name="CreatedDateTimeUtc" ColumnName="CreatedDateTimeUtc" />
+                <ScalarProperty Name="ModifiedDateTimeUtc" ColumnName="ModifiedDateTimeUtc" />
+                <ScalarProperty Name="Loans24Plus" ColumnName="Loans24Plus" />
+                <ScalarProperty Name="RecordStatusId" ColumnName="RecordStatusId" />
+                <ScalarProperty Name="CreatedByUserId" ColumnName="CreatedByUserId" />
+                <ScalarProperty Name="ModifiedByUserId" ColumnName="ModifiedByUserId" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="Town" ColumnName="Town" />
+                <ScalarProperty Name="County" ColumnName="County" />
+                <ScalarProperty Name="Postcode" ColumnName="Postcode" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="DFE1619Funded" ColumnName="DFE1619Funded" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="API_Provider_GetAll_v2" FunctionName="SearchAPIModel.Store.API_Provider_GetAll_v2">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SearchAPIModel.API_Provider_GetAll_v2_Result">
+                <ScalarProperty Name="ProviderId" ColumnName="ProviderId" />
+                <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
+                <ScalarProperty Name="Ukprn" ColumnName="Ukprn" />
+                <ScalarProperty Name="ProviderTypeId" ColumnName="ProviderTypeId" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="TradingName" ColumnName="TradingName" />
+                <ScalarProperty Name="LegalName" ColumnName="LegalName" />
+                <ScalarProperty Name="UPIN" ColumnName="UPIN" />
+                <ScalarProperty Name="ProviderNameAlias" ColumnName="ProviderNameAlias" />
+                <ScalarProperty Name="CreatedDateTimeUtc" ColumnName="CreatedDateTimeUtc" />
+                <ScalarProperty Name="ModifiedDateTimeUtc" ColumnName="ModifiedDateTimeUtc" />
+                <ScalarProperty Name="Loans24Plus" ColumnName="Loans24Plus" />
+                <ScalarProperty Name="RecordStatusId" ColumnName="RecordStatusId" />
+                <ScalarProperty Name="CreatedByUserId" ColumnName="CreatedByUserId" />
+                <ScalarProperty Name="ModifiedByUserId" ColumnName="ModifiedByUserId" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="Town" ColumnName="Town" />
+                <ScalarProperty Name="County" ColumnName="County" />
+                <ScalarProperty Name="Postcode" ColumnName="Postcode" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="DFE1619Funded" ColumnName="DFE1619Funded" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="API_Venue_GetById" FunctionName="SearchAPIModel.Store.API_Venue_GetById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SearchAPIModel.API_Venue_GetById_Result">
+                <ScalarProperty Name="VenueName" ColumnName="VenueName" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="Town" ColumnName="Town" />
+                <ScalarProperty Name="County" ColumnName="County" />
+                <ScalarProperty Name="Postcode" ColumnName="Postcode" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Facilities" ColumnName="Facilities" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ProviderRequestResponesLog_Insert_v2" FunctionName="SearchAPIModel.Store.ProviderRequestResponesLog_Insert_v2" />
+          <FunctionImportMapping FunctionImportName="API_CourseList_Get_v3" FunctionName="SearchAPIModel.Store.API_CourseList_Get_v3">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="SearchAPIModel.API_CourseList_Get_v2_Result">
+                <ScalarProperty Name="RowNumber" ColumnName="RowNumber" />
+                <ScalarProperty Name="Distance" ColumnName="Distance" />
+                <ScalarProperty Name="ProviderId" ColumnName="ProviderId" />
+                <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="CourseTitle" ColumnName="CourseTitle" />
+                <ScalarProperty Name="QualificationTypeRef" ColumnName="QualificationTypeRef" />
+                <ScalarProperty Name="QualificationBulkUploadRef" ColumnName="QualificationBulkUploadRef" />
+                <ScalarProperty Name="CourseSummary" ColumnName="CourseSummary" />
+                <ScalarProperty Name="LDCS1" ColumnName="LDCS1" />
+                <ScalarProperty Name="LDCS2" ColumnName="LDCS2" />
+                <ScalarProperty Name="LDCS3" ColumnName="LDCS3" />
+                <ScalarProperty Name="LDCS4" ColumnName="LDCS4" />
+                <ScalarProperty Name="LDCS5" ColumnName="LDCS5" />
+                <ScalarProperty Name="CourseInstanceId" ColumnName="CourseInstanceId" />
+                <ScalarProperty Name="StudyModeBulkUploadRef" ColumnName="StudyModeBulkUploadRef" />
+                <ScalarProperty Name="AttendanceModeBulkUploadRef" ColumnName="AttendanceModeBulkUploadRef" />
+                <ScalarProperty Name="AttendancePatternBulkUploadRef" ColumnName="AttendancePatternBulkUploadRef" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="StartDateDescription" ColumnName="StartDateDescription" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="RegionName" ColumnName="RegionName" />
+                <ScalarProperty Name="DurationUnitId" ColumnName="DurationUnitId" />
+                <ScalarProperty Name="DurationAsText" ColumnName="DurationAsText" />
+                <ScalarProperty Name="DurationUnitBulkUploadRef" ColumnName="DurationUnitBulkUploadRef" />
+                <ScalarProperty Name="VenueName" ColumnName="VenueName" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="Town" ColumnName="Town" />
+                <ScalarProperty Name="County" ColumnName="County" />
+                <ScalarProperty Name="Postcode" ColumnName="Postcode" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Loans24Plus" ColumnName="Loans24Plus" />
+                <ScalarProperty Name="A10FundingCode" ColumnName="A10FundingCode" />
+                <ScalarProperty Name="IndependentLivingSkills" ColumnName="IndependentLivingSkills" />
+                <ScalarProperty Name="SkillsForLife" ColumnName="SkillsForLife" />
+                <ScalarProperty Name="ErAppStatus" ColumnName="ErAppStatus" />
+                <ScalarProperty Name="AdultLearnerFundingStatus" ColumnName="AdultLearnerFundingStatus" />
+                <ScalarProperty Name="ApplyUntilDate" ColumnName="ApplyUntilDate" />
+                <ScalarProperty Name="ProviderDfEFunded" ColumnName="ProviderDfEFunded" />
+                <ScalarProperty Name="FEChoices_LearnerDestination" ColumnName="FEChoices_LearnerDestination" />
+                <ScalarProperty Name="FEChoices_LearnerSatisfaction" ColumnName="FEChoices_LearnerSatisfaction" />
+                <ScalarProperty Name="FEChoices_EmployerSatisfaction" ColumnName="FEChoices_EmployerSatisfaction" />
+                <ScalarProperty Name="CourseDfEFunded" ColumnName="CourseDfEFunded" />
+                <ScalarProperty Name="RecordCount" ColumnName="RecordCount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AddStopWord" FunctionName="SearchAPIModel.Store.AddStopWord" />
+          <FunctionImportMapping FunctionImportName="DropStopWord" FunctionName="SearchAPIModel.Store.DropStopWord" />
+          <FunctionImportMapping FunctionImportName="GetStopWords" FunctionName="SearchAPIModel.Store.GetStopWords" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

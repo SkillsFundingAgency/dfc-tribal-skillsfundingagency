@@ -1,0 +1,216 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Models
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditProviderModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Provider Details");
+}
+
+<h2 class="provider">@AppGlobal.Language.GetText(this, "Header", "Provider Details")</h2>
+<h3>@Model.ProviderName</h3>
+<hr/>
+<div class="col-md-12">
+    <div class="col-md-8">
+        <dl class="dl-horizontal">
+            <dt>@Html.DisplayNameFor(m => m.RecordStatusId)</dt>
+            <dd>@Html.DisplayTextFor(m => m.RecordStatusName)</dd>
+    
+            <dt>@Html.DisplayNameFor(m => m.UKPRN)</dt>
+            <dd>@Html.DisplayTextFor(m => m.UKPRN)</dd>
+
+            <dt>@Html.DisplayNameFor(m => m.IsContractingBody)</dt>
+            <dd>@Html.DisplayTextFor(m => m.IsContractingBody)</dd>    
+    
+            <dt>@Html.DisplayNameFor(m => m.ProviderTypeId)</dt>
+            <dd>@Html.DisplayTextFor(m => m.ProviderTypeName)</dd>
+
+            <dt>@Html.DisplayNameFor(m => m.ProviderName)</dt>
+            <dd>@Html.DisplayTextFor(m => m.ProviderName)</dd>    
+    
+            <dt>@Html.DisplayNameFor(m => m.ProviderAlias)</dt>
+            <dd>@Html.DisplayTextFor(m => m.ProviderAlias)</dd>
+
+            <dt>@Html.DisplayNameFor(m => m.SecureAccessId)</dt>
+            <dd>@Html.DisplayTextFor(m => m.SecureAccessId)</dd>
+
+            <dt>@Html.DisplayNameFor(m => m.SFAFunded)</dt>
+            <dd>@Html.DisplayTextFor(m => m.SFAFunded)</dd>
+
+            <dt>@Html.DisplayNameFor(m => m.DFE1619Funded)</dt>
+            <dd>@Html.DisplayTextFor(m => m.DFE1619Funded)</dd>
+            
+            @if (Model.DFE1619Funded)
+            {
+                <dt>@Html.DisplayNameFor(m => m.DfEProviderTypeId)</dt>
+                <dd>@Html.DisplayTextFor(m => m.DfEProviderTypeName)</dd>
+
+                <dt>@Html.DisplayNameFor(m => m.DfEProviderStatusId)</dt>
+                <dd>@Html.DisplayTextFor(m => m.DfEProviderStatusName)</dd>
+
+                <dt>@Html.DisplayNameFor(m => m.DfELocalAuthorityId)</dt>
+                <dd>@Html.DisplayTextFor(m => m.DfELocalAuthorityName)</dd>
+
+                <dt>@Html.DisplayNameFor(m => m.DfERegionId)</dt>
+                <dd>@Html.DisplayTextFor(m => m.DfERegionName)</dd>
+
+                <dt>@Html.DisplayNameFor(m => m.DfEEstablishmentTypeId)</dt>
+                <dd>@Html.DisplayTextFor(m => m.DfEEstablishmentTypeName)</dd>
+            }
+            
+            <dt>@Html.DisplayNameFor(m => m.UPIN)</dt>
+            <dd>@Html.DisplayTextFor(m => m.UPIN)</dd>    
+    
+            <dt>@Html.DisplayNameFor(m => m.Loans24Plus)</dt>
+            <dd>@Html.DisplayTextFor(m => m.Loans24Plus)</dd>
+            
+            <dt>
+                @AppGlobal.Language.GetText(this, "Address", "Address")
+            </dt>
+            <dd>
+                @Html.Raw(Model.Address.GetMultipleLineHTMLAddress())
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ProviderRegionId)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ProviderRegionName)
+            </dd>
+
+            <dt>@Html.DisplayNameFor(m => m.Email)</dt>
+            <dd>
+                 @if (Model.Email != null)
+                 {
+                     <a href="mailto:@Model.Email">@Model.Email</a>
+                 }
+            </dd>
+
+            <dt>@Html.DisplayNameFor(m => m.Website)</dt>
+            <dd>
+                 @if (Model.Website != null)
+                 {
+                     var prefix = Model.Website.Contains("://") ? "" : "http://";
+                     <a href="@prefix@Model.Website" target="_blank">@Model.Website</a>
+                 }
+            </dd>    
+    
+            <dt>@Html.DisplayNameFor(m => m.Telephone)</dt>
+            <dd>@Html.DisplayTextFor(m => m.Telephone)</dd>
+
+            <dt>@Html.DisplayNameFor(m => m.ProviderTrackingUrl)</dt>
+            <dd>@Html.DisplayTextFor(m => m.ProviderTrackingUrl)</dd>       
+
+            <dt>@Html.DisplayNameFor(m => m.VenueTrackingUrl)</dt>
+            <dd>@Html.DisplayTextFor(m => m.VenueTrackingUrl)</dd>       
+
+            <dt>@Html.DisplayNameFor(m => m.CourseTrackingUrl)</dt>
+            <dd>@Html.DisplayTextFor(m => m.CourseTrackingUrl)</dd>       
+            
+            <dt>@Html.DisplayNameFor(m => m.BookingTrackingUrl)</dt>
+            <dd>@Html.DisplayTextFor(m => m.BookingTrackingUrl)</dd>       
+                
+        </dl>
+
+            @if (Permission.HasPermission(false, false, Permission.PermissionName.CanViewApprenticeshipQA))
+            {
+                <fieldset>
+                    <legend>
+                        @AppGlobal.Language.GetText(this, "QualityAssurance", "Quality Assurance")
+                        @if (AppGlobal.Language.GetText(this, "QualityAssuranceTooltip", "") != "")
+                        {
+                            @Html.Tooltip(AppGlobal.Language.GetText(this, "QualityAssuranceTooltip", ""))
+                        }
+                    </legend>
+                    <a href="@Url.Action("ProviderQAHistory", "Report", new {Id = @Model.ProviderId})" style="float: right; margin-top: -45px;">@AppGlobal.Language.GetText(this, "ViewQAHistory", "View QA History")</a>
+        
+                    <p class="required-message col-md-offset-2">
+                        @if (Model.LastQAdForComplianceOn.HasValue)
+                        {
+                            @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "LastQAdForComplianceOnBy", "Last Quality Assured for Compliance on <b>{0}</b> by <b>{1}</b>."), Model.LastQAdForComplianceOn, Model.LastQAdForComplianceBy))
+                        }
+                        else
+                        {
+                            @Html.Raw(AppGlobal.Language.GetText(this, "NeverQAdForCompliance", "Last Quality Assured for Compliance : <b>Never</b>"))
+                        }  
+                    </p>
+                
+                    <dl class="dl-horizontal">
+                        <dt>@Html.DisplayNameFor(m => m.HasBeenQAdForCompliance)</dt>
+                        <dd>
+                            @if (Model.HasBeenQAdForCompliance)
+                            {
+                                @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+                            }
+                            else
+                            {
+                                @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+                            }            
+                        </dd>
+
+                        <dt>@Html.DisplayNameFor(m => m.HasPassedComplianceChecks)</dt>
+                        <dd>
+                            @if (Model.HasPassedComplianceChecks)
+                            {
+                                @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+                            }
+                            else
+                            {
+                                @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+                            }
+                        </dd>
+                    </dl>
+        
+                    <p class="required-message col-md-offset-2">
+                        @if (Model.LastQAdForStyleOn.HasValue)
+                        {
+                            @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "LastQAdForStyleOnBy", "Last Quality Assured for Style on <b>{0}</b> by <b>{1}</b>."), Model.LastQAdForStyleOn, Model.LastQAdForStyleBy))
+                        }
+                        else
+                        {
+                            @Html.Raw(AppGlobal.Language.GetText(this, "NeverQAdForStyle", "Last Quality Assured for Style : <b>Never</b>"))
+                        }  
+                    </p>                
+                
+                    <dl class="dl-horizontal">
+                        <dt>@Html.DisplayNameFor(m => m.HasBeenQAdForStyle)</dt>
+                        <dd>
+                            @if (Model.HasBeenQAdForStyle)
+                            {
+                                @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+                            }
+                            else
+                            {
+                                @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+                            }            
+                        </dd>
+
+                        <dt>@Html.DisplayNameFor(m => m.HasPassedStyleChecks)</dt>
+                        <dd>
+                            @if (Model.HasPassedStyleChecks)
+                            {
+                                @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+                            }
+                            else
+                            {
+                                @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+                            }
+                        </dd>
+                    </dl>
+
+                    <dl class="dl-horizontal">
+                        <dt>@Html.DisplayNameFor(m => m.PassedOverallQAChecks)</dt>
+                        <dd>
+                            @if (Model.PassedOverallQAChecks == "1")
+                            {
+                                @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+                            }
+                            else
+                            {
+                                @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+                            }
+                        </dd>
+                    </dl>
+                </fieldset>
+            }
+
+    </div>
+    @Html.Partial("_UKPRNDetails", Model.UKRLPData)
+</div>

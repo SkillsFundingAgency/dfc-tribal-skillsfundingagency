@@ -1,0 +1,70 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Models
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditOrganisationModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Organisation Details");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Organisation Details")</h2>
+<h3>@Model.OrganisationName</h3>
+<hr/>
+<div class="col-md-12">
+    <div class="col-md-8">
+        <dl class="dl-horizontal">
+            <dt>@Html.DisplayNameFor(m => m.RecordStatusId)</dt>
+            <dd>@Html.DisplayTextFor(m => m.RecordStatusName)</dd>
+    
+            <dt>@Html.DisplayNameFor(m => m.UKPRN)</dt>
+            <dd>@Html.DisplayTextFor(m => m.UKPRN)</dd>
+
+            <dt>@Html.DisplayNameFor(m => m.IsContractingBody)</dt>
+            <dd>@Html.DisplayTextFor(m => m.IsContractingBody)</dd>    
+    
+            <dt>@Html.DisplayNameFor(m => m.OrganisationTypeId)</dt>
+            <dd>@Html.DisplayTextFor(m => m.OrganisationTypeName)</dd>
+
+            <dt>@Html.DisplayNameFor(m => m.OrganisationName)</dt>
+            <dd>@Html.DisplayTextFor(m => m.OrganisationName)</dd>    
+    
+            <dt>@Html.DisplayNameFor(m => m.OrganisationAlias)</dt>
+            <dd>@Html.DisplayTextFor(m => m.OrganisationAlias)</dd>
+
+            <dt>@Html.DisplayNameFor(m => m.UPIN)</dt>
+            <dd>@Html.DisplayTextFor(m => m.UPIN)</dd>    
+    
+            <dt>@Html.DisplayNameFor(m => m.Loans24Plus)</dt>
+            <dd>@Html.DisplayTextFor(m => m.Loans24Plus)</dd>
+            
+            <dt>
+                @AppGlobal.Language.GetText(this, "Address", "Address")
+            </dt>
+            <dd>
+                @Html.Raw(Model.Address.GetMultipleLineHTMLAddress())
+            </dd>
+    
+            <dt>@Html.DisplayNameFor(m => m.Email)</dt>
+            <dd>
+                 @if (Model.Email != null)
+                 {
+                     <a href="mailto:@Model.Email">@Model.Email</a>
+                 }
+            </dd>
+
+            <dt>@Html.DisplayNameFor(m => m.Website)</dt>
+            <dd>
+                 @if (Model.Website != null)
+                 {
+                     var prefix = Model.Website.Contains("://") ? "" : "http://";
+                     <a href="@prefix@Model.Website" target="_blank">@Model.Website</a>
+                 }
+            </dd>
+    
+            <dt>@Html.DisplayNameFor(m => m.Telephone)</dt>
+            <dd>@Html.DisplayTextFor(m => m.Telephone)</dd>
+
+            <dt>@Html.DisplayNameFor(m => m.Fax)</dt>
+            <dd>@Html.DisplayTextFor(m => m.Fax)</dd>       
+
+        </dl>
+    </div>
+    @Html.Partial("_UKPRNDetails", Model.UKRLPData)
+</div>

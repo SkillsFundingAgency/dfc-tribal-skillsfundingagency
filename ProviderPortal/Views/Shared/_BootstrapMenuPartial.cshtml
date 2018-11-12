@@ -1,0 +1,362 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Controllers
+@{
+    var bootstrapMenu = new BootStrapMenu { Alignment = BootStrapMenuAlignment.Left };
+
+    switch (UserContext.GetUserContext().ContextName)
+    {
+        case UserContext.UserContextName.Administration:
+            {
+                // Home
+                bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "AdminHomeMenuItem", "Home"), Url.Action("Dashboard", "Admin"), BootStrapMenuItemVisibility.ShowAlways));
+
+                // User management options
+                var userManagement = new BootStrapParentItem(AppGlobal.Language.GetText(this, "ManageAdminUsersParentMenuItem", "Manage Users"));
+                userManagement.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ManageAdminUsersViewUsersMenuItem", "View all users"), Url.Action("Users", "Manage"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanViewAdminUsers }));
+                userManagement.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ManageAdminUsersUserSearchMenuItem", "Find a user"), Url.Action("Find", "Account"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanViewAdminUsers }));
+                userManagement.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ManageAdminUsersCreateMenuItem", "Add a new user"), Url.Action("Create", "Account"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanAddEditAdminUsers }));
+                bootstrapMenu.Add(userManagement);
+
+                // Admin Reports
+                var reports = new BootStrapParentItem(AppGlobal.Language.GetText(this, "AdminReportsParentMenuItem", "Admin Reports"));
+                reports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "AdminReportsContractingBodiesMenuItem", "Contracting bodies only"), Url.Action("ContractingBodies", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+                reports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "AdminReportsProvidersMenuItem", "Providers only"), Url.Action("Providers", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+                reports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "AdminReportsOrganisationsMenuItem", "Organisations only"), Url.Action("Organisations", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+                reports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "AdminReportsProvidersAndOrganisationsMenuItem", "All providers and organisations"), Url.Action("ProvidersAndOrganisations", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+                reports.Children.Add(new BootStrapMenuItem(true));
+
+                // Admin Reports > Management Information
+                var miReports = new BootStrapParentItem(AppGlobal.Language.GetText(this, "ManagementInformationParentMenuItem", "Management Information"));
+                miReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "AdminReportsDailyReportMenuItem", "SFA Daily Report"), Url.Action("DailyReport", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+                miReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "AdminReportsWeeklyReportMenuItem", "SFA Weekly Report"), Url.Action("WeeklyReport", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+                miReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "AdminReportsSFAWeeklyReportMenuItem", "SFA Additional Report"), Url.Action("SFAWeeklyReport", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+                miReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "AdminReportsHeadlineStatsReportMenuItem", "SFA Headline Statistics Report"), Url.Action("HeadlineStats", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+                miReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "AdminReportsMonthlyReportMenuItem", "SFA Monthly Report"), Url.Action("MonthlyReport", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+
+                miReports.Children.Add(new BootStrapMenuItem(true));
+                miReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "AdminReportsBulkUploadHistoryReportMenuItem", "Bulk Upload History Report"), Url.Action("BulkUploadHistory", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+                miReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "AdminReportsBulkUploadHistoryApprenticeReportMenuItem", "Bulk Upload History Apprentice Report"), Url.Action("BulkUploadHistoryApprentice", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+                miReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "AdminReportMetadataUploadHistory", "Metadata Upload History"), Url.Action("MetadataUploadHistory", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+                miReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "AdminReportsQualityEmailHistoryReportMenuItem", "Quality Email History Report"), Url.Action("QualityEmailHistory", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+                reports.Children.Add(miReports);
+
+                // Admin Reports > Salesforce Reports
+                var salesforceReports = new BootStrapParentItem(AppGlobal.Language.GetText(this, "SalesforceIntegrationParentMenuItem", "Salesforce Integration"));
+                salesforceReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "SalesforceIntegrationAccountsReportMenuItem", "SalesForce Accounts"), Url.Action("SalesForceAccounts", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+                salesforceReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "SalesforceIntegrationContactsReportMenuItem", "SalesForce Contacts"), Url.Action("SalesForceContacts", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+                reports.Children.Add(salesforceReports);
+                bootstrapMenu.Add(reports);
+
+                // DfE Reports
+                var dfeReports = new BootStrapParentItem(AppGlobal.Language.GetText(this, "DFEAdminReportsParentMenuItem", "Admin 16-19 Reports"));
+                dfeReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "DFEAdminReportsContractingBodiesMenuItem", "Contracting bodies only"), Url.Action("DFEContractingBodies", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+                dfeReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "DFEAdminReportsProvidersMenuItem", "Providers only"), Url.Action("DFEProviders", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+                dfeReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "DFEAdminReportsOrganisationsMenuItem", "Organisations only"), Url.Action("DFEOrganisations", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+                dfeReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "DFEAdminReportsProvidersAndOrganisationsMenuItem", "All providers and organisations"), Url.Action("DFEProvidersAndOrganisations", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+                dfeReports.Children.Add(new BootStrapMenuItem(true));
+
+                // DfE Reports > Management Information
+                var dfeMiReports = new BootStrapParentItem(AppGlobal.Language.GetText(this, "DFEManagementInformationParentMenuItem", "Management Information"));
+                dfeMiReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "DFEAdminReportsDailyReportMenuItem", "DfE Daily Report"), Url.Action("DFEDailyReport", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+                dfeMiReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "DFEAdminReportsWeeklyReportMenuItem", "DfE Weekly Report"), Url.Action("DFEWeeklyReport", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+                dfeMiReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "DFEAdminReportsSFAWeeklyReportMenuItem", "DfE Additional Report"), Url.Action("DFESFAWeeklyReport", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+                dfeMiReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "DFEAdminReportDFEStartDateReportMenuItem", "DfE Start Date Report"), Url.Action("DFEStartDateReport", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewAdminReports));
+
+                dfeReports.Children.Add(dfeMiReports);
+                bootstrapMenu.Add(dfeReports);
+
+                // Apprenticeship Reports
+                BootStrapParentItem apprenticeshipReports = new BootStrapParentItem(AppGlobal.Language.GetText(this, "ApprenticeshipReportsParentMenuItem", "Apprenticeship Reports"));
+                apprenticeshipReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ApprenticeshipReportsOverallCountMenuItem", "Overall Count"), Url.Action("ApprenticeshipOverallCountReport", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewApprenticeshipReports));
+                apprenticeshipReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ApprenticeshipReportsDetailedListMenuItem", "Detailed List Uploaded"), Url.Action("ApprenticeshipDetailedListUploadedReport", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewApprenticeshipReports));
+                apprenticeshipReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ApprenticeshipReportsOver10MenuItem", "Providers with over 10 Apprenticeships"), Url.Action("ProvidersWithOver10ApprenticeshipsReport", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewApprenticeshipReports));
+                apprenticeshipReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ApprenticeshipReportsQAdMenuItem", "Quality Assured Providers"), Url.Action("QAdProvidersReport", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewApprenticeshipReports));
+                apprenticeshipReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ApprenticeshipReportsSubmittedDataMenuItem", "Providers who have Submitted their data for QA"), Url.Action("ProvidersSubmittedDataForQAReport", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewApprenticeshipReports));
+                apprenticeshipReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ApprenticeshipReportsQAHistoryReportMenuItem", "Provider QA history and details"), Url.Action("ProviderQAHistory", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewApprenticeshipReports));
+                apprenticeshipReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ApprenticeshipReportsUnableToCompleteReportMenuItem", "Providers Unable To Complete"), Url.Action("UnableToComplete", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewApprenticeshipReports));
+                apprenticeshipReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ApprenticeshipReportsRegisterOpeningReportMenuItem", "Register Opening Report - Summary"), Url.Action("RegisterOpening", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewApprenticeshipReports));
+                apprenticeshipReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ApprenticeshipReportsRegisterOpeningDetailReportMenuItem", "Register Opening Report - Detailed"), Url.Action("RegisterOpeningDetail", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewApprenticeshipReports));
+                apprenticeshipReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ApprenticeshipReportsProvidersWithArchivedApprenticeshipsSummaryReportMenuItem", "Providers with Archived or Unarchived Apprenticeships - Summary"), Url.Action("ProvidersWithArchivedApprenticeships", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewApprenticeshipReports));
+                apprenticeshipReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ApprenticeshipReportsProvidersWithArchivedApprenticeshipsDetailedReportMenuItem", "Providers with Archived or Unarchived Apprenticeships - Detailed"), Url.Action("ProvidersWithArchivedApprenticeshipsDetailed", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewApprenticeshipReports));
+                apprenticeshipReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "RoATPProvidersRefreshedReportMenuItem", "Providers who have confirmed they have refreshed their apprenticeships"), Url.Action("RoATPProvidersRefreshed", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewApprenticeshipReports));
+                apprenticeshipReports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "RoATPProvidersNotRefreshedReportMenuItem", "Providers who have not refreshed their apprenticeships"), Url.Action("RoATPProvidersNotRefreshed", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewApprenticeshipReports));
+
+                bootstrapMenu.Add(apprenticeshipReports);
+
+                // Manual audit providers
+                //bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "AdminManualAuditProvidersMenuItem", "Manual Audit Providers"), Url.Action("Providers", "Audit"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanManuallyAuditProviders));
+
+                // Data uploads (part of Portal Admin)
+                var dataUploadsMenu = new BootStrapParentItem(AppGlobal.Language.GetText(this, "DataUploadsParentMenuItem", "Metadata Uploads"));
+                dataUploadsMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "PortalAdminAddressBaseDataUpload", "Address Base Data Upload"), Url.Action("Index", "Address"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanUploadAddressBaseData));
+                dataUploadsMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "PortalAdminCodePointDataUpload", "Code Point Data Upload"), Url.Action("Index", "CodePoint"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanUploadCodePointData));
+                dataUploadsMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "PortalAdminFEChoicesDataUpload", "FE Choices Data Upload"), Url.Action("Index", "FEChoices"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanUploadFEChoicesData));
+                dataUploadsMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "PortalAdminLARSDataUpload", "LARS Data Upload"), Url.Action("Index", "LARS"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanUploadLARSData));
+                dataUploadsMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "PortalAdminProviderDataUpload", "Provider Data Upload"), Url.Action("Import", "ProviderImport"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanUploadProviderData));
+                dataUploadsMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "PortalAdminUCASDataUpload", "UCAS Data Upload"), Url.Action("Index", "UCASImport"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanUploadUCASData));
+
+                // Content management (part of Portal Admin)
+                var contentManagement = new BootStrapParentItem(AppGlobal.Language.GetText(this, "ContentManagementParentMenuItem", "Content management"));
+                contentManagement.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ContentManagementViewCurrentContentMenuItem", "View current content"), Url.Action("Index", "SiteContent"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanManageContent }));
+                contentManagement.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ContentManagementViewArchivedContentMenuItem", "View archived content"), Url.Action("Archived", "SiteContent"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanManageContent }));
+                contentManagement.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ContentManagementAddContentMenuItem", "Add a new page"), Url.Action("Create", "SiteContent"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanManageContent }));
+                contentManagement.Children.Add(new BootStrapMenuItem(true));
+                contentManagement.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ContentManagementFileManagerMenuItem", "File manager"), Url.Action("FileManager", "SiteContent"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanManageContent }));
+
+                // Portal admin options
+                var portalAdmin = new BootStrapParentItem(AppGlobal.Language.GetText(this, "PortalAdminParentMenuItem", "Portal Admin"));
+                portalAdmin.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "PortalAdminA10FundingCodesMenuItem", "A10 Funding Codes"), Url.Action("Index", "A10FundingCode"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanManageA10Codes }));
+                portalAdmin.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "PortalAdminImportBatchesMenuItem", "Import Batches"), Url.Action("Index", "ImportBatches"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanManageImportBatches }));
+                portalAdmin.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "PortalAdminManageCacheMenuItem", "Cached resources"), Url.Action("Cache", "PortalAdmin"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanManageCache }));
+                portalAdmin.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "PortalAdminConfigurationSettingsMenuItem", "Configuration settings"), Url.Action("Configuration", "PortalAdmin"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanManageConfiguration }));
+                portalAdmin.Children.Add(new BootStrapMenuItem(true));
+                portalAdmin.Children.Add(contentManagement);
+                portalAdmin.Children.Add(new BootStrapMenuItem(true));
+                portalAdmin.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "PortalAdminCourseSearchStatsAdminMenuItem", "Course search usage statistics"), Url.Action("Index", "CourseSearchStatsAdmin"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanEditCourseSearchStats }));
+                portalAdmin.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "PortalAdminDeliveryModesMenuItem", "Delivery Modes"), Url.Action("Index", "DeliveryMode"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanManageDeliveryModes }));
+                portalAdmin.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "PortalAdminEmailTemplatesMenuItem", "Email templates"), Url.Action("Index", "EmailTemplate"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanEditEmailTemplates }));
+                portalAdmin.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "PortalAdminLanguageResourcesMenuItem", "Language resources"), Url.Action("Language", "PortalAdmin"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanManageLanguages }));
+                portalAdmin.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "PortalAdminPublicAPIUsersMenuItem", "Public API Users"), Url.Action("Index", "PublicAPIUser"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewPublicAPIUsers));
+                portalAdmin.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "PortalAdminPermissionsInRolesMenuItem", "Roles and permissions"), Url.Action("PermissionRoles", "PortalAdmin"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanAddEditRoles));
+                portalAdmin.Children.Add(new BootStrapMenuItem(true));
+                portalAdmin.Children.Add(dataUploadsMenu);
+                portalAdmin.Children.Add(new BootStrapMenuItem(true));
+                portalAdmin.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "PortalAdminSearchAPIPhrasesMenuItem", "Course Search API Phrase Replacement"), Url.Action("Index", "SearchPhrase"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanEditAPISearchPhrases));
+                portalAdmin.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "PortalAdminSearchAPIStopWordsMenuItem", "Course Search API Stop Words"), Url.Action("Index", "StopWord"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanEditStopWords));
+
+                bootstrapMenu.Add(portalAdmin);
+
+                // Help
+                bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "HelpContextMenuItem", "Help"), "/Help", BootStrapMenuItemVisibility.ShowAlways) { Class = "context-help" });
+
+                break;
+            }
+
+        case UserContext.UserContextName.Organisation:
+            {
+                bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "OrganisationHomeMenuItem", "Home"), Url.Action("Dashboard", "Organisation"), BootStrapMenuItemVisibility.ShowAlways));
+
+                // Organisation Details
+                var detailsAction = Permission.HasPermission(false, true, Permission.PermissionName.CanEditOrganisation) ? "Edit" : "Details";
+                var detailsVisibility = Permission.HasPermission(false, false, new[] { Permission.PermissionName.CanEditProvider, Permission.PermissionName.CanViewOrganisation }) ? BootStrapMenuItemVisibility.ShowAlways : BootStrapMenuItemVisibility.None;
+                BootStrapMenuItem organisationViewDetailMenu = new BootStrapMenuItem(AppGlobal.Language.GetText(this, "OrganisationViewDetailsMenuItem", "Organisation Details"), Url.Action(detailsAction, "Organisation", new { id = "" }), detailsVisibility)
+                {
+                    Class = "nav-provider"
+                };
+                bootstrapMenu.Add(organisationViewDetailMenu);
+
+                // Bulk upload (Courses)
+                var bulkUploadCourses = new BootStrapParentItem(AppGlobal.Language.GetText(this, "OrganisationCourseBulkUploadParentMenuItem", "Course data"))
+                {
+                    Class = "nav-courses"
+                };
+                bulkUploadCourses.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "OrganisationCourseBulkUploadUploadFileMenuItem", "Upload a file"), Url.Action("Courses", "BulkUpload"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanBulkUploadOrganisationFiles));
+                bulkUploadCourses.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "OrganisationCourseBulkUploadViewStatusMenuItem", "View previous upload status"), Url.Action("CourseHistory", "BulkUpload"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanBulkUploadOrganisationFiles));
+
+                // Bulk upload (Apprenticeships)
+                var bulkUploadApprenticeships = new BootStrapParentItem(AppGlobal.Language.GetText(this, "OrganisationApprenticeshipBulkUploadParentMenuItem", "Apprenticeship data"))
+                {
+                    Class = "nav-apprenticeships"
+                };
+                bulkUploadApprenticeships.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "OrganisationApprenticeshipBulkUploadUploadFileMenuItem", "Upload a file"), Url.Action("Apprenticeships", "BulkUpload"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanBulkUploadOrganisationApprenticeshipFiles));
+                bulkUploadApprenticeships.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "OrganisationApprenticeshipBulkUploadViewStatusMenuItem", "View previous upload status"), Url.Action("ApprenticeshipHistory", "BulkUpload"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanBulkUploadOrganisationApprenticeshipFiles));
+
+                // Bulk upload
+                var bulkUpload = new BootStrapParentItem(AppGlobal.Language.GetText(this, "OrganisationBulkUploadParentMenuItem", "Bulk Upload"));
+                bulkUpload.Children.Add(bulkUploadCourses);
+                bulkUpload.Children.Add(bulkUploadApprenticeships);
+                bootstrapMenu.Add(bulkUpload);
+
+                // User management options
+                var userManagement = new BootStrapParentItem(AppGlobal.Language.GetText(this, "ManageOrganisationUsersParentMenuItem", "Manage Users"));
+                userManagement.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ManageOrganisationUsersViewUsersMenuItem", "View all users"), Url.Action("Users", "Manage"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanViewOrganisationUsers }));
+                userManagement.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ManageOrganisationUsersUserSearchMenuItem", "Find a user"), Url.Action("Find", "Account"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanViewOrganisationUsers }));
+                userManagement.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ManageOrganisationUsersCreateMenuItem", "Add a new user"), Url.Action("Create", "Account"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanAddEditOrganisationUsers }));
+                bootstrapMenu.Add(userManagement);
+
+                // Reports
+                var reports = new BootStrapParentItem(AppGlobal.Language.GetText(this, "OrganisationReportsParentMenuItem", "Reports"));
+                reports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "OrganisationReportsTrafficLightReportMenuItem", "Traffic light report"), Url.Action("TrafficLight", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewOrganisationReports));
+                bootstrapMenu.Add(reports);
+
+                // Help
+                bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "HelpContextMenuItem", "Help"), "/Help", BootStrapMenuItemVisibility.ShowAlways) { Class = "context-help" });
+
+                break;
+            }
+
+        case UserContext.UserContextName.DeletedOrganisation:
+            {
+                // Organisation Details
+                var detailsAction = Permission.HasPermission(false, true, Permission.PermissionName.CanEditOrganisation) ? "Edit" : "Details";
+                var detailsVisibility = Permission.HasPermission(false, false, new[] { Permission.PermissionName.CanEditProvider, Permission.PermissionName.CanViewOrganisation }) ? BootStrapMenuItemVisibility.ShowAlways : BootStrapMenuItemVisibility.None;
+                bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "OrganisationViewDetailsMenuItem", "Organisation Details"), Url.Action(detailsAction, "Organisation"), detailsVisibility));
+
+                // Help
+                bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "HelpContextMenuItem", "Help"), "/Help", BootStrapMenuItemVisibility.ShowAlways) { Class = "context-help" });
+
+                break;
+            }
+
+        case UserContext.UserContextName.Provider:
+            {
+                bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ProviderHomeMenuItem", "Home"), Url.Action("Dashboard", "Report"), BootStrapMenuItemVisibility.ShowAlways));
+
+                // Provider Details
+                var detailsAction = Permission.HasPermission(false, true, Permission.PermissionName.CanEditProvider) ? "Edit" : "Details";
+                var detailsVisibility = Permission.HasPermission(false, false, new[] { Permission.PermissionName.CanEditProvider, Permission.PermissionName.CanViewProvider }) ? BootStrapMenuItemVisibility.ShowAlways : BootStrapMenuItemVisibility.None;
+                BootStrapMenuItem providerDetailsMenu = new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ProviderViewDetailsMenuItem", "Provider Details"), Url.Action(detailsAction, "Provider"), detailsVisibility)
+                {
+                    Class = "nav-provider"
+                };
+                bootstrapMenu.Add(providerDetailsMenu);
+
+                // Venues
+                //var venuesMenu = new BootStrapParentItem(AppGlobal.Language.GetText(this, "ProviderVenuesParentMenuItem", "Venues"));
+                //venuesMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ProviderVenuesViewAllMenuItem", "View all venues"), Url.Action("List", "Venue"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanViewProviderVenue, Permission.PermissionName.CanAddProviderVenue, Permission.PermissionName.CanEditProviderVenue }));
+                //venuesMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ProviderVenuesAddNewMenuItem", "Add a new venue"), Url.Action("Create", "Venue"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanAddProviderVenue));
+                //bootstrapMenu.Add(venuesMenu);
+
+                // Appprenticeships
+                var apprenticeships = new BootStrapParentItem(AppGlobal.Language.GetText(this, "ApprenticeshipsParentMenuItem", "Apprenticeships"))
+                {
+                    Class = "nav-apprenticeships"
+                };
+                apprenticeships.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ApprenticeshipsViewLocationsMenuItem", "View all locations"), Url.Action("List", "Location"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewProviderLocation));
+                apprenticeships.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ApprenticeshipsAddLocationsMenuItem", "Add a new location"), Url.Action("Create", "Location"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanAddProviderLocation));
+                apprenticeships.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ApprenticeshipsViewApprenticeshipsMenuItem", "View all apprenticeships"), Url.Action("List", "Apprenticeship"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewProviderApprenticeship));
+                apprenticeships.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ApprenticeshipsAddApprenticeshipsMenuItem", "Add a new apprenticeship"), Url.Action("Create", "Apprenticeship"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanAddProviderApprenticeship));
+                apprenticeships.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ApprenticeshipsBulkUploadApprenticeshipsMenuItem", "Upload multiple apprenticeships"), Url.Action("Apprenticeships", "BulkUpload"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanBulkUploadProviderApprenticeshipFiles));
+                apprenticeships.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ApprenticeshipsBulkUploadViewStatusMenuItem", "View previous upload status"), Url.Action("ApprenticeshipHistory", "BulkUpload"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanBulkUploadProviderApprenticeshipFiles));
+                apprenticeships.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ApprenticeshipsViewMarketingInformationMenuItem", "Edit delivery information"), Url.Action("DeliveryInformation", "Provider"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanEditProvider));
+                bootstrapMenu.Add(apprenticeships);
+
+                if (new ProviderController().showDataReadyForQAButton())
+                {
+                    bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "DataReadyForQAMenuItem", "Ready for QA"), "#", BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanAddProviderApprenticeship) { Class = "navbar-hamburgeronly", id = "btnDataReadyForQA" });
+                }
+
+                if (new ProviderController().showTASRefreshConfirmButton())
+                {
+                    bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "TASRefreshConfirmMenuItem", "Confirm Apprenticeships Up to Date"), "#", BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanAddProviderApprenticeship) { Class = "navbar-hamburgeronly", id = "btnTASRefreshConfirmMenu" });
+                }
+
+
+                // Courses
+                var coursesMenu = new BootStrapParentItem(AppGlobal.Language.GetText(this, "ProviderCoursesParentMenuItem", "Courses"))
+                {
+                    Class = "nav-courses"
+                };
+                coursesMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ProviderVenuesViewAllMenuItem", "View all venues"), Url.Action("List", "Venue"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanViewProviderVenue, Permission.PermissionName.CanAddProviderVenue, Permission.PermissionName.CanEditProviderVenue }));
+                coursesMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ProviderVenuesAddNewMenuItem", "Add a new venue"), Url.Action("Create", "Venue"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanAddProviderVenue));
+                coursesMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ProviderCoursesViewAllMenuItem", "View all courses"), Url.Action("List", "Course"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanViewProviderCourse, Permission.PermissionName.CanAddProviderCourse, Permission.PermissionName.CanEditProviderCourse }));
+                var mnuAddCourse = new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ProviderCoursesAddNewMenuItem", "Add a new course"), "#", BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanAddProviderCourse)
+                {
+                    Class = "addCourse"
+                };
+                coursesMenu.Children.Add(mnuAddCourse);
+                coursesMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ProviderCoursesViewOppMenuItem", "View all opportunities"), Url.Action("List", "Opportunity"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanViewProviderOpportunity, Permission.PermissionName.CanAddProviderOpportunity, Permission.PermissionName.CanEditProviderOpportunity }));
+                bootstrapMenu.Add(coursesMenu);
+
+                // Bulk upload (Courses)
+                var bulkUploadCourses = new BootStrapParentItem(AppGlobal.Language.GetText(this, "ProviderCourseBulkUploadParentMenuItem", "Course data"))
+                {
+                    Class = "nav-courses"
+                };
+                bulkUploadCourses.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ProviderCourseBulkUploadUploadFileMenuItem", "Upload a file"), Url.Action("Courses", "BulkUpload"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanBulkUploadProviderFiles));
+                bulkUploadCourses.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ProviderCourseBulkUploadViewStatusMenuItem", "View previous upload status"), Url.Action("CourseHistory", "BulkUpload"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanBulkUploadProviderFiles));
+
+                // Bulk upload (Apprenticeships)
+                var bulkUploadApprenticeships = new BootStrapParentItem(AppGlobal.Language.GetText(this, "ProviderApprenticeshipBulkUploadParentMenuItem", "Apprenticeship data"))
+                {
+                    Class = "nav-apprenticeships"
+                };
+                bulkUploadApprenticeships.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ProviderApprenticeshipBulkUploadUploadFileMenuItem", "Upload a file"), Url.Action("Apprenticeships", "BulkUpload"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanBulkUploadProviderApprenticeshipFiles));
+                bulkUploadApprenticeships.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ProviderApprenticeshipBulkUploadViewStatusMenuItem", "View previous upload status"), Url.Action("ApprenticeshipHistory", "BulkUpload"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanBulkUploadProviderApprenticeshipFiles));
+
+                // Bulk upload
+                var bulkUpload = new BootStrapParentItem(AppGlobal.Language.GetText(this, "ProviderBulkUploadParentMenuItem", "Bulk Upload"));
+                bulkUpload.Children.Add(bulkUploadCourses);
+                bulkUpload.Children.Add(bulkUploadApprenticeships);
+                bootstrapMenu.Add(bulkUpload);
+
+                // User management options
+                var userManagement = new BootStrapParentItem(AppGlobal.Language.GetText(this, "ManageUsersParentMenuItem", "Manage Users"));
+                userManagement.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ManageProviderUsersViewUsersMenuItem", "View all users"), Url.Action("Users", "Manage"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanViewProviderUsers }));
+                userManagement.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ManageProviderUsersUserSearchMenuItem", "Find a user"), Url.Action("Find", "Account"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanViewProviderUsers }));
+                userManagement.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ManageProviderUsersCreateMenuItem", "Add a new user"), Url.Action("Create", "Account"), BootStrapMenuItemVisibility.PermissionBased, new[] { Permission.PermissionName.CanAddEditProviderUsers }));
+                bootstrapMenu.Add(userManagement);
+
+                // Reports
+                var reports = new BootStrapParentItem(AppGlobal.Language.GetText(this, "ProviderReportsParentMenuItem", "Reports"));
+                reports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ProviderReportsCoursesReportMenuItem", "Courses report"), Url.Action("Courses", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewProviderReports));
+                reports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ProviderReportsVenuesReportMenuItem", "Venues report"), Url.Action("Venues", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewProviderReports));
+                reports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ProviderReportsOpportunitiesReportMenuItem", "Opportunities report"), Url.Action("Opportunities", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewProviderReports));
+                reports.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ProviderReportsQAHistoryReportMenuItem", "View QA history and details"), Url.Action("ProviderQAHistory", "Report"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanViewApprenticeshipReports));
+                bootstrapMenu.Add(reports);
+
+                // Manual audit courses
+                //bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ProviderManualAuditCoursesMenuItem", "Manual Audit Courses"), Url.Action("Courses", "Audit"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanManuallyAuditCourses));
+
+                // Organisations
+                var organisationsMenu = new BootStrapParentItem(AppGlobal.Language.GetText(this, "ProviderOrganisationsParentMenuItem", "Organisations"));
+                organisationsMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ProviderOrganisationsMenuItem", "View organisations"), Url.Action("Membership", "Organisation"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanManageProviderOrganisationMembership));
+                organisationsMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ProviderOrganisationsAddNewMenuItem", "Add a new organisation"), Url.Action("Create", "Organisation"), BootStrapMenuItemVisibility.PermissionBased, Permission.PermissionName.CanAddOrganisation));
+                bootstrapMenu.Add(organisationsMenu);
+
+                // Help
+                bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "HelpContextMenuItem", "Help"), "/Help", BootStrapMenuItemVisibility.ShowAlways) { Class = "context-help" });
+
+                break;
+            }
+
+        case UserContext.UserContextName.DeletedProvider:
+            {
+                // Provider Details
+                var detailsAction = Permission.HasPermission(false, true, Permission.PermissionName.CanEditProvider) ? "Edit" : "Details";
+                var detailsVisibility = Permission.HasPermission(false, false, new[] { Permission.PermissionName.CanEditProvider, Permission.PermissionName.CanViewProvider }) ? BootStrapMenuItemVisibility.ShowAlways : BootStrapMenuItemVisibility.None;
+                bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "ProviderViewDetailsMenuItem", "Provider Details"), Url.Action(detailsAction, "Provider"), detailsVisibility));
+
+                // Help
+                bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "HelpContextMenuItem", "Help"), "/Help", BootStrapMenuItemVisibility.ShowAlways) { Class = "context-help" });
+
+                break;
+            }
+
+        default:
+            {
+                // Home
+                bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "HomeMenuItem", "Home"), Url.Action("Index", "Home"), BootStrapMenuItemVisibility.Authenticated));
+
+                // Help
+                bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "HelpContextMenuItem", "Help"), "/Help", BootStrapMenuItemVisibility.ShowAlways) { Class = "context-help" });
+
+                break;
+            }
+    }
+}
+
+@if (Request.IsAuthenticated)
+{
+    <div class="navbar navbar-main">
+        @if (UserContext.GetUserContext().ContextName == UserContext.UserContextName.Provider)
+        {
+            <div class="mobile-wizard">
+                <a class="myModal-btn-left" href="#userWizardModal" data-toggle="modal"><img alt="Task Wizard icon" src="~/Content/UserWizard/images/task-wizard.svg"> @AppGlobal.Language.GetText(this, "WizardTitle", "Task Wizard")</a>
+            </div>
+        }
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-main-collapse navbar-collapse collapse">
+            <div class="container">
+                @Html.Raw(bootstrapMenu.RenderedHtml(Request.RawUrl))
+            </div>
+        </div>
+    </div>
+}
+

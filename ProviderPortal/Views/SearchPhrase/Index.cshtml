@@ -1,0 +1,20 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.SearchPhraseListModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "View all Course Search API Phrase Replacements");
+}
+
+<div class="col-md-12" style="padding-left: 0px; padding-right: 0px;">
+    <div class="col-md-9" style="padding-left: 0px; padding-right: 0px;">
+        <h2>@AppGlobal.Language.GetText(this, "Header", "View all Course Search API Phrase Replacements")</h2>
+    </div>
+    @if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditAPISearchPhrases))
+    {
+        <div class="col-md-3 text-right" style="padding-left: 0px; padding-right: 0px;">
+            <div style="margin-top: 18px; margin-bottom: 8px;">
+                <a href="@Url.Action("Create", "SearchPhrase", null)" class="btn">@AppGlobal.Language.GetText(this, "AddSearchPhrase", "Add Search API Phrase Replacement")</a>
+            </div>
+        </div>
+    }
+</div>
+
+@Html.DisplayFor(m => m.Items, "_ListSearchPhrases")

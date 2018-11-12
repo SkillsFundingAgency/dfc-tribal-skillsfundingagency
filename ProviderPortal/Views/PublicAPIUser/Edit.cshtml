@@ -1,0 +1,90 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditPublicAPIUserModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Edit Public API User");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Edit Public API User")</h2>
+
+<div class="col-md-12">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.Raw(AppGlobal.Language.GetText(this, "PageSummary", "This page allows you to edit the details of a purblic API user.  You can also revoke their access to the public API by setting their status to 'Deleted'."))
+            <hr />
+
+            @Html.EditableDataValidationSummary(false)
+
+            @Html.RequiredFields(new {@class="col-md-offset-2"})
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(m => m.APIKey, new {@class = "control-label col-md-2"})
+                <div class="col-md-5">
+                    @Html.TextBoxFor(model => model.APIKey, new {@class = "form-control", @readonly = "readonly"})
+                    @Html.ValidationMessageFor(m => m.APIKey)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(m => m.RecordStatusId, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.RecordStatusId, (SelectList) ViewBag.RecordStatuses, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new {@class = "form-control"})
+                    @Html.ValidationMessageFor(m => m.RecordStatusId)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(m => m.CompanyName, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CompanyName, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(m => m.CompanyName)
+                </div>
+            </div>
+ 
+            <div class="form-group">
+                @Html.LanguageLabelFor(m => m.Email, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Email, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(m => m.Email)
+                </div>
+            </div>
+                
+            <div class="form-group">
+                @Html.LanguageLabelFor(m => m.Telephone, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Telephone, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(m => m.Telephone)
+                </div>
+            </div>
+                
+            <div class="form-group">
+                @Html.LanguageLabelFor(m => m.ContactFirstName, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ContactFirstName, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(m => m.ContactFirstName)
+                </div>
+            </div>
+                
+            <div class="form-group">
+                @Html.LanguageLabelFor(m => m.ContactLastName, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.ContactLastName, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(m => m.ContactLastName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="@AppGlobal.Language.GetText(this, "Submit", "Save")" class="btn btn-success" />
+                </div>
+            </div>                                
+        </div>
+    }
+
+</div>
+
+@section Scripts {
+}

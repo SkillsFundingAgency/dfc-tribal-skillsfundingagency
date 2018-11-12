@@ -1,0 +1,187 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditLocationModel
+
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Edit Location");
+}
+
+<h2 class="apprenticeships">@AppGlobal.Language.GetText(this, "Header", "Edit Location")</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>@AppGlobal.Language.GetText(this, "SubHeader", "")</h4>
+        <hr />
+
+        @if (Model.RecordStatusId == (Int32) Constants.RecordStatus.Archived)
+        {
+            <div class="col-md-offset-2 warning">
+                @Html.Raw(AppGlobal.Language.GetText(this, "LocationArchivedWarning", "<strong>Warning:</strong> this Location is currently <strong>ARCHIVED</strong>."))
+            </div>
+        }
+
+        @Html.EditableDataValidationSummary(false)        
+        @Html.HiddenFor(model => model.LocationId)
+        @Html.HiddenFor(m => m.ProviderId)
+
+        @Html.RequiredFields(new {@class = "col-md-offset-2"}) 
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.ProviderOwnLocationRef, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProviderOwnLocationRef, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.ProviderOwnLocationRef)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.LocationName, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LocationName, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.LocationName)
+            </div>
+        </div>
+
+        <fieldset>
+            <legend>@AppGlobal.Language.GetText(this, "AddressHeader", "Address Details")</legend>
+            @Html.EditorFor(m => m.Address, "_EditLocationAddressPartial")
+        </fieldset>
+
+        <fieldset>
+            <legend>@AppGlobal.Language.GetText(this, "ContactDetailsHeader", "Contact Details")</legend>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.Telephone, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Telephone, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.Telephone)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.Email, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Email, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.Website, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Website, new {htmlAttributes = new {@class = "form-control", data_url = "true"}})
+                    @Html.ValidationMessageFor(model => model.Website)
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="@AppGlobal.Language.GetText(this, "Submit", "Save")" class="btn btn-success" />
+                @if (Model.RecordStatusId != (Int32) Constants.RecordStatus.Archived)
+                {
+                    <input id="btnArchive" type="button" name="Archive" value="@AppGlobal.Language.GetText(this, "Archive", "Archive")" class="btn btn-default" />
+                }
+                else
+                {
+                    <input id="btnUnarchive" type="button" name="Unarchive" value="@AppGlobal.Language.GetText(this, "Unarchive", "Unarchive")" class="btn btn-default" />
+                }
+                @if (Permission.HasPermission(false, false, Permission.PermissionName.CanDeleteProviderLocation))
+                {
+                    <input id="btnDelete" type="button" name="Delete" value="@AppGlobal.Language.GetText(this, "Delete", "Delete")" class="btn btn-default" />
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $("#btnArchive").click(function() {
+                if (confirm('@AppGlobal.Language.GetText(this, "ArchiveLocationWarning", "Are you sure you would like to archive this Location?")') === false) {
+                    return;
+                }
+
+                // Check if there are any apprenticeships for this Location
+                var url = '@Url.Action("GetApprenticeships", "Location", new {Id = @Model.LocationId})';
+                $.ajax({
+                    url: url,
+                    success: function(result) {
+                        var archiveApprenticeships = false;
+                        if (result.length != 0) {
+                            archiveApprenticeships = confirm("@AppGlobal.Language.GetText(this, "ArchiveApprenticeshipsForLocation", "You have apprenticeships attached to this Location, would you like to archive these also?")");
+                        }
+                        url = '@Url.Action("Archive", "Location", new {Id = @Model.LocationId, ArchiveApprenticeships = "__ArchiveApprenticeships__"})';
+                        url = url.replace('__ArchiveApprenticeships__', archiveApprenticeships);
+                        $.ajax({
+                            url: url,
+                            success: function() {
+                                if (archiveApprenticeships) {
+                                    window.location.reload(true);
+                                } else {
+                                    alert("@AppGlobal.Language.GetText(this, "ReAssignLocationsForApprenticeships", "Please re-assign locations to these apprenticeships")");
+                                    window.location.replace("@Url.Action("List", "Apprenticeship", new { LocationId = Model.LocationId })");
+                                }
+                            },
+                            error: function() {
+                                alert("Error archiving Location");
+                            },
+                            cache: false,
+                            type: 'POST',
+                            contentType: 'application/x-www-form-urlencoded, charset=utf-8'
+                        });
+                    },
+                    error: function() {
+                        alert("Error archiving Location");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/json, charset=utf-8',
+                    dataType: 'json'
+                });
+            });
+
+            $("#btnUnarchive").click(function() {
+                var url = '@Url.Action("Unarchive", "Location", new {Id = @Model.LocationId})';
+                $.ajax({
+                    url: url,
+                    success: function() {
+                        window.location.reload(true);
+                    },
+                    error: function() {
+                        alert("Error unarchiving Location");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/x-www-form-urlencoded, charset=utf-8'
+                });
+            });
+
+            $("#btnDelete").click(function() {
+                if (confirm('@AppGlobal.Language.GetText(this, "DeleteLocationWarning", "Are you sure you would like to delete this Location?  Any apprenticeship delivery locations attached to this Location will be deleted.")') === false) {
+                    return;
+                }
+                var url = '@Url.Action("Delete", "Location", new {Id = @Model.LocationId})';
+                $.ajax({
+                    url: url,
+                    success: function() {
+                        window.location.replace("@Url.Action("List", "Location")");
+                    },
+                    error: function() {
+                        alert("Error deleting location");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/x-www-form-urlencoded, charset=utf-8'
+                });
+            });
+
+        });
+
+    </script>
+}

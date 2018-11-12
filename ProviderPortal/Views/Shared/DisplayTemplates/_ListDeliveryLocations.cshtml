@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Tribal.SkillsFundingAgency.ProviderPortal.Models.DeliveryLocationListViewModelItem>
+
+<table class="dataTable dt-responsive table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProviderOwnLocationRef)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LocationName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeliveryModes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Radius)
+            </th>
+            <th data-type="date-eu">
+                @Html.DisplayNameFor(model => model.LastUpdate)
+            </th>
+            <th data-sort='false' data-filter="false">
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var deliveryLocation in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => deliveryLocation.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => deliveryLocation.ProviderOwnLocationRef)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => deliveryLocation.LocationName)
+                </td>
+                <td>
+                    @(deliveryLocation.DeliveryModes.Any()
+                        ? String.Join(", ", deliveryLocation.DeliveryModes)
+                        : AppGlobal.Language.GetText(this, "NoDeliveryLocations", "None"))
+                </td>
+                <td>
+                    @Html.DisplayFor(model => deliveryLocation.Radius)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => deliveryLocation.LastUpdate)
+                </td>
+                <td>
+                    @if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditProviderOpportunity))
+                    {
+                        <a href="@Url.Action("Edit", "DeliveryLocation", new {Id = deliveryLocation.ApprenticeshipLocationId})">@AppGlobal.Language.GetText(this, "Edit", "Edit")</a>
+                    }
+                    else if (Permission.HasPermission(false, false, Permission.PermissionName.CanViewProviderOpportunity))
+                    {
+                        <a href="@Url.Action("View", "DeliveryLocation", new {Id = deliveryLocation.ApprenticeshipLocationId})">@AppGlobal.Language.GetText(this, "View", "View")</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+    
+</table>
+
+<hr />
+

@@ -1,0 +1,235 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Areas.Api.Models
+@using Permission = Tribal.SkillsFundingAgency.ProviderPortal.Permission
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.OrganisationDashboardViewModel
+
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Provider Dashboard");
+    var canManageMembers = Permission.HasPermission(false, true, Permission.PermissionName.CanManageOrganisationProviderMembership);
+}
+
+<h2>@Model.Organisation.OrganisationName@* (@Model.Organisation.UKPRN)*@</h2>
+<hr/>
+@if (ViewBag.Message != null)
+{
+    <div class="col-md-12">
+        <div class="alert alert-danger">
+            @ViewBag.Message
+        </div>
+    </div>
+}
+<div class="col-md-12">
+    @if (!Model.Providers.Any())
+    {
+        <div class="alert alert-info" role="alert">
+            @AppGlobal.Language.GetText(this, "NoProviders", "There are no providers for your organisation.")
+        </div>
+    }
+    else
+    {
+        <h4>@AppGlobal.Language.GetText(this, "ProviderTableHeader", "Providers Associated with or Invited to Join Your Organisation")</h4>
+        <hr/>
+        <table class="dataTable dt-responsive table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Providers.First().UKPRN)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Providers.First().ProviderName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Providers.First().PrimaryContacts)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Providers.First().Status)
+                    </th>
+                    <th>
+                        @AppGlobal.Language.GetText(this, "ProviderActionsTableHeader", "Actions")
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Providers)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(i => item.UKPRN)
+                        </td>
+                        <td>
+                            @if (Permission.HasPermission(false, true, Permission.PermissionName.CanViewProvider) && !item.IsProviderDeleted)
+                            {
+                                @Html.ActionLink(item.ProviderName, "Details", "Provider", new { id = item.ProviderId }, null)
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(i => item.ProviderName)
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(i => item.PrimaryContacts)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(i => item.Status)
+                            @if (item.IsProviderDeleted)
+                            {
+                                @Html.Tooltip(AppGlobal.Language.GetText(this, "ProviderIsDeleted", "This Provider has been deleted and is no longer offering courses through the portal."), new { @class = "pull-right" })
+                            }
+                            @if (item.IsRejected && item.Reason != null)
+                            {
+                                @Html.Tooltip(item.Reason, new { @class = "pull-right" })
+                            }
+                            @if (item.IsAccepted && !item.IsRejected && !item.CanOrganisationEditProvider)
+                            {
+                                @Html.Tooltip(AppGlobal.Language.GetText(this, "EditPermissionDisallowed", "This Provider has chosen not to allow the Organisation to view or edit their content. They may still run courses for your Organisation."), new { @class = "pull-right" })
+                            }
+                        </td>
+                        <td>
+                            @{ var showPipe = false; }
+                            @if (item.IsAccepted && !item.IsRejected && !item.IsProviderDeleted && item.CanOrganisationEditProvider && Permission.HasPermission(false, true, Permission.PermissionName.CanViewProviderHomePage))
+                            {
+                                <a href="@Url.Action("Dashboard", "Organisation")" data-id="@item.ProviderId" data-name="@(item.ProviderName)" data-action="switchto">@AppGlobal.Language.GetText(this, "SwitchToProvider", "View")<span class="hide"> @Html.DisplayFor(i => item.ProviderName)</span></a>
+                                showPipe = true;
+                            }
+                            @if (canManageMembers)
+                            {
+                                @(showPipe ? " | " : " ")
+                                if (item.IsAccepted || item.IsProviderDeleted)
+                                {
+                                    <a href="@Url.Action("Dashboard", "Organisation")" data-id="@item.ProviderId" data-action="remove" data-name="@item.ProviderName">@AppGlobal.Language.GetText(this, "RemoveProvider", "Remove")<span class="hide"> @Html.DisplayFor(i => item.ProviderName)</span></a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Dashboard", "Organisation")" data-id="@item.ProviderId" data-action="withdraw" data-name="@item.ProviderName">@AppGlobal.Language.GetText(this, "WithdrawInvitation", "Withdraw")<span class="hide"> Invitiation to @Html.DisplayFor(i => item.ProviderName)</span></a>
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@if (!Model.Organisation.PrimaryContacts.Any())
+{
+    <div class="col-md-12">
+        <p class="alert alert-danger">
+            @AppGlobal.Language.GetText(this, "CannotInviteMessageOpening", "Invitations cannot be sent until this Organisation has a superuser – do this on the ")
+            @Html.ActionLink(AppGlobal.Language.GetText(this, "CannotInviteLinkText", "add a new user"), "Create", "Account")
+            @AppGlobal.Language.GetText(this, "CannotInviteMessageClosing", " page.")
+        </p>
+    </div>
+}
+else
+{
+    if (Permission.HasPermission(false, true, Permission.PermissionName.CanManageOrganisationProviderMembership))
+    {
+         <div class="col-md-12">
+
+             <h4>@AppGlobal.Language.GetText(this, "InviteProviderHeader", "Invite a Provider to Be a Member of Your Organisation")</h4>
+             <hr/>
+             @Html.EditableDataValidationSummary(true)
+             <div class="form-horizontal">
+                 @AppGlobal.Language.GetText(this, "InviteFormHeader", "")
+                 @Html.EditableDataValidationSummary(true)
+                 @Html.RequiredFields(new { @class = "col-md-offset-4" })
+                 @Html.HiddenFor(m => m.InvitedProviderId)
+
+                 <div class="form-group">
+                     @Html.LanguageLabelFor(m => m.InvitedProvider, new { @class = "control-label col-md-4" })
+                     <div class="col-md-8">
+                         @Html.TextBoxFor(m => m.InvitedProvider, new { @class = "form-control typeahead provider-typeahead" })
+                         @Html.ValidationMessageFor(m => m.InvitedProvider)
+                     </div>
+                 </div>
+
+                 <div class="form-group">
+                     <div class="col-md-8 col-md-offset-4">
+                         <input type="submit" value="@AppGlobal.Language.GetText(this, "Invite", "Invite")" class="btn btn-success" data-action="invite" />
+                     </div>
+                 </div>
+
+                 <div class="form-group">
+                     <div class="col-md-8 col-md-offset-4">
+                         @if (Permission.HasPermission(false, true, Permission.PermissionName.CanAddProvider))
+                         {
+                             @Html.ActionLink(AppGlobal.Language.GetText(this, "AddProvider", "Add a new provider"), "Create", "Provider", null, new { @class = "btn btn-default" })
+                         }
+                     </div>
+                 </div>
+             </div>
+         </div>
+    }
+}
+
+@if (Permission.HasPermission(false, true, Permission.PermissionName.CanDeleteOrganisation))
+{
+    <div class="col-md-12">
+        <h4>@AppGlobal.Language.GetText(this, "OtherActionsHeader", "Organisation Administration")</h4>
+        <hr/>
+        <div class="form-group">
+            <div class="col-md-12">
+                @Html.ActionLink(AppGlobal.Language.GetText(this, "DeleteOrganisation", "Delete this organisation"), "Delete", "Organisation", null, new { @class = "" })     
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("Dashboard", "Organisation", FormMethod.Post, new { id = "membershipAction" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="action"/>
+    <input type="hidden" name="id"/>
+    <input type="hidden" name="name"/>
+    <input type="hidden" name="reason"/>
+    <input type="hidden" name="flag"/>
+}
+
+@section Scripts
+{
+    @Html.Partial("_TypeaheadPartial", new TypeaheadViewModel { JQuerySelector = ".provider-typeahead", SearchFields = new[] { "ukprn", "town", "postcode", "name", "alias" }, PrefetchUrl = "/api/typeahead/providers", ClearPrefetchCache = true, /*For debugging*/
+                                                                //RemoteUrl = "/api/typeahead/providers/%QUERY",
+                                                                Name = "InvitedProviderId", DisplayKey = "name", ValueKey = "id", EmptyMessage = AppGlobal.Language.GetText(this, "NoMatchedProviders", "Unable to find any providers that match your current query."), Suggestion = "function(a){return '<p>' + a.name + ' (' + a.ukprn + ')<br/><small>' + a.town + ', ' + a.postcode + '</small></p>';}", })
+
+    <script>
+        var attachEvents = function() {
+
+            var $form = $("form#membershipAction"),
+                $action = $form.find("input[name=action]"),
+                $id = $form.find("input[name=id]"),
+                $name = $form.find("input[name=name]") /*,
+                $reason = $form.find("input[name=reason]"),
+                $flag = $form.find("input[name=flag]")*/;
+
+            $("a[data-action]").bind("click", function(event) {
+                event.preventDefault();
+                var msg = "";
+                if ($(this).data("action") == "withdraw") {
+                    msg = "@AppGlobal.Language.GetText(this, "ConfirmWithdrawal", "Withdraw Invitation to ")" + $(this).data("name") + "?";
+                } else if ($(this).data("action") == "remove") {
+                    msg = "@AppGlobal.Language.GetText(this, "ConfirmRemoval", "Remove ")" + $(this).data("name") + "?";
+                }
+                if (msg != "") {
+                    if (!confirm(msg)) {
+                        return;
+                    }
+                }
+                $id.val($(this).data("id"));
+                $name.val($(this).data("name"));
+                $action.val($(this).data("action"));
+                $form.submit();
+            });
+
+            $("input[data-action=invite]").bind("click", function(event) {
+                event.preventDefault();
+                $id.val($("#InvitedProviderId").val().substring(1));
+                $action.val($(this).data("action"));
+                $form.submit();
+            });
+        }
+
+        attachEvents();
+
+        $(document.ready(function() { $('#DataTables_Table_0').on('page.dt', attachEvents); }));
+    </script>
+}

@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TribalTechnology.InformationManagement.Interfaces.IDatabaseCaching</name>
+    </assembly>
+    <members>
+        <member name="T:TribalTechnology.InformationManagement.Interfaces.IDatabaseCaching">
+            <summary>
+            An interface for a DatabaseCaching object
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Interfaces.IDatabaseCaching.SetCacheObject(System.Object,System.TimeSpan,System.Boolean,System.String,TribalTechnology.InformationManagement.Data.CachePriority)">
+            <summary>
+            A method that caches the dataset
+            </summary>
+            <param name="objectToCache">The object to cache</param>
+            <param name="expiryTimespan">The absolute time or sliding expiry timespan</param>
+            <param name="isSlidingExpiry">When true the expiry time is sliding, so each access to the object the lifetime is reset, when false the item expires after the expiryTime regardless of number of accesses</param>
+            <param name="cacheKey">The unique key for the dataset</param>
+            <param name="cachePriority">Sets how likely the item is to be removed if memory space requires clearing cached items</param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Interfaces.IDatabaseCaching.CacheFlush(System.String,System.Boolean)">
+            <summary>
+            Flushes an item from the cache
+            </summary>
+            <param name="cacheKey">The key that identifies the item to flush</param>
+            <param name="startsWith">When true all items that start with the key are flushed, when false it must be a complete match</param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Interfaces.IDatabaseCaching.GetCachedDataSet(System.String)">
+            <summary>
+            Fetches the dataset that matches the cacheKey or returns null if no item found cached
+            </summary>
+            <param name="cacheKey">The key that identifies the cached item</param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Interfaces.IDatabaseCaching.GetCachedObject(System.String)">
+            <summary>
+            Fetches an object that matches the cacheKey or returns null if no item found cached
+            </summary>
+            <param name="cacheKey">The key that identifies the cached item</param>
+            <returns>An object</returns>
+        </member>
+        <member name="T:TribalTechnology.InformationManagement.Data.CachePriority">
+            <summary>
+            The cache priority
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Data.CachePriority.High">
+            <summary>
+            Least likely to be removed
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Data.CachePriority.Normal">
+            <summary>
+            Normal priority, after low priority items are removed these items are then removed if memory space is low
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Data.CachePriority.Low">
+            <summary>
+            These items are the first to be removed if memory is low
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Data.CachePriority.NotRemovable">
+            <summary>
+            The item is never removed to regain space, it is still removed when it's expiry time is reached
+            </summary>
+        </member>
+    </members>
+</doc>

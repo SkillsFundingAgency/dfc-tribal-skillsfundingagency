@@ -1,0 +1,88 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Models
+@model IEnumerable<ListLocationModel>
+
+@if (Permission.HasPermission(false, false, Permission.PermissionName.CanAddProviderLocation))
+{
+    <div style="clear: both;"></div>
+
+    <div class="alert alert-warning">
+        @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "MaxNumberOfLocations", "The maximum number of locations you can list is {0}. On average, larger providers have around 50 locations."), ViewBag.MaxNumberOfLocations))
+    </div>
+}
+
+<table class="dataTable dt-responsive table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProviderOwnLocationRef)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LocationName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telephone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Website)
+            </th>
+            <th data-type="date-eu">
+                @Html.DisplayNameFor(model => model.LastUpdate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th data-sort='false' data-filter="false">@AppGlobal.Language.GetText(this, "Actions", "Actions")</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var location in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => location.ProviderOwnLocationRef)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => location.LocationName)
+                </td>
+                <td>
+                    @Html.Raw(location.Address.GetMultipleLineHTMLAddress())
+                </td>
+                <td>
+                    @Html.DisplayFor(model => location.Telephone)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => location.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => location.Website)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => location.LastUpdate)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => location.Status)
+                </td>
+                <td>
+                    @if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditProviderVenue))
+                    {
+                        <a href="@Url.Action("Edit", "Location", new {Id = location.LocationId})">@AppGlobal.Language.GetText(this, "Edit", "Edit")<span class="hide"> @Html.DisplayFor(model => location.LocationName)</span></a>
+                    }
+                    else if (Permission.HasPermission(false, false, Permission.PermissionName.CanViewProviderVenue))
+                    {
+                        <a href="@Url.Action("View", "Location", new {Id = location.LocationId})">@AppGlobal.Language.GetText(this, "View", "View")<span class="hide"> @Html.DisplayFor(model => location.LocationName)</span></a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<hr />

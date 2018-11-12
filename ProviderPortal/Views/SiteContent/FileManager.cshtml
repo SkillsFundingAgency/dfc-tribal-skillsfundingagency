@@ -1,0 +1,7 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ContentListViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "File Manager");
+}
+<h2>@AppGlobal.Language.GetText(this, "Header", "File Manager")</h2>
+<hr/>
+<iframe seamless="seamless" class="file-manager" src="/WebForms/FileManager/dialog.aspx"></iframe>

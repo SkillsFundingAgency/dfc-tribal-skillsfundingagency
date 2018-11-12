@@ -1,0 +1,189 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.BulkUploadHistoryReportViewModel
+@{
+    ViewBag.Title = String.Format(
+        AppGlobal.Language.GetText(this, "Title", "Bulk Upload History: {0:dd/MM/yyyy} to {1:dd/MM/yyyy}"),
+        Model.StartDate ?? DateTime.MinValue, Model.EndDate ?? DateTime.MaxValue);
+    var cutOff = new DateTime(2015, 1, 11);
+}
+
+<h2>@String.Format(
+        AppGlobal.Language.GetText(this, "Header", "Bulk Upload History: {0:dd/MM/yyyy} to {1:dd/MM/yyyy}"),
+        Model.StartDate ?? DateTime.MinValue, Model.EndDate ?? DateTime.MaxValue)</h2>
+<hr/>
+@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", "<p>The table below shows the recent bulk uploads for all providers and organisations. Use the 'Search' box to filter the table, and the arrows at the top of the columns to sort it. Use the buttons on the top right of the table to copy to your clipboard, save in comma separated values (CSV) format, save in Microsoft Excel format or print.<p>"))
+
+<span class="show-filter-options pull-left" @(ViewData.ModelState.IsValid ? String.Empty : "style=display:none")>
+    <button class="btn btn-link" data-toggle=".filter-options,.show-filter-options">
+        @AppGlobal.Language.GetText(this, "ShowFilter", "Show date filter")
+    </button>
+</span>
+<div class="filter-options form-horizontal"  @(ViewData.ModelState.IsValid ? "style=display:none" : String.Empty)>
+    <h3>@AppGlobal.Language.GetText(this, "FilterHeader", "Filter by Date")</h3>
+    @using (Html.BeginForm("BulkUploadHistory", "Report", FormMethod.Post, null))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            @Html.LanguageLabelFor(m => m.StartDate, new {@class = "control-label col-md-2"})
+            <div class="col-md-2">
+                @Html.EditorFor(m => m.StartDate, new { htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(m => m.StartDate)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LanguageLabelFor(m => m.EndDate, new {@class = "control-label col-md-2"})
+            <div class="col-md-2">
+                @Html.EditorFor(m => m.EndDate, new { htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(m => m.EndDate)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10 col-md-offset-2">
+                <input type="submit" value="@AppGlobal.Language.GetText(this, "Submit", "Go")" class="btn btn-success" />           
+                <button class="btn btn-default" data-toggle=".show-filter-options,.filter-options">
+                    @AppGlobal.Language.GetText(this, "CancelFilter", "Cancel")
+                </button>
+            </div>
+        </div>
+    }
+</div>
+
+<table class="dataTable dt-responsive table table-striped table-bordered" data-ajax="@Url.Action("BulkUploadHistoryJson",  new { startDate = Model.StartDate, endDate = Model.EndDate })">
+    <thead>
+        <tr>
+            <th scope="col" class="none">
+                @Html.DisplayNameFor(m => m.Items.First().BulkUploadId)
+            </th>
+            <th scope="col" class="all" data-type="datetime-eu">
+                @Html.DisplayNameFor(m => m.Items.First().CreatedDateTimeUtc)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().OrganisationName)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderName)
+            </th>
+            <th scope="col" class="none">
+                @Html.DisplayNameFor(m => m.Items.First().UserName)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().BulkUploadStatusText)
+            </th>
+            <th scope="col" class="none">
+                @Html.DisplayNameFor(m => m.Items.First().FileName)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().ExistingCourses)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().NewCourses)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().InvalidCourses)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().ExistingOpportunities)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().NewOpportunities)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().InvalidOpportunities)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().ExistingVenues)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().NewVenues)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().InvalidVenues)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().Errors)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().Warnings)
+            </th>
+            <th scope="col" class="none">
+                @Html.DisplayNameFor(m => m.Items.First().SystemExceptions)
+            </th>
+            <th scope="col" class="none">
+                @Html.DisplayNameFor(m => m.Items.First().Successes)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().Notices)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.BulkUploadId)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CreatedDateTimeUtc)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.OrganisationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ProviderName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.BulkUploadStatusText)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.FileName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ExistingCourses)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item. NewCourses)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.InvalidCourses)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ExistingOpportunities)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NewOpportunities)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.InvalidOpportunities)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ExistingVenues)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NewVenues)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.InvalidVenues)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Errors)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Warnings)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.SystemExceptions)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Successes)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Notices)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

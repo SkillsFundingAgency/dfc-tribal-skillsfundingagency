@@ -1,0 +1,143 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AdminReportMasterViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Contracting Bodies Only");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Contracting Bodies Only")</h2>
+<hr/>
+@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", "<p>The table below shows the current quality status for all Providers and Organisations who currently have a contract with the Skills Funding Agency. Use the 'Search' box to filter the table, and the arrows at the top of the columns to sort it. Use the buttons on the top right of the table to copy to your clipboard, save in comma separated values (CSV) format, save in Microsoft Excel format or print.<p>"))
+
+<table class="dataTable dt-responsive table table-striped table-bordered" data-ajax="@Url.Action("DFEContractingBodiesJson")" data-created-row="rowCreated"  data-name-index="6">
+    <thead>
+        <tr>
+            <th scope="col" class="all" data-type="enum-traffic">
+                @Html.DisplayNameFor(m => m.Items.First().Status)
+            </th>
+            <th scope="col" class="none">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderId)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().Ukprn)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().IsProvider)
+            </th>
+            <th scope="col" class="none">
+                @Html.DisplayNameFor(m => m.Items.First().IsTASOnly)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderTypeName)
+            </th>
+            <th scope="col" class="all">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderName)
+            </th>
+            <th scope="col" class="none">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderNameAlias)
+            </th>
+            <th scope="col" class="none">
+                @Html.DisplayNameFor(m => m.Items.First().LegalName)
+            </th>
+            <th scope="col" data-type="date-eu">
+                @Html.DisplayNameFor(m => m.Items.First().LastActivity)
+            </th>
+            <th scope="col" data-type="date-eu">
+                @Html.DisplayNameFor(m => m.Items.First().LastProvisionUpdate)
+            </th>
+            <th scope="col" class="none" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().UpToDateConfirmations)
+            </th>
+            <th scope="col" data-type="enum-method">
+                @Html.DisplayNameFor(m => m.Items.First().ApplicationName)
+            </th>
+            <th scope="col" class="none" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().ExpiredLARs)
+            </th>
+            <th scope="col" class="none">
+                @Html.DisplayNameFor(m => m.Items.First().PublishData)
+            </th>
+            <th scope="col" class="none">
+                @Html.DisplayNameFor(m => m.Items.First().PrimaryContacts)
+            </th>
+            <th scope="col" class="all" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().AutoAggregateQualityRating)
+            </th>
+            <th scope="col" class="all" data-type="enum-quality">
+                @Html.DisplayNameFor(m => m.Items.First().Rating)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+        <tr>
+            <td class="@item.StatusCssClass">
+                @Html.DisplayFor(m => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.ProviderId)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.Ukprn)
+            </td>
+            <td>
+                @(item.IsProvider
+                              ? AppGlobal.Language.GetText(this, "Provider", "Provider")
+                              : AppGlobal.Language.GetText(this, "Organisation", "Organisation"))
+            </td>
+            <td>
+                @(item.IsTASOnly == null ? String.Empty : item.IsTASOnly.Value
+                              ? AppGlobal.Language.GetText(this, "IsTASOnly", "Yes")
+                              : AppGlobal.Language.GetText(this, "IsTASOnly", "No"))
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.ProviderTypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.ProviderName)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.ProviderNameAlias)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.LegalName)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.LastActivity)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.LastProvisionUpdate)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.UpToDateConfirmations)
+            </td>
+            <td data-type="enum-method">
+                @Html.DisplayFor(m => item.ApplicationName)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.ExpiredLARs)
+            </td>
+            <td>
+                @(item.PublishData == null ? String.Empty : item.PublishData.Value
+                              ? AppGlobal.Language.GetText(this, "IsPublished", "Yes")
+                              : AppGlobal.Language.GetText(this, "NotPublished", "No"))
+            </td>
+            <td>
+                @foreach (var contact in item.PrimaryContacts)
+                {
+                    @Html.DisplayFor(m => contact)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.AutoAggregateQualityRating)
+            </td>
+            <td class="@item.RatingCssClass">
+                @Html.DisplayFor(m => item.Rating)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    @Html.Partial("_AdminReportsScript")
+}

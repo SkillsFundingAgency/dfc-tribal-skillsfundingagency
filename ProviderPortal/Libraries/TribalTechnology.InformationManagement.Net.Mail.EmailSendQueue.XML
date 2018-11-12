@@ -1,0 +1,1072 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue</name>
+    </assembly>
+    <members>
+        <member name="T:TribalTechnology.InformationManagement.Net.Mail.EmailMessage">
+            <summary>
+            Creates an EmailMessage object, this inherits from System.Net.Mail.MailMessage and extends on it to allow setting EmailParameters. EmailParameters are a key/value pair with any instance of the key appearing in the email text or subject replaced by the value.
+            </summary>   
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailMessage.UseDefaultFromAddress">
+            <summary>
+            Indicates to use the default from email address where this appears as the from email address
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailMessage.emailParameters">
+            <summary>
+            The _email parameters.
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailMessage.#ctor(System.Net.Mail.MailAddress,System.Net.Mail.MailAddress)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TribalTechnology.InformationManagement.Net.Mail.EmailMessage"/> class. 
+            Creates an EmailMessage object, this inherits from System.Net.Mail.MailMessage
+            </summary>
+            <param name="to">
+            The email address to send to
+            </param>
+            <param name="from">
+            The from email address
+            </param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailMessage.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TribalTechnology.InformationManagement.Net.Mail.EmailMessage"/> class. 
+            Creates an EmailMessage object, this inherits from System.Net.Mail.MailMessage
+            </summary>
+            <param name="to">
+            The to email address
+            </param>
+            <param name="from">
+            The from email address or EmailMessage.UseDefaultFrom address to use the default from email address set in the EmailSendQueue object
+            </param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailMessage.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TribalTechnology.InformationManagement.Net.Mail.EmailMessage"/> class. 
+            Creates an EmailMessage object, this inherits from System.Net.Mail.MailMessage
+            </summary>
+            <param name="to">
+            The to email address
+            </param>
+            <param name="subject">
+            The subject of the email
+            </param>
+            <param name="body">
+            The body of the email
+            </param>
+            <param name="from">
+            The from email address or EmailMessage.UseDefaultFrom address to use the default from email address set in the EmailSendQueue object
+            </param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailMessage.GetEmailParametersAsString">
+            <summary>
+            The get email parameters as string.
+            </summary>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailMessage.AddEmailParameter(System.String,System.String)">
+            <summary>
+            Method to add key value
+            </summary>
+            <param name="key">
+            The key which is the name of the placeholder to replace with the value, for example %FIRSTNAME%
+            </param>
+            <param name="value">
+            The value to replace all instances of the key in the body or subject of the email
+            </param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailMessage.GetStringWithParameterReplacement(System.String)">
+            <summary>
+            The get string with parameter replacement.
+            </summary>
+            <param name="text">
+            The text.
+            </param>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Net.Mail.EmailMessage.RetryCount">
+            <summary>
+            Gets or sets the retry count
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Net.Mail.EmailMessage.EmailParameters">
+            <summary>
+            Gets or sets an array of EmailParameters with key value pairs.  The key is a placeholder string in the email body or subject, and the value is the string to replace it with. This appends to any existing key value pairs set.
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Net.Mail.EmailMessage.SubjectWithKeysToValue">
+            <summary>
+            Gets the subject of the email with the keys replaced with values
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Net.Mail.EmailMessage.BodyWithKeysToValue">
+            <summary>
+            Gets the body of the email with keys replaced with values
+            </summary>
+        </member>
+        <member name="T:TribalTechnology.InformationManagement.Net.Mail.EmailParameter">
+            <summary>
+            An email parameter.  Set the key as the placeholder field name that appears in the body or subject of the email, and the value is the text to replace it with.
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailParameter.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TribalTechnology.InformationManagement.Net.Mail.EmailParameter"/> class. 
+            An email parameter.  Set the key as the placeholder field name that appears in the body or subject of the email, and the value is the text to replace it with.
+            </summary>
+            <param name="key">
+            The key is the placeholder field name that should be replaced with the value
+            </param>
+            <param name="value">
+            The value is the text to replace into the placeholder field name
+            </param>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Net.Mail.EmailParameter.Key">
+            <summary>
+            Gets or sets the key that is the placeholder field name that should be replaced with the value
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Net.Mail.EmailParameter.Value">
+            <summary>
+            Gets or sets the value that is the text to replace into the placeholder field name
+            </summary>
+        </member>
+        <member name="T:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue">
+            <summary>
+            Creates a queue for the lifetime of the application with which to send emails asynchronously.  Dispose the object at application end to ensure all emails are sent.
+            </summary>  
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.SendTimerPollingInterval">
+            <summary>
+            The polling interval
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.MaximumNumberOfEmails">
+            <summary>
+            Maximum number of emails to save for retrying
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.pathToPersistEmails">
+            <summary>
+            The path where emails are persisted to disk
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.startTimeUtc">
+            <summary>
+            The start time as UTC
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.eventLog">
+            <summary>
+            The event log
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.retryTimerPollingInterval">
+            <summary>
+            The retry timer polling interval
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.processingMutex">
+            <summary>
+            A process Mutex to ensure only one thread processing at a time
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.processingRetries">
+            <summary>
+            A process Mutex to ensure only one thread processing at a time
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.emailQueue">
+            <summary>
+            The email queue
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.lockTimerAccess">
+            <summary>
+            The lock for thread safety
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.lockRetryTimerAccess">
+            <summary>
+            The lock for thread safety
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.lockGetOkayToSave">
+            <summary>
+            The lock for thread safety
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.lockSmtpServerSettings">
+            <summary>
+            The lock for thread safety
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.isEnabled">
+            <summary>
+            The is enabled.
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.timerEmailQueuePoller">
+            <summary>
+            The timer that polls the email queue
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.retryTimerPoller">
+            <summary>
+            The timer that polls for emails needing a resend attempt
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.isTimerRunning">
+            <summary>
+            Indicates the timer is running
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.isRetryTimerRunning">
+            <summary>
+            Indicates the retry timer is running
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.timerNoEmailsCount">
+            <summary>
+            The number of emails pending a send
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.smtpPort">
+            <summary>
+            The SMTP port to use
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.smtpHost">
+            <summary>
+            The SMTP host.
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.smtpUserName">
+            <summary>
+            The SMTP user name.
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.smtpPassword">
+            <summary>
+            The SMTP password.
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.isSsl">
+            <summary>
+            Indicates SSL is in use
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.smtpClient">
+            <summary>
+            The SMTP client.
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.isDisposed">
+            <summary>
+            Indicates if being disposed
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.storageEmailCount">
+            <summary>
+            A count of emails stored for retrying
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.smtpServerHostChange">
+            <summary>
+            Indicates the SMTP server host name has changed
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.version">
+            <summary>
+            The version string
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.totalEmailProcessed">
+            <summary>
+            The total emails processed this session
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.totalEmailSent">
+            <summary>
+            The total emails sent this session
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.totalPersistedToDisk">
+            <summary>
+            The total number of emails persisted to disk this session
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.totalRetriesFromDisk">
+            <summary>
+            The total number of emails retried from disk this session
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.totalLost">
+            <summary>
+            The total number of emails lost or discarded this session
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.#ctor(System.String,System.Int32,System.Boolean,System.String,System.String,System.String,TribalTechnology.InformationManagement.Interfaces.ILog,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue"/> class. 
+            Creates a queue for the lifetime of the application with which to send emails asynchronously.  Dispose the object at application end to ensure all emails are sent.
+            </summary>
+            <param name="smtpHost">
+            The host name or IP address of the SmtpServer
+            </param>
+            <param name="smtpPort">
+            Optional, The port number 1-65535, the default is 25
+            </param>
+            <param name="isSsl">
+            When true an SSL connection is used to the SMTP server
+            </param>
+            <param name="smtpUserName">
+            The SMTP User name if authentication is required
+            </param>
+            <param name="smtpPassword">
+            The SMTP password if authentication is required
+            </param>
+            <param name="defaultFromEmailAddress">
+            Optional, the default from email address to use where an email has no from address specified
+            </param>
+            <param name="eventLog">
+            An ILog interface, when provided this object logs failures and audits of emails sent
+            </param>
+            <param name="isRetryPolicyEnabled">
+            When true any emails that fail to be sent, for example the SMTP server is off-line or the application is ending, will be persisted to disk and several retry attempts will be made.  Recommended setting is true.
+            </param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            An exception is thrown if the port number is @lt; 1 or @gt; 65535
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+            An exception is thrown if the smtpHost value is null or empty string
+            </exception>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.RetrySendingAllWaitingEmails">
+            <summary>
+            Takes all email that has one or more failed attempts to be sent, and attempts to send them all again immediately.  Typically pending email is tried again automatically over a period of 5 days, however this method may be used
+            to attempt to send them again immediately regardless of the next scheduled send attempt. If they fail they will be tried again on their original schedule.
+            </summary>
+            <returns>Returns true if all emails have been re-queued for resending, returns false if scheduled resends were already in progress.  If false returned, wait several seconds then recall the method</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.PurgeAllPendingEmails">
+            <summary>
+            Purges all pending email persisted to the disk without attempting any further resending
+            </summary>
+            <returns>Returns true if all emails have successfully been purged, returns false if scheduled resends were already in progress which prevents this method from completing.  If false returned, wait several seconds then recall the method</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.GetStatistics">
+            <summary>
+            Returns a string with a summary of statistics
+            </summary>
+            <returns>A string</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.SetSmtpServer(System.String,System.Int32,System.Boolean,System.String,System.String)">
+            <summary>
+            Sets the SMTP server, this method may be used to change the SMTP server being used and overrides the initial details set in the constructor. The change takes effect immediately.
+            </summary>
+            <param name="setSmtpHost">
+            The host name or IP address of the SmtpServer
+            </param>
+            <param name="setSmtpPort">
+            Optional, The port number 1-65535, the default is 25
+            </param>
+            <param name="setIsSsl">
+            When true an SSL connection is used to the SMTP server
+            </param>
+            <param name="setSmtpUserName">
+            The SMTP User name if authentication is required
+            </param>
+            <param name="setSmtpPassword">
+            The SMTP Password if authentication is required
+            </param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.AddToSendQueue(System.Net.Mail.MailMessage)">
+            <summary>
+            Adds an EmailMessage to the send queue.  Emails are sent immediately first in first out
+            </summary>
+            <param name="emailMessage">
+            The email message
+            </param>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown when no from email address is specified and no default email address has been set
+            </exception>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.AddToSendQueue(TribalTechnology.InformationManagement.Net.Mail.EmailMessage)">
+            <summary>
+            Adds an EmailMessage to the send queue.  Emails are sent immediately first in first out
+            </summary>
+            <param name="emailMessage">
+            The email message
+            </param>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown when no from email address is specified and no default email address has been set
+            </exception>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.Dispose">
+            <summary>
+            Disposes the EmailSendQueue be blocking until all emails have been sent, then disposes resources.  Always call dispose on ApplicationEnd or Exit to ensure all pending emails are sent.
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.TimerCheckForRetryEmail(System.Object)">
+            <summary>
+            The timer check for retry email.
+            </summary>
+            <param name="state">
+            The state.
+            </param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.SetSmtpClient(System.Boolean@)">
+            <summary>
+            Sets the SMTP Client
+            </summary>
+            <param name="isNew">
+            Indicates if a new client is created
+            </param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.TimerDequeueEmail(System.Object)">
+            <summary>
+            The timer that will de-queue emails
+            </summary>
+            <param name="state">
+            The state.
+            </param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.GetStoragePath">
+            <summary>
+            The get storage path.
+            </summary>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.GetOkayToSaveMail">
+            <summary>
+            The get okay to save mail.
+            </summary>
+            <returns>
+            The <see cref="T:System.Boolean"/>.
+            </returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.SaveFailedMail(TribalTechnology.InformationManagement.Net.Mail.EmailMessage)">
+            <summary>
+            The save failed mail.
+            </summary>
+            <param name="email">
+            The email.
+            </param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.RetrieveFailedEmail(System.String)">
+            <summary>
+            The retrieve failed email.
+            </summary>
+            <param name="filePathName">
+            The file path name.
+            </param>
+            <returns>
+            The <see cref="T:TribalTechnology.InformationManagement.Net.Mail.EmailMessage"/>.
+            </returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.RequeueFailedEmail(System.Boolean,System.Boolean)">
+            <summary>
+            Re=queue failed email
+            </summary>
+            <param name="retryAll">When true all emails are re-queued regardless of their next scheduled send attempt</param>
+            <param name="purgeOnly">When true the emails are not resent and so will just be deleted</param>
+            <returns>Returns true if the re-queue was successful, returns false if another thread was already re-queuing</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.GetIsDueForRetry(System.DateTime,System.Int32)">
+            <summary>
+            The get is due for retry.
+            </summary>
+            <param name="fileDateTimeUtc">
+            The file date time UTC.
+            </param>
+            <param name="retryCount">
+            The retry count.
+            </param>
+            <returns>
+            The <see cref="T:System.Boolean"/>.
+            </returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.WriteLog(System.String)">
+            <summary>
+            The write log.
+            </summary>
+            <param name="text">
+            The text.
+            </param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.WriteError(System.String)">
+            <summary>
+            The write error.
+            </summary>
+            <param name="text">
+            The text.
+            </param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.WriteWarning(System.String)">
+            <summary>
+            The write warning.
+            </summary>
+            <param name="text">
+            The text.
+            </param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.WriteDebug(System.String)">
+            <summary>
+            The write debug.
+            </summary>
+            <param name="text">
+            The text.
+            </param>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.IsRetryPolicyEnabled">
+            <summary>
+            Gets or sets a value indicating whether the retry policy is enabled.  When true emails are persisted to the disk and retried for a period of 10 days maximum.  The reset policy is set initially in the constructor and this property will override the constructor setting if used and takes effect immediately.
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.DefaultFromEmailAddress">
+            <summary>
+            Gets or sets the default from email address if the EmailMessage doesn't have a specific from email address set.  If null or not set an exception is thrown when sending an email with no from email address.
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.PathToSavedEmails">
+            <summary>
+            Gets the path that emails are persisted to on the disk when a retry policy is enabled
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.Enabled">
+            <summary>
+            Gets or sets a value indicating whether the email queue is enabled, the default is true.  When set to false emails added to the queue are dropped and not sent and queued emails persisted to the disk are not re-attempted, useful for when debugging to stop emails being sent. 
+            Note that any persisted emails saved when prior to this being set to false, will be attempted again when this property is set to true.
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.TotalEmailInQueue">
+            <summary>
+            Gets the total number of emails queued being processed, note on a server farm this only reports for the server processing the request
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Net.Mail.EmailSendQueue.TotalEmailsWaitingForResend">
+            <summary>
+            Gets the total number of emails queued to persistent storage that are awaiting another send attempt, note on a server farm this only reports for the server processing the request
+            </summary>
+        </member>
+        <member name="T:TribalTechnology.InformationManagement.Net.Mail.SerializeableAlternateView">
+            <summary>
+            The serialize-able alternate view.
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.SerializeableAlternateView.linkedResources">
+            <summary>
+            The linked resources.
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.SerializeableAlternateView.baseUri">
+            <summary>
+            The base Uri.
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.SerializeableAlternateView.contentId">
+            <summary>
+            The content id.
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.SerializeableAlternateView.contentStream">
+            <summary>
+            The content stream.
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.SerializeableAlternateView.contentType">
+            <summary>
+            The content type.
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.SerializeableAlternateView.transferEncoding">
+            <summary>
+            The transfer encoding.
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.SerializeableAlternateView.GetSerializeableAlternateView(System.Net.Mail.AlternateView)">
+            <summary>
+            The get serialize-able alternate view.
+            </summary>
+            <param name="av">
+            The av.
+            </param>
+            <returns>
+            The <see cref="T:TribalTechnology.InformationManagement.Net.Mail.SerializeableAlternateView"/>.
+            </returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.SerializeableAlternateView.GetAlternateView">
+            <summary>
+            The get alternate view.
+            </summary>
+            <returns>
+            The <see cref="T:System.Net.Mail.AlternateView"/>.
+            </returns>
+        </member>
+        <member name="T:Netmester.Mail.Serialization.SerializeableLinkedResource">
+            <summary>
+            The serialize-able linked resource.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableLinkedResource.contentId">
+            <summary>
+            The content id.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableLinkedResource.contentLink">
+            <summary>
+            The content link.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableLinkedResource.contentStream">
+            <summary>
+            The content stream.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableLinkedResource.contentType">
+            <summary>
+            The content type.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableLinkedResource.transferEncoding">
+            <summary>
+            The transfer encoding.
+            </summary>
+        </member>
+        <member name="M:Netmester.Mail.Serialization.SerializeableLinkedResource.GetSerializeableLinkedResource(System.Net.Mail.LinkedResource)">
+            <summary>
+            The get serialize-able linked resource.
+            </summary>
+            <param name="lr">
+            The LR.
+            </param>
+            <returns>
+            The <see cref="T:Netmester.Mail.Serialization.SerializeableLinkedResource"/> .
+            </returns>
+        </member>
+        <member name="M:Netmester.Mail.Serialization.SerializeableLinkedResource.GetLinkedResource">
+            <summary>
+            The get linked resource.
+            </summary>
+            <returns>
+            The <see cref="T:System.Net.Mail.LinkedResource"/>.
+            </returns>
+        </member>
+        <member name="T:Netmester.Mail.Serialization.SerializeableContentDisposition">
+            <summary>
+            The serializeable content disposition.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableContentDisposition.CreationDate">
+            <summary>
+            The creation date.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableContentDisposition.DispositionType">
+            <summary>
+            The disposition type.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableContentDisposition.FileName">
+            <summary>
+            The file name.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableContentDisposition.Inline">
+            <summary>
+            The inline.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableContentDisposition.ModificationDate">
+            <summary>
+            The modification date.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableContentDisposition.Parameters">
+            <summary>
+            The parameters.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableContentDisposition.ReadDate">
+            <summary>
+            The read date.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableContentDisposition.Size">
+            <summary>
+            The size.
+            </summary>
+        </member>
+        <member name="M:Netmester.Mail.Serialization.SerializeableContentDisposition.GetSerializeableContentDisposition(System.Net.Mime.ContentDisposition)">
+            <summary>
+            The get serializeable content disposition.
+            </summary>
+            <param name="cd">
+            The cd.
+            </param>
+            <returns>
+            The <see cref="T:Netmester.Mail.Serialization.SerializeableContentDisposition"/>.
+            </returns>
+        </member>
+        <member name="M:Netmester.Mail.Serialization.SerializeableContentDisposition.SetContentDisposition(System.Net.Mime.ContentDisposition)">
+            <summary>
+            The set content disposition.
+            </summary>
+            <param name="scd">
+            The scd.
+            </param>
+        </member>
+        <member name="T:Netmester.Mail.Serialization.SerializeableContentType">
+            <summary>
+            The serializeable content type.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableContentType.Boundary">
+            <summary>
+            The boundary.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableContentType.CharSet">
+            <summary>
+            The char set.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableContentType.MediaType">
+            <summary>
+            The media type.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableContentType.Name">
+            <summary>
+            The name.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableContentType.Parameters">
+            <summary>
+            The parameters.
+            </summary>
+        </member>
+        <member name="M:Netmester.Mail.Serialization.SerializeableContentType.GetSerializeableContentType(System.Net.Mime.ContentType)">
+            <summary>
+            The get serializeable content type.
+            </summary>
+            <param name="ct">
+            The ct.
+            </param>
+            <returns>
+            The <see cref="T:Netmester.Mail.Serialization.SerializeableContentType"/>.
+            </returns>
+        </member>
+        <member name="M:Netmester.Mail.Serialization.SerializeableContentType.GetContentType">
+            <summary>
+            The get content type.
+            </summary>
+            <returns>
+            The <see cref="T:System.Net.Mime.ContentType"/>.
+            </returns>
+        </member>
+        <member name="T:Netmester.Mail.Serialization.SerializeableAttachment">
+            <summary>
+            The serializeable attachment.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableAttachment.ContentId">
+            <summary>
+            The content id.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableAttachment.ContentDisposition">
+            <summary>
+            The content disposition.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableAttachment.ContentType">
+            <summary>
+            The content type.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableAttachment.ContentStream">
+            <summary>
+            The content stream.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableAttachment.TransferEncoding">
+            <summary>
+            The transfer encoding.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableAttachment.Name">
+            <summary>
+            The name.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableAttachment.NameEncoding">
+            <summary>
+            The name encoding.
+            </summary>
+        </member>
+        <member name="M:Netmester.Mail.Serialization.SerializeableAttachment.GetSerializeableAttachment(System.Net.Mail.Attachment)">
+            <summary>
+            The get serializeable attachment.
+            </summary>
+            <param name="att">
+            The att.
+            </param>
+            <returns>
+            The <see cref="T:Netmester.Mail.Serialization.SerializeableAttachment"/>.
+            </returns>
+        </member>
+        <member name="M:Netmester.Mail.Serialization.SerializeableAttachment.GetAttachment">
+            <summary>
+            The get attachment.
+            </summary>
+            <returns>
+            The <see cref="T:System.Net.Mail.Attachment"/>.
+            </returns>
+        </member>
+        <member name="T:Netmester.Mail.Serialization.SerializeableCollection">
+            <summary>
+            The serializeable collection.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableCollection.Collection">
+            <summary>
+            The collection.
+            </summary>
+        </member>
+        <member name="M:Netmester.Mail.Serialization.SerializeableCollection.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Netmester.Mail.Serialization.SerializeableCollection"/> class.
+            </summary>
+        </member>
+        <member name="M:Netmester.Mail.Serialization.SerializeableCollection.GetSerializeableCollection(System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            The get serializeable collection.
+            </summary>
+            <param name="col">
+            The col.
+            </param>
+            <returns>
+            The <see cref="T:Netmester.Mail.Serialization.SerializeableCollection"/>.
+            </returns>
+        </member>
+        <member name="M:Netmester.Mail.Serialization.SerializeableCollection.GetSerializeableCollection(System.Collections.Specialized.StringDictionary)">
+            <summary>
+            The get serializeable collection.
+            </summary>
+            <param name="col">
+            The col.
+            </param>
+            <returns>
+            The <see cref="T:Netmester.Mail.Serialization.SerializeableCollection"/>.
+            </returns>
+        </member>
+        <member name="M:Netmester.Mail.Serialization.SerializeableCollection.SetColletion(System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            The set colletion.
+            </summary>
+            <param name="scol">
+            The scol.
+            </param>
+        </member>
+        <member name="M:Netmester.Mail.Serialization.SerializeableCollection.SetColletion(System.Collections.Specialized.StringDictionary)">
+            <summary>
+            The set colletion.
+            </summary>
+            <param name="scol">
+            The scol.
+            </param>
+        </member>
+        <member name="T:Netmester.Mail.Serialization.SerializeableMailMessage">
+            <summary>
+            The serializeable mail message.
+            </summary>
+            
+            Serializeable mailmessage object
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableMailMessage.To">
+            <summary>
+            The to.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableMailMessage.CC">
+            <summary>
+            The cc.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableMailMessage.Bcc">
+            <summary>
+            The bcc.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableMailMessage.Attachments">
+            <summary>
+            The attachments.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableMailMessage.BodyEncoding">
+            <summary>
+            The body encoding.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableMailMessage.SubjectEncoding">
+            <summary>
+            The subject encoding.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableMailMessage.DeliveryNotificationOptions">
+            <summary>
+            The delivery notification options.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableMailMessage.Headers">
+            <summary>
+            The headers.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableMailMessage.Priority">
+            <summary>
+            The priority.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableMailMessage.AlternateViews">
+            <summary>
+            The alternate views.
+            </summary>
+        </member>
+        <member name="F:Netmester.Mail.Serialization.SerializeableMailMessage.RetryCount">
+            <summary>
+            The retry count.
+            </summary>
+        </member>
+        <member name="M:Netmester.Mail.Serialization.SerializeableMailMessage.#ctor(System.Net.Mail.MailMessage)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Netmester.Mail.Serialization.SerializeableMailMessage"/> class. 
+            The serializeable mail message.
+            </summary>
+            <param name="mm">
+            The mm.
+            </param>
+            
+            Creates a new serializeable mailmessage based on a MailMessage object
+        </member>
+        <member name="M:Netmester.Mail.Serialization.SerializeableMailMessage.GetMailMessage">
+            <summary>
+            The get mail message.
+            </summary>
+            
+            Returns the MailMessge object from the serializeable object
+            <returns>
+            The <see cref="T:TribalTechnology.InformationManagement.Net.Mail.EmailMessage"/>.
+            </returns>
+        </member>
+        <member name="P:Netmester.Mail.Serialization.SerializeableMailMessage.IsBodyHtml">
+            <summary>
+            Gets or sets a value indicating whether is body html.
+            </summary>
+        </member>
+        <member name="P:Netmester.Mail.Serialization.SerializeableMailMessage.Body">
+            <summary>
+            Gets or sets the body.
+            </summary>
+        </member>
+        <member name="P:Netmester.Mail.Serialization.SerializeableMailMessage.From">
+            <summary>
+            Gets or sets the from.
+            </summary>
+        </member>
+        <member name="P:Netmester.Mail.Serialization.SerializeableMailMessage.ReplyTo">
+            <summary>
+            Gets or sets the reply to.
+            </summary>
+        </member>
+        <member name="P:Netmester.Mail.Serialization.SerializeableMailMessage.Sender">
+            <summary>
+            Gets or sets the sender.
+            </summary>
+        </member>
+        <member name="P:Netmester.Mail.Serialization.SerializeableMailMessage.Subject">
+            <summary>
+            Gets or sets the subject.
+            </summary>
+        </member>
+        <member name="P:Netmester.Mail.Serialization.SerializeableMailMessage.EmailParameters">
+            <summary>
+            Gets or sets the email parameters.
+            </summary>
+        </member>
+        <member name="T:TribalTechnology.InformationManagement.Net.Mail.SerializeableMailAddress">
+            <summary>
+            The serialize-able mail address.
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.SerializeableMailAddress.user">
+            <summary>
+            The user.
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.SerializeableMailAddress.host">
+            <summary>
+            The host.
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.SerializeableMailAddress.address">
+            <summary>
+            The address.
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Net.Mail.SerializeableMailAddress.displayName">
+            <summary>
+            The display name.
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.SerializeableMailAddress.GetSerializeableMailAddress(System.Net.Mail.MailAddress)">
+            <summary>
+            The get serialize-able mail address.
+            </summary>
+            <param name="ma">
+            The ma.
+            </param>
+            <returns>
+            The <see cref="T:TribalTechnology.InformationManagement.Net.Mail.SerializeableMailAddress"/>.
+            </returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.SerializeableMailAddress.GetSerializeableMailAddressCollection(System.Net.Mail.MailAddressCollection)">
+            <summary>
+            The get serialize-able mail address collection.
+            </summary>
+            <param name="mailAddressCollection">
+            The ma collection.
+            </param>
+            <returns>
+            The <see cref="T:TribalTechnology.InformationManagement.Net.Mail.SerializeableMailAddress"/>.
+            </returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.SerializeableMailAddress.GetMailAddressCollection">
+            <summary>
+            The get mail address collection.
+            </summary>
+            <returns>
+            The <see cref="T:System.Net.Mail.MailAddressCollection"/>.
+            </returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Net.Mail.SerializeableMailAddress.GetMailAddress">
+            <summary>
+            The get mail address.
+            </summary>
+            <returns>
+            The <see cref="T:System.Net.Mail.MailAddress"/>.
+            </returns>
+        </member>
+    </members>
+</doc>

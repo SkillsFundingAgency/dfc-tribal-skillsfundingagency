@@ -1,0 +1,227 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TribalTechnology.InformationManagement.DatabaseEventLogger</name>
+    </assembly>
+    <members>
+        <member name="T:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog">
+            <summary>
+            Writes logs to a GlobalEventLog database table
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.#ctor(System.String,System.String,System.String,System.String)">
+             <summary>
+             Initializes a new instance of the DatabaseEventLog class, requires the necessary tables and stored procedures in the database.
+             </summary>
+             <param name="sqlDatabaseConnection">The database connection string to the database that holds the GlobalEventLog table</param>
+             <param name="applicationName">The application name, this value appears in the source of the GlobalEventLog table</param>
+             <param name="computer">The default computer name or IP address of the computer logging the error, this default may be overriden on a per Write basis using the Write methods</param>
+            <param name="user">The default user name used when no user name supplied, this may be overriden using the Write methods</param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.StartAutoFlush(System.TimeSpan,System.Boolean)">
+            <summary>
+            This method starts the auto flushing of cached events and optionally writes a heart beat entry.  Cached events are written after the elapsed time regardless if they exceed the MaximumEventsToCache value
+            </summary>
+            <param name="autoFlushTimeSpan">The timespan that is used to flush the cached items</param>
+            <param name="writeHeartBeatEntry">If true a heart beat entry is added on each elapse of the timespan when items are flushed</param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.StopAutoFlush">
+            <summary>
+            Stops the auto flush
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.AddPurgeRule(TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.EventLogType,System.TimeSpan)">
+            <summary>
+            Adds a purge rule to remove old logs of the given EventLogType over the age specified.  
+            </summary>
+            <param name="eventLogType">The event log type to purge</param>
+            <param name="olderThan">The age of the events to purge, all logs older than the specified age are deleted</param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.FlushAsync">
+            <summary>
+            Flushes any events yet to be written to the database asynchronously, so control is returned to the calling code immediately without waiting for the items to be written
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.Flush">
+            <summary>
+            Flushes any events yet to be written to the database synchronously.  This event is called automatically on object dispose.
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.GetParameter">
+            <summary>
+            Returns a default RETURN_VALUE parameter
+            </summary>
+            <returns>Returns a default RETURN_VALUE parameter</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.GetParameter(System.String,System.Data.SqlDbType,System.Int32,System.Data.ParameterDirection,System.Object)">
+            <summary>
+            Gets a parameter object using a method to simply creation of the object
+            </summary>
+            <param name="parameterName">The parameter name</param>
+            <param name="sqlDbType">The database type</param>
+            <param name="size">The size</param>
+            <param name="direction">The direction</param>
+            <param name="value">The value</param>
+            <returns>An SqlParameter</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.GetParameter(System.String,System.Data.SqlDbType,System.Int32,System.Data.ParameterDirection,System.Object,System.Byte,System.Byte)">
+            <summary>
+            Gets a parameter object using a method to simply creation of the object
+            </summary>
+            <param name="parameterName">The parameter name</param>
+            <param name="sqlDbType">The database type</param>
+            <param name="size">The size</param>
+            <param name="direction">The direction</param>
+            <param name="value">The value</param>
+            <param name="scale">The scale</param>
+            <param name="precision">The precision</param>
+            <returns>An SqlParameter</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.WriteDebug(System.String)">
+            <summary>
+            Writes a debug event
+            </summary>
+            <param name="messageText">Event text</param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.WriteError(System.String)">
+            <summary>
+            Writes an error event
+            </summary>
+            <param name="messageText">Event text</param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.WriteLog(System.String)">
+            <summary>
+            Writes an information event
+            </summary>
+            <param name="messageText">Event text</param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.WriteWarning(System.String)">
+            <summary>
+            Writes an warning event
+            </summary>
+            <param name="messageText">Event text</param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.Write(System.String,System.String,System.String,TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.EventLogType,System.String)">
+             <summary>
+             Writes an event log to the database, if the event fails to be written to the database the alternative log source is used if supplied
+             </summary>
+             <param name="messageText">The message text of the event or audit</param>
+             <param name="user">The user name to show in the User column in the GlobalEventLog, or pass null or string.Empty to use the default user.</param>
+             <param name="computer">The computer name and/or IP address to show in the Computer column in the GlobalEventLog</param>
+             <param name="eventLogType">The type of event. Note, when events are made to an alternative log, audit success and failures and debugging events are written as informational types</param>
+            <param name="customEventLotTypeText">When the event log type is set to custom, the event log type is set using this string.  This parameter has no effect if eventLogType is not set to Custom</param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.Dispose">
+            <summary>
+            Disposes this object.  On dispose Flush() is automatically called to flush any events not yet written to the database.
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.FloodLimit">
+            <summary>
+            Sets or gets the flood limit (minimum valid value is 200 and maximum valid value is 2000).  By default this value is 1000.  
+            All new events are discarded if the queue of events to write to the database exceeds the flood limit
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.EventLoggingLevel">
+            <summary>
+            Gets or sets the event log level, by default this is Informational.  Audit events and custom events are always written regardless of logging level
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.IsPurgingEnabled">
+            <summary>
+            Sets or gets if purging is enabled, this will turn on or off purging as required. Note that purging rules need to be added using the AddPurgeRule for this property to have any effect
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.AlternativeEventLog">
+            <summary>
+            Gets or sets an alternative event log (typically the local windows event log or text file). When provided if events fail to be written to the database they are written to the alternative log so are not lost.
+            Set the property isAlternativeLogAlwaysWritten to true if the alternative log should always get the event written as well as the database and not just when the database event log fails
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.UseFailOverTextFile">
+            <summary>
+            Gets or sets a value indicating whether the log should be written to a text file if the database connection fails.  The events in the text file will be reloaded to the database when connection is restored.
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.IsAlternativeLogAlwaysWritten">
+            <summary>
+            Gets or sets a value indicating whether the alternative log is always written to.  When true both the database and alternative log are written, when false (default setting) the alternative log is only written to when the database attempt fails.
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.MaximumEventsToBuffer">
+            <summary>
+            Gets or sets the number of events not to be exceeded in the buffer, once the number of buffered events exceeds this number they are flushed to the database event log table in one go
+            By default this value is 5, maximum valid buffer is 100.  Set to 0 if all events should be immediately written without being buffered.
+            </summary>
+        </member>
+        <member name="T:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.EventLogLevel">
+            <summary>
+            The logging level.
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.EventLogLevel.Errors">
+            <summary>
+            Only errors are logged, all other types of event are not logged
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.EventLogLevel.Warnings">
+            <summary>
+            Only warning events or higher are written to the log, for example, Warnings
+            and Errors will be written but Information and debugging are excluded
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.EventLogLevel.Informational">
+            <summary>
+            Only Informational events or higher are written, for example Information,
+               Warnings and Errors will be written, this option excludes debugging
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.EventLogLevel.Debugging">
+            <summary>
+            All events passed are written to the log
+            </summary>
+        </member>
+        <member name="T:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.EventLogType">
+            <summary>
+            The logging level.
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.EventLogType.AuditSuccess">
+            <summary>
+            An audit indicating a successful action, audits are always logged regardless of logging level
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.EventLogType.AuditFailure">
+            <summary>
+            An audit indicating a failure action, audits are always logged regardless of logging level
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.EventLogType.Error">
+            <summary>
+            Only errors are logged, all other types of event are not logged
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.EventLogType.Warning">
+            <summary>
+            Only warning events or higher are written to the log, for example, Warnings
+            and Errors will be written but Information and debugging are excluded
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.EventLogType.Information">
+            <summary>
+            Only Informational events or higher are written, for example Information,
+               Warnings and Errors will be written, this option excludes debugging
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.EventLogType.Debug">
+            <summary>
+            All events passed are written to the log
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.EventLogger.DatabaseEventLog.EventLogType.Custom">
+            <summary>
+            When custom is passed the event type can be set by passing in a string in write log method
+            </summary>
+        </member>
+    </members>
+</doc>

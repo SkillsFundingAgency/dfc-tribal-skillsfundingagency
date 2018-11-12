@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Tribal.SkillsFundingAgency.ProviderPortal.Entities.EmailTemplate>
+
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this,"Title", "Manage Email Templates");
+}
+
+<h2>@AppGlobal.Language.GetText(this,"Header", "Manage Email Templates")</h2>
+<h4>@AppGlobal.Language.GetText(this,"SubHeader", "")</h4>
+<hr/>
+<table class="dataTable dt-responsive table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Group Template Name
+                @*@Html.DisplayNameFor(model => model.EmailTemplateGroup.Name)*@
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+@*            <th>
+                @Html.DisplayNameFor(model => model.UserDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Params)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HtmlBody)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TextBody)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Priority)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailTemplateGroup.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+@*                <td>
+                    @Html.DisplayFor(modelItem => item.UserDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Params)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HtmlBody)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TextBody)
+                </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Priority)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.EmailTemplateId }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.EmailTemplateId })
+                </td>
+            </tr>
+        }
+    </tbody>
+    
+</table>

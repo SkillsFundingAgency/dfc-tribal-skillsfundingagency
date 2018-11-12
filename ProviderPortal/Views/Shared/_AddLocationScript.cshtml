@@ -1,0 +1,79 @@
+﻿<script type="text/javascript">
+
+    var providerContextChangedMessage = "@AppGlobal.Language.GetText("Location_UnableToCreate_UnableToCreateLocationProviderContextChanged", "Unable to create a new location.  The provider context has changed.")";
+
+    $("#AddLocationDialog").click(function(e) {
+        e.preventDefault();
+
+        var pageHtml = $('<div></div>').load('@Url.Action("CreateFromDialog", "Location", new { id = @Model.ProviderId })', function () {
+            BootstrapDialog.show({
+                size: BootstrapDialog.SIZE_WIDE,
+                title: '@AppGlobal.Language.GetText(this, "AddLocation", "Create New Location")',
+                message: pageHtml,
+                buttons: [
+                    {
+                        id: 'btnCreateLocation',
+                        label: '@AppGlobal.Language.GetText(this, "Create", "Create")',
+                        cssClass: pageHtml.text().indexOf(providerContextChangedMessage) == -1 ? 'btn-success' : 'hide',
+                        action: function(dialog) {
+                            var formData = $("form[action='/Location/CreateFromDialog/@(Model.ProviderId)']").serialize();
+                            if (formData == "") {
+                                formData = $("form[action='/Location/CreateFromDialog/']").serialize();
+                            }
+                            $.ajax({
+                                cache: false,
+                                async: false,
+                                url: '/Location/CreateFromDialog/',
+                                type: 'post',
+                                data: formData,
+                                success: function(data, status, xhr) {
+                                    var ct = xhr.getResponseHeader("content-type") || "";
+                                    if (ct.indexOf('html') > -1) {
+                                        // Got HTML so there must have been a problem
+                                        dialog.setMessage($('<div></div>').html(data));
+                                        if (data.indexOf(providerContextChangedMessage) != -1) {
+                                            $("#btnCreateLocation").css("display", "none");
+                                        }
+                                    }
+                                    if (ct.indexOf('json') > -1) {
+                                        if ($("#ProviderId").val() == data.ProviderId) {
+                                            // Got JSON so everything went OK.
+                                            // Add the new location to the drop down list
+                                            $("#LocationId").append('<option value="' + data.LocationId + '">' + data.LocationName + '</option>');
+
+                                            // Sort the locations
+                                            var foption = $("#LocationId option:first");
+                                            $("#LocationId").html($("#LocationId option:not(:first)").sort(function(x, y) {
+                                                return $(x).text().toLowerCase() < $(y).text().toLowerCase() ? -1 : 1;
+                                            }));
+                                            $("#LocationId").prepend(foption);
+
+                                            // Select the new location
+                                            $("#LocationId").val(data.LocationId);
+                                        } else {
+                                            alert("@AppGlobal.Language.GetText(this, "UnableToCreateLocationProviderContextChanged", "Unable to create location.  Provider context has changed.")");
+                                        }
+                                        // Close the dialog
+                                        dialog.close();
+                                    }
+                                },
+                                error: function() {
+                                    alert("@AppGlobal.Language.GetText(this, "ErrorCreatingLocation", "Error creating location")");
+                                }
+                            });
+                        }
+                    },
+                    {
+                        label: "@AppGlobal.Language.GetText(this, "Cancel", "Cancel")",
+                        action: function(dialog) {
+                            dialog.close();
+                            return;
+                        }
+                    }
+                ]
+            });
+        });
+
+    });
+
+</script>

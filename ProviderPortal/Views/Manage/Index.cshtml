@@ -1,0 +1,76 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.IndexViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Manage");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Manage")</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    <h4>@AppGlobal.Language.GetText(this, "FormHeader", "Change your account settings")</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>@AppGlobal.Language.GetText(this, "Password", "Password:")</dt>
+        <dd>
+            [
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink(AppGlobal.Language.GetText(this, "ChangePassword", "Change your password"), "ChangePassword")
+            }
+            else
+            {
+                @Html.ActionLink(AppGlobal.Language.GetText(this, "CreatePassword", "Create"), "SetPassword")
+            }
+            ]
+        </dd>
+        <dt>@AppGlobal.Language.GetText(this, "ExternalLogins", "External Logins:")</dt>
+        <dd>
+            @Model.Logins.Count [
+            @Html.ActionLink(AppGlobal.Language.GetText(this, "ManageLogins", "Manage"), "ManageLogins") ]
+        </dd>
+        @*
+            Phone Numbers can used as a second factor of verification in a two-factor authentication system.
+             
+             See <a href="http://go.microsoft.com/fwlink/?LinkId=313242">this article</a>
+                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
+             
+             Uncomment the following block after you have set up two-factor authentication
+        *@
+        @*  
+            <dt>@AppGlobal.Language.GetText(this, "PhoneNumber", "Phone Number:")</dt>
+            <dd>
+                @(Model.PhoneNumber ?? AppGlobal.Language.GetText(this, "None", "None")) [
+                @if (Model.PhoneNumber != null)
+                {
+                    @Html.ActionLink(AppGlobal.Language.GetText(this, "ChangePhoneNumber", "Change"), "AddPhoneNumber")
+                    @: &nbsp;|&nbsp;
+                    @Html.ActionLink(AppGlobal.Language.GetText(this, "RemovePhoneNumber", "Remove"), "RemovePhoneNumber")
+                }
+                else
+                {
+                    @Html.ActionLink(AppGlobal.Language.GetText(this, "AddPhoneNumber", "Add"), "AddPhoneNumber")
+                }
+                ]
+            </dd>
+            <dt>@AppGlobal.Language.GetText(this, "TwoFactorAuthentication", "Two-Factor Authentication:")</dt>
+            <dd>
+                @if (Model.TwoFactor)
+                    {
+
+                        <form method="post" action="/Manage/DisableTwoFactorAuthentication">
+                            @AppGlobal.Language.GetText(this, "Enabled", "Enabled")
+                            <input type="submit" value="@AppGlobal.Language.GetText(this, "Disable", "Disable")" class="btn btn-link" />
+                        </form>
+                    }
+                    else
+                    {
+
+                        <form method="post" action="/Manage/EnableTwoFactorAuthentication">
+                            @AppGlobal.Language.GetText(this, "Disabled", "Disabled")
+                            <input type="submit" value="@AppGlobal.Language.GetText(this, "Enable", "Enable")" class="btn btn-link" />
+                        </form>
+                    }
+            </dd>
+        *@
+    </dl>
+</div>

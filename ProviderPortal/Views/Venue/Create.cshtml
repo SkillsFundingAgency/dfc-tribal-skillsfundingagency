@@ -1,0 +1,99 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditVenueModel
+
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Add New Venue");
+    Layout = Model.IsInDialog ? "" : "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (!Model.IsInDialog)
+{
+    <h2 class="courses">@AppGlobal.Language.GetText(this, "Header", "Add New Venue")</h2>
+}
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()    
+
+    <div class="form-horizontal">
+        <h4>@AppGlobal.Language.GetText(this, "SubHeader", "")</h4>
+        <hr />
+        @Html.EditableDataValidationSummary(false)
+        
+        @Html.RequiredFields(new {@class="col-md-offset-2"}) 
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.ProviderOwnVenueRef, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProviderOwnVenueRef, new { htmlAttributes = new {@class = "form-control"} })
+                @Html.ValidationMessageFor(model => model.ProviderOwnVenueRef)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.VenueName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.VenueName, new { htmlAttributes = new {@class = "form-control"} })
+                @Html.ValidationMessageFor(model => model.VenueName)
+            </div>
+        </div>
+
+        @Html.EditorFor(m => m.Address, "_EditAddressPartial")
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.Telephone, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new {@class = "form-control"} })
+                @Html.ValidationMessageFor(model => model.Telephone)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new {@class = "form-control"} })
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.Website, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Website, new { htmlAttributes = new {@class = "form-control", data_url = "true"} })
+                @Html.ValidationMessageFor(model => model.Website)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.Fax, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Fax, new { htmlAttributes = new {@class = "form-control"} })
+                @Html.ValidationMessageFor(model => model.Fax)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.Facilities, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Facilities, new { htmlAttributes = new {@class = "form-control"} })
+                @Html.ValidationMessageFor(model => model.Facilities)
+            </div>
+        </div>
+        
+        @if (!Model.IsInDialog)
+        {
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="@AppGlobal.Language.GetText(this, "Submit", "Create")" class="btn btn-success" />
+                </div>
+            </div>
+        }
+    </div>
+
+    if (Model.IsInDialog)
+    {
+        @Html.Partial("_ChooseAddressScript")
+        <script>
+            $('.modal-dialog .glyphicon-question-sign').tooltip({ placement: "auto" });
+        </script>
+    }
+}

@@ -1,0 +1,101 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.CodePointUploadModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Import Code Point Data");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Import Code Point Data")</h2>
+
+@Html.Raw(AppGlobal.Language.GetText(this, "SubHeader", "<hr /><p>Use this page to upload new Code Point data.  The Code Point data is used to calculate Latitude, Longitude, Northing and Easting data for a postcode as a whole.  This is used where the user does not select their address from the drop down list or where a location is postcode only.<br /><br />The file should be a zipped copy of the CSV file downloaded from <a href=\"https://www.ordnancesurvey.co.uk/opendatadownload/products.html\" target=\"_blank\">this page</a>.</p><hr />"))
+
+@if (!String.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="warning">
+        @Html.Raw(ViewBag.Message)
+    </div>
+}
+
+@Html.EditableDataValidationSummary(false)
+
+@using (Html.BeginForm("Index", "CodePoint", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{   
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <table class="dt-responsive table table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-md-6">
+                        @AppGlobal.Language.GetText(this, "UploadSectionHeader", "Upload a new file")
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="@((ViewBag.IsComplete != null && !ViewBag.IsComplete) ? "display: none;" : "")">
+                    <td>
+                        <div class="form-group">
+                            @AppGlobal.Language.GetText(this, "UploadText", "Click Browse and select your Code Point data file. Click upload.")
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.File, new { type = "file", @class = "btn btn-success" })
+                            @Html.ValidationMessageFor(m => m.File)
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="@AppGlobal.Language.GetText(this, "SubmitUpload", "Upload")" class="btn btn-success" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="@((ViewBag.IsComplete != null && !ViewBag.IsComplete) ? "" : "display: none;")">
+                    <td>
+                        <div class="form-group" style="margin-top: 15px;">
+                            @if (ViewBag.IsComplete != null && !ViewBag.IsComplete)
+                            {
+                                if (ViewBag.IsCancelling == null || !ViewBag.IsCancelling)
+                                {
+                                    <input type="button" id="btnCancel" value="@AppGlobal.Language.GetText(this, "CancelImport", "Cancel Import")" class="btn btn-warning" style="margin-left: 15px;" />
+                                }
+                                if (ViewBag.IsCancelling != null && ViewBag.IsCancelling)
+                                {
+                                    <input type="button" id="btnForceCancel" value="@AppGlobal.Language.GetText(this, "ForceCancelImport", "Force Cancel Import")" class="btn btn-danger" style="margin-left: 15px;" />
+                                }
+                            }
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+@if (Model.LastUploadedBy != null)
+{
+    @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "LastUploadDetails", "<span style=\"font-size: smaller;\">Last uploaded by {0} on {1}.  Filename: {2}</span>"), Model.LastUploadedBy, Model.LastUploadDateTimeLocalTime, Model.LastUploadFileName))
+}
+@section Scripts {
+   
+    @if (ViewBag.IsComplete != null && !ViewBag.IsComplete)
+    {
+        <script type="text/javascript">
+            $(document).ready(function() {
+                setTimeout(function() {
+                    window.location.href = '@Url.Action("Index")';
+                }, 10000);
+            });
+        </script>
+    }     
+    
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            $("#btnCancel").click(function () {
+                if (confirm("@AppGlobal.Language.GetText(this, "ConfirmCancel", "Cancel Code Point Data Import?")")) {
+                    window.location.replace("@Url.Action("CancelImport")");
+                }
+            });
+
+            $("#btnForceCancel").click(function() {
+                if (confirm("@AppGlobal.Language.GetText(this, "ConfirmForceCancel", "WARNING:  This should only be used if you are confident that the import has hung.\\n\\nForce Cancel Code Point Data Import?")")) {
+                    window.location.replace("@Url.Action("ForceCancelImport")");
+                }
+            });
+        });
+
+    </script>
+}

@@ -1,0 +1,168 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.RegisterOpeningReportViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Register Opening Report");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Register Opening Report")</h2>
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.EditableDataValidationSummary(false)
+
+        @Html.RequiredFields(new { @class = "col-md-offset-2" })
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.ImportBatchId, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.DropDownListFor(model => model.ImportBatchId, (SelectList)ViewBag.ImportBatches, AppGlobal.Language.GetText(this, "AllImportBatches", "All Import Batches"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ImportBatchId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input name="RunReport" type="submit" value="@AppGlobal.Language.GetText(this, "RunReport", "Run Report")" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@if (ViewBag.ShowResults)
+{
+    @Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", ""))
+
+    <table class="dataTable dt-responsive table table-striped table-bordered" data-ajax="@Url.Action("RegisterOpeningJson", new { importBatchId = Model.ImportBatchId })" data-created-row="rowCreated">
+        <thead>
+            <tr>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().NumberOfProvidersWithProviderLevelData)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().NumberOfProvidersWithApprenticeshipLevelData)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().NumberOfApprenticeshipOffers)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().NumberOfProvidersWhoHaveAppliedInRound)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().NumberOfProvidersWithoutApprenticeshipLevelData)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().NumberOfProvidersWhoHaveBeenOverallQAd)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().NumberOfProvidersWhoHavePassedOverallQA)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().NumberOfProvidersWhoHaveFailedOverallQA)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().SpecificEmployerNamed)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().UnverifiableClaim)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().IncorrectOfstedGrade)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().InsufficientDetail)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().NotAimedAtEmployer)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().NumberOfApprenticeshipOffersQAd)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().NumberOfApprenticeshipsOffersFailed)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => item.NumberOfProvidersWithProviderLevelData)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.NumberOfProvidersWithApprenticeshipLevelData)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.NumberOfApprenticeshipOffers)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.NumberOfProvidersWhoHaveAppliedInRound)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.NumberOfProvidersWithoutApprenticeshipLevelData)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.NumberOfProvidersWhoHaveBeenOverallQAd)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.NumberOfProvidersWhoHavePassedOverallQA)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.NumberOfProvidersWhoHaveFailedOverallQA)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.SpecificEmployerNamed)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.UnverifiableClaim)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.IncorrectOfstedGrade)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.InsufficientDetail)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.NotAimedAtEmployer)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.NumberOfApprenticeshipOffersQAd)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.NumberOfApprenticeshipsOffersFailed)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+    var rightAlignedColumns = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+
+    function rowCreated(row, data, index) {
+        $.each(rightAlignedColumns, function (idx, item) {
+            $("td:nth-child(" + item + ")", row).addClass("alignRight");
+        });
+
+        // Create links to sub reports
+        for (var i = 0; i < $("td", row).length; i++) {
+            var subReportLink = $("td:eq(" + i + ")", row);
+            subReportLink.html("<a class='btn-link' href='@Url.Action("RegisterOpeningDetail", "Report", new { importBatchId = Model.ImportBatchId ?? -1 })'>" + subReportLink.text() + "</a>");
+        }
+    }
+
+    </script>
+}
+
+
+
+

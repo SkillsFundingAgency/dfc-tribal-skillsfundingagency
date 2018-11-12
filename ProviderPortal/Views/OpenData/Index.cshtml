@@ -1,0 +1,39 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Models
+@model List<OpenDataListFilesModel>
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Open Data");
+    var ShowNumberOfDownloads = Permission.HasPermission(false, true, Permission.PermissionName.CanManageConfiguration);
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Open Data")</h2>
+
+@Html.Raw(AppGlobal.Language.GetText(this, "SubHeader", "<hr /><p>The course directory contains information on courses offered by learning providers who are contracted with the Skills Funding Agency (SFA) and providers contracted with the Department for Education offering courses aimed at people aged 16 to 19.<br /><br />The directory contains information from over 3,000 organisations including colleges, training providers and local education authorities. The file is updated twice per week.<br /><br />Courses featured include adult further education, adult community learning, Apprenticeships, courses that are co-funded by the European Social Fund, and courses aimed at people aged 16 to 18.</p><p>This data is also available via a public API.  For more information on using the public API and obtaining your unique API key, download the <a target=\"_blank\" href=\"/Content/Help/PublicAPIGuide.pdf\">Public API User Guide</a></p><hr />"))
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(m => Model[0].FileName)</th>
+            <th>@Html.DisplayNameFor(m => Model[0].CreatedDateTime)</th>
+            <th>@Html.DisplayNameFor(m => Model[0].FileLength)</th>
+            <th>@AppGlobal.Language.GetText(this, "TableHeadingDownload", "")</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (OpenDataListFilesModel dataFile in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => dataFile.FileNameWithoutFolder)
+                    @if (ShowNumberOfDownloads)
+                    {
+                        @Html.Raw("&nbsp;")
+                        <label style="font-size: smaller; font-weight: normal;">(downloaded @(dataFile.NumberOfTimesDownloaded.ToString("N0")) time@(dataFile.NumberOfTimesDownloaded == 1 ? "" : "s"))</label>
+                    }
+                </td>
+                <td>@Html.DisplayFor(m => dataFile.CreatedDateTime)</td>
+                <td>@Html.DisplayFor(m => dataFile.FileLengthDescription)</td>
+                <td>@Html.ActionLink(AppGlobal.Language.GetText(this, "Download", "Download"), "Download", new { fileName = dataFile.FileNameWithoutFolder })</td>
+            </tr>
+        }
+    </tbody>
+</table>

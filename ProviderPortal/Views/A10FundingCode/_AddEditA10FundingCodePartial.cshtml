@@ -1,0 +1,35 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Models
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.A10FundingCodeViewModelItem
+
+@Html.HiddenFor(m => m.IsNew)
+<div class="form-group">
+    @Html.LanguageLabelFor(m => m.A10FundingCodeId, new {@class = "control-label col-md-2"})
+    <div class="col-md-10">
+        @if (Model.IsNew)
+        {
+            @Html.TextBoxFor(m => m.A10FundingCodeId, new {@class = "form-control", Value=Model.A10FundingCodeId > 0 ? Model.A10FundingCodeId.ToString() : String.Empty})
+            @Html.ValidationMessageFor(m => m.A10FundingCodeId)
+        }
+        else
+        {
+            @Html.HiddenFor(m => m.A10FundingCodeId)
+            @Html.DisplayFor(m => m.A10FundingCodeId)
+        }
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LanguageLabelFor(m => m.A10FundingCodeName, new{@class = "control-label col-md-2"})
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.A10FundingCodeName, new {@class = "form-control"})
+        @Html.ValidationMessageFor(m => m.A10FundingCodeName)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LanguageLabelFor(m => m.RecordStatusId, new {@class = "control-label col-md-2"})
+    <div class="col-md-10">
+        @Html.DropDownListFor(m => m.RecordStatusId, (List<SelectListItem>)ViewBag.RecordStatu, new {@class = "form-control"})
+        @Html.ValidationMessageFor(m => m.RecordStatusId)
+    </div>
+</div>

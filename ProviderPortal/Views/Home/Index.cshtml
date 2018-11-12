@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Home Page");
+}
+@if (!Request.IsAuthenticated)
+{
+    if (Constants.ConfigSettings.SAEnabled)
+    {
+        @Html.Action("Display", "SiteContent", new {id = "HomeSA"})
+    }
+    else
+    {
+        @Html.Action("Display", "SiteContent", new {id = "Home"})
+    }
+}
+else if (UserContext.GetUserContext().IsAuthenticatedNoAccess())
+{
+    @Html.Action("Display", "SiteContent", new {id = "HomeInvalidUser"})
+}

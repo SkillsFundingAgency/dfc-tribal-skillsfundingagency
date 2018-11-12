@@ -1,0 +1,62 @@
+﻿span.glyphicon-question-sign,
+.navbar,
+.page-footer {
+    display: none;
+}
+body {
+    padding: 0;
+}
+.masthead-row {
+    padding-left: 20px;
+}
+.panel {
+    z-index: 100;
+}
+.pie-charts .col-md-4 {
+    padding: 5px 2px;
+}
+.panel {
+    float: left;
+}
+.main-details,
+.recent-activity {
+    width: 396px;
+}
+.col-md-3,
+.col-md-6,
+.col-md-9,
+.col-md-12 {
+    padding: 0 15px;
+    float: left;
+}
+.col-md-5ths {
+    float: left;
+}
+.col-md-5ths table {
+    width: 163px;
+}
+
+.col-md-4ths {
+    float: left;
+}
+
+.col-md-4ths table {
+    width: 204px;
+}
+
+.provision {
+    width: 253px;
+}
+.quality-scoring {
+    width: 823px;
+}
+
+.pie-charts {
+    width: 1108px;
+}
+.pie-charts .col-md-4 {
+    width: 365px;
+    height: 200px;
+    float: left;
+    z-index: 50;
+}

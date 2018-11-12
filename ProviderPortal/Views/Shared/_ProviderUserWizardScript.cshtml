@@ -1,0 +1,68 @@
+﻿@{
+    var showUserWizard = UserContext.ShowUserWizardOnLogin();
+}
+
+<script type="text/javascript">
+
+    var startPageNumber = 1;
+
+    $(document).ready(function () {
+
+        @if (showUserWizard)
+        {
+           @Html.Raw("$('#userWizardModal').modal('toggle')");
+        }
+
+        $('#userWizardModal').on('show.bs.modal', function () {
+            $("a[id='close-icon']").show();
+            var count = 1;
+            $("div", $("#myWizard .tab-content")).each(function () {
+                if (count == startPageNumber) {
+                    $(this).addClass("active");
+                    $(this).addClass("in");
+                }
+                else {
+                    $(this).removeClass("active");
+                    $(this).removeClass("in");
+                }
+                count++;
+            });
+        });
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var target = $(e.target).attr("href") // activated tab
+            if (target == "#close-option")
+            {
+                $("a[id='close-icon']").hide();
+            }
+            else
+            {
+                $("a[id='close-icon']").show();
+            }
+
+        });
+
+        $('#userWizardCloseShow').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SaveUserWizardPreference", "Account", new { ShowAgain = true })"
+                })
+            .done(function () {
+                $('#userWizardModal').modal('hide');
+            });
+        });
+
+
+        $('#userWizardCloseHide').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                    type: "POST",
+                url: "@Url.Action("SaveUserWizardPreference", "Account", new { ShowAgain = false })"
+            })
+                .done(function () {
+                    $('#userWizardModal').modal('hide');
+                });
+            });
+        });
+</script>

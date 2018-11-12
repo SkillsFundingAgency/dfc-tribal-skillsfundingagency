@@ -1,0 +1,49 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Models
+@model ViewLocationModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Location Details");
+}
+
+<h2 class="apprenticeships">@AppGlobal.Language.GetText(this, "Header", "Location Details")</h2>
+<h3>@Model.LocationName</h3>
+<hr/>
+<div class="col-md-12">
+        
+    @if (Model.RecordStatusId == (Int32)Constants.RecordStatus.Archived)
+    {
+        <div class="col-md-offset-2 warning">
+            @Html.Raw(AppGlobal.Language.GetText(this, "LocationArchivedWarning", "<strong>Warning:</strong> this Location is currently <strong>ARCHIVED</strong>."))
+        </div>
+    }
+
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(m => m.RecordStatusId)</dt>
+        <dd>@Html.DisplayTextFor(m => m.RecordStatusName)</dd>
+    
+        <dt>@Html.DisplayNameFor(m => m.ProviderOwnLocationRef)</dt>
+        <dd>@Html.DisplayFor(m => m.ProviderOwnLocationRef)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.LocationName)</dt>
+        <dd>@Html.DisplayTextFor(m => m.LocationName)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.Address)</dt>
+        <dd>@Html.Raw(Model.Address.GetMultipleLineHTMLAddress())</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.Telephone)</dt>
+        <dd>@Html.DisplayTextFor(m => m.Telephone)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.Email)</dt>
+        <dd>@Html.DisplayTextFor(m => m.Email)</dd>    
+        
+        <dt>@Html.DisplayNameFor(m => m.Website)</dt>
+        <dd>
+            @if (Model.Website != null)
+            {
+                var prefix = Model.Website.Contains("://") ? "" : "http://";
+                <a href="@prefix@Model.Website" target="_blank">@Model.Website</a>
+            }
+        </dd>
+    
+    </dl>
+
+</div>

@@ -1,0 +1,140 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.CourseSearchModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "View all Courses");
+}
+
+<h2 class="courses">@AppGlobal.Language.GetText(this, "Header", "View all Courses")</h2>
+
+<div class="col-md-12">
+    
+    <div class="col-md-3">
+        @using (Html.BeginForm("List", "Course", FormMethod.Post, new { id = "formCourseListSearch" }))
+        {
+            <div class="sidebar">
+                <h4>@AppGlobal.Language.GetText(this, "QualityScoreOptions", "Quality score quick links")</h4>
+                @Html.HiddenFor(model => model.QualitySearchMode)
+                <ul class="list-unstyled form-group-list">
+                    <li class="btn-link filterQualityScore @(Model.QualitySearchMode == Constants.CourseSearchQAFilter.CoursesUpToDate ? Html.Raw("selected") :Html.Raw(""))" data-id="@((int)Constants.CourseSearchQAFilter.CoursesUpToDate)">@AppGlobal.Language.GetText(this, "FilterCourseUpToDate", "Up to date courses")</li>
+                    <li class="btn-link filterQualityScore @(Model.QualitySearchMode == Constants.CourseSearchQAFilter.CoursesExpiring ? Html.Raw("selected") :Html.Raw(""))" data-id="@((int)Constants.CourseSearchQAFilter.CoursesExpiring)">@AppGlobal.Language.GetText(this, "FilterCourseDueUpdate", "Courses due for update")</li>
+                    <li class="btn-link filterQualityScore @(Model.QualitySearchMode == Constants.CourseSearchQAFilter.CoursesOutOfDate ? Html.Raw("selected") :Html.Raw(""))" data-id="@((int)Constants.CourseSearchQAFilter.CoursesOutOfDate)">@AppGlobal.Language.GetText(this, "FilterCourseOutOfdate", "Out of date courses")</li>
+                    <li class="btn-link filterQualityScore @(Model.QualitySearchMode == Constants.CourseSearchQAFilter.CoursesPending ? Html.Raw("selected") :Html.Raw(""))" data-id="@((int)Constants.CourseSearchQAFilter.CoursesPending)">@AppGlobal.Language.GetText(this, "FilterCoursePending", "Pending courses")</li>
+                    <li class="btn-link filterQualityScore @(Model.QualitySearchMode == Constants.CourseSearchQAFilter.LearningAimExpired ? Html.Raw("selected") :Html.Raw(""))" data-id="@((int)Constants.CourseSearchQAFilter.LearningAimExpired)">@AppGlobal.Language.GetText(this, "FilterCourseAimExired", "Learning aims expired")</li>
+                    <li class="btn-link filterQualityScore @(Model.QualitySearchMode == Constants.CourseSearchQAFilter.LearningAimNone ? Html.Raw("selected") :Html.Raw(""))" data-id="@((int)Constants.CourseSearchQAFilter.LearningAimNone)">@AppGlobal.Language.GetText(this, "FilterCourseNoAim", "Without learning aims")</li>
+                    <li class="btn-link filterQualityScore @(Model.QualitySearchMode == Constants.CourseSearchQAFilter.CourseShortSummary ? Html.Raw("selected") :Html.Raw(""))" data-id="@((int)Constants.CourseSearchQAFilter.CourseShortSummary)">@AppGlobal.Language.GetText(this, "FilterCourseShortSummary", "With short summaries")</li>
+                    <li class="btn-link filterQualityScore @(Model.QualitySearchMode == Constants.CourseSearchQAFilter.CourseNonDistinctSummary ? Html.Raw("selected") :Html.Raw(""))" data-id="@((int)Constants.CourseSearchQAFilter.CourseNonDistinctSummary)">@AppGlobal.Language.GetText(this, "FilterCourseNonDistinct", "With non distinct summaries")</li>
+                </ul>
+            </div>
+            <br />
+            <div class="sidebar">
+                <h4>@AppGlobal.Language.GetText(this, "CourseSearchOptions", "Course search options")</h4>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.ProviderCourseId, new { @class = "control-label" })
+                    @Html.EditorFor(model => model.ProviderCourseId, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.ProviderCourseTitle, new { @class = "control-label" })
+                    @Html.EditorFor(model => model.ProviderCourseTitle, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.LearningAimReference, new { @class = "control-label" })
+                    @Html.EditorFor(model => model.LearningAimReference, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.LastUpdated, new { @class = "control-label" })
+                    @Html.EditorFor(model => model.LastUpdated, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.CourseStatus, new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.CourseStatus, (SelectList)ViewBag.RecordStatuses, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control" })
+                </div>
+
+                <h4>@AppGlobal.Language.GetText(this, "OpportunitySearchOptions", "Opportunity search options")</h4>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.ProviderOpportunityId, new { @class = "control-label" })
+                    @Html.EditorFor(model => model.ProviderOpportunityId, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.StudyModeId, new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.StudyModeId, (SelectList)ViewBag.StudyModes, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.AttendanceModeId, new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.AttendanceModeId, (SelectList)ViewBag.AttendanceTypes, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.AttendancePatternId, new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.AttendancePatternId, (SelectList)ViewBag.AttendancePatterns, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.VenueId, new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.VenueId, (SelectList)ViewBag.Venues, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.StartDateId, new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.StartDateId, (SelectList)ViewBag.StartDateOptions, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.StartDate, new { @class = "control-label", style = "top: -3333px;" })
+                    @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.StartDateDescription, new { @class = "control-label" })
+                    @Html.EditorFor(model => model.StartDateDescription, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.OpportunityStatus, new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.OpportunityStatus, (SelectList)ViewBag.OpportunityStatuses, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <div style="text-align: right;">
+                        <input type="submit" value="@AppGlobal.Language.GetText(this, "Submit", "Search")" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+
+    <div class="col-md-9">
+        
+        @if (Model.NumberOfPendingCourses > 0)
+        {
+            <div class="alert alert-warning">
+                @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "PendingCoursesExist", "You have {0} pending course(s). Pending courses are not published to the National Course Search Service.  To move a course from the Pending status you must add an opportunity."), Model.NumberOfPendingCourses.ToString("N0")))
+            </div>
+        }
+
+        @Html.DisplayFor(m => m.Courses, "_ListCourses")
+    </div>
+
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $('.filterQualityScore').click(function (e) {
+                var linkClicked = $(this).data('id');
+                $("#QualitySearchMode").val(linkClicked);
+                e.preventDefault();
+                $("form#formCourseListSearch").submit();
+            });
+        });
+    </script>
+}
+

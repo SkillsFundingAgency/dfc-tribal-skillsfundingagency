@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>SFA_DataWarehouse</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{261ab3fd-ecc6-419d-b3b6-7b4c8e62d6e8}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql120DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>SFA_DataWarehouse</RootNamespace>
+    <AssemblyName>SFA_DataWarehouse</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Data" />
+    <Folder Include="PostDeployment" />
+    <Folder Include="dbo" />
+    <Folder Include="dbo\Tables" />
+    <Folder Include="dbo\Stored Procedures" />
+    <Folder Include="Schemas" />
+    <Folder Include="Remote" />
+    <Folder Include="Remote\Synonyms" />
+    <Folder Include="dbo\Functions" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PostDeployment\Custom.sql" />
+    <None Include="Data\LookupData.sql" />
+    <None Include="Data\DefaultConfigurationSettings.sql" />
+    <None Include="SFA_DataWarehouse-Steve.publish.xml" />
+    <None Include="SFA_DataWarehouse-ITSDB01-Test.publish.xml" />
+    <None Include="SFA_DataWarehouse-sfa-prod-dev.publish.xml" />
+    <None Include="SFA_DataWarehouse-sfa-prod-test.publish.xml" />
+    <None Include="SFA_DataWarehouse-sfa-prod-live.publish.xml" />
+    <None Include="SFA_DataWarehouse-Brian.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Schemas\Remote.sql" />
+    <Build Include="Remote\Synonyms\Audit_Provider.sql" />
+    <Build Include="Remote\Synonyms\DurationUnit.sql" />
+    <Build Include="Remote\Synonyms\AttendanceType.sql" />
+    <Build Include="Remote\Synonyms\AttendancePattern.sql" />
+    <Build Include="Remote\Synonyms\StudyMode.sql" />
+    <Build Include="Remote\Synonyms\RecordStatus.sql" />
+    <Build Include="Remote\Synonyms\QualificationType.sql" />
+    <Build Include="Remote\Synonyms\QualificationLevel.sql" />
+    <Build Include="Remote\Synonyms\Application.sql" />
+    <Build Include="Remote\Synonyms\Audit_Course.sql" />
+    <Build Include="Remote\Synonyms\Audit_CourseInstance.sql" />
+    <Build Include="Remote\Synonyms\Audit_CourseInstanceA10FundingCode.sql" />
+    <Build Include="Remote\Synonyms\A10FundingCode.sql" />
+    <Build Include="Remote\Synonyms\Audit_CourseInstanceStartDate.sql" />
+    <Build Include="Remote\Synonyms\Audit_CourseInstanceVenue.sql" />
+    <Build Include="Remote\Synonyms\Audit_CourseLearnDirectClassification.sql" />
+    <Build Include="Remote\Synonyms\Audit_Venue.sql" />
+    <Build Include="dbo\Tables\DWH_Period.sql" />
+    <Build Include="dbo\Tables\Snapshot_Course.sql" />
+    <Build Include="dbo\Tables\DWH_Period_Latest.sql" />
+    <Build Include="dbo\Tables\Snapshot_CourseInstance.sql" />
+    <Build Include="dbo\Tables\Snapshot_CourseInstanceVenue.sql" />
+    <Build Include="dbo\Tables\Snapshot_CourseInstanceA10FundingCode.sql" />
+    <Build Include="dbo\Tables\Snapshot_CourseInstanceStartDate.sql" />
+    <Build Include="dbo\Tables\Snapshot_CourseLearnDirectClassification.sql" />
+    <Build Include="dbo\Tables\Snapshot_Provider.sql" />
+    <Build Include="dbo\Tables\Snapshot_Venue.sql" />
+    <Build Include="Remote\Synonyms\Audit_Address.sql" />
+    <Build Include="dbo\Tables\Snapshot_Address.sql" />
+    <Build Include="Remote\Synonyms\DeliveryMode.sql" />
+    <Build Include="Remote\Synonyms\Audit_Apprenticeship.sql" />
+    <Build Include="Remote\Synonyms\Audit_ApprenticeshipLocation.sql" />
+    <Build Include="Remote\Synonyms\Audit_ApprenticeshipLocationDeliveryMode.sql" />
+    <Build Include="Remote\Synonyms\Audit_Location.sql" />
+    <Build Include="dbo\Tables\Snapshot_Apprenticeship.sql" />
+    <Build Include="dbo\Tables\Snapshot_ApprenticeshipLocation.sql" />
+    <Build Include="dbo\Tables\Snapshot_ApprenticeshipLocationDeliveryMode.sql" />
+    <Build Include="dbo\Tables\Snapshot_Location.sql" />
+    <Build Include="dbo\Tables\DWH_Audit_Summary.sql" />
+    <Build Include="dbo\Stored Procedures\usp_PeriodEnd.sql" />
+    <Build Include="dbo\Tables\DWH_Log.sql" />
+    <Build Include="dbo\Stored Procedures\usp_WriteDWHLog.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CreateDataForPeriod.sql" />
+    <Build Include="dbo\Functions\GerPeriodTypeDescription.sql" />
+    <Build Include="dbo\Tables\MonthlyReport_Usage.sql" />
+    <Build Include="Remote\Synonyms\AspNetUserRoles.sql" />
+    <Build Include="Remote\Synonyms\PermissionInRole.sql" />
+    <Build Include="Remote\Synonyms\Permission.sql" />
+    <Build Include="dbo\Tables\Snapshot_AspNetUsers.sql" />
+    <Build Include="dbo\Tables\Snapshot_ProviderUser.sql" />
+    <Build Include="Remote\Synonyms\Audit_AspNetUsers.sql" />
+    <Build Include="Remote\Synonyms\Audit_ProviderUser.sql" />
+    <Build Include="dbo\Tables\MonthlyReport_Provision.sql" />
+    <Build Include="Remote\Synonyms\LearningAim.sql" />
+    <Build Include="dbo\Stored Procedures\up_UpdateProviderQualityScore.sql" />
+    <Build Include="dbo\Stored Procedures\up_ProviderUpdateAllQualityScores.sql" />
+    <Build Include="dbo\Tables\Snapshot_QualityScore.sql" />
+    <Build Include="dbo\Stored Procedures\usp_ReportMonthlyReport.sql" />
+    <Build Include="dbo\Tables\MonthlyReport_Quality.sql" />
+    <Build Include="dbo\Tables\DFEReport_Usage.sql" />
+    <Build Include="dbo\Tables\DFEReport_Quality.sql" />
+    <Build Include="dbo\Tables\DFEReport_Provision.sql" />
+    <Build Include="dbo\Stored Procedures\usp_ReportDFEStartDateReport.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="SFA_CourseDirectory">
+      <DefaultValue>SFA_CourseDirectory</DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="SFA_DataWarehouse.refactorlog" />
+  </ItemGroup>
+</Project>

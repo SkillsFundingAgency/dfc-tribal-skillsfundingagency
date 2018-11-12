@@ -1,0 +1,102 @@
+﻿@model  Tribal.SkillsFundingAgency.ProviderPortal.Models.BulkUploadOrganisationViewModels
+@{
+    var isDownloadableProviderExists = Model.IsAnyDownloadableProviderExists;
+}
+@using (Html.BeginForm("ApprenticeshipDownload", "BulkUpload"))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @AppGlobal.Language.GetText(this, "OrganisationHeader", "Bulk upload allows you upload provision for any or all of your member providers in a single file, unless they have disallowed this. If you've not bulk uploaded before, ")
+        <a href="/Help/BulkUploadApprenticeships" target="_blank">@AppGlobal.Language.GetText(this, "OrganisationHelpLink", "please click here to read the detailed instructions.")</a>
+    </div>
+    <div class="form-group">
+        @AppGlobal.Language.GetText(this, "HeaderOrganisationProvision", "The table below has a summary of your current provision.")
+    </div>
+    <div class="row">
+        <table class="dt-responsive table table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-md-6">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().ProviderName)
+                    </th>
+                    <th class="col-md-1">
+                        @AppGlobal.Language.GetText(this, "Apprenticeships", "Apprenticeships")
+                    </th>
+                    <th class="col-md-3">
+                        @AppGlobal.Language.GetText(this, "DeliveryLocations", "Delivery Locations")
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var organisationProvider in Model.OrderBy(m => m.ProviderName))
+                { 
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => organisationProvider.ProviderName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => organisationProvider.Apprenticeships)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => organisationProvider.DeliveryLocations)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td colspan="3">
+                        @if (isDownloadableProviderExists)
+                        {
+                            <div class="form-group">
+                                <div class="col-md-1 col-md-offset-4">
+                                    <input type="submit" value="@AppGlobal.Language.GetText(this, "DownloadCsvButton", "Download Current Provision as CSV")" class="btn btn-success" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                @AppGlobal.Language.GetText(this, "Warning", "Warning: The following will NOT be included in the downloaded csv file:")
+                            </div>
+                            <div class="form-group">
+                                @AppGlobal.Language.GetText(this, "Archived", "1. Any apprenticeships/locations/delivery locations with a validationStage of 'Archived' or 'Pending'")
+                            </div>
+                            <div class="form-group">
+                                @AppGlobal.Language.GetText(this, "Pending", "2. Any invalid apprenticeships/locations/delivery locations which you uploaded Bulk Upload functionality which are not published on the site")
+                            </div>
+                            <div class="form-group">
+                                @AppGlobal.Language.GetText(this, "BulkUploadFile", "These will be lost if you then Bulk Upload the file.")
+                            </div> 
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <label>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                @AppGlobal.Language.GetText(this, "OrganisationNoDownloadProviderMessage", "It is not possible to download your provision as a CSV file as there are no providers within this organisation for which you have bulk upload privilages.")
+                            </div> 
+                        }
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="row table-bordered" style="margin: 0">          
+            <div style="margin: 5px">
+                <div class="form-group">
+                    @AppGlobal.Language.GetText(this, "CurrentApprenticeshipData", "This is where you can see the details about your current apprenticeship data. This data will be replaced by the data in the file you are about to upload.")
+                </div>
+                @if (Model.All(x => x.Apprenticeships == 0))
+                {
+                    <div class="form-group">
+                        @AppGlobal.Language.GetText(this, "NoCurrentApprenticeshipDataOrganisation", "Currently there is no data held on the system for any member provider.")
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

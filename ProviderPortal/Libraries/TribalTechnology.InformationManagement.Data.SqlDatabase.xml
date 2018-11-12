@@ -1,0 +1,763 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TribalTechnology.InformationManagement.Data.SqlDatabase</name>
+    </assembly>
+    <members>
+        <member name="T:TribalTechnology.InformationManagement.Data.Transaction">
+            <summary>
+            A transaction object, this should be created using the GetTransaction method of the SqlDatabase common code
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.Transaction.#ctor(System.String,System.String,TribalTechnology.InformationManagement.Interfaces.ILog)">
+            <summary>
+            A transaction object, this should be created using the GetTransaction method of the SqlDatabase common code
+            </summary>
+            <param name="transactionName">Transaction name</param>
+            <param name="connectionString">The connection string</param>
+            <param name="eventLog">An event log, or null if no logging required or an event log isn't available</param>        
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.Transaction.RollBack">
+            <summary>
+            Roll back the transaction
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.Transaction.Commit">
+            <summary>
+            Commit the transaction
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.Transaction.Dispose">
+            <summary>
+            Dispose the object after use, this will ensure the database connection used for the transaction is closed and disposed
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.Transaction.SqlTransaction">
+            <summary>
+            The SqlTransaction object, for internal use only, do not directly call methods on this object
+            </summary>
+        </member>
+        <member name="T:TribalTechnology.InformationManagement.Data.DatabaseStatistics">
+            <summary>
+            An object holding SqlDatabase usage statistics
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.DatabaseStatistics.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.DateTime)">
+            <summary>
+            An object holding SqlDatabase usage statistics, use the SqlDatabase.GetDatabaseStatistics method to get this object populated with statistics
+            </summary>
+            <param name="concurrentRequestCount"></param>
+            <param name="maximumConcurrentRequests"></param>
+            <param name="statisticsStartDateTimeUtc"></param>
+            <param name="totalDatabaseRequestFromCache"></param>
+            <param name="totalDatabaseRequests"></param>
+            <param name="totalDeadlockFailures"></param>
+            <param name="totalDeadlockRetries"></param>
+            <param name="totalErrors"></param>
+            <param name="totalTransientRetries"></param>
+            <param name="totalTransientRetryFailures"></param>        
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.DatabaseStatistics.AverageRequestsTimeSpan(System.TimeSpan)">
+            <summary>
+            Gets the average requests over the supplied timespan
+            </summary>
+            <param name="timeSpan">A timespan</param>
+            <returns>The average requests over the given timespans</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.DatabaseStatistics.AverageRequestsFromCacheTimeSpan(System.TimeSpan)">
+            <summary>
+            Gets the average cache hits over the supplied timespan
+            </summary>
+            <param name="timeSpan">A timespan</param>
+            <returns>The average requests over the given timespans</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.DatabaseStatistics.AverageTransientRetriesTimeSpan(System.TimeSpan)">
+            <summary>
+            Gets the average transient network retries over the supplied timespan
+            </summary>
+            <param name="timeSpan">A timespan</param>
+            <returns>The average requests over the given timespans</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.DatabaseStatistics.AverageTransientRetryFailuresTimeSpan(System.TimeSpan)">
+            <summary>
+            Gets the average transient failures (retries that eventually failed) over the supplied timespan
+            </summary>
+            <param name="timeSpan">A timespan</param>
+            <returns>The average requests over the given timespans</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.DatabaseStatistics.AverageErrorsTimeSpan(System.TimeSpan)">
+            <summary>
+            Gets the average errors over the supplied timespan
+            </summary>
+            <param name="timeSpan">A timespan</param>
+            <returns>The average requests over the given timespans</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.DatabaseStatistics.AverageDeadlockRetries(System.TimeSpan)">
+            <summary>
+            Gets the average deadlock retries over the supplied timespan
+            </summary>
+            <param name="timeSpan">A timespan</param>
+            <returns>The average requests over the given timespans</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.DatabaseStatistics.AverageDeadLockFailuresTimeSpan(System.TimeSpan)">
+            <summary>
+            Gets the average deadlock failures (retries that eventually failed) over the supplied timespan
+            </summary>
+            <param name="timeSpan">A timespan</param>
+            <returns>The average requests over the given timespans</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.DatabaseStatistics.ToString">
+            <summary>
+            Returns a string of the statistics formatted for display or for writing to an event log.  Averages are shown for an hour timespan.
+            </summary>
+            <returns>A string</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.DatabaseStatistics.ToString(System.TimeSpan)">
+            <summary>
+            Returns a string of the statistics formatted for display or for writing to an event log.  Averages are shown for the supplied timespan.
+            </summary>
+            <returns>A string</returns>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.DatabaseStatistics.TotalRequestsProcessed">
+            <summary>
+            Gets the total number of requests made to the database, this includes cached and non-cached requests recorded in the timespan covered by these statistics
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.DatabaseStatistics.TotalRequestsFromCache">
+            <summary>
+            Gets the total number of items retrieved from the cache recorded in the timespan covered by these statistics
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.DatabaseStatistics.TotalTransientRetries">
+            <summary>
+            Gets the total number of transient retries recorded in the timespan covered by these statistics
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.DatabaseStatistics.TotalTransientRetryFailures">
+            <summary>
+            Gets the total number of transient retry failures recorded in the timespan covered by these statistics
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.DatabaseStatistics.TotalErrors">
+            <summary>
+            Gets the total number of errors recorded in the timespan covered by these statistics, these errors exclude stored procedures that returned error codes.
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.DatabaseStatistics.TotalDeadlockRetries">
+            <summary>
+            Gets the total number of deadlock retries recorded in the timespan covered by these statistics
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.DatabaseStatistics.TotalDeadlockFailures">
+            <summary>
+            Gets the total number of deadlocks recorded in the timespan covered by these statistics
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.DatabaseStatistics.MaximumConcurrentRequests">
+            <summary>
+            Gets the maximum number of concurrent requests that has been recorded during the timespan covered by these statistics
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.DatabaseStatistics.CurrentRequestCountSnapShot">
+            <summary>
+            Gets a snapshot of the current number of requests being processed when these statistics were generated
+            </summary>
+        </member>
+        <member name="T:TribalTechnology.InformationManagement.Data.SqlDatabase">
+            <summary>
+            A database object that provides connectivity and some common stored procedures.  Use a partial class for adding additional stored procedures.
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Data.SqlDatabase.CacheFlushWildCard">
+            <summary>
+            The wildcard to use when selectively flushing DataSets by parameter
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.#ctor(System.String,TribalTechnology.InformationManagement.Interfaces.ILog,TribalTechnology.InformationManagement.Interfaces.IDatabaseCaching)">
+            <summary>
+            Creates an object with database connectivity
+            </summary>
+            <param name="sqlConnectionString">A database connection string</param>
+            <param name="eventLog">An event log that supports the ILog interface, pass null for no eventLog</param>
+            <param name="databaseCache">Database cache object</param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.SetTransientNetworkErrorRetryPolicy(TribalTechnology.InformationManagement.Data.SqlDatabase.RetryIntervalType,System.Int32,System.TimeSpan)">
+            <summary>
+            Sets a new transient network error retry policy, by default the policy is to re-try 2 times with an Incremental interval of 250ms, use this method to set a new policy.
+            </summary>
+            <param name="retryIntervalType">The interval type</param>
+            <param name="maxRetries">The maximum number of retry attempts. the maximum settable amount is 10, if a number larger than 10 is set, it will be reduced to 10 with no exception thrown.</param>
+            <param name="retryInterval">The retry interval.  The maximum interval is 10 seconds.  An interval larger than this will be set to 10 seconds with no exception thrown</param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.SetStatisticEventLogWriteInterval(System.TimeSpan)">
+            <summary>
+            Sets the interval that database statistics are written to the supplied ILog, if no ILog has been supplied this method has no effect. 
+            By default statistics are not written to the log until the object is disposed.  Use this method to set statistics to write at a regular interval. 
+            </summary>
+            <param name="timeSpan">The interval to write statistics to the log. After setting an interval, to Later stop statistics being logged pass TimeSpan.Zero to this method</param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.FlushCacheWhereNameStarts(System.String,System.Object[])">
+            <summary>
+            Flushes item from the cache that starts with the cacheId. This requires an IDatabaseCache to have been passed in the constructor
+            </summary>
+            <param name="cacheId">A cacheId where all items that start with that Id are to be flushed</param>
+            <param name="parameters">A list of parameters to selectively flush the cache of only specific items with matching parameters.  The parameters must be passed in the correct order, 
+            use the CacheFlushWildCard to indicated to flush for any value in that parameter.  Pass a null object where the parameter value is Null.</param>
+            <returns>Returns the cache name that was flushed including parameters and wildcards</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.GetDatabaseStatistics">
+            <summary>
+            Returns a DatabaseStatistics object with statistics from the time the object was first created to the time now
+            </summary>
+            <returns>A DatabaseStatistics object</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.GetTransaction(System.String)">
+            <summary>
+            Starts a transaction using it's own connection.  Close the connection and rollback/commit the transaction when completed
+            </summary>
+            <param name="transactionName">The transaction name</param>
+            <returns>A SqlTransaction object</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.GetDecryptedConnectionString(System.String)">
+            <summary>
+            Gets the connection string from an encrypted connection string using the standard encryption key. If the connection string isn't encrytped it will be returned as passed allowing this method to be used regardless if string is encrypted or not
+            </summary>
+            <param name="encryptedConnectionString">The encryption (or unencrypted) connection string</param>
+            <returns>The connection string</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.ExecuteSql(System.Data.SqlClient.SqlParameter[],System.Data.SqlClient.SqlConnection,System.String,TribalTechnology.InformationManagement.Data.SqlDatabase.HandleReturnCode,System.TimeSpan,System.Boolean,System.Boolean,System.Int32,TribalTechnology.InformationManagement.Data.Transaction)">
+            <summary>
+            Executes dynamic Sql
+            </summary>
+            <param name="sqlParameters">The parameters</param>
+            <param name="sqlPassedConnection">A passed in connection or Null to use a connection from the connection pool</param>
+            <param name="commandText">The Sql command to execute</param>
+            <param name="handleReturnCode">How return codes are handled</param>
+            <param name="cacheExpiry">Cache expiry</param>
+            <param name="isSlidingExpiry">When true cache expiry is sliding, false it is absolute</param>
+            <param name="safetyCache">When true string parameters are not cached unless null or a single character</param>
+            <param name="commandTimeout">The command timeout, pass -1 for the default timeout to be used</param>
+            <param name="transaction">An optional transaction object for executing Sql when RollBack/Commit functions are required.  The default is Null.</param>
+            <returns>A DataSet</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.ExecuteNonQuery(System.Data.SqlClient.SqlParameter[],System.Data.SqlClient.SqlConnection,System.String,TribalTechnology.InformationManagement.Data.SqlDatabase.HandleReturnCode,System.Boolean,TribalTechnology.InformationManagement.Data.Transaction,System.Int32)">
+            <summary>
+            Executes a stored procedure that is non-row returning
+            </summary>
+            <param name="sqlParameters">The parameters</param>
+            <param name="sqlPassedConnection">A passed in connection or Null to use a connection from the connection pool</param>
+            <param name="commandText">The Sql command to execute</param>
+            <param name="handleReturn">How return codes are handled</param>
+            <param name="commandTimeout">The command timeout, pass -1 for the default timeout to be used</param>
+            <param name="transaction">The transaction to use</param>
+            <param name="ArithAbort">Depreciated, this value is unused</param>
+            <returns>A DataSet</returns>       
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.ExecuteScaler(System.Data.SqlClient.SqlParameter[],System.Data.SqlClient.SqlConnection,System.String,TribalTechnology.InformationManagement.Data.SqlDatabase.HandleReturnCode,System.TimeSpan,System.Boolean,System.Boolean,System.Boolean,System.Int32,TribalTechnology.InformationManagement.Data.Transaction)">
+            <summary>
+            Executes a stored procedure as a scaler, so returns back the first value in the first row
+            </summary>
+            <param name="sqlParameters">The parameters</param>
+            <param name="sqlPassedConnection">A passed in connection or Null to use a connection from the connection pool</param>
+            <param name="commandText">The Sql command to execute</param>
+            <param name="handleReturnCode">How return codes are handled</param>
+            <param name="cacheExpiry">Cache expiry</param>
+            <param name="isSlidingExpiry">When true cache expiry is sliding, false it is absolute</param>
+            <param name="safetyCache">When true string parameters are not cached unless null or a single character</param>
+            <param name="commandTimeout">The command timeout, pass -1 for the default timeout to be used</param>
+            <param name="isExceptionThrownForNullScaler">When true an exception is thrown if the scaler is null</param>
+            <param name="transaction">An optional transaction object for executing Sql when RollBack/Commit functions are required.  The default is Null.</param>
+            <returns>An object</returns>      
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.ParameterList(System.Data.SqlClient.SqlCommand,System.Boolean)">
+            <summary>
+            Returns a string representing the parameters set in an SqlCommand, generally used internally by the ErrorLogger to log SQL parameters for logging.
+            This method will hide values passed in parameters if the parameter name is found in the array set using the property RemoveParametersWhenLogging, this helps stop sensistive data from appearing in event logs.
+            </summary>
+            <param name="SqlCommand">The SqlCommand object that has parameters to be retrieved</param>
+            <param name="friendlyText">When true text is returned in a format for event logging, when false the parameters are returned in format for used in providing a ready formatted SQL statement to run the proc</param>
+            <returns>A string representation of the parameters</returns>        
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.GetIsDateOrTimeParameter(System.Data.SqlDbType)">
+            <summary>
+            Returns true if the sqlDbType is some form of datetime
+            </summary>
+            <param name="sqlDbType">The DB type to test</param>
+            <returns>True if the parameter is a datetime, false if anything else</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.GetIsStringParameter(System.Data.SqlDbType)">
+            <summary>
+            Returns true if the sqlDbType is some form of string
+            </summary>
+            <param name="sqlDbType">The DB type to test</param>
+            <returns>True if the parameter is a string type value, false if anything else</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.CacheObjectID(System.Data.SqlClient.SqlCommand,System.Boolean@)">
+            <summary>
+            Private method, builds a unique ID for the stored procedure when caching
+            </summary>
+            <param name="sqlCommand">The command object</param>
+            <param name="containsVariableLengthStrings">Returns true if the parameters contain variable length strings</param>
+            <returns>A string that is unique for the SP and its parameters to use as a cache object name</returns>       
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.Execute(System.Data.SqlClient.SqlParameter[],System.Data.SqlClient.SqlConnection,System.String,TribalTechnology.InformationManagement.Data.SqlDatabase.HandleReturnCode,System.TimeSpan,System.Boolean,System.Boolean,System.Int32,System.Boolean,TribalTechnology.InformationManagement.Data.SqlDatabase.ExecuteType,System.Boolean,System.Object@,TribalTechnology.InformationManagement.Data.Transaction)">
+            <summary>
+            Executes against the database and returns a dataset, the dataset is retrieved and cached if Absolute or Sliding expiry values are given
+            </summary>
+            <param name="sqlParameters">The parameters to pass to the database</param>
+            <param name="sqlPassedConnection">The SqlConnection passed in, if null an internal SqlConnection is created and then closed when the procedure has executed</param>
+            <param name="commandText">The command text</param>
+            <param name="handleReturn">How return codes are handled</param>
+            <param name="cacheExpiry">The cacheExpiry time, pass TimeSpan.Zero for no caching</param>
+            <param name="isSlidingExpiry">When true the cache time is set a sliding</param>
+            <param name="safetyCache">When true variable length string parameters are not cached</param>
+            <param name="commandTimeout">The command timeout, pass -1 to use the default value</param>
+            <param name="isStoredProcedure">True to indicate the call is to a stored procedure</param>
+            <param name="executeType">The execute type</param>
+            <param name="isExceptionThrownForNullScaler">When true an exception is thrown for when a scaler is null</param>
+            <param name="scalerValue">The scaler value return as an output parameter</param>
+            <param name="transaction">An optional transaction object for executing Sql when RollBack/Commit functions are required.  The default is Null.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.GetParameter">
+            <summary>
+            Returns a default RETURN_VALUE parameter
+            </summary>
+            <returns>Returns a default RETURN_VALUE parameter</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.GetParameter(System.String,System.Data.SqlDbType,System.Int32,System.Data.ParameterDirection,System.Object)">
+            <summary>
+            Gets a parameter object using a method to simply creation of the object
+            </summary>
+            <param name="parameterName">The parameter name</param>
+            <param name="sqlDbType">The database type</param>
+            <param name="size">The size</param>
+            <param name="direction">The direction</param>
+            <param name="value">The value</param>
+            <returns>An SqlParameter</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.GetParameter(System.String,System.Data.SqlDbType,System.Int32,System.Data.ParameterDirection,System.Object,System.Byte,System.Byte)">
+            <summary>
+            Gets a parameter object using a method to simply creation of the object
+            </summary>
+            <param name="parameterName">The parameter name</param>
+            <param name="sqlDbType">The database type</param>
+            <param name="size">The size</param>
+            <param name="direction">The direction</param>
+            <param name="value">The value</param>
+            <param name="scale">The scale</param>
+            <param name="precision">The precision</param>
+            <returns>An SqlParameter</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.Membership_GetPasswordWithFormat(System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlBoolean,System.Data.SqlTypes.SqlDateTime,System.Int32@)">
+            <summary>
+            For access to ASP.NET Membership tables and data
+            </summary>
+            <param name="ApplicationName"></param>
+            <param name="UserName"></param>
+            <param name="UpdateLastLoginActivityDate"></param>
+            <param name="CurrentTimeUtc"></param>
+            <param name="ReturnValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.Membership_UpdateUserInfo(System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlBoolean,System.Data.SqlTypes.SqlBoolean,System.Data.SqlTypes.SqlInt32,System.Data.SqlTypes.SqlInt32,System.Data.SqlTypes.SqlDateTime,System.Data.SqlTypes.SqlDateTime,System.Data.SqlTypes.SqlDateTime)">
+            <summary>
+            For access to ASP.NET Membership tables and data
+            </summary>
+            <param name="ApplicationName"></param>
+            <param name="UserName"></param>
+            <param name="IsPasswordCorrect"></param>
+            <param name="UpdateLastLoginActivityDate"></param>
+            <param name="MaxInvalidPasswordAttempts"></param>
+            <param name="PasswordAttemptWindow"></param>
+            <param name="CurrentTimeUtc"></param>
+            <param name="LastLoginDate"></param>
+            <param name="LastActivityDate"></param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.Membership_SetPassword(System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlDateTime,System.Data.SqlTypes.SqlInt32,System.Int32@)">
+            <summary>
+            For access to ASP.NET Membership tables and data
+            </summary>
+            <param name="ApplicationName"></param>
+            <param name="UserName"></param>
+            <param name="NewPassword"></param>
+            <param name="PasswordSalt"></param>
+            <param name="CurrentTimeUtc"></param>
+            <param name="PasswordFormat"></param>
+            <param name="ReturnValue"></param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.Membership_ResetPassword(System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlInt32,System.Data.SqlTypes.SqlInt32,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlDateTime,System.Data.SqlTypes.SqlInt32,System.Data.SqlTypes.SqlString,System.Int32@)">
+            <summary>
+            For access to ASP.NET Membership tables and data
+            </summary>
+            <param name="ApplicationName"></param>
+            <param name="UserName"></param>
+            <param name="NewPassword"></param>
+            <param name="MaxInvalidPasswordAttempts"></param>
+            <param name="PasswordAttemptWindow"></param>
+            <param name="PasswordSalt"></param>
+            <param name="CurrentTimeUtc"></param>
+            <param name="PasswordFormat"></param>
+            <param name="PasswordAnswer"></param>
+            <param name="ReturnValue"></param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.Membership_UpdateUser(System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlBoolean,System.Data.SqlTypes.SqlDateTime,System.Data.SqlTypes.SqlDateTime,System.Data.SqlTypes.SqlInt32,System.Data.SqlTypes.SqlDateTime,System.Int32@)">
+            <summary>
+            For access to ASP.NET Membership tables and data
+            </summary>
+            <param name="ApplicationName"></param>
+            <param name="UserName"></param>
+            <param name="Email"></param>
+            <param name="Comment"></param>
+            <param name="IsApproved"></param>
+            <param name="LastLoginDate"></param>
+            <param name="LastActivityDate"></param>
+            <param name="UniqueEmail"></param>
+            <param name="CurrentTimeUtc"></param>
+            <param name="ReturnValue"></param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.Membership_UnlockUser(System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Int32@)">
+            <summary>
+            For access to ASP.NET Membership tables and data
+            </summary>
+            <param name="ApplicationName"></param>
+            <param name="UserName"></param>
+            <param name="ReturnValue"></param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.Membership_GetUserByUserId(System.Data.SqlTypes.SqlGuid,System.Data.SqlTypes.SqlDateTime,System.Data.SqlTypes.SqlBoolean,System.Int32@)">
+            <summary>
+            For access to ASP.NET Membership tables and data
+            </summary>
+            <param name="UserId"></param>
+            <param name="CurrentTimeUtc"></param>
+            <param name="UpdateLastActivity"></param>
+            <param name="ReturnValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.Membership_ChangePasswordQuestionAndAnswer(System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Int32@)">
+            <summary>
+            For access to ASP.NET Membership tables and data
+            </summary>
+            <param name="ApplicationName"></param>
+            <param name="UserName"></param>
+            <param name="NewPasswordQuestion"></param>
+            <param name="NewPasswordAnswer"></param>
+            <param name="ReturnValue"></param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.Membership_GetUserByName(System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlDateTime,System.Data.SqlTypes.SqlBoolean,System.Int32@)">
+            <summary>
+            For access to ASP.NET Membership tables and data
+            </summary>
+            <param name="ApplicationName"></param>
+            <param name="UserName"></param>
+            <param name="CurrentTimeUtc"></param>
+            <param name="UpdateLastActivity"></param>
+            <param name="ReturnValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.Membership_CreateUser(System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlBoolean,System.Data.SqlTypes.SqlDateTime,System.Data.SqlTypes.SqlDateTime,System.Data.SqlTypes.SqlInt32,System.Data.SqlTypes.SqlInt32,System.Data.SqlTypes.SqlGuid@,System.Int32@)">
+            <summary>
+            For access to ASP.NET Membership tables and data
+            </summary>
+            <param name="ApplicationName"></param>
+            <param name="UserName"></param>
+            <param name="Password"></param>
+            <param name="PasswordSalt"></param>
+            <param name="Email"></param>
+            <param name="PasswordQuestion"></param>
+            <param name="PasswordAnswer"></param>
+            <param name="IsApproved"></param>
+            <param name="CurrentTimeUtc"></param>
+            <param name="CreateDate"></param>
+            <param name="UniqueEmail"></param>
+            <param name="PasswordFormat"></param>
+            <param name="UserId"></param>
+            <param name="ReturnValue"></param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.Membership_FindUsersByEmail(System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlInt32,System.Data.SqlTypes.SqlInt32,System.Int32@)">
+            <summary>
+            For access to ASP.NET Membership tables and data
+            </summary>
+            <param name="ApplicationName"></param>
+            <param name="EmailToMatch"></param>
+            <param name="PageIndex"></param>
+            <param name="PageSize"></param>
+            <param name="ReturnValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.Users_DeleteUser(System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlInt32,System.Data.SqlTypes.SqlInt32@,System.Int32@)">
+            <summary>
+            For access to ASP.NET Membership tables and data
+            </summary>
+            <param name="ApplicationName"></param>
+            <param name="UserName"></param>
+            <param name="TablesToDeleteFrom"></param>
+            <param name="NumTablesDeletedFrom"></param>
+            <param name="ReturnValue"></param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.Membership_GetUserByEmail(System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Int32@)">
+            <summary>
+            For access to ASP.NET Membership tables and data
+            </summary>
+            <param name="ApplicationName"></param>
+            <param name="Email"></param>
+            <param name="ReturnValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.Membership_GetAllUsers(System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlInt32,System.Data.SqlTypes.SqlInt32,System.Int32@)">
+            <summary>
+            For access to ASP.NET Membership tables and data
+            </summary>
+            <param name="ApplicationName"></param>
+            <param name="PageIndex"></param>
+            <param name="PageSize"></param>
+            <param name="ReturnValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.Membership_GetNumberOfUsersOnline(System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlInt32,System.Data.SqlTypes.SqlDateTime,System.Int32@)">
+            <summary>
+            For access to ASP.NET Membership tables and data
+            </summary>
+            <param name="ApplicationName"></param>
+            <param name="MinutesSinceLastInActive"></param>
+            <param name="CurrentTimeUtc"></param>
+            <param name="ReturnValue"></param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.Membership_FindUsersByName(System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlInt32,System.Data.SqlTypes.SqlInt32,System.Int32@)">
+            <summary>
+            For access to ASP.NET Membership tables and data
+            </summary>
+            <param name="ApplicationName"></param>
+            <param name="UserNameToMatch"></param>
+            <param name="PageIndex"></param>
+            <param name="PageSize"></param>
+            <param name="ReturnValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.UsersInRoles_GetRolesForUser(System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString)">
+            <summary>
+            For access to ASP.NET Membership tables and data
+            </summary>
+            <param name="ApplicationName"></param>
+            <param name="UserName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.PermissionsInRole(System.Data.SqlTypes.SqlString)">
+            <summary>
+            For access to ASP.NET Membership tables and data
+            </summary>
+            <param name="RoleName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.ClearCaches">
+            <summary>
+            Clears caches in the database, requires the database to have stored procedure up_ClearCaches
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.SqlDatabase.Dispose">
+            <summary>
+            Dispose the object after use, for example at website application end, this will ensure the database connection is terminated cleanly and objects closed and disposed, any pending database requests will be given a chance to complete
+            </summary>
+        </member>
+        <member name="E:TribalTechnology.InformationManagement.Data.SqlDatabase.DiagnosticLogEvent">
+            <summary>
+            An event that is raised when a diagnostic log is generated, this may be trapped and displayed in the console if required
+            If IsDebugLogging is true all procedure calls are raised as an event diagnostic log
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.SqlDatabase.DeadLockWaitInterval">
+            <summary>
+            Sets or gets the dead lock wait interval.  When a dead lock is detected a second attempt will be made after waiting this interval for the dead lock to clear.  By default this is 5 seconds.
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.SqlDatabase.DatabaseStatisticsLogAverageTimeSpan">
+            <summary>
+            Sets or gets the timespan used to calculate averages in the database statistics when written to the ILog, by default this is 1 hour.
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.SqlDatabase.IsCachingCaseSensitive">
+            <summary>
+            Sets or gets if caching is case sensitive to string parameters, 
+            when true then a search on "Hello" and "hello" would result in two cached datasets, when false "hello" 
+            would match the cached "Hello" dataset. Default is false so that caching is case insensitive and this should be used with case insensitive databases,
+            set to true for case sensitive databases
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.SqlDatabase.DatabaseTimeServingWarningThreshold">
+            <summary>
+            Sets or gets in milliseconds a threshold for the time the database is allowed to take to service calls.  If the time is greater than the threshold
+            then an event is written to identify the slow performing procedure, by default the value is 300ms.
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.SqlDatabase.RemoveParametersWhenLogging">
+            <summary>
+            Sets or gets a comma delimited string that contains parameter names that for data protection, should not be logged in event logs, for example: surname,forename,dateofbirth would mean these parameter fields are shown as @Surname=hidden.
+            The parameter matching against items in the list are not case sensitive
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.SqlDatabase.IsDebugLogging">
+            <summary>
+            Sets or gets if debug logging is required, the default is false.  When true all calls to the database are logged to the ILog interface as a debug log.
+            If the ILog object is writing debug information then these logs will appear.  To capture diagnostic events and display to the console use the DiagnosticLogEvent. For performance and release IsDebugLogging should be false.
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.SqlDatabase.IsCachingEnabled">
+            <summary>
+            Sets or gets if caching is enabled, the default is false.  When true procedures set to be cached are saved to the cache using an IDatabaseCaching object passed on the constructor, when false no procedures are cached even if set to do so.
+            This property throws an ArgumentException if trying to enable caching when no IDatabaseCaching object has been provided in the constructor
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.SqlDatabase.DefaultTimeOut">
+            <summary>
+            Sets or gets the default timeout value for the SqlCommand.  By default this is set to 30 seconds.  This value is only applied to procedures that have not had a specific timeout set.
+            </summary>
+        </member>
+        <member name="T:TribalTechnology.InformationManagement.Data.SqlDatabase.DiagnosticLogHandler">
+            <summary>
+            A diagnostic event handler
+            </summary>
+            <param name="sender">A string that contains the diagnostic event, this may be written directly to the console windows if required</param>
+            <param name="e">Event arguments</param>
+        </member>
+        <member name="T:TribalTechnology.InformationManagement.Data.SqlDatabase.HandleReturnCode">
+            <summary>
+            How to handle the return value from the database
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Data.SqlDatabase.HandleReturnCode.PassBack">
+            <summary>
+            The return value is passed back regardless of its value
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Data.SqlDatabase.HandleReturnCode.ThrowErrorValueOne">
+            <summary>
+            If the return value is 1 indicating a database error then an exception is thrown, any other value is passed back
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Data.SqlDatabase.HandleReturnCode.ThrowErrorNotZero">
+            <summary>
+            If the return value is any value other than 1 an exception is thrown
+            </summary>
+        </member>
+        <member name="T:TribalTechnology.InformationManagement.Data.SqlDatabase.RetryIntervalType">
+            <summary>
+            The interval retry type
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Data.SqlDatabase.RetryIntervalType.None">
+            <summary>
+            This will cancel or disable the Transient error retry policy
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Data.SqlDatabase.RetryIntervalType.FixedInterval">
+            <summary>
+            The statement is retried after the retry interval has expired up to the maximum number of retries, for example an interval of 1 second will see the first retry after 1 second, then again after 1 second and so on up to the maximum number of allowed retries
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Data.SqlDatabase.RetryIntervalType.IncrementalInterval">
+            <summary>
+            The statement is first retried after the interval has expired, then tried again incremented by the interval, for example an interval of 1 second will see the first retry at 1 second, then a wait of 2 seconds, then a wait of 3 seconds, then a wait of 4 seconds, up to the maximum number of allowed retries
+            </summary>
+        </member>
+        <member name="T:TribalTechnology.InformationManagement.Data.StronglyTypedDataTableBase">
+            <summary>
+            Abstract class that provides base functions for strongly typed DataTable objects
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.StronglyTypedDataTableBase.#ctor(System.Data.DataTable,System.Int32)">
+            <summary>
+            Abstract class that provides base functions for strongly typed DataTable objects
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.StronglyTypedDataTableBase.GetDataTable">
+            <summary>
+            Returns the underlying table
+            </summary>
+            <returns>A DataTable</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.StronglyTypedDataTableBase.AcceptChanges">
+            <summary>
+            Flags all modifications, deletes or added rows as accepted, these accepted rows will now not be returned by GetUpdateRows method.  Only rows modified since after this call will be returned by GetUpdatedRows.
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.StronglyTypedDataTableBase.GetDataSet">
+            <summary>
+            Returns the underlying dataset
+            </summary>
+            <returns>A dataset</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.StronglyTypedDataTableBase.GetUpdatedRows``1(System.Data.DataRowState)">
+            <summary>
+            Returns an array of all rows since AcceptChanges has been called of the specified state
+            </summary>
+            <param name="dataRowState">The DataRowState</param>
+            <returns>An array of rows</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.StronglyTypedDataTableBase.ReturnObjectFromDataRow(System.Data.DataRow,System.String,System.String,System.Boolean)">
+            <summary>
+            Provided for use with strongly typed dataset objects produced by the stored procedure generator
+            </summary>
+            <param name="dataRow">The DataRow</param>
+            <param name="fieldName">The field name in the DataRow for the object to return</param>
+            <param name="isDefaultForNullReturned">When true simply types will return a default value if the database object is null, when Null Integers, Doubles, Decimal return 0, Booelans return false, DateTimes return DateTime.MinValue, and Strings return String.Empty. 
+            <param name="systemType">The system type of the field</param>
+            When false an ArgumentNullException is thrown</param>
+            <returns>An object</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.StronglyTypedDataTableBase.HasUpdatedRows(System.Data.DataRowState)">
+            <summary>
+            Returns true if there are rows of the state specified since the last AcceptChanges method call
+            </summary>
+            <param name="dataRowState">The data row state</param>
+            <returns>True if there are update rows, false if no updated rows</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.StronglyTypedDataTableBase.HasUpdatedRows">
+            <summary>
+            Returns true if there are any rows of any state that has been updated since the last AcceptChanges method call
+            </summary>    
+            <returns>True if there are update rows, false if no updated rows</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Data.StronglyTypedDataTableBase.GetList">
+            <summary>
+            Returns a System.Collections.IList
+            </summary>
+            <returns>A System.Collections.IList</returns>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.StronglyTypedDataTableBase.ReturnValue">
+            <summary>
+            Gets the return value passed back by the stored procedure
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.StronglyTypedDataTableBase.Count">
+            <summary>
+            Gets a count of all rows in the collection
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.StronglyTypedDataTableBase.IsDefaultForNullValuesReturned">
+            <summary>
+            Sets or gets if a default value is returned for nulls for the strongly type property.  When true, common types will return a default value so Numbers return 0, a string returns String.Empty, Boolean returns false, a DateTime returns DateTime.MinValue. 
+            Types that have no default specified will throw an ArgumentNullException and should be checked first using their IsNull property.  When false, any value that is null throws an ArgumentNullException, and no defaults are returned
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.StronglyTypedDataTableBase.ContainsListCollection">
+            <summary>
+            Gets true if this object contains a collection
+            </summary>
+        </member>
+        <member name="T:TribalTechnology.InformationManagement.Data.IStronglyTypedDataRow">
+            <summary>
+            Interface for a strongly typed DataRow
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.IStronglyTypedDataRow.DataRow">
+            <summary>
+            A DataRow
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Data.IStronglyTypedDataRow.IsDefaultValuesReturned">
+            <summary>
+            True when default values are returned, when false an exception is raised if a property refers to a null field
+            </summary>
+        </member>
+    </members>
+</doc>

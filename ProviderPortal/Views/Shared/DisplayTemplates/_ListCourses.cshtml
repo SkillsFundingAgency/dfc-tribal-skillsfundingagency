@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Tribal.SkillsFundingAgency.ProviderPortal.Models.CourseListModel>
+@{
+    HttpContext.Current.Items["_ListCourses"] = Permission.HasPermission(false, false, Permission.PermissionName.CanEditProviderCourse);
+}
+
+@if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditProviderCourse))
+{
+    <div style="float: left;">
+        <a href="@Url.Action("Create","Course",null)" class="btn btn-course addCourse">@AppGlobal.Language.GetText(this, "AddCourse", "Add Course")</a>
+        <a href="@Url.Action("Courses","BulkUpload",null)" class="btn btn-course">@AppGlobal.Language.GetText(this, "UploadCourses", "Upload Courses")</a>
+    </div>
+
+    <div style="float: right;">
+        <input type="button" class="btn btn-default" value="@AppGlobal.Language.GetText(this, "ArchiveSelected", "Archive Selected")" id="btnArchiveSelectedCourses" />
+        <input type="button" class="btn btn-default" value="@AppGlobal.Language.GetText(this, "UnarchiveSelected", "Unarchive Selected")" id="btnUnarchiveSelectedCourses" />
+    </div>
+    <div style="clear: both;"></div>
+}
+
+<table class="dataTable dt-responsive table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CourseDetails)
+            </th>
+            <th data-type="date-eu">
+                @Html.DisplayNameFor(model => model.LastUpdate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastStartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsLARSExpired)
+            </th>
+            @if (Permission.HasPermission(false, false, new[] {Permission.PermissionName.CanEditProviderCourse, Permission.PermissionName.CanViewProviderCourse }))
+            {
+                <th data-sort='false' data-filter="false">
+                    @AppGlobal.Language.GetText(this, "Actions", "Actions")
+                </th>
+                if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditProviderCourse))
+                {
+                    <th data-sort='false' data-filter="false">
+                        <label for="chkAllCourses" class="hide">@AppGlobal.Language.GetText(this, "CheckUncheckAll", "Check/Uncheck All")</label>
+                        <input type="checkbox" id="chkAllCourses" />
+                    </th>
+                }
+            }
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var course in Model) {
+            <tr>
+                <td>
+                    <div id="divStatus_@course.CourseId">
+                        @Html.DisplayFor(model => course.Status)
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(model => course.CourseDetails)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => course.LastUpdate)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => course.LastStartDate)
+                </td>
+                <td>
+                    @Html.Raw(course.IsLARSExpired.HasValue ? (course.IsLARSExpired.Value ? AppGlobal.Language.GetText(this, "HasLARExpiredYes", "Expired") : AppGlobal.Language.GetText(this, "HasLARExpiredNo", "OK")) : "")
+                </td>
+                @if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditProviderCourse))
+                {
+                    <td>
+                        <a href="@Url.Action("Edit", "Course", new {Id = course.CourseId})">@AppGlobal.Language.GetText(this, "Edit", "Edit")<span class="hide"> @Html.DisplayFor(model => course.CourseDetails)</span></a>
+                        @if (Permission.HasPermission(false, false, Permission.PermissionName.CanAddProviderOpportunity))
+                        {
+                            if (course.RecordStatusId.HasValue && course.RecordStatusId.Value != (Int32)Constants.RecordStatus.Pending)
+                            {
+                                <br />
+                                <a href="@Url.Action("EditLatestOpportunity", "Course", new { Id = course.CourseId })">@AppGlobal.Language.GetText(this, "EditOpportunity", "Edit Opp")</a>
+                                <br />
+                                <a href="@Url.Action("DuplicateLatestOpportunity", "Course", new { Id = course.CourseId })">@AppGlobal.Language.GetText(this, "AddOpportunity", "Add Opp")</a>
+                            }
+                            else
+                            {
+                                <br />
+                                <a href = "@Url.Action("Create", "Opportunity", new { Id = course.CourseId })" > @AppGlobal.Language.GetText(this, "AddOpportunity", "Add Opp")</a>
+                            }
+                        }
+                    </td>
+                    <td>
+                        <label for="chkCourse_@course.CourseId" class="hide">@course.CourseDetails</label>
+                        <input type="checkbox" id="chkCourse_@course.CourseId" />
+                    </td>
+                }
+                else if (Permission.HasPermission(false, false, Permission.PermissionName.CanViewProviderCourse))
+                {
+                    <td>
+                        <a href="@Url.Action("View", "Course", new {Id = course.CourseId})">@AppGlobal.Language.GetText(this, "View", "View")<span class="hide"> @Html.DisplayFor(model => course.CourseDetails)</span></a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+    
+</table>
+
+<hr />

@@ -1,0 +1,16 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ContentListViewModel
+@{
+    var topItem = Model.Items.Any(x => x.RecordStatus == Constants.RecordStatus.Live)
+        ? Model.Items.First(x => x.RecordStatus == Constants.RecordStatus.Live)
+        : Model.Items.First();
+    var title = !String.IsNullOrWhiteSpace(topItem.Title) ? topItem.Title : topItem.Path;
+    ViewBag.Title = String.Format(AppGlobal.Language.GetText(this, "Title", "{0} - Revision History"), title);
+}
+
+<h2>@String.Format(AppGlobal.Language.GetText(this, "Header", "{0} - Revision History"), title)</h2>
+<hr/>
+@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", ""))
+@Html.Partial("_ContentListPartial", Model)
+<div class="form-actions no-color">
+    @Html.ActionLink(AppGlobal.Language.GetText(this, "BackToList", "Back to list"), "Index")
+</div>

@@ -1,0 +1,8 @@
+﻿@if (Permission.HasPermission(false, true, Permission.PermissionName.CanBulkUploadProviderFiles))
+{
+    <p>
+        @AppGlobal.Language.GetText(this, "MessageOpening", "To save all your provision (Courses, Opportunities and Venues) in the CSV format used by the Course Directory Bulk Upload, please ")
+        @Html.ActionLink(AppGlobal.Language.GetText(this, "MessageLinkText", "visit the Bulk Upload page"), "Courses", "BulkUpload")
+        @AppGlobal.Language.GetText(this, "MessageClosing", ".")
+    </p>
+}

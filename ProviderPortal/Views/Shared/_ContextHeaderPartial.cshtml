@@ -1,0 +1,17 @@
+﻿@switch (UserContext.GetUserContext().ContextName)
+{
+    case UserContext.UserContextName.Administration:
+
+        @Html.Partial("_ContextAdminHeaderPartial")
+        break;
+
+    case UserContext.UserContextName.Provider:
+
+        @Html.Partial("_ContextProviderHeaderPartial")
+        break;
+
+    case UserContext.UserContextName.Organisation:
+
+        @Html.Partial("_ContextOrganisationHeaderPartial")
+        break;
+}

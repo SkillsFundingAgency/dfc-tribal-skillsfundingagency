@@ -1,0 +1,58 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Areas.Api.Models.UKRLPDataModel
+@{   
+    String style = String.IsNullOrEmpty(Model.UKRLP) ? "display: none;" : "";
+    String companyNumberStyle = String.IsNullOrEmpty(Model.CompanyRegistrationNumber) ? "display: none;" : "";
+    String charityNumberStyle = String.IsNullOrEmpty(Model.CharityRegistrationNumber) ? "display: none;" : "";
+}
+
+            <div id="divUKPRNData" class="col-md-4 sidebar" style="@style">
+                <h4>@AppGlobal.Language.GetText(this, "UKRLPDetails", "UKRLP Details")</h4>
+                <div class="box">
+                    <dl>
+                        <dt>@AppGlobal.Language.GetText(this, "LegalName", "Legal Name:")</dt>
+                        <dd id="ddLegalName">@Model.LegalName</dd>
+                        <dt>@AppGlobal.Language.GetText(this, "TradingName", "Trading Name:")</dt>
+                        <dd id="ddTradingName">@Model.TradingName</dd>
+                        <dt>@AppGlobal.Language.GetText(this, "LegalAddress", "Legal Address:")</dt>
+                        <dd id="ddLegalAddress">@Html.Raw(Model.LegalFullAddress)</dd>
+                        <dt>@AppGlobal.Language.GetText(this, "LegalTelephone", "Legal Telephone:")</dt>
+                        <dd id="ddLegalTelephone">@Model.LegalTelephone</dd>
+                        <dt>@AppGlobal.Language.GetText(this, "LegalFax", "Legal Fax:")</dt>
+                        <dd id="ddLegalFax">@Model.LegalFax</dd>
+                    </dl>
+                </div>
+                <div class="box">
+                    <dl>
+                        <dt>@AppGlobal.Language.GetText(this, "ContactName", "Contact Name:")</dt>
+                        <dd id="ddContactName">@Model.ContactName</dd>
+                        <dt>@AppGlobal.Language.GetText(this, "ContactAddress", "Contact Address:")</dt>
+                        <dd id="ddContactAddress">@Html.Raw(Model.ContactFullAddress)</dd>
+                        <dt>@AppGlobal.Language.GetText(this, "ContactTelephone", "Contact Telephone:")</dt>
+                        <dd id="ddContactTelephone">@Model.ContactTelephone</dd>
+                        <dt>@AppGlobal.Language.GetText(this, "ContactFax", "Contact Fax:")</dt>
+                        <dd id="ddContactFax">@Model.ContactFax</dd>
+                    </dl>
+                </div>
+                <div class="box">
+                    <dl>
+                        <dt>@AppGlobal.Language.GetText(this, "ProviderStatus", "Provider Status:")</dt>
+                        <dd id="ddProviderStatus">@Model.Status</dd>
+                        <dt id="dtCompanyRegistration" style="@companyNumberStyle">@AppGlobal.Language.GetText(this, "CompanyRegistrationNumber", "Company Registration:")</dt>
+                        <dd id="ddCompanyRegistration" style="@companyNumberStyle">@Model.CompanyRegistrationNumber</dd>
+                        <dt id="dtCharityRegistration" style="@charityNumberStyle">@AppGlobal.Language.GetText(this, "CharityRegistrationNumber", "Charity Registration:")</dt>
+                        <dd id="ddCharityRegistration" style="@charityNumberStyle">@Model.CharityRegistrationNumber</dd>
+                    </dl>
+                </div>
+                <div class="box" style="display: none;">
+                    <dl>
+                        <dd id="ddLegalAddress1">@Model.LegalAddress1</dd>
+                        <dd id="ddLegalAddress2">@Model.LegalAddress2</dd>
+                        <dd id="ddLegalTown">@Model.LegalTown</dd>
+                        <dd id="ddLegalCounty"><@Model.LegalCounty</dd>
+                        <dd id="ddLegalPostcode">@Model.LegalPostcode</dd>
+                    </dl>
+                </div>
+                <div class="box">
+                    @Html.Raw(AppGlobal.Language.GetText(this, "UKRLPAdditionalNotes", "UKRLP details are managed by the <a href=\"https://www.ukrlp.co.uk/\">UK Register of Learning Providers</a>. If you need to change them please contact their helpdesk on <a href=\"tel:03452021600\">0345 202 1600</a> or <a href=\"mailto:helpdesk@ukrlp.co.uk\">helpdesk@ukrlp.co.uk</a>."))
+                </div>
+            </div>

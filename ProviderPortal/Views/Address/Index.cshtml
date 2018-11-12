@@ -1,0 +1,158 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.UploadAddressBaseModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Import Address Base Data");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Import Address Base Data")</h2>
+
+@Html.Raw(AppGlobal.Language.GetText(this, "SubHeader", "<hr /><p>Use this page to upload new Address Base data.  The files should be a zipped copies of the CSV version.  The latest version can be ordered from <a href=\"https://orders.ordnancesurvey.co.uk/orders/index.html\" target=\"blank\">this page</a>.</p><p>You can upload many ZIP files each containing CSV files.  Once all the ZIP files have been uploaded, click <strong>" + AppGlobal.Language.GetText(this, "StartImport", "Import Data") + "</strong></p><hr />"))
+
+@if (!String.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="warning">
+        @Html.Raw(ViewBag.Message)
+    </div>
+}
+
+@if (ViewBag.NumberOfFiles != null && ViewBag.NumberOfFiles > 0 && (ViewBag.IsComplete == null || ViewBag.IsComplete))
+{
+    <div class="warning">
+        @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "NumberOfFiles", "You have uploaded <strong>{0}</strong> file(s)"), ViewBag.NumberOfFiles))
+        <a id="aToggleFiles" href="#">@AppGlobal.Language.GetText(this, "ShowFiles", "Show Files")</a>
+        <div id="divFiles" style="display: none;">
+            <p style="height: 5px;"></p>
+            @foreach (String file in ViewBag.Files)
+            {
+                var fileName = file.Substring(file.LastIndexOf(@"\", StringComparison.Ordinal) + 1);
+                <p style="margin-left: 30px; margin-top: 3px; margin-bottom: 0px;">@fileName
+                    <span style="margin-left: 20px">
+                        <a name="DeleteFile" title="@AppGlobal.Language.GetText(this, "DeleteFile", "Delete") @fileName" href="#" data-filename="@fileName">@AppGlobal.Language.GetText(this, "DeleteFile", "Delete")</a>
+                    </span>
+                </p>
+            }
+            <p style="height: 5px;"></p>
+        </div>
+    </div>}
+
+@Html.EditableDataValidationSummary(false)
+
+@using (Html.BeginForm("Index", "Address", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{   
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <table class="dt-responsive table table-bordered">
+            <thead>
+                <tr style="@((ViewBag.IsComplete != null && !ViewBag.IsComplete) ? "display: none;" : "")">
+                    <th class="col-md-6">
+                        @AppGlobal.Language.GetText(this, "UploadSectionHeader", "Upload a new file")
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="@((ViewBag.IsComplete != null && !ViewBag.IsComplete) ? "display: none;" : "")">
+                    <td>
+                        <div class="form-group">
+                            @AppGlobal.Language.GetText(this, "UploadText", "Click Browse and select your Address Base data file. Click upload.")
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.File, new { type = "file", @class = "btn btn-success", multiple = "" })
+                            @Html.ValidationMessageFor(m => m.File)
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="@AppGlobal.Language.GetText(this, "SubmitUpload", "Upload")" class="btn btn-success" />
+                            @if (ViewBag.NumberOfFiles != null && ViewBag.NumberOfFiles > 0 && (ViewBag.IsComplete == null || ViewBag.IsComplete))
+                            {
+                                <input type="button" id="btnImport" value="@AppGlobal.Language.GetText(this, "StartImport", "Import Data")" class="btn btn-success" style="margin-left: 15px;" />
+                                <input type="button" id="btnDeleteAll" value="@AppGlobal.Language.GetText(this, "DeleteAllFiles", "Delete All Uploaded Files")" class="btn btn-danger" style="margin-left: 15px;" />
+                            }
+                        </div>
+                    </td>
+                </tr>
+                <tr style="@((ViewBag.IsComplete != null && !ViewBag.IsComplete) ? "" : "display: none;")">
+                    <td>
+                        <div class="form-group" style="margin-top: 15px;">
+                            @if (ViewBag.IsComplete != null && !ViewBag.IsComplete)
+                            {
+                                if (ViewBag.IsCancelling == null || !ViewBag.IsCancelling)
+                                {
+                                    <input type="button" id="btnCancel" value="@AppGlobal.Language.GetText(this, "CancelImport", "Cancel Import")" class="btn btn-warning" style="margin-left: 15px;" />
+                                }
+                                if (ViewBag.IsCancelling != null && ViewBag.IsCancelling)
+                                {
+                                    <input type="button" id="btnForceCancel" value="@AppGlobal.Language.GetText(this, "ForceCancelImport", "Force Cancel Import")" class="btn btn-danger" style="margin-left: 15px;" />
+                                }
+                            }
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+@if (Model.LastUploadedBy != null)
+{
+    @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "LastUploadDetails", "<span style=\"font-size: smaller;\">Last uploaded by {0} on {1}.  Filename(s): {2}</span>"), Model.LastUploadedBy, Model.LastUploadDateTimeLocalTime, Model.LastUploadFileName))
+}
+
+@section Scripts {
+   
+    @if (ViewBag.IsComplete != null && !ViewBag.IsComplete)
+    {
+        <script type="text/javascript">
+            $(document).ready(function() {
+                setTimeout(function() {
+                    window.location.href = '@Url.Action("Index")';
+                }, 10000);
+            });
+        </script>
+    }     
+    
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            $("#btnImport").click(function() {
+                if (confirm("@AppGlobal.Language.GetText(this, "ConfirmImportData", "Import Address Base Data?")")) {
+                    window.location.replace("@Url.Action("StartImport")");
+                }
+            });
+
+            $("#btnDeleteAll").click(function () {
+                if (confirm("@AppGlobal.Language.GetText(this, "ConfirmDeleteAll", "Delete All Uploaded Files?")")) {
+                    window.location.replace("@Url.Action("ForceCancelImport")");
+                }
+            });
+
+            $("#btnCancel").click(function () {
+                if (confirm("@AppGlobal.Language.GetText(this, "ConfirmCancel", "Cancel Address Base Import?")")) {
+                    window.location.replace("@Url.Action("CancelImport")");
+                }
+            });
+
+            $("#btnForceCancel").click(function() {
+                if (confirm("@AppGlobal.Language.GetText(this, "ConfirmForceCancel", "WARNING:  This should only be used if you are confident that the import has hung.\\n\\nForce Cancel Address Base Import?")")) {
+                    window.location.replace("@Url.Action("ForceCancelImport")");
+                }
+            });
+
+            $("a[name='DeleteFile']").click(function (e) {
+                e.preventDefault();
+                var fileName = $(this).data("filename");
+                if (confirm("@AppGlobal.Language.GetText(this, "ConfirmDeleteFile", "Delete File ")" + fileName + "?")) {
+                    window.location.replace("@Url.Action("DeleteFile")" + "?fileName=" + fileName);
+                }
+            });
+
+            $("#aToggleFiles").click(function(e) {
+                e.preventDefault();
+                if ($(this).text() == "@AppGlobal.Language.GetText(this, "ShowFiles", "Show Files")") {
+                    $("#divFiles").slideDown("fast");
+                    $(this).text("@AppGlobal.Language.GetText(this, "HideFiles", "Hide Files")");
+                } else {
+                    $("#divFiles").slideUp("fast");
+                    $(this).text("@AppGlobal.Language.GetText(this, "ShowFiles", "Show Files")");
+                }
+            });
+        });
+
+    </script>
+}

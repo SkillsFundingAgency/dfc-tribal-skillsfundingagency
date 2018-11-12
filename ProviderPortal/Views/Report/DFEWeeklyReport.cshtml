@@ -1,0 +1,264 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.WeeklyReportViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "DFE Weekly Report");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "DFE Weekly Report")</h2>
+<hr/>
+@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", "<p>The table below is part of the MI reporting. Use the 'Search' box to filter the table, and the arrows at the top of the columns to sort it. Use the buttons on the top right of the table to copy to your clipboard, save in comma separated values (CSV) format, save in Microsoft Excel format or print. </p>"))
+
+<table class="dataTable dt-responsive table table-striped table-bordered" data-ajax="@Url.Action("DFEWeeklyReportJson")" data-created-row="rowCreated">
+    <thead>
+        <tr>
+            <th scope="col" class="none">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderId)
+            </th>
+            <th scope="col" class="all">
+                @Html.DisplayNameFor(m => m.Items.First().Ukprn)
+            </th>
+            <th scope="col" class="all" data-type="string-case-insensitive">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderName)
+            </th>
+            <th scope="col" data-type="date-eu">
+                @Html.DisplayNameFor(m => m.Items.First().LastActivity)
+            </th>
+            <th scope="col" data-type="date-eu">
+                @Html.DisplayNameFor(m => m.Items.First().LastUpdate)
+            </th>
+            <th scope="col" data-type="date-eu">
+                @Html.DisplayNameFor(m => m.Items.First().LastOpportunityUpdate)
+            </th>
+            <th scope="col" class="all" data-type="enum-traffic">
+                @Html.DisplayNameFor(m => m.Items.First().TrafficLightStatus)
+            </th>
+            <th scope="col" class="all" data-type="enum-quality">
+                @Html.DisplayNameFor(m => m.Items.First().Rating)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().LastUpdateMethod)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().BulkUploadSuccess)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().BulkUploads)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().NumberOfSuperUsers)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().NumberOfUsers)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().Courses)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().BulkUploadCourses)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderPortalCourses)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().PlanBCourses)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().CoursesWithLearningAims)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().CoursesWithoutLearningAims)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().Opportunities)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().InScopeOpportunities)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().OutOfScopeOpportunities)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1010)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1022)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1025)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1035)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1045)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1046)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1070)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1080)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1081)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1021)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1082)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1099)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A10NA)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.ProviderId)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Ukprn)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ProviderName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.LastActivity)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.LastUpdate)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.LastOpportunityUpdate)
+                </td>
+                <td class="@item.TrafficLightCssClass">
+                    @Html.DisplayFor(m => item.TrafficLightStatus)
+                </td>
+                <td class="@item.RatingCssClass">
+                    @Html.DisplayFor(m => item.Rating)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.LastUpdateMethod)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.BulkUploadSuccess)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.BulkUploads)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.NumberOfSuperUsers)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.NumberOfUsers)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.Courses)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.BulkUploadCourses)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.ProviderPortalCourses)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.PlanBCourses)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.CoursesWithLearningAims)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.CoursesWithoutLearningAims)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.Opportunities)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.InScopeOpportunities)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.OutOfScopeOpportunities)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.A1010)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.A1022)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.A1025)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.A1035)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.A1045)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.A1046)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.A1070)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.A1080)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.A1081)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.A1021)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.A1082)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.A1099)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.A10NA)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    
+    <script type="text/javascript">
+
+        var trafficLight = {};
+        trafficLight["@QualityIndicator.GetTrafficText(1)"] = '@QualityIndicator.GetTrafficBackground(1)';
+        trafficLight["@QualityIndicator.GetTrafficText(2)"] = '@QualityIndicator.GetTrafficBackground(2)';
+        trafficLight["@QualityIndicator.GetTrafficText(3)"] = '@QualityIndicator.GetTrafficBackground(3)';
+
+        var quality = {};
+        quality["@QualityIndicator.GetQualityText(1, false)"] = '@QualityIndicator.GetQualityBackground(1)';
+        quality["@QualityIndicator.GetQualityText(2, false)"] = '@QualityIndicator.GetQualityBackground(2)';
+        quality["@QualityIndicator.GetQualityText(3, false)"] = '@QualityIndicator.GetQualityBackground(3)';
+        quality["@QualityIndicator.GetQualityText(4, false)"] = '@QualityIndicator.GetQualityBackground(4)';
+
+        var trafficLightColPosition = 7;
+        var ratingColPosition = 8;
+
+        var rightAlignedColumns = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33];
+
+        function rowCreated(row, data, index) {
+            $("td:nth-child(" + trafficLightColPosition + ")", row).addClass(trafficLight[data[trafficLightColPosition - 1]]);
+            $("td:nth-child(" + ratingColPosition + ")", row).addClass(quality[data[ratingColPosition - 1]]);
+
+            $.each(rightAlignedColumns, function(idx, item) {
+                $("td:nth-child(" + item + ")", row).addClass("alignRight");
+            });
+        }
+
+    </script>
+}

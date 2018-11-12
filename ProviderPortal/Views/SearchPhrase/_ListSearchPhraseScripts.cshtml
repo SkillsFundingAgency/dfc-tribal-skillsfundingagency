@@ -1,0 +1,44 @@
+﻿<script type="text/javascript">
+
+        $(document).ready(function() {
+
+            alert($("input[type='button'][name='MoveUp']").length);
+            alert($("#btnMoveDown").length);
+
+            $("#btnMoveUp").click(function () {
+                var searchPhraseId = $(this).data("id");
+                var url = '@Url.Action("MoveUp", "SearchPhrase")/' + searchPhraseId;
+                $.ajax({
+                    url: url,
+                    success: function() {
+                        window.location.reload(true);
+                    },
+                    error: function() {
+                        alert("Error changing sort order");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/x-www-form-urlencoded, charset=utf-8'
+                });
+            });
+
+            $("#btnMoveDown").click(function () {
+                var searchPhraseId = $(this).data("id");
+                var url = '@Url.Action("MoveDown", "SearchPhrase")/' + searchPhraseId;
+                $.ajax({
+                    url: url,
+                    success: function() {
+                        window.location.reload(true);
+                    },
+                    error: function() {
+                        alert("Error changing sort order");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/x-www-form-urlencoded, charset=utf-8'
+                });
+            });
+        });
+
+</script>
+

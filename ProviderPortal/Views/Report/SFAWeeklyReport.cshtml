@@ -1,0 +1,735 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.SFAWeeklyReportViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "SFA Additional Report");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "SFA Additional Report")</h2>
+<hr/>
+@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", "<p>The table below is part of the MI reporting. Use the 'Search' box to filter the table, and the arrows at the top of the columns to sort it. Use the buttons on the top right of the table to copy to your clipboard, save in comma separated values (CSV) format, save in Microsoft Excel format or print. </p>"))
+
+<table class="dataTable dt-responsive table table-striped table-bordered" data-ajax="@Url.Action("SFAWeeklyReportJson")" data-created-row="rowCreated">
+    <thead>
+        <tr>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().NumberOfProvidersWithSuperusers)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().UpdatedAtLeast1Opportunity)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().BulkUploadOpportunities)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().BulkUploadOpportunitiesLast7Days)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().ManualOpportunities)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().ManualOpportunitiesLast7Days)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().NotUpdatedInLastYear)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().UpdatedInLast7Days)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().UpdatedBetween8and30Days)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().UpdatedBetween31and60Days)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().UpdatedBetween61and90Days)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().UpdatedMoreThan90Days)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().NumberOfCourses)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().NumberOfLiveCourses)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().NumberOfOpportunities)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().NumberOfLiveOpportunities)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().NumberOfInScopeCourses)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().NumberOfOutOfScopeCourses)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().NumberOfInScopeOpportunities)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().NumberOfOutOfScopeOpportunities)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().NumberOfProvidersWithNoCourses)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().NumberOfType1Courses)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().NumberOfType2Courses)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().NumberOfType3Courses)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1010)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1021)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1022)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1025)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1035)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1045)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1046)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1070)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1080)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1081)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1082)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A1099)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().A10NA)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().StudyModeFlexible)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().StudyModeFullTime)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().StudyModeNotKnown)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().StudyModePartOfFullTimeProgramme)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().StudyModePartTime)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().AttendanceModeDistanceWithAttendance)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().AttendanceModeDistanceWithoutAttendance)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().AttendanceModeFaceToFace)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().AttendanceModeLocation)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().AttendanceModeMixed)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().AttendanceModeNotKnown)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().AttendanceModeOnlineWithAttendance)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().AttendanceModeOnlineWithoutAttendance)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().AttendanceModeWorkBased)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().AttendancePatternCustomised)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().AttendancePatternDayRelease)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().AttendancePatternDaytime)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().AttendancePatternEvening)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().AttendancePatternNotApplicable)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().AttendancePatternNotKnown)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().AttendancePatternTwilight)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().AttendancePatternWeekend)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().Duration1Week)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().Duration1To4Weeks)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().Duration1To3Months)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().Duration3To6Months)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().Duration6To12Months)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().Duration1To2Years)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().DurationNotKnown)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualType14To19Diploma)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualTypeAccessToHigher)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualTypeApprenticeship)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualTypeBasicSkill)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualTypeCertificateOfAttendance)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualTypeCourseProviderCertificate)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualTypeExternalAward)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualTypeFoundationDegree)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualTypeFunctionalSkills)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualTypeGCE)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualTypeGSCE)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualTypeHND)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualTypeBaccalaureate)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualTypeNoQualification)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualTypeNVQ)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualTypeOtherAccredited)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualTypePostgraduate)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualTypeProfessionalOrIndustrySpecific)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualTypeUndergraduate)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualLevelEntry)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualLevelHigher)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualLevel1)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualLevel2)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualLevel3)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualLevel4)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualLevel5)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualLevel6)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualLevel7)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualLevel8)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualLevelUnknown)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().ProvidersWithSuperusersUpdatedInLastMonth)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().ProvidersWithSuperusersUpdatedBetween2and3Months)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().ProvidersWithSuperusersUpdatedMoreThan3Months)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().ProvidersWithLoggedInUsersNotUpdatedSince01Aug2010)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().TrafficLightGreen)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().TrafficLightAmber)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().TrafficLightRed)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualityVeryGood)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualityGood)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualityAverage)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualityPoor)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualityPoorAndAverage)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().QualityGoodAndVeryGood)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().AverageScore)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().TotalUserSessions)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderPortalUserSessions)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().SecureAccessUserSessions)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().PublishedProviders)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().UnpublishedProviders)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.NumberOfProvidersWithSuperusers)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.UpdatedAtLeast1Opportunity)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.BulkUploadOpportunities)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.BulkUploadOpportunitiesLast7Days)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ManualOpportunities)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ManualOpportunitiesLast7Days)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NotUpdatedInLastYear)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.UpdatedInLast7Days)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.UpdatedBetween8and30Days)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.UpdatedBetween31and60Days)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.UpdatedBetween61and90Days)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.UpdatedMoreThan90Days)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NumberOfCourses)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NumberOfLiveCourses)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NumberOfOpportunities)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NumberOfLiveOpportunities)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NumberOfInScopeCourses)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NumberOfOutOfScopeCourses)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NumberOfInScopeOpportunities)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NumberOfOutOfScopeOpportunities)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NumberOfProvidersWithNoCourses)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NumberOfType1Courses)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NumberOfType2Courses)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NumberOfType3Courses)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.A1010)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.A1021)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.A1022)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.A1025)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.A1035)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.A1045)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.A1046)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.A1070)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.A1080)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.A1081)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.A1082)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.A1099)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.A10NA)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.StudyModeFlexible)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.StudyModeFullTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.StudyModeNotKnown)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.StudyModePartOfFullTimeProgramme)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.StudyModePartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AttendanceModeDistanceWithAttendance)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AttendanceModeDistanceWithoutAttendance)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AttendanceModeFaceToFace)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AttendanceModeLocation)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AttendanceModeMixed)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AttendanceModeNotKnown)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AttendanceModeOnlineWithAttendance)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AttendanceModeOnlineWithoutAttendance)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AttendanceModeWorkBased)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AttendancePatternCustomised)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AttendancePatternDayRelease)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AttendancePatternDaytime)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AttendancePatternEvening)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AttendancePatternNotApplicable)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AttendancePatternNotKnown)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AttendancePatternTwilight)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AttendancePatternWeekend)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Duration1Week)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Duration1To4Weeks)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Duration1To3Months)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Duration3To6Months)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Duration6To12Months)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Duration1To2Years)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.DurationNotKnown)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualType14To19Diploma)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualTypeAccessToHigher)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualTypeApprenticeship)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualTypeBasicSkill)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualTypeCertificateOfAttendance)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualTypeCourseProviderCertificate)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualTypeExternalAward)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualTypeFoundationDegree)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualTypeFunctionalSkills)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualTypeGCE)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualTypeGSCE)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualTypeHND)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualTypeBaccalaureate)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualTypeNoQualification)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualTypeNVQ)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualTypeOtherAccredited)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualTypePostgraduate)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualTypeProfessionalOrIndustrySpecific)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualTypeUndergraduate)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualLevelEntry)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualLevelHigher)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualLevel1)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualLevel2)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualLevel3)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualLevel4)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualLevel5)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualLevel6)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualLevel7)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualLevel8)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualLevelUnknown)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ProvidersWithSuperusersUpdatedInLastMonth)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ProvidersWithSuperusersUpdatedBetween2and3Months)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ProvidersWithSuperusersUpdatedMoreThan3Months)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ProvidersWithLoggedInUsersNotUpdatedSince01Aug2010)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.TrafficLightGreen)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.TrafficLightAmber)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.TrafficLightRed)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualityVeryGood)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualityGood)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualityAverage)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualityPoor)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualityPoorAndAverage)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualityGoodAndVeryGood)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AverageScore)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.TotalUserSessions)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ProviderPortalUserSessions)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.SecureAccessUserSessions)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.PublishedProviders)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.UnpublishedProviders)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    
+    <script type="text/javascript">
+
+        @*        
+        var quality = {};
+        quality["@QualityIndicator.GetQualityText(1, false)"] = '@QualityIndicator.GetQualityBackground(1)';
+        quality["@QualityIndicator.GetQualityText(2, false)"] = '@QualityIndicator.GetQualityBackground(2)';
+        quality["@QualityIndicator.GetQualityText(3, false)"] = '@QualityIndicator.GetQualityBackground(3)';
+        quality["@QualityIndicator.GetQualityText(4, false)"] = '@QualityIndicator.GetQualityBackground(4)';
+
+        var ratingColPosition = 21;
+        *@
+
+        function rowCreated(row, data, index) {
+            //$("td:nth-child(" + ratingColPosition + ")", row).addClass(quality[data[ratingColPosition - 1]]);
+
+            $("td", row).addClass("alignRight");
+        }
+
+    </script>
+}

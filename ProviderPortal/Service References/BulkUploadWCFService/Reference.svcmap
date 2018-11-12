@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="12ca74fc-83ef-4b22-b0d3-5ba41716996d" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>false</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.tcp://localhost:8088/BulkUploadWCFService/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="BulkUpload.wsdl" MetadataType="Wsdl" ID="49f1cbb0-292e-485a-a1c2-9f38c7ca0692" SourceId="1" SourceUrl="net.tcp://localhost:8088/BulkUploadWCFService/mex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="2e5d7b27-b9aa-45eb-b2c9-c69e97c480df" SourceId="1" SourceUrl="net.tcp://localhost:8088/BulkUploadWCFService/mex" />
+    <MetadataFile FileName="BulkUpload.xsd" MetadataType="Schema" ID="3aa9a160-957a-42e7-8ec8-d5aab5229123" SourceId="1" SourceUrl="net.tcp://localhost:8088/BulkUploadWCFService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="47f65ef6-5966-4cfa-b2de-9bdbc7d074e5" SourceId="1" SourceUrl="net.tcp://localhost:8088/BulkUploadWCFService/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="5e076cf0-7697-44bb-b627-34c371513529" SourceId="1" SourceUrl="net.tcp://localhost:8088/BulkUploadWCFService/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

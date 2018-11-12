@@ -1,0 +1,201 @@
+﻿<script type="text/javascript">
+
+    $(function() {
+
+        var startMonthOpen = false;
+
+        // Add the data-typeahead-name attribute to the language pickers 
+        $(".language-typeahead").each(function() {
+            $(this).attr("data-typeahead-name", $(this).attr("id"));
+        });
+
+        $("label[for=A10FundingCodes],label[for=Duration],label[for=StartDate],label[for=EndDate],label[for=Price]").append(' <span class="required" aria-required="true">*</span>');
+
+        // When Venue is selected ensure that Region is cleared
+        $("#VenueId").focusout(function() {
+            if ($(this).val() != "") {
+                $("#RegionId").val("");
+                $("#RegionName").val("");
+            }
+        });
+
+        // When Region is selected ensure then Venue is cleared
+        $("#RegionName").focusout(function () {
+            if ($(this).val() != "") {
+                $("#VenueId").val("");
+            }
+        });
+
+        $('#imgStartDate').click(function () {
+            $('#StartDate').focus();
+        });
+
+        var startDateVal = "";
+        $('#StartDate')
+            .multiDatesPicker({
+                separator: ",",
+                dateFormat: "dd/mm/yy",
+                minDate: 0,
+                maxDate: @((DateTime.Today.AddYears(2) - DateTime.Today).TotalDays),
+                value: $('#StartDate').val()
+            })
+            // Ensure that the multi-date picker stays synced with the text box when the text box is manually updated
+            .keydown(function(event) {
+                if (event.keyCode == 188) {
+                    var cursorPos = getCursorPosition($(this));
+                    var val = $(this).val();
+                    val = val.substr(0, cursorPos) + ',' + val.substr(cursorPos);
+                    $(this).val(val);
+                    setCaretPosition($(this).attr("id"), cursorPos + 1);
+                }
+                startDateVal = $(this).val();
+            })
+            .keyup(function() {
+                if ($(this).val() == startDateVal) {
+                    return;
+                }
+                fixDatePicker($(this));
+            })
+            // For browsers that have a x to clear the box bind the mouseup event and see if the value is cleared
+            .mouseup(function() {
+                var $input = $(this);
+                var oldValue = $input.val();
+
+                if (oldValue == "") {
+                    return;
+                }
+
+                // When this event is fired after clicking on the clear button
+                // the value is not cleared yet. We have to wait for it.
+                setTimeout(function() {
+                    var newValue = $input.val();
+                    if (newValue == "") {
+                        fixDatePicker($(this));
+                    }
+                }, 1);
+            });
+
+        function fixDatePicker(jQueryItem) {
+            var currentVal = jQueryItem.val();
+            var cursorPos = getCursorPosition(jQueryItem);
+            jQueryItem.multiDatesPicker('resetDates', 'picked');
+            jQueryItem.val(currentVal);
+            setCaretPosition(jQueryItem.attr("id"), cursorPos);
+            jQueryItem.multiDatesPicker('value', currentVal);
+        }
+
+        function getCursorPosition(jqueryItem) {
+            var input = jqueryItem.get(0);
+            if (!input) {
+                return -1; // No (input) element found
+            }
+            if ('selectionStart' in input) {
+                // Standard-compliant browsers
+                return input.selectionStart;
+            } else if (document.selection) {
+                // IE
+                input.focus();
+                var sel = document.selection.createRange();
+                var selLen = document.selection.createRange().text.length;
+                sel.moveStart('character', -input.value.length);
+                $("#sel").html(sel);
+                $("#selLen").html(selLen);
+                return sel.text.length - selLen;
+            }
+            return -1;
+        }
+
+        function setCaretPosition(elemId, caretPos) {
+            var elem = document.getElementById(elemId);
+
+            if (elem != null) {
+                if (elem.createTextRange) {
+                    var range = elem.createTextRange();
+                    range.move('character', caretPos);
+                    range.select();
+                }
+                else {
+                    if (elem.selectionStart) {
+                        elem.focus();
+                        elem.setSelectionRange(caretPos, caretPos);
+                    }
+                    else
+                        elem.focus();
+                }
+            }
+        }
+
+        function showHideBothSearched() {
+            if ($("#OfferedById").val() == $("#DisplayId").val()) {
+                $("#divBothSearched").slideUp("fast");
+            } else {
+                $("#divBothSearched").slideDown("fast");
+            }
+        }
+
+        $("#imgStartMonth").click(function () {
+            if (startMonthOpen) {
+                $("#divStartMonth").fadeOut(350);
+                startMonthOpen = false;
+            } else {
+                $("#divStartMonth").fadeIn("slow");
+                startMonthOpen = true;
+            }
+        });
+
+        $("#aStartMonthClose").click(function (e) {
+            e.preventDefault();
+            $("#divStartMonth").fadeOut(350);
+        });
+
+        // When checkboxes are (un)ticked, update Start Month
+        $(":checkbox[id^='StartMonth_']").change(function () {
+            var startMonth = $("#StartMonth");
+            startMonth.val("");
+            $(":checkbox[id^='StartMonth_']:checked").each(function () {
+                if (startMonth.val().length != 0) {
+                    startMonth.val(startMonth.val() + ",");
+                }
+                startMonth.val(startMonth.val() + $(this).val());
+            });
+        });
+
+        // When Start Month is manually changed, ensure that tick boxes are ticked
+        $("#StartMonth").keyup(function() {
+            $(":checkbox[id^='StartMonth_']").prop("checked", false);
+            $.each($("#StartMonth").val().split(","), function (index, value) {
+                var selectedMonth = $("label[id^='lblStartMonth_']").filter(function () {
+                    return $(this).text().toLowerCase() == value.toLocaleLowerCase();
+                });
+                $("#" + selectedMonth.attr("for")).prop("checked", true);
+            });
+        });
+
+        // For browsers that have a x to clear the box bind the mouseup event and see if the value is cleared
+        $("#StartMonth").mouseup(function () {
+            var $input = $(this);
+            var oldValue = $input.val();
+
+            if (oldValue == "") {
+                return;
+            }
+
+            // When this event is fired after clicking on the clear button
+            // the value is not cleared yet. We have to wait for it.
+            setTimeout(function () {
+                var newValue = $input.val();
+                if (newValue == "") {
+                    $(":checkbox[id^='StartMonth_']").prop("checked", false);
+                }
+            }, 1);
+        });
+
+        $("#OfferedById, #DisplayId").change(function () {
+            showHideBothSearched();
+        });
+
+        showHideBothSearched();
+    });
+
+</script>
+

@@ -1,0 +1,20 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Models
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ImportBatchesViewModelItem
+
+@Html.HiddenFor(m => m.ImportBatchId)
+
+<div class="form-group">
+    @Html.LanguageLabelFor(m => m.ImportBatchName, new{@class = "control-label col-md-2"})
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.ImportBatchName, new {@class = "form-control"})
+        @Html.ValidationMessageFor(m => m.ImportBatchName)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LanguageLabelFor(m => m.Current, new {@class = "control-label col-md-2"})
+    <div class="col-md-10">
+        @Html.CheckBoxFor(m => m.Current)
+        @Html.ValidationMessageFor(m => m.Current)
+    </div>
+</div>

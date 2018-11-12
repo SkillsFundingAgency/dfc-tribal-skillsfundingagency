@@ -1,0 +1,70 @@
+﻿<script type="text/javascript">
+
+
+    $(document).ready(function () {
+
+        $('#upload-area-trigger').click(function () {
+            $('#uploadFileModal').modal('toggle');
+        });
+
+        $('#create-folder-area-trigger').click(function () {
+            $('#createFolderModal').modal('toggle');
+        });
+
+        $('#NewFolderName').datepicker({
+            dateFormat: 'd MM yy'
+        });
+
+        $('a.delete-link').on('click', function () {
+            var link = $(this);
+            var itemType = link.data('item');
+            var confirmationAction = link.data('action');
+            var folderName = link.data('folder');
+
+            var title, message, messageTemplate, cancelLabel, confirmLabel;
+            switch (itemType) {
+                case 'folder':
+                    messageTemplate = '@AppGlobal.Language.GetText(this, "DeleteFolderConfirmationMessage", "Delete folder {0}?")';
+                    title = '@AppGlobal.Language.GetText(this, "DeleteFolderConfirmationTitle", "Confirm")';
+                    message = messageTemplate.replace('{0}', folderName);
+                    cancelLabel = '@AppGlobal.Language.GetText(this, "DeleteFolderCancel", "Cancel")';
+                    confirmLabel = '@AppGlobal.Language.GetText(this, "DeleteFolderConfirm", "Delete Folder")';
+                    break;
+                case 'file':
+                    var fileName = link.data('file');
+                    messageTemplate = '@AppGlobal.Language.GetText(this, "DeleteFileConfirmationMessage", "Delete file {0} from folder {1}?")';
+                    message = messageTemplate
+                        .replace('{0}', fileName)
+                        .replace('{1}', folderName);
+                    title = '@AppGlobal.Language.GetText(this, "DeleteFileConfirmationTitle", "Confirm")';
+                    cancelLabel = '@AppGlobal.Language.GetText(this, "DeleteFileCancel", "Cancel")';
+                    confirmLabel = '@AppGlobal.Language.GetText(this, "DeleteFileConfirm", "Delete File")';
+                    break;
+                default:
+                    return;
+            }
+            BootstrapDialog.show({
+                title: title,
+                message: message,
+                nl2br: false,
+                buttons: [
+                    {
+                        label: cancelLabel,
+                        cssClass: 'btn-warning',
+                        action: function (dialog) {
+                            dialog.close();
+                        }
+                    },
+                    {
+                        label: confirmLabel,
+                        cssClass: 'btn-success',
+                        action: function () {
+                            window.location = confirmationAction;
+                        }
+                    }
+                ]
+            });
+        });
+    });
+
+</script>

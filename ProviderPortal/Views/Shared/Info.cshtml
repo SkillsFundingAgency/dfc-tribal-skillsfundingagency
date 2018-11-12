@@ -1,0 +1,17 @@
+﻿@{
+   ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Information");
+}
+
+<h2 class="text-info">@AppGlobal.Language.GetText(this, "Header", "Information")</h2>
+@if (!String.IsNullOrEmpty(ViewBag.Message))
+{
+    <h3 class="text-info">@ViewBag.Message</h3>
+}
+else if (!String.IsNullOrEmpty(ViewBag.MessageHtml))
+{
+    <h3 class="text-info">@Html.Raw(ViewBag.MessageHtml)</h3>
+}
+@if (!String.IsNullOrEmpty(ViewBag.ButtonText) && !String.IsNullOrEmpty(ViewBag.ButtonUrl))
+{
+    <a href="@ViewBag.ButtonUrl" class="btn btn-default">@ViewBag.ButtonText</a>
+}

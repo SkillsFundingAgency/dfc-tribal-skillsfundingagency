@@ -1,0 +1,281 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Areas.Api.Models
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditCourseModel
+
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Add New Course");
+}
+
+<h2 class="courses">@AppGlobal.Language.GetText(this, "Header", "Add New Course")</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.LearningAimQualificationTypeId);
+
+    <div class="form-horizontal">
+        <h4>@AppGlobal.Language.GetText(this, "SubHeader", "")</h4>
+        <hr />
+        @Html.EditableDataValidationSummary(false)
+        
+        @Html.RequiredFields(new {@class = "col-md-offset-2"}) 
+        
+        <div class="col-md-offset-2">
+            <a href="#" id="addRemoveLAR">&nbsp;</a>
+        </div>
+        
+        <div class="LearningAimField" style="@(String.IsNullOrEmpty(Model.LearningAimId) ? "display: none" : "")">
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.LearningAimId, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LearningAimId, new {htmlAttributes = new {@class = "form-control", @readonly = "readonly"}})
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.Qualification, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Qualification, new {htmlAttributes = new {@class = "form-control", @readonly = "readonly"}})
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.CourseTitle, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CourseTitle, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.CourseTitle)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.ProviderOwnCourseRef, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProviderOwnCourseRef, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.ProviderOwnCourseRef)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.CourseSummary, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CourseSummary, new {htmlAttributes = new {@class = "form-control character-count"}})
+                @Html.ValidationMessageFor(model => model.CourseSummary)
+            </div>
+        </div>
+
+        <div class="NonLearningAimFieldQT" style="@(Model.LearningAimQualificationTypeId.HasValue ? "display: none;" : "")">
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.QualificationTypeId, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.QualificationTypeId, (SelectList) ViewBag.QualificationTypes, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.QualificationTypeId)
+                </div>
+            </div>
+        </div>
+        
+        <div class="NonLearningAimField" style="@(!String.IsNullOrEmpty(Model.LearningAimId) ? "display: none;" : "")">
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.WhenNoLarQualificationTitle, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.WhenNoLarQualificationTitle, new {htmlAttributes = new {@class = "form-control qualificationtitle-typeahead" }})
+                    @Html.ValidationMessageFor(model => model.WhenNoLarQualificationTitle)
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.QualificationLevelId, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.QualificationLevelId, (SelectList) ViewBag.QualificationLevels, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new {@class = "form-control"})
+                @Html.ValidationMessageFor(model => model.QualificationLevelId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.Url, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Url, new { htmlAttributes = new {@class = "form-control", data_url = "true" } })
+                @Html.ValidationMessageFor(model => model.Url)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.EntryRequirements, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EntryRequirements, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.EntryRequirements)
+            </div>
+        </div>
+        
+        <div class="NonLearningAimField" style="@(!String.IsNullOrEmpty(Model.LearningAimId) ? "display: none;" : "")">
+            <div id="divLearnDirectClassification_1" class="form-group">
+                @Html.LanguageLabelFor(model => model.LearnDirectClassificationId1, new {@class = "control-label col-md-2"})
+                <div class="col-md-8">
+                    @Html.HiddenFor(model => model.LearnDirectClassificationId1)
+                    @Html.EditorFor(model => model.LearnDirectClassification_1, new {htmlAttributes = new {@class = "form-control learndirectclassification-typeahead"}})
+                </div>
+                <div class="col-md-2" style="margin-top: 7px;">
+                    <a href="#" id="aClearLearnDirectClassificationId_1">@AppGlobal.Language.GetText(this, "Clear", "Clear")</a>
+                </div>
+                <div class="col-md-10">
+                    @Html.ValidationMessageFor(model => model.LearnDirectClassificationId1)
+                </div>
+            </div>
+
+            <div id="divLearnDirectClassification_2" class="form-group" style="@(String.IsNullOrEmpty(Model.LearnDirectClassificationId2) ? "display: none;" : "")">
+                @Html.LanguageLabelFor(model => model.LearnDirectClassificationId2, new {@class = "control-label col-md-2"})
+                <div class="col-md-8">
+                    @Html.HiddenFor(model => model.LearnDirectClassificationId2)
+                    @Html.EditorFor(model => model.LearnDirectClassification_2, new {htmlAttributes = new {@class = "form-control learndirectclassification-typeahead"}})
+                </div>
+                <div class="col-md-2" style="margin-top: 7px;">
+                    <a href="#" id="aClearLearnDirectClassificationId_2">@AppGlobal.Language.GetText(this, "Clear", "Clear")</a>
+                </div>
+                <div class="col-md-10">
+                    @Html.ValidationMessageFor(model => model.LearnDirectClassificationId2)
+                </div>
+            </div>
+
+            <div id="divLearnDirectClassification_3" class="form-group" style="@(String.IsNullOrEmpty(Model.LearnDirectClassificationId3) ? "display: none;" : "")">
+                @Html.LanguageLabelFor(model => model.LearnDirectClassificationId3, new {@class = "control-label col-md-2"})
+                <div class="col-md-8">
+                    @Html.HiddenFor(model => model.LearnDirectClassificationId3)
+                    @Html.EditorFor(model => model.LearnDirectClassification_3, new {htmlAttributes = new {@class = "form-control learndirectclassification-typeahead"}})
+                </div>
+                <div class="col-md-2" style="margin-top: 7px;">
+                    <a href="#" id="aClearLearnDirectClassificationId_3">@AppGlobal.Language.GetText(this, "Clear", "Clear")</a>
+                </div>
+                <div class="col-md-10">
+                    @Html.ValidationMessageFor(model => model.LearnDirectClassificationId3)
+                </div>
+            </div>
+
+            <div id="divLearnDirectClassification_4" class="form-group" style="@(String.IsNullOrEmpty(Model.LearnDirectClassificationId4) ? "display: none;" : "")">
+                @Html.LanguageLabelFor(model => model.LearnDirectClassificationId4, new {@class = "control-label col-md-2"})
+                <div class="col-md-8">
+                    @Html.HiddenFor(model => model.LearnDirectClassificationId4)
+                    @Html.EditorFor(model => model.LearnDirectClassification_4, new {htmlAttributes = new {@class = "form-control learndirectclassification-typeahead"}})
+                </div>
+                <div class="col-md-2" style="margin-top: 7px;">
+                    <a href="#" id="aClearLearnDirectClassificationId_4">@AppGlobal.Language.GetText(this, "Clear", "Clear")</a>
+                </div>
+                <div class="col-md-10">
+                    @Html.ValidationMessageFor(model => model.LearnDirectClassificationId4)
+                </div>
+            </div>
+
+            <div id="divLearnDirectClassification_5" class="form-group" style="@(String.IsNullOrEmpty(Model.LearnDirectClassificationId5) ? "display: none;" : "")">
+                @Html.LanguageLabelFor(model => model.LearnDirectClassificationId5, new {@class = "control-label col-md-2"})
+                <div class="col-md-8">
+                    @Html.HiddenFor(model => model.LearnDirectClassificationId5)
+                    @Html.EditorFor(model => model.LearnDirectClassification_5, new {htmlAttributes = new {@class = "form-control learndirectclassification-typeahead"}})
+                </div>
+                <div class="col-md-2" style="margin-top: 7px;">
+                    <a href="#" id="aClearLearnDirectClassificationId_5">@AppGlobal.Language.GetText(this, "Clear", "Clear")</a>
+                </div>
+                <div class="col-md-10">
+                    @Html.ValidationMessageFor(model => model.LearnDirectClassificationId5)
+                </div>
+            </div>
+
+            <div id="divAddLearnDirectClassificationId" class="col-md-10 col-md-offset-2" style="margin-bottom: 10px; @(!String.IsNullOrEmpty(Model.LearnDirectClassificationId5) ? "display: none;" : "")">
+                <a id="addLearnDirectClassificationId" href="#">@AppGlobal.Language.GetText(this, "AddAnotherClassification", "Add Another Classification")</a>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.BookingUrl, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BookingUrl, new {htmlAttributes = new {@class = "form-control", data_url = "true" }})
+                @Html.ValidationMessageFor(model => model.BookingUrl)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.AssessmentMethod, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AssessmentMethod, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.AssessmentMethod)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.EquipmentRequired, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EquipmentRequired, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.EquipmentRequired)
+            </div>
+        </div>
+
+        <div class="NonLearningAimField" style="@(!String.IsNullOrEmpty(Model.LearningAimId) ? "display: none" : "")">
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.AwardingOrganisation, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.AwardingOrganisation, new {htmlAttributes = new {@class = "form-control awardingorganisation-typeahead" }})
+                    @Html.ValidationMessageFor(model => model.AwardingOrganisation)
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.UcasTariffPoints, new {@class = "control-label col-md-2"})
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.UcasTariffPoints, new {htmlAttributes = new {@class = "form-control", min = "0"}})
+                @Html.ValidationMessageFor(model => model.UcasTariffPoints)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @*<input name="Create" type="submit" value="@AppGlobal.Language.GetText(this, "Submit", "Create")" class="btn btn-success" />*@
+                <input name="CreateAndAdd" type="submit" value="@AppGlobal.Language.GetText(this, "CreateAndAddOpportunity", "Create and Add Opportunity")" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    @Html.Partial("_AddEditCourseScripts")
+
+    @Html.Partial("_TypeaheadPartial", new TypeaheadViewModel
+    {
+        JQuerySelector = ".learndirectclassification-typeahead",
+        SearchFields = new[] {"LearnDirectClassificationRef", "LearnDirectClassSystemCodeDesc"},
+        PrefetchUrl = "/api/typeahead/LearnDirectClassifications",
+        ClearPrefetchCache = true, /*For debugging*/
+        UseAttributeForName = true,
+        DisplayKey = "LearnDirectClassSystemCodeDesc",
+        ValueKey = "LearnDirectClassificationRef",
+        EmptyMessage = AppGlobal.Language.GetText(this, "NoMatchedLearnDirectClassification", "Unable to find any Learn Direct classifications that match your current query."),
+        Suggestion = "function(a){return '<p>' + a.LearnDirectClassSystemCodeDesc + '</p>';}"
+    })
+
+    @Html.Partial("_TypeaheadPartial", new TypeaheadViewModel
+    {
+        JQuerySelector = ".awardingorganisation-typeahead",
+        SearchFields = new[] {"LearningAimAwardOrgCode", "AwardOrgName"},
+        PrefetchUrl = "/api/typeahead/AwardingOrganisations",
+        ClearPrefetchCache = true, /*For debugging*/
+        Name = "AwardingOrganisation",
+        DisplayKey = "AwardOrgName",
+        ValueKey = "AwardOrgName",
+        HideEmptyMessage = true,
+        Suggestion = "function(a){return '<p>' + a.AwardOrgName + ' (' + a.LearningAimAwardOrgCode + ')</p>';}"
+    })
+
+    @Html.Partial("_TypeaheadPartial", new TypeaheadViewModel
+    {
+        JQuerySelector = ".qualificationtitle-typeahead",
+        SearchFields = new[] {"QualificationTitle"},
+        PrefetchUrl = "/api/typeahead/QualificationTitles",
+        ClearPrefetchCache = true, /*For debugging*/
+        Name = "WhenNoLarQualificationTitle",
+        DisplayKey = "QualificationTitle",
+        ValueKey = "QualificationTitle",
+        HideEmptyMessage = true,
+        Suggestion = "function(a){return '<p>' + a.QualificationTitle + '</p>';}"
+    })
+}

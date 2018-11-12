@@ -1,0 +1,108 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Entities
+@using Permission = Tribal.SkillsFundingAgency.ProviderPortal.Permission
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditDeliveryLocationViewModel
+
+@using (Html.BeginForm())
+{
+    const int recordStatusDeleted = (int) Constants.RecordStatus.Deleted;
+
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.ApprenticeshipLocationId)
+    @Html.HiddenFor(model => model.ApprenticeshipId)
+    @Html.HiddenFor(model => model.ProviderId)
+    @Html.HiddenFor(model => model.RecordStatusId)
+
+    <div class="form-horizontal">
+        <h4>@AppGlobal.Language.GetText(this, "SubHeader", "")</h4>
+        <hr />
+        @Html.EditableDataValidationSummary(false)
+        
+        @if (Model.ApprenticeshipId != 0)
+        {
+            if (Model.RecordStatusId == (Int32) Constants.RecordStatus.Archived)
+            {
+                <div class="col-md-offset-2 warning">
+                    @Html.Raw(AppGlobal.Language.GetText(this, "ApprenticeshipLocationArchivedWarning", "<strong>Warning:</strong> this delivery location is currently <strong>ARCHIVED</strong>."))
+                </div>
+            }
+            if (Model.RecordStatusId == (Int32) Constants.RecordStatus.Pending)
+            {
+                <div class="col-md-offset-2 warning">
+                    @Html.Raw(AppGlobal.Language.GetText(this, "ApprenticeshipLocationPendingWarning", "<strong>Warning:</strong> this delivery location is currently <strong>PENDING</strong>."))
+                </div>
+            }
+        }
+
+        @Html.RequiredFields(new {@class = "col-md-offset-2"}) 
+        
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.ApprenticeshipName, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.ApprenticeshipName, new {@class = "form-control", disabled = "disabled"})
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.LocationId, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.LocationId, Model.Locations, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new {@class = "form-control"})
+                @Html.ValidationMessageFor(model => model.LocationId)
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-12">
+                <a href="#" id="AddLocationDialog" class="pull-right">@AppGlobal.Language.GetText(this, "CreateNewLocation", "Create New Location")</a>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.Radius, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Radius, new {@class = "form-control col-md-4", min = "1", max = "874", step="1", type="number"})
+                @Html.ValidationMessageFor(model => model.Radius)
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.DeliveryModes, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @foreach (DeliveryMode dm in Model.DeliveryModes.OrderBy(x => x.DeliveryModeName))
+                {
+                    <div class="col-md-12">
+                        <input id="@dm.DeliveryModeId" title="@(String.Format("{0} - {1}", dm.BulkUploadRef, dm.DeliveryModeDescription))" type="checkbox" name="SelectedDeliveryModes" @((dm.RecordStatusId == recordStatusDeleted && !Model.SelectedDeliveryModes.Contains(dm.DeliveryModeId)) ? "disabled=\"disabled\"" : "") value="@dm.DeliveryModeId" @(Model.SelectedDeliveryModes.Contains(dm.DeliveryModeId) ? "checked" : "") />
+                        <label for="@dm.DeliveryModeId" title="@(String.Format("{0} - {1}", dm.BulkUploadRef, dm.DeliveryModeDescription))" @((dm.RecordStatusId == recordStatusDeleted && !Model.SelectedDeliveryModes.Contains(dm.DeliveryModeId)) ? "class=greyout" : "")  style="font-weight: normal;">@dm.DeliveryModeName</label>
+                    </div>
+                }
+                @Html.ValidationMessageFor(model => model.DeliveryModes)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @if (Model.ApprenticeshipLocationId == 0)
+                {
+                    <input name="Create" type="submit" value="@AppGlobal.Language.GetText(this, "Create", "Create")" class="btn btn-success" />
+                    <input name="CreateAndAdd" type="submit" value="@AppGlobal.Language.GetText(this, "CreateAndAddDeliveryLocation", "Create and Add Another Delivery Location")" class="btn btn-success" />
+                }
+                else
+                {
+                    <input name="Edit" type="submit" value="@AppGlobal.Language.GetText(this, "Edit", "Save")" class="btn btn-success" />
+                    if (Model.RecordStatusId != (Int32)Constants.RecordStatus.Archived) 
+                    {
+                        <input id="btnArchive" type="button" name="Archive" value="@AppGlobal.Language.GetText(this, "Archive", "Archive")" class="btn btn-default" />
+                    }
+                    else
+                    {
+                        <input id="btnUnarchive" type="button" name="Unarchive" value="@AppGlobal.Language.GetText(this, "Unarchive", "Unarchive")" class="btn btn-default" />
+                    }
+                    if (Permission.HasPermission(false, false, Permission.PermissionName.CanDeleteProviderApprenticeship))
+                    {
+                        <input id="btnDelete" type="button" name="Delete" value="@AppGlobal.Language.GetText(this, "Delete", "Delete")" class="btn btn-default" />
+                    }
+                }
+            </div>
+        </div>
+    </div>
+}

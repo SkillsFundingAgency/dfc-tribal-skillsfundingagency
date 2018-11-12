@@ -1,0 +1,215 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditApprenticeshipViewModel
+@using Tribal.SkillsFundingAgency.ProviderPortal.Areas.Api.Models
+@Scripts.Render("~/bundles/jqueryval")
+@Html.Partial("_TypeaheadPartial", new TypeaheadViewModel
+{
+    JQuerySelector = "#FrameworkOrStandard",
+    SearchFields = new[] { "Name" },
+    PrefetchUrl = "/api/typeahead/standardsandframeworks",
+    ClearPrefetchCache = true, /*For debugging*/
+    //RemoteUrl = "/api/typeahead/providers/%QUERY",
+    Name = "FrameworkOrStandardId",
+    DisplayKey = "Name",
+    ValueKey = "Id",
+    EmptyMessage = AppGlobal.Language.GetText(this, "NoMatchedItems", "Unable to find any frameworks or standard codes that match your current query."),
+    Suggestion = "function(a){return '<p>' + a.Name + '</p>';}",
+    //OnSelect = "$('#Url').val(datum.Url);",
+    //OnChange = "$('#FrameworkOrStandardId').val('');"
+    OnSelect= "RefreshRegulatedMessage();",
+    SuggestionLimit = 999
+})
+@if (Model.ApprenticeshipId != 0)
+{
+    <script>
+
+        $(document).ready(function() {
+
+            $("#btnArchive").click(function() {
+                if (confirm('@AppGlobal.Language.GetText(this, "ArchiveApprenticeshipWarning", "Are you sure you would like to archive this apprenticeship?")') === false) {
+                    return;
+                }
+                var url = '@Url.Action("Archive", "Apprenticeship", new {Id = @Model.ApprenticeshipId})';
+                $.ajax({
+                    url: url,
+                    success: function() {
+                        window.location.reload(true);
+                    },
+                    error: function() {
+                        alert("Error archiving apprenticeship");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/x-www-form-urlencoded, charset=utf-8'
+                });
+            });
+
+            $("#btnUnarchive").click(function () {
+                var url = '@Url.Action("Unarchive", "Apprenticeship", new { Id = @Model.ApprenticeshipId })';
+
+                $.ajax({
+                    url: url,
+                    success: function() {
+                        window.location.reload(true);
+                    },
+                    error: function() {
+                        alert("Error unarchiving apprenticeship");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/x-www-form-urlencoded, charset=utf-8'
+                });
+            });
+
+            $("#btnDelete").click(function() {
+                if (confirm('@AppGlobal.Language.GetText(this, "DeleteApprenticeshipWarning", "Are you sure you would like to delete this apprenticeship and any delivery locations attached to it?")') === false) {
+                    return;
+                }
+                var url = '@Url.Action("Delete", "Apprenticeship", new {Id = @Model.ApprenticeshipId})';
+                $.ajax({
+                    url: url,
+                    success: function() {
+                        window.location.replace("@Url.Action("List", "Apprenticeship")");
+                    },
+                    error: function() {
+                        alert("Error deleting apprenticeship");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/x-www-form-urlencoded, charset=utf-8'
+                });
+            });
+                
+            $("#btnQAForCompliance").click(function () {
+                BootstrapDialog.show({
+                    title: '@AppGlobal.Language.GetText(this, "ComplianceChecksRecord", "Compliance Checks Record")',
+                    message: $('<div></div>').load('@Url.Action("QAForComplianceFromDialog", "Apprenticeship", new { apprenticeshipId = Model.ApprenticeshipId })'),
+                    buttons: [
+                        {
+                            label: '@AppGlobal.Language.GetText(this, "Save", "Save")',
+                            cssClass: 'btn-success',
+                            action: function(dialog) {
+                                $.ajax({
+                                    cache: false,
+                                    async: false,
+                                    url: '/Apprenticeship/QAForComplianceFromDialog',
+                                    type: 'post',
+                                    data: $("form[action='/Apprenticeship/QAForComplianceFromDialog']").serialize(),
+                                    success: function(data, status, xhr) {
+                                        var ct = xhr.getResponseHeader("content-type") || "";
+                                        if (ct.indexOf('html') > -1) {
+                                            // Got HTML so there must have been a problem
+                                            dialog.setMessage($('<div></div>').html(data));
+                                        }
+                                        if (ct.indexOf('json') > -1) {
+                                            // Got JSON so everything went OK.
+                                            // Close the dialog
+                                            dialog.close();
+
+                                            // Reload the page
+                                            window.location.reload();
+                                        }
+                                    },
+                                    error: function() {
+                                        alert("@AppGlobal.Language.GetText(this, "ErrorQAingApprenticeship", "Error QAing Apprenticeship")");
+                                    }
+                                });
+                            }
+                        },
+                        {
+                            label: "@AppGlobal.Language.GetText(this, "Cancel", "Cancel")",
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }
+                    ]
+                });
+            });
+
+            $("#btnQAForStyle").click(function () {
+                BootstrapDialog.show({
+                    title: '@AppGlobal.Language.GetText(this, "StyleChecksRecord", "Style Checks Record")',
+                    message: $('<div></div>').load('@Url.Action("QAForStyleFromDialog", "Apprenticeship", new { apprenticeshipId = Model.ApprenticeshipId })'),
+                    buttons: [
+                        {
+                            label: '@AppGlobal.Language.GetText(this, "Save", "Save")',
+                            cssClass: 'btn-success',
+                            action: function (dialog) {
+                                $.ajax({
+                                    cache: false,
+                                    async: false,
+                                    url: '/Apprenticeship/QAForStyleFromDialog',
+                                    type: 'post',
+                                    data: $("form[action='/Apprenticeship/QAForStyleFromDialog']").serialize(),
+                                    success: function (data, status, xhr) {
+                                        var ct = xhr.getResponseHeader("content-type") || "";
+                                        if (ct.indexOf('html') > -1) {
+                                            // Got HTML so there must have been a problem
+                                            dialog.setMessage($('<div></div>').html(data));
+                                        }
+                                        if (ct.indexOf('json') > -1) {
+                                            // Got JSON so everything went OK.
+                                            // Close the dialog
+                                            dialog.close();
+
+                                            // Reload the page
+                                            window.location.reload();
+                                        }
+                                    },
+                                    error: function () {
+                                        alert("@AppGlobal.Language.GetText(this, "ErrorQAingApprenticeship", "Error QAing Apprenticeship")");
+                                    }
+                                });
+                            }
+                        },
+                        {
+                            label: "@AppGlobal.Language.GetText(this, "Cancel", "Cancel")",
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }
+                    ]
+                });
+            });
+        });
+
+    </script>
+}
+
+<script type="text/javascript">
+
+    function RefreshRegulatedMessage()
+    {
+        var standard = $("#FrameworkOrStandardId").val();
+        var url = '@Url.Action("IsRegulated", "Apprenticeship", new { selectedStandard = "__standard__" })';                
+        url = url.replace("__standard__", standard);
+        $.ajax({
+            url: url,
+            success: function (d) {
+                if (d)
+                {
+                    $("#RegulatedStandardMessage").show();
+                }
+                else
+                {
+                    $("#RegulatedStandardMessage").hide();
+                }
+            },
+            error: function() {
+                //Do nothing
+            },
+            cache: false,
+            type: 'POST',
+            contentType: 'application/x-www-form-urlencoded, charset=utf-8'
+        });
+    }
+
+    $(document).ready(function() {
+        // Update label for marketing info to add max number of characters
+        var lblMarketingInfo = $("label[for='MarketingInformation']");
+        lblMarketingInfo.html(lblMarketingInfo.html() + " @AppGlobal.Language.GetText(this, "MarketingInformationMaxCharacterCount", "(max 750 characters)")");
+
+        RefreshRegulatedMessage();
+    });
+</script>
+
+@Html.Partial("_CKEditorScripts")

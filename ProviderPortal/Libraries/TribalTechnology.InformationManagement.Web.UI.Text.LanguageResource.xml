@@ -1,0 +1,312 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource</name>
+    </assembly>
+    <members>
+        <member name="T:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource">
+            <summary>
+            Handles language resources getting the text from the database based on the requested language.  Requires the LanguageResource schema to work.
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.#ctor(TribalTechnology.InformationManagement.Data.SqlDatabase,TribalTechnology.InformationManagement.Interfaces.ILog)">
+            <summary>
+            Handles language resources getting the text from the database based on the requested language.  Requires the LanguageResource schema to work.
+            </summary>
+            <param name="database">The database object to allow fetching language resources from the database</param>
+            <param name="eventLog">An ILog option for logging</param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.SetIetfForThisRequest(System.String)">
+            <summary>
+            Use this method as soon as possible, ideally in the Begin Request to override the language requested by the browser
+            </summary>
+            <param name="ietf">The ietf of the language to serve for this current request</param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.GetText(System.Web.Mvc.Controller,System.String,System.String,System.Boolean,System.Int32,System.String)">
+            <summary>
+            Returns the text for the language fieldName in the controller method.
+            </summary>
+            <param name="controller">The Controller that this language field is in</param><param name="fieldName">The fieldname of the language text</param><param name="defaultText">The default text in the default language</param><param name="escapeQuotesForJavaScript">When true quotes are escaped for use in JavaScript, the default is false</param><param name="languageId">The language Id to fetch text for, the default is -1 that indicates to use this requests language</param><param name="callingMethod">The calling method name, leave blank as this is automatically populated.</param>
+            <returns>
+            The text in the specified language
+            </returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.GetText(System.Web.UI.Page,System.String,System.String,System.Boolean,System.Int32)">
+            <summary>
+            Returns the text for the language fieldName in the page.
+            </summary>
+            <param name="page">The Page that this language field is in</param>
+            <param name="fieldName">The fieldname of the language text</param>
+            <param name="defaultText">The default text in the default language</param>
+            <param name="escapeQuotesForJavaScript">When true quotes are escaped for use in JavaScript, the default is false</param>
+            <param name="languageId">The language Id to fetch text for, the default is -1 that indicates to use this requests language</param>
+            <returns>The text in the specified language</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.GetText(System.Object,System.String,System.String,System.Boolean,System.Int32)">
+            <summary>
+            Returns the text for the language fieldName in the page.
+            </summary>
+            <param name="thisContainer">The View or Page that this language field is in</param>
+            <param name="fieldName">The fieldname of the language text</param>
+            <param name="defaultText">The default text in the default language</param>
+            <param name="escapeQuotesForJavaScript">When true quotes are escaped for use in JavaScript, the default is false</param>
+            <param name="languageId">The language Id to fetch text for, the default is -1 that indicates to use this requests language</param>
+            <returns>The text in the specified language</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.GetText(System.Web.UI.Control,System.String,System.String,System.Boolean,System.Int32)">
+            <summary>
+            Returns the text for the language fieldName in the control on the page.
+            </summary>
+            <param name="control">The Control that this language field is in</param>
+            <param name="fieldName">The fieldname of the language text</param>
+            <param name="defaultText">The default text in the default language</param>
+            <param name="escapeQuotesForJavaScript">When true quotes are escaped for use in JavaScript, the default is false</param>
+            <param name="languageId">The language Id to fetch text for, the default is -1 that indicates to use this requests language</param>
+            <returns>The text in the specified language</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.GetText(TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName,System.String,System.Boolean,System.Int32)">
+            <summary>
+            Returns the text for common field names. The default text should be applied each time from a resource file.  Common field names only appear once in the language system and when changed will change everywhere.
+            </summary>
+            <param name="commonFieldName">The commonFieldName</param>
+            <param name="defaultText">The default text set from a resource file</param>
+            <param name="escapeQuotesForJavaScript">When true quotes are escaped for use in JavaScript, the default is false</param>
+            <param name="languageId">The language Id to fetch text for, the default is -1 that indicates to use this requests language</param>
+            <returns>The language text</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.GetText(System.String,System.String,System.Boolean,System.Int32)">
+            <summary>
+            Returns the text for the fully qualified language fieldName, in the format of Page_ControlName_FieldName.
+            </summary>
+            <param name="fullFieldName">The fullFieldname of the language text</param>
+            <param name="defaultText">The default text in the default language</param>
+            <param name="escapeQuotesForJavaScript">When true quotes are escaped for use in JavaScript, the default is false</param>
+            <param name="languageId">The language Id to fetch text for, the default is -1 that indicates to use this requests language</param>
+            <returns>The text in the specified language</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.GetLanguageIdForThisRequest">
+            <summary>
+            Returns the language Id being used for this request
+            </summary>
+            <returns>The language Id </returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.GetLanguageIdFromLanguageTag(System.String)">
+            <summary>
+            Returns the languageId for the language tag, if there is no language available for the matching tag then -1 is returned
+            </summary>
+            <param name="languageTag">The language tag, e.g. en-gb, this match is case insensitive</param>
+            <returns>The Language Id for the language tag, or -1 if no language tag is found in the database language table</returns>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.GetLanguageTagFromLanguageId(System.Int32)">
+            <summary>
+            Returns the language tag, for example en-gb, for the given language Id
+            </summary>
+            <param name="languageId">The language ID</param>
+            <returns>The Language tag</returns>
+            <exception cref="T:System.ArgumentException">Thrown if no language tag was found for the language Id provided</exception>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.ReloadLanguage(System.Int32)">
+            <summary>
+            Flushes the cached dictionary for the language Id forcing new language data to be loaded from the database. Returns the cache key for use in flushing server farms.
+            </summary>
+            <param name="languageId">The language Id to reload</param>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.KeyNamesIetf">
+            <summary>
+            Sets or gets the IETF that is used to show all the fields with the key name used for that field.  This can be used to retreive all the language field names from a page. 
+            To use, set your browser to this Ietf, and all language fields show the field name.
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.XxxxIetf">
+            <summary>
+            Sets or gets the IETF that triggers all language fields to be rendered as Xxxx.  This allows quick checking of text that isn't being pulled from the language resources.
+            To use, set your browser to this Ietf, and all language fields are shown as Xxxx.
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.IsDebugging">
+            <summary>
+            Sets or gets if the Language class is in debug mode.  When in debug mode the default text always overrides the database entries and no language entries
+            are cached in order to allow developer changes to text to be seen immediately.
+            </summary>
+        </member>
+        <member name="P:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.DefaultLanguageId">
+            <summary>
+            Gets the default language Id
+            </summary>
+        </member>
+        <member name="T:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName">
+            <summary>
+            Common field names
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.ErrorNoPermissions">
+            <summary>
+            ErrorNoPermissions
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.ErrorPageNotFound">
+            <summary>
+            ErrorPageNotFound
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.ErrorItemNotFoundUnexpected">
+            <summary>
+            ErrorItemNotFoundUnexpected
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.ErrorGeneric">
+            <summary>
+            ErrorGeneric
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.Yes">
+            <summary>
+            Yes
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.No">
+            <summary>
+            No
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.OK">
+            <summary>
+            OK
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.True">
+            <summary>
+            True
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.False">
+            <summary>
+            False
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.DateUnknown">
+            <summary>
+            DateUnknown
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.Of">
+            <summary>
+            Of
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.To">
+            <summary>
+            To
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.Record">
+            <summary>
+            Record
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.TotalRecords">
+            <summary>
+            TotalRecords
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.Enter">
+            <summary>
+            Enter
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.Go">
+            <summary>
+            Go
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.Select">
+            <summary>
+            Select
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.Delete">
+            <summary>
+            Delete
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.Save">
+            <summary>
+            Save
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.Back">
+            <summary>
+            Back
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.Cancel">
+            <summary>
+            Cancel
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.Enabled">
+            <summary>
+            Enabled
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.Disabled">
+            <summary>
+            Disabled
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.Never">
+            <summary>
+            Never
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.Mobile">
+            <summary>
+            Mobile
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.Telephone">
+            <summary>
+            Telephone
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.Edit">
+            <summary>
+            Edit
+            </summary>
+        </member>
+        <member name="F:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.CommonFieldName.Close">
+            <summary>
+            Close
+            </summary>
+        </member>
+        <member name="T:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.LanguageStoredProcedures">
+            <summary>
+            Stored procedures required to fetch and update language related tables in the database
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.LanguageStoredProcedures.LanguageTextListByLanguageId(System.Data.SqlTypes.SqlInt32,System.Data.SqlTypes.SqlInt32)">
+            <summary>
+            Returns a DataSet with the results from up_LanguageTextListByLanguageId. 
+            Error handling: Any return value other than zero will throw an exception, no return value is passed back
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.LanguageStoredProcedures.LanguageFieldAddSetDefaultByFieldName(System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlString,System.Data.SqlTypes.SqlBoolean)">
+            <summary>
+            Executes the stored procedure up_LanguageFieldNewAddSetDefaultByFieldName. 
+            Error handling: Any return value other than zero will throw an exception, no return value is passed back
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.LanguageStoredProcedures.LanguageListDefaultLanguageId">
+            <summary>
+            Returns a DataSet with the results from up_LanguageListDefaultLanguageId. 
+            Error handling: Any return value other than zero will throw an exception, no return value is passed back
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Web.UI.Text.LanguageResource.LanguageStoredProcedures.LanguageList(System.Data.SqlTypes.SqlInt32,System.Data.SqlTypes.SqlInt32)">
+            <summary>
+            Returns a DataSet with the results from up_LanguageList. 
+            Error handling: Any return value other than zero will throw an exception, no return value is passed back
+            </summary>
+        </member>
+    </members>
+</doc>

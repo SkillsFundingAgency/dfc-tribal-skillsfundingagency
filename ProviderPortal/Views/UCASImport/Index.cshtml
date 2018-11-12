@@ -1,0 +1,117 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.UploadUCASDataModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Import UCAS Data");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Import UCAS Data")</h2>
+
+@Html.Raw(AppGlobal.Language.GetText(this, "SubHeader", "<hr /><p>Use this page to upload new UCAS data.  You can upload one of: <ul><li>A full UCAS Under Graduate data file</li><li>An incremental UCAS Under Graduate data file</li><li>A UCAS Post Graduate data file.</li></ul>The file must be a .ZIP file containing CSV files.</p><hr />"))
+
+@if (!String.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="warning">
+        @Html.Raw(ViewBag.Message)
+    </div>
+}
+
+@Html.EditableDataValidationSummary(false)
+
+@using (Html.BeginForm("Index", "UCASImport", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{   
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <table class="dt-responsive table table-bordered">
+            <thead>
+                <tr style="@((ViewBag.IsComplete != null && !ViewBag.IsComplete) ? "display: none;" : "")">
+                    <th class="col-md-6">
+                        @AppGlobal.Language.GetText(this, "UploadSectionHeader", "Upload a new file")
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="@((ViewBag.IsComplete != null && !ViewBag.IsComplete) ? "display: none;" : "")">
+                    <td>
+                        <div class="form-group">
+                            @AppGlobal.Language.GetText(this, "UploadText", "Click Browse and select your UCAS data file. Click upload.")
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.File, new { type = "file", @class = "btn btn-success" })
+                            @Html.ValidationMessageFor(m => m.File)
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" id="btnUpload" value="@AppGlobal.Language.GetText(this, "SubmitUpload", "Upload")" class="btn btn-success" />
+                            &nbsp;&nbsp;&nbsp;
+                            <input type="submit" id="btnDownloadPGData" value="@AppGlobal.Language.GetText(this, "DownloadLatestPGData", "Download and Import Latest Postgraduate Data")" class="btn btn-success" />
+                            <label id="lblDownloading" style="display:none;">@Html.Raw(AppGlobal.Language.GetText(this, "DownloadingLatestPGData", "Downloading Latest Postgraduate Data.&nbsp;&nbsp;Import will start shortly..."))</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="@((ViewBag.IsComplete != null && !ViewBag.IsComplete) ? "" : "display: none;")">
+                    <td>
+                        <div class="form-group" style="margin-top: 15px;">
+                            @if (ViewBag.IsComplete != null && !ViewBag.IsComplete)
+                            {
+                                if (ViewBag.IsCancelling == null || !ViewBag.IsCancelling)
+                                {
+                                    <input type="button" id="btnCancel" value="@AppGlobal.Language.GetText(this, "CancelImport", "Cancel Import")" class="btn btn-warning" style="margin-left: 15px;" />
+                                }
+                                if (ViewBag.IsCancelling != null && ViewBag.IsCancelling)
+                                {
+                                    <input type="button" id="btnForceCancel" value="@AppGlobal.Language.GetText(this, "ForceCancelImport", "Force Cancel Import")" class="btn btn-danger" style="margin-left: 15px;" />
+                                }
+                            }
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+@if (Model.LastUploadedBy != null)
+{
+    @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "LastUploadDetails", "<span style=\"font-size: smaller;\">Last uploaded by {0} on {1}.  Filename: {2}</span>"), Model.LastUploadedBy, Model.LastUploadDateTimeLocalTime, Model.LastUploadFileName))
+}
+
+@section Scripts {
+   
+    @if (ViewBag.IsComplete != null && !ViewBag.IsComplete)
+    {
+        <script type="text/javascript">
+            $(document).ready(function() {
+                setTimeout(function() {
+                    window.location.href = '@Url.Action("Index")';
+                }, 10000);
+            });
+        </script>
+    }     
+    
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            $("#btnCancel").click(function() {
+                if (confirm("@AppGlobal.Language.GetText(this, "ConfirmCancel", "Cancel UCAS Data Import?")")) {
+                    window.location.replace("@Url.Action("CancelImport")");
+                }
+            });
+
+            $("#btnDownloadPGData").click(function(e) {
+                e.preventDefault();
+                if (confirm("@AppGlobal.Language.GetText(this, "ConfirmDownloadAndImport", "Download and Automatically Import UCAS Postgraduate Data?")")) {
+                    $(this).hide();
+                    $("#btnUpload").hide();
+                    $("#lblDownloading").show();
+                    $.post("@Url.Action("DownloadAndImportLatestUCASData")", null, function() {
+                        window.location.reload();
+                    });
+                }
+            });
+
+            $("#btnForceCancel").click(function() {
+                if (confirm("@AppGlobal.Language.GetText(this, "ConfirmForceCancel", "WARNING:  This should only be used if you are confident that the import has hung.\\n\\nForce Cancel UCAS Data Import?")")) {
+                    window.location.replace("@Url.Action("ForceCancelImport")");
+                }
+            });
+        });
+
+    </script>
+}

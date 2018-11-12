@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://schemas.imservices.gov.uk/alse/coursesearch/providersearch/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:clib="http://schemas.imservices.gov.uk/alse/coursesearch/commonlibrary/1.1" targetNamespace="http://schemas.imservices.gov.uk/alse/coursesearch/providersearch/1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0" id="ProviderSearch_v1.0.xsd">
+	<xsd:import namespace="http://schemas.imservices.gov.uk/alse/coursesearch/commonlibrary/1.1" schemaLocation="commonlibrary.xsd"/>
+	<xsd:element name="ProviderSearchRequest" type="ProviderSearchRequestStructure"/>
+	<xsd:complexType name="ProviderSearchRequestStructure">		
+		<xsd:sequence>
+			<xsd:element name="ProviderKeyword" type="clib:StringType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="ProviderSearchResponse" type="ProviderSearchResponseStructure"/>
+	<xsd:complexType name="ProviderSearchResponseStructure">
+		<xsd:annotation>
+			<xsd:documentation> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ProviderDetails" type="ProviderStructure" maxOccurs="unbounded"/>
+			<xsd:element name="RequestDetails" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="ProviderSearch" type="ProviderSearchRequestStructure"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ProviderStructure">
+		<xsd:annotation>
+			<xsd:documentation> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Provider" type="clib:ProviderDetail"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

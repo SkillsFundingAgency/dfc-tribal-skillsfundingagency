@@ -1,0 +1,38 @@
+﻿@model ICollection<Microsoft.AspNet.Identity.UserLoginInfo>
+@{
+    var submit = AppGlobal.Language.GetText(this, "Submit", "Remove");
+    var submitHint = AppGlobal.Language.GetText(this, "SubmitHint", "Remove this {0} login from your account");
+}
+
+@if (Model.Count > 0)
+{
+    <h4>@AppGlobal.Language.GetText(this, "FormHeader", "Registered Logins")</h4>
+    <table class="table">
+        <tbody>
+            @foreach (var account in Model)
+            {
+                <tr>
+                    <td>@account.LoginProvider</td>
+                    <td>
+                        @if (ViewBag.ShowRemoveButton)
+                        {
+                            using (Html.BeginForm("Disassociate", "Account"))
+                            {
+                            @Html.AntiForgeryToken()
+                            <div>
+                                @Html.Hidden("loginProvider", account.LoginProvider)
+                                @Html.Hidden("providerKey", account.ProviderKey)
+                                <input type="submit" class="btn btn-default" value="@submitHint" title="@String.Format(submitHint, account.LoginProvider)" />
+                            </div>
+                            }
+                        }
+                        else
+                        {
+                            @: &nbsp;
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

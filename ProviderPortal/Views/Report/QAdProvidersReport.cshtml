@@ -1,0 +1,103 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.QAdProvidersReportViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "QAd Providers");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "QAd Providers")</h2>
+<hr/>
+@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", ""))
+
+<table class="dataTable dt-responsive table table-striped table-bordered" data-ajax="@Url.Action("QAdProvidersReportJson")" data-created-row="rowCreated" data-name-index="1">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().UKPRN)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderName)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().NumberOfApprenticeships)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().Passed)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().NumberRequiredToQA)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().PassedCompliance)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().NumberQAdForCompliance)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().PassedStyle)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().NumberQAdForStyle)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().ImportBatchNames)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.UKPRN)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ProviderName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NumberOfApprenticeships)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Passed)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NumberRequiredToQA)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.PassedCompliance)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NumberQAdForCompliance)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.PassedStyle)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NumberQAdForStyle)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ImportBatchNames)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    
+    <script type="text/javascript">
+
+        var rightAlignedColumns = [3, 5, 7, 9];
+        var nameIndex = parseInt($("table.dataTable").data("name-index"));
+
+        function rowCreated(row, data, index) {
+            $.each(rightAlignedColumns, function (idx, item) {
+                $("td:nth-child(" + item + ")", row).addClass("alignRight");
+            });
+
+            var $name = $("td:eq(" + nameIndex + ")", row);
+            $name.html("<a class='btn-link' href='@Url.Action("Dashboard","Report")/" + data[data.length - 1] + "'>" + $name.text() + "</a>");
+        }
+
+    </script>
+}
+
+

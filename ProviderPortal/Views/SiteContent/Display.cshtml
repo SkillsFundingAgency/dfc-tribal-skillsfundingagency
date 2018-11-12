@@ -1,0 +1,76 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ContentViewModel
+@{
+    var canManageContent = Permission.HasPermission(false, true, new[] { Permission.PermissionName.CanManageContent });
+    if (Model.Content.Embed)
+    {
+        Layout = null;
+    }
+    else
+    {
+        ViewBag.Title = Model.Content.Title;
+    }
+}
+
+@if (Model.Content.Title != null)
+{
+    <h2>@Model.Content.Title</h2>
+    <hr/>
+}
+<div class="site-content">
+    
+    @if (canManageContent && !Model.SafeEmbed)
+    {
+        <div class="col-md-12 @(Model.Content.Embed || String.IsNullOrWhiteSpace(Model.Content.Title) ? String.Empty : "btn-toolbar")">
+            @if (Model.Content.ContentId == 0)
+            {
+                @Html.ActionLink(AppGlobal.Language.GetText(this, "Create", "Add this page"), "Create", "SiteContent", new {id = Model.Content.Path}, new {@class = "btn btn-default pull-right"})
+            }
+            else
+            {
+                @Html.ActionLink(AppGlobal.Language.GetText(this, "Edit", "Edit"), "Edit", "SiteContent", new {id = Model.Content.Path, version = Model.Content.Version}, new {@class = "btn btn-default pull-right"})
+            }
+        </div>
+    }
+    @Html.Raw(Model.Content.Body)
+</div>
+
+@* Icky but necessary *@
+@if (Model.Content.Embed)
+{
+    if (Model.Content.Styles != null)
+    {
+        <style>
+            @Html.Raw(Model.Content.Styles)
+        </style>
+    }
+    if (Model.Content.Scripts != null)
+    {
+        <script>
+            $(function() {
+                @Html.Raw(Model.Content.Scripts)
+            });
+        </script>
+    }
+}
+
+@section Scripts
+{
+    @if (!Model.Content.Embed && Model.Content.Scripts != null)
+    {
+        <script>
+            $(function () {
+                @Html.Raw(Model.Content.Scripts)
+            });
+        </script>
+    }
+}
+
+@section Styles
+{
+    @if (!Model.Content.Embed && Model.Content.Styles != null)
+    {
+        <style>
+            @Html.Raw(Model.Content.Styles)
+        </style>
+    }
+}

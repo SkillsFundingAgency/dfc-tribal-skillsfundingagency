@@ -1,0 +1,49 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Classes
+@* The contents of this file go to the left of the masthead logo in the Organisation UserContext*@
+@{
+    var date = (DateTime?)HttpContext.Current.Session[Constants.SessionFieldNames.OrganisationLastActivity];
+    var isSfaFunded = (bool)HttpContext.Current.Session[Constants.SessionFieldNames.OrganisationIsSfaFunded];
+    var isDfe1619Funded = (bool)HttpContext.Current.Session[Constants.SessionFieldNames.OrganisationIsDfe1619Funded];
+    var trafficOrb = QualityIndicator.GetTrafficOrb(date, isSfaFunded, isDfe1619Funded);
+    var trafficText = QualityIndicator.GetTrafficText(date, isSfaFunded, isDfe1619Funded);
+    var bulkUploadPending = BulkUploadIndicator.Pending();
+}
+<div class="pull-right masthead-provider">
+    <div>
+        @*<span class="quality-score">
+            <strong>@AppGlobal.Language.GetText(this, "LastActivity", "Last activity:")</strong>
+            @(date == null ? AppGlobal.Language.GetText(this, "NeverUpdated", "Never") : date.Value.ToString(Constants.ConfigSettings.ShortDateFormat))
+        </span>*@
+        <span class="quality-score">
+            <strong>@AppGlobal.Language.GetText(this, "TrafficScore", "Traffic light status:")</strong>
+            <span class="quality @trafficOrb" title="@trafficText"></span>
+            @trafficText        
+        </span>
+        @if (isSfaFunded || isDfe1619Funded)
+        {
+            <span class="quality-score">
+                @if (isSfaFunded)
+                {
+                    <span title="@AppGlobal.Language.GetText(this, "SFAHint", "This organisation has provider(s) receiving SFA funding.")">
+                        @AppGlobal.Language.GetText(this, "SFA", "SFA")
+                    </span>
+                }
+                @(isSfaFunded && isDfe1619Funded ? "/" : "")
+                @if (isDfe1619Funded)
+                {
+                    <span title="@AppGlobal.Language.GetText(this, "DfE", "This organisation has provider(s) receiving DfE EFA funding.")">
+                        @AppGlobal.Language.GetText(this, "DfEHint", "DfE")
+                    </span>
+                }
+            </span>
+        }
+        @if (bulkUploadPending)
+        {
+            <span class="quality-score">
+                <span class="pending-bulk-upload" title="@AppGlobal.Language.GetText(this, "ProviderBulkUploadPendingDescription", "This provider has a pending Bulk Upload to be processed.  Any changes you make may be discarded when the Bulk Upload is complete.")">
+                    @AppGlobal.Language.GetText(this, "ProviderBulkUploadPending", "Pending Bulk Upload")
+                </span>
+            </span>
+        }
+    </div>
+</div>

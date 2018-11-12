@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="44px" viewBox="0 0 48 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>view-apprenticeships</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Artboard-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-104.000000, -288.000000)">
+        <g id="view-apprenticeships" transform="translate(104.000000, 278.000000)">
+            <g id="Group-4" stroke="#000000" stroke-width="2">
+                <path d="M14.8677288,14.9578617 L8.38399956,39.4871713 L33.089952,32.9998191 L39.5736813,8.47050956 L14.8677288,14.9578617 Z" id="Rectangle-2" transform="translate(23.978840, 23.978840) rotate(-315.000000) translate(-23.978840, -23.978840) "></path>
+                <path d="M11.1022393,40.1764705 L19.4102621,48.4844933 L33.9926844,44.6688007 L37.7885802,30.1063753 L29.4979389,21.791977 L25.732567,36.3400361 L11.1022393,40.1764705 Z" id="Rectangle-2" transform="translate(24.031640, 34.721118) rotate(-315.000000) translate(-24.031640, -34.721118) "></path>
+                <path d="M18.9290132,18 L6,25.6053019" id="Line" stroke-linecap="square"></path>
+                <path d="M6,26 L6.12187803,40.9995048" id="Line" stroke-linecap="square"></path>
+                <circle id="Oval" cx="6" cy="42.5" r="1.5"></circle>
+            </g>
+            <g id="Group-9" transform="translate(29.000000, 35.000000)">
+                <g id="Group-8" fill="#FFFFFF" stroke="#000000" stroke-width="2">
+                    <circle id="Oval-4" cx="6.5" cy="6.5" r="6.5"></circle>
+                </g>
+                <rect id="Rectangle-8" fill="#000000" transform="translate(14.242641, 14.242641) rotate(-45.000000) translate(-14.242641, -14.242641) " x="13.2426407" y="9.24264069" width="2" height="10" rx="1"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

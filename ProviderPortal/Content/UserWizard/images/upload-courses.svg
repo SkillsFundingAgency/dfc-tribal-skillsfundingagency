@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="38px" height="42px" viewBox="0 0 38 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>upload-courses</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Artboard-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-538.000000, -492.000000)">
+        <g id="upload-courses" transform="translate(538.000000, 492.000000)">
+            <g id="Group-7">
+                <path d="M1,1 L1,38 C1,39.6568542 2.34314575,41 4,41 L29,41 L29,1 L1,1 Z" id="Combined-Shape" stroke="#000000" stroke-width="2"></path>
+                <path d="M29,41 L29,35 L4,35 C2.34314575,35 1,36.3431458 1,38 C1,39.6568542 2.34314575,41 4,41 L29,41 Z" id="Rectangle-11" stroke="#000000" stroke-width="2"></path>
+                <rect id="Rectangle-5" fill="#000000" x="7" y="10" width="16" height="2" rx="1"></rect>
+                <rect id="Rectangle-5" fill="#000000" x="7" y="14" width="16" height="2" rx="1"></rect>
+                <rect id="Rectangle-5" fill="#000000" x="7" y="18" width="16" height="2" rx="1"></rect>
+            </g>
+            <g id="Group-8" transform="translate(20.000000, 20.000000)">
+                <circle id="Oval-4" stroke="#000000" stroke-width="2" fill="#FFFFFF" cx="8.5" cy="8.5" r="8.5"></circle>
+                <g id="Group-11" transform="translate(3.500000, 2.000000)" fill="#000000">
+                    <g id="Group-12" transform="translate(0.200012, 0.000000)">
+                        <rect id="Rectangle-5" transform="translate(3.500000, 4.000000) rotate(-45.000000) translate(-3.500000, -4.000000) " x="0" y="3" width="7" height="2" rx="1"></rect>
+                        <rect id="Rectangle-5" transform="translate(7.181981, 4.181981) scale(-1, 1) rotate(-45.000000) translate(-7.181981, -4.181981) " x="3.68198052" y="3.18198052" width="7" height="2" rx="1"></rect>
+                    </g>
+                    <rect id="Rectangle-5" transform="translate(5.500000, 7.000000) scale(-1, 1) rotate(-90.000000) translate(-5.500000, -7.000000) " x="2" y="6" width="7" height="2" rx="1"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

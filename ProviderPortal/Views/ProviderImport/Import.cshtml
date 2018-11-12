@@ -1,0 +1,109 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ProviderImportModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Import New Providers");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Import New Providers")</h2>
+<hr/>
+<p>
+    @Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", "Use this page to import the details of new providers. <br /><br /> The file should be a zipped copy of the CSV file downloaded from <a href=\"/Content/RoATP%20Provider%20CSV%20File%20Format.docx\">here.</a>"))
+</p>
+
+@if (!String.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="warning">
+        @Html.Raw(ViewBag.Message)
+    </div>
+}
+
+@Html.EditableDataValidationSummary(false)
+
+@using (Html.BeginForm("Import", "ProviderImport", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <table class="dt-responsive table table-bordered">
+            <thead>
+                <tr style="@((ViewBag.IsComplete != null && !ViewBag.IsComplete) ? "display: none;" : "")">
+                    <th class="col-md-6">
+                        @AppGlobal.Language.GetText(this, "UploadSectionHeader", "Upload a new file")
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="@((ViewBag.IsComplete != null && !ViewBag.IsComplete) ? "display: none;" : "")">
+                    <td>
+                        <div class="form-group">
+                            @AppGlobal.Language.GetText(this, "UploadText", "Click Browse and select your Provider ZIP file. Click upload.")
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.FileUpload, new { type = "file", @class = "btn btn-success" })
+                            @Html.ValidationMessageFor(m => m.FileUpload)
+                        </div>
+                        <div class="form-group">
+                            @Html.LanguageLabelFor(m => m.ImportBatchId, new { @class = "control-label" })
+                            <div>
+                                @Html.DropDownListFor(m => m.ImportBatchId, (List<SelectListItem>)ViewBag.BatchNames, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.ImportBatchId)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="@AppGlobal.Language.GetText(this, "SubmitUpload", "Upload")" class="btn btn-success" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="@((ViewBag.IsComplete != null && !ViewBag.IsComplete) ? "" : "display: none;")">
+                    <td>
+                        <div class="form-group" style="margin-top: 15px;">
+                            @if (ViewBag.IsComplete != null && !ViewBag.IsComplete)
+                            {
+                                if (ViewBag.IsCancelling == null || !ViewBag.IsCancelling)
+                                {
+                                    <input type="button" id="btnCancel" value="@AppGlobal.Language.GetText(this, "CancelImport", "Cancel Import")" class="btn btn-warning" style="margin-left: 15px;" />
+                                }
+                                if (ViewBag.IsCancelling != null && ViewBag.IsCancelling)
+                                {
+                                    <input type="button" id="btnForceCancel" value="@AppGlobal.Language.GetText(this, "ForceCancelImport", "Force Cancel Import")" class="btn btn-danger" style="margin-left: 15px;" />
+                                }
+                            }
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+
+@section scripts
+{
+    @Html.Partial("~/Views/Shared/_ProviderImportScriptPartial.cshtml")
+
+    @if (ViewBag.IsComplete != null && !ViewBag.IsComplete)
+    {
+        <script type="text/javascript">
+            $(document).ready(function() {
+                setTimeout(function() {
+                    window.location.href = '@Url.Action("Import", "ProviderImport")';
+                }, 5000);
+            });
+        </script>
+    }     
+    
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#btnCancel").click(function () {
+                if (confirm("@AppGlobal.Language.GetText(this, "ConfirmCancel", "Cancel Provider Data Import?")")) {
+                    window.location.replace("@Url.Action("CancelImport")");
+                }
+            });
+
+            $("#btnForceCancel").click(function () {
+                if (confirm("@AppGlobal.Language.GetText(this, "ConfirmForceCancel", "WARNING:  This should only be used if you are confident that the import has hung.\\n\\nForce Cancel Provider Data Import?")")) {
+                    window.location.replace("@Url.Action("ForceCancelImport")");
+                }
+            });
+        });
+
+    </script>
+}

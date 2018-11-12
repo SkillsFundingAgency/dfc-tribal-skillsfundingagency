@@ -1,0 +1,162 @@
+﻿<script type="text/javascript">
+
+    $(document).ready(function() {
+
+        $("input[name^='LearnDirectClassification_']").each(function () {
+            $(this).attr("data-typeahead-name", $(this).attr("name").replace("_", "Id"));
+        });
+
+        $("label[for=QualificationTypeId], label[for=LearningAimId]").append(' <span class="required" aria-required="true">*</span>');
+
+        $("a[id^='aClearLearnDirectClassificationId_']").click(function(e) {
+            e.preventDefault();
+            var id = $(this).attr('id').split('_').pop();
+            $("#LearnDirectClassificationId" + id).val("");
+            $("#LearnDirectClassification_" + id).val("");
+        });
+
+        $("#addLearnDirectClassificationId").click(function(e) {
+            e.preventDefault();
+
+            var last = $("div[id^='divLearnDirectClassification_']:visible").last();
+            var field = $("input[id='LearnDirectClassificationId_" + last.attr('id').split('_').pop() + "']");
+            if (field.val() == "") {
+                return;
+            }
+            var next = $("div[id^='divLearnDirectClassification_']:hidden").first();
+            next.slideDown("fast");
+            if (next.attr("id").split('_').pop() == "5") {
+                $("#divAddLearnDirectClassificationId").slideUp("fast");
+            }
+        });
+
+        $("#addRemoveLAR").click(function(e) {
+            e.preventDefault();
+            var learningAimId = $("#LearningAimId");
+
+            var url = '@Url.Action("AddCourseDialog", "Course", new {learningAimRef = "__learningAimId__"})';
+            url = url.replace("__learningAimId__", learningAimId.val());
+
+            BootstrapDialog.show({
+                title: '@AppGlobal.Language.GetText(this, "LearningAimRef", "Learning Aim Reference")',
+                message: $('<div></div>').load(url),
+                buttons: [
+                    {
+                        label: '@AppGlobal.Language.GetText(this, "Continue", "Continue")',
+                        cssClass: 'btn-success',
+                        action: function (dialog) {
+                            var learningAim = "";
+                            if ($("input[name=radLAR]:checked").length == 0) {
+                                alert('@AppGlobal.Language.GetText(this, "IndicateLearningAim", "Please indicate whether the course has a learning aim")');
+                                return;
+                            }
+                            if ($("input[name=radLAR]:checked").val() == "Yes") {
+                                learningAim = $("#addLearningAimId").val();
+                                if (learningAim == "") {
+                                    alert('@AppGlobal.Language.GetText(this, "SelectALearningAim", "Please select a learning aim")');
+                                    return;
+                                }
+                            }
+                            dialog.close();
+
+                            if (learningAim != "") {
+                                // Get details of learning aim
+                                url = '@Url.Action("GetLearningAimDetails", "Course", new {learningAimRef = "__LearningAimRef__"})';
+                                url = url.replace('__LearningAimRef__', learningAim);
+                                $.ajax({
+                                    url: url,
+                                    success: function (result) {
+                                        $("#LearningAimId").val(result.LearningAimRefId);
+                                        $("#Qualification").val(result.LearningAimTitle);
+                                        if (result.QualificationTypeId != null) {
+                                            $("#QualificationTypeId").val(result.QualificationTypeId);
+                                            $("#LearningAimQualificationTypeId").val(result.QualificationTypeId);
+                                        } else {
+                                            $("#QualificationTypeId").val("");
+                                            $("#LearningAimQualificationTypeId").val("");
+                                        }
+                                        if (result.QualificationLevelId != null) {
+                                            $("#QualificationLevelId").val(result.QualificationLevelId);
+                                        } else {
+                                            $("#QualificationLevelId").val("");
+                                        }
+                                        $("#AwardingOrganisation").val(result.AwardingBody);
+                                        showHideLearningAimFields();
+                                    },
+                                    error: function() {
+                                        alert("Error retrieving learning aim");
+                                    },
+                                    cache: false,
+                                    type: 'POST',
+                                    contentType: 'application/json, charset=utf-8',
+                                    dataType: 'json'
+                                });
+                            } else {
+                                $("#showQT").val("0");
+                                $("input", "div.LearningAimField").each(function () {
+                                    $(this).val("");
+                                });
+                                $("#QualificationLevelId").val("");
+                                showHideLearningAimFields();
+                            }
+                        }
+                    },
+                    {
+                        label: "@AppGlobal.Language.GetText(this, "Cancel", "Cancel")",
+                        action: function(dialog) {
+                            dialog.close();
+                            return;
+                        }
+                    }
+                ]
+            });
+        });
+
+        setLearningAimReferenceLinkText();
+    });
+
+    function showHideLearningAimFields() {
+        var learningAimId = $("#LearningAimId").val();
+        if (learningAimId == "") {
+            $("div.LearningAimField:visible").fadeTo("fast", 0, function() {
+                $(this).slideUp("fast");
+            });
+            $("div.NonLearningAimField:hidden").slideDown("fast", function() {
+                $(this).fadeTo("fast", 1);
+            });
+            $("div.NonLearningAimFieldQT:hidden").slideDown("fast", function () {
+                $(this).fadeTo("fast", 1);
+            });
+        } else {
+            $("div.LearningAimField:hidden").slideDown("fast", function() {
+                $(this).fadeTo("fast", 1);
+            });
+            $("div.NonLearningAimField:visible").fadeTo("fast", 0, function() {
+                $(this).slideUp("fast");
+            });
+            if ($("#LearningAimQualificationTypeId").val() == "")
+            {
+                $("div.NonLearningAimFieldQT:hidden").slideDown("fast", function () {
+                    $(this).fadeTo("fast", 1);
+                });
+            }
+            else
+            {
+                $("div.NonLearningAimFieldQT:visible").fadeTo("fast", 0, function () {
+                    $(this).slideUp("fast");
+                });
+            }
+        }
+        setLearningAimReferenceLinkText();
+    }
+
+    function setLearningAimReferenceLinkText() {
+        var learningAimId = $("#LearningAimId").val();
+        $("#addRemoveLAR").fadeTo("fast", 0, function() {
+            $(this).text(learningAimId == "" ? "@AppGlobal.Language.GetText(this, "AddLearningAimReference", "Add Learning Aim Reference")" : "@AppGlobal.Language.GetText(this, "RemoveLearningAimReference", "Remove/Change Learning Aim Reference")");
+            $(this).fadeTo("fast", 1);
+        });
+    }
+
+</script>
+

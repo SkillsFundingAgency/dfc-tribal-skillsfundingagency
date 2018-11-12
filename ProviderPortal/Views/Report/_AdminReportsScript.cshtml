@@ -1,0 +1,48 @@
+﻿@* Reinstate this form to enable the context switching functionality *@
+@*@using (Html.BeginForm("Dashboard", "Admin", FormMethod.Post, new {id = "context-switch"}))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="ProviderId" />
+    <input type="hidden" name="Provider" value="*" />
+    <input type="hidden" name="SuccessAction" value="Dashboard"/>
+    <input type="hidden" name="SuccessController" value="Report"/>
+    <input type="hidden" name="FailureAction" value="@ViewContext.RouteData.Values["action"]"/>
+    <input type="hidden" name="FailureController" value="@ViewContext.RouteData.Values["controller"]"/>
+}*@
+
+<script>
+    @* This script naughtily assumes some position data for various columns *@
+    var trafficLight = {};
+    trafficLight["@QualityIndicator.GetTrafficText(1)"] = '@QualityIndicator.GetTrafficBackground(1)';
+    trafficLight["@QualityIndicator.GetTrafficText(2)"] = '@QualityIndicator.GetTrafficBackground(2)';
+    trafficLight["@QualityIndicator.GetTrafficText(3)"] = '@QualityIndicator.GetTrafficBackground(3)';
+
+    var quality = {};
+    quality["@QualityIndicator.GetQualityText(1, false)"] = '@QualityIndicator.GetQualityBackground(1)';
+    quality["@QualityIndicator.GetQualityText(2, false)"] = '@QualityIndicator.GetQualityBackground(2)';
+    quality["@QualityIndicator.GetQualityText(3, false)"] = '@QualityIndicator.GetQualityBackground(3)';
+    quality["@QualityIndicator.GetQualityText(4, false)"] = '@QualityIndicator.GetQualityBackground(4)';
+
+    var nameIndex = parseInt($("table.dataTable").data("name-index"));
+
+    function rowCreated(row, data, index) {
+        var $first = $("td:first", row);
+        var $last = $("td:last", row);
+        $first.addClass(trafficLight[data[0]]);
+        $last.addClass(quality[data[data.length - 2]]);
+        if (data[data.length - 1][0] === 'P') {
+            var $name = $("td:eq(" + nameIndex + ")", row);
+            // To reinstate the original context switching functionality uncomment the next line
+            //$name.html("<span class='btn-link' onclick='contextSwitch(\"" + data[data.length - 1] + "\")'>" + $name.text() + "</span>");
+            // New functionality is to link to the dashboard page for the provider
+            $name.html("<a class='btn-link' href='@Url.Action("Dashboard","Report")/" + data[data.length-1].substr(1) + "'>" + $name.text() + "</a>");
+        }
+    }
+
+    // Reinstate this code to enable the context switching functionality
+    //function contextSwitch(providerId) {
+    //    $("form#context-switch")
+    //        .find("input[name=ProviderId]").val(providerId).end()
+    //        .submit();
+    //}
+</script>

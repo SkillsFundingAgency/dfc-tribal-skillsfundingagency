@@ -1,0 +1,110 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.LanguageResourcesViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Language Resources");
+}
+<header>
+    <h2>@AppGlobal.Language.GetText(this, "Header", "Language Resources")</h2>
+    <h3>@AppGlobal.Language.GetText(this, "SubHeader", "Manage language resources")</h3>
+</header>
+<hr/>
+@if (AppGlobal.Language.IsDebugging)
+{
+    <div class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        @AppGlobal.Language.GetText(this, "DeveloperModeEnabled", "Languages are currently in development mode. Any uploaded changes will not be reflected on the portal.")
+        <button type="button" class="close" data-dismiss="alert">x</button>
+    </div>
+}
+@using (Html.BeginForm("Language", "PortalAdmin", FormMethod.Post, new {enctype = "multipart/form-data"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.EditableDataValidationSummary(true)
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="col-sm-4">
+                <fieldset>
+                    <legend>@AppGlobal.Language.GetText(this, "DownloadHeading", "Download")</legend>
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(model => model.DownloadLanguageId)
+                        @Html.DropDownListFor(model => model.DownloadLanguageId, Model.DownloadLanguageOptions)
+                    </div>
+                    <div class="form-group">
+                        <label for="btnDownload" class="btn btn-success"><i class="glyphicon glyphicon-arrow-down"></i> @AppGlobal.Language.GetText(this, "DownloadLanguageButton", "Download Language")</label>
+                        <input type="submit" name="btnDownload" id="btnDownload" class="hidden" value="@AppGlobal.Language.GetText(this, "DownloadLanguageButton", "Download Language")" />
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-sm-4">
+                <fieldset>
+                    <legend>@AppGlobal.Language.GetText(this, "NewHeading", "New")</legend>
+                    @if (!string.IsNullOrEmpty(Model.NewLanguageMessage))
+                    {
+                        <div id="divNewMsg" class="alert @(Model.NewLanguageSuccess ? "alert-success" : "alert-danger")" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            @Model.NewLanguageMessage
+                            <button type="button" class="close" data-dismiss="alert">x</button>
+                        </div>
+                    }
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(model => model.NewLanguageName)
+                        @Html.EditorFor(model => model.NewLanguageName)
+                        @Html.ValidationMessageFor(model => model.NewLanguageName)
+                    </div>
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(model => model.NewLanguageIETF)
+                        @Html.EditorFor(model => model.NewLanguageIETF)
+                        @Html.ValidationMessageFor(model => model.NewLanguageIETF)
+                    </div>
+                    <div class="form-group">
+                        <label for="btnCreate" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> @AppGlobal.Language.GetText(this, "NewLanguageButton", "New Language")</label>
+                        <input type="submit" name="btnCreate" id="btnCreate" class="hidden" value="@AppGlobal.Language.GetText(this, "NewLanguageButton", "New Language")" />
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-sm-4">
+                <fieldset>
+                    <legend>@AppGlobal.Language.GetText(this, "UploadHeading", "Upload")</legend>
+                    @if (!string.IsNullOrEmpty(Model.UploadMessage))
+                    {
+                        <div id="divUploadMsg" class="alert @(Model.UploadSuccess ? "alert-success" : "alert-danger")" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            @Model.UploadMessage
+                            <button type="button" class="close" data-dismiss="alert">x</button>
+                        </div>
+                    }
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(model => model.UploadLanguageId)
+                        @Html.DropDownListFor(model => model.UploadLanguageId, Model.UploadLanguageOptions)
+                    </div>
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.FileUpload, new {type = "file", accept = "*.csv", @class = "btn btn-success"})
+                    </div>
+                    <div class="form-group">
+                        <label for="btnUpload" class="btn btn-success"><i class="glyphicon glyphicon-arrow-up"></i> @AppGlobal.Language.GetText(this, "UploadLanguageButton", "Upload Language")</label>
+                        <input type="submit" name="btnUpload" id="btnUpload" class="hidden" value="@AppGlobal.Language.GetText(this, "UploadLanguageButton", "Upload Language")" />
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+}
+@section scripts
+{
+    <script>
+        $(function() {
+            @if (!string.IsNullOrEmpty(Model.UploadMessage))
+            {
+                @:setTimeout(function () { $('#divUploadMsg').hide(); }, 10000);
+            }
+            @if (!string.IsNullOrEmpty(Model.NewLanguageMessage))
+            {
+                @:setTimeout(function () { $('#divNewMsg').hide(); }, 10000);
+            }
+            $("label[for=NewLanguageName],label[for=NewLanguageIETF]")
+                .append(' <span class="required" aria-required="true">*</span>');
+        });
+    </script>
+}

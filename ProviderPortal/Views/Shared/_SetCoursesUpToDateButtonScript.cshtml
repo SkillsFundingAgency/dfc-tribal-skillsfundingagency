@@ -1,0 +1,42 @@
+﻿@if (UserContext.GetUserContext().ContextName == UserContext.UserContextName.Provider
+    && Permission.HasPermission(false, true, Permission.PermissionName.CanEditProvider))
+{
+    <script>
+
+        $(function() {
+            $("#btnSetCoursesUpToDate").click(function (e) {
+                e.preventDefault();
+
+                if (confirm("@AppGlobal.Language.GetText(this, "SetCoursesUpToDate", "Are you sure you want to set all courses as up to date?")")) {
+
+                    $.ajax({
+                        cache: false,
+                        async: false,
+                        url: '/Provider/SetCoursesUpToDate',
+                        type: 'post',
+                        success: function(data, status, xhr) {
+                            var ct = xhr.getResponseHeader("content-type") || "";
+                            if (ct.indexOf('json') > -1) {
+                                // Got JSON so everything went OK.
+                                if (data.Status == 0) {
+                                    alert(data.Message);
+                                } else {
+                                    alert("@AppGlobal.Language.GetText(this, "DataReady", "Thank you.  Courses have been set as up to date")");
+
+                                    // Reload the page
+                                    window.location.reload();
+                                }
+                            } else {
+                                // Something wrong happened
+                                alert("@AppGlobal.Language.GetText(this, "ErrorSubmittingCoursesUpToDate", "Error setting courses as up to date")");
+                            }
+                        },
+                        error: function() {
+                            alert("@AppGlobal.Language.GetText(this, "ErrorSubmittingCoursesUpToDate", "Error setting courses as up to date")");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

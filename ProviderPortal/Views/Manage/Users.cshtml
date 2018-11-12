@@ -1,0 +1,121 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Models
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ManageUsersViewModel
+
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this,"Title", "Manage Users");
+}
+
+<h2>@AppGlobal.Language.GetText(this,"Header", "Manage Users")</h2>
+<h4>@AppGlobal.Language.GetText(this,"SubHeader", "")</h4>
+<hr/>
+@if (Model.CanAdd)
+{
+    <div class="row">
+        @Html.ActionLink(AppGlobal.Language.GetText(this, "AddUser", "Add a new user"), "Create", "Account", null, new {@class = "pull-right btn btn-default"})
+    </div>
+}
+<div class="row">
+    <ul class="nav nav-tabs">
+        <li role="presentation"@Html.Raw(Model.Category == UserCategory.Active ? " class=\"active\"" : "")><a href="#" data-category="Active">Active Users</a></li>
+        <li role="presentation"@Html.Raw(Model.Category == UserCategory.Pending ? " class=\"active\"" : "")><a href="#" data-category="Pending">Pending Users</a></li>
+        <li role="presentation"@Html.Raw(Model.Category == UserCategory.Deleted ? " class=\"active\"" : "")><a href="#" data-category="Deleted">Deleted Users</a></li>
+        <li role="presentation"@Html.Raw(Model.Category == UserCategory.All ? " class=\"active\"" : "")><a href="#" data-category="All">All Users</a></li>
+    </ul>
+</div>
+<div class="row">   
+    <table class="dataTable dt-responsive table table-striped table-bordered" data-ajax="@(Model.DeferredLoad ? Url.Action("UsersJson", "Manage", new {id = Model.Category}) : "")">
+        <thead>
+        <tr>
+            <th scope="col" class="all">
+                @Html.DisplayNameFor(model => model.Users.First().Status)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Users.First().Ukprn)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Users.First().ProviderName)
+            </th>
+            <th scope="col" class="all">
+                @Html.DisplayNameFor(model => model.Users.First().DisplayName)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Users.First().Email)
+            </th>
+            <th scope="col" class="all">
+                @Html.DisplayNameFor(model => model.Users.First().Role)
+            </th>
+            <th scope="col" class="all" data-type="datetime-eu">
+                @Html.DisplayNameFor(model => model.Users.First().LastLogInDate)
+            </th>
+            <th scope="col" class="all">
+                @AppGlobal.Language.GetText(this, "UserActionsTableHeader", "Actions")
+            </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        @foreach (var item in Model.Users)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ukprn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProviderName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DisplayName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role)
+                </td>
+                <td>
+                    @if (item.LastLogInDate != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.LastLogInDateLocalTime)
+                    }
+                </td>
+                <td>
+                    @if (Model.CanAdd && (!item.IsSecureAccessUser || (item.IsSecureAccessUser && Model.CanEditSecureAccessUsers)))
+                    {
+                        <a href="@Url.Action("Edit", "Account", new {id = item.Email.Replace("@", "(at)").Replace(".", "(dot)")})">@AppGlobal.Language.GetText(this, "EditAccount", "Edit")<span class="hide"> @Html.DisplayFor(i => item.DisplayName)</span></a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Details", "Account", new {id = item.Email.Replace("@", "(at)").Replace(".", "(dot)")})">@AppGlobal.Language.GetText(this, "ViewAccount", "View")<span class="hide"> @Html.DisplayFor(i => item.DisplayName)</span></a>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+
+    </table>
+</div>
+
+@if (Model.CanAdd)
+{
+    <div class="row">
+        @Html.ActionLink(AppGlobal.Language.GetText(this, "AddUser", "Add a new user"), "Create", "Account", null, new {@class = "pull-right btn btn-default"})
+    </div>
+}
+
+@section Scripts {
+
+    <script>
+        $('a[data-category]').on('click', function(event) {
+            $('a[data-category]').parent().removeClass('active');
+            $(this).parent().addClass('active');
+            $('table.dataTable')
+                .DataTable()
+                .ajax.url('/Manage/UsersJson/' + $(this).data('category'))
+                .load();
+            event.preventDefault();
+        });
+    </script>
+}

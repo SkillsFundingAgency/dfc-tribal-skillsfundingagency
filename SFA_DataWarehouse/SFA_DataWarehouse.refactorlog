@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="a1f6a85c-455e-4119-989e-5475dc0b69e2" ChangeDateTime="11/07/2017 08:03:04">
+    <Property Name="ElementName" Value="[dbo].[DWH_Period].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[DWH_Period]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Period" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="452ee138-c0f8-45a3-869e-e003686cb908" ChangeDateTime="11/07/2017 11:56:05">
+    <Property Name="ElementName" Value="[dbo].[DWH_Audit_Summary].[Deleted]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[DWH_Audit_Summary]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Deletes" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a40253fd-9dc9-41f9-8ba3-831c8ca03787" ChangeDateTime="11/13/2017 10:44:58">
+    <Property Name="ElementName" Value="[dbo].[MonthlyReport_Usage].[ProvidersUpdatedOpportunityInMonth]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MonthlyReport_Usage]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ProvidersUpdatedOpportunityInPeriod" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="bf071abe-e0fb-4a8f-b9b4-33221f3ac12c" ChangeDateTime="11/13/2017 11:04:45">
+    <Property Name="ElementName" Value="[dbo].[MonthlyReport_Usage].[NumberOfUsersUpdatedDuringPeriod]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MonthlyReport_Usage]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NumberOfProvidersUpdatedDuringPeriod" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f0ae3f44-42a4-4e5b-856a-ef3ed8b2f1c3" ChangeDateTime="11/13/2017 11:05:34">
+    <Property Name="ElementName" Value="[dbo].[MonthlyReport_Usage].[NumberOfProvidersUpdating1to2PeriodsAgo]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MonthlyReport_Usage]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NumberOfProvidersUpdated1to2PeriodsAgo" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="60012860-5975-44bb-aec2-bb27f7f19c41" ChangeDateTime="11/13/2017 11:05:38">
+    <Property Name="ElementName" Value="[dbo].[MonthlyReport_Usage].[NumberOfProvidersUpdating2to3PeriodsAgo]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MonthlyReport_Usage]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NumberOfProvidersUpdated2to3PeriodsAgo" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ba00338b-2765-4397-8c52-a7367e1d210a" ChangeDateTime="11/13/2017 11:05:50">
+    <Property Name="ElementName" Value="[dbo].[MonthlyReport_Usage].[ProvidersWithValidSuperUser]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MonthlyReport_Usage]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NumberOfProvidersWithValidSuperUser" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0d5a129c-12d6-47f6-a9db-5f6a2eb8c90a" ChangeDateTime="11/13/2017 11:05:55">
+    <Property Name="ElementName" Value="[dbo].[MonthlyReport_Usage].[ProvidersUpdatedOpportunityInPeriod]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MonthlyReport_Usage]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NumberOfProvidersUpdatedOpportunityInPeriod" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="89523c9b-33f1-493a-bde2-abe318ae4cd5" ChangeDateTime="11/13/2017 11:05:58">
+    <Property Name="ElementName" Value="[dbo].[MonthlyReport_Usage].[BulkUploadOpportunitiesInPeriod]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MonthlyReport_Usage]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NumberOfBulkUploadOpportunitiesInPeriod" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="28fd1eb5-8372-4ac3-98b4-8d11a73a5c4c" ChangeDateTime="11/13/2017 11:06:05">
+    <Property Name="ElementName" Value="[dbo].[MonthlyReport_Usage].[ManuallyUpdatedOpportunitiesInPeriod]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MonthlyReport_Usage]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NumberOfManuallyUpdatedOpportunitiesInPeriod" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="74c7f0f2-3090-4830-bedd-8c4770434071" ChangeDateTime="11/13/2017 11:06:08">
+    <Property Name="ElementName" Value="[dbo].[MonthlyReport_Usage].[ProvidersNotUpdatedOpportunityInPastYear]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MonthlyReport_Usage]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NumberOfProvidersNotUpdatedOpportunityInPastYear" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a474db1b-1eff-438a-a616-f1d434fc4910" ChangeDateTime="11/15/2017 15:22:24">
+    <Property Name="ElementName" Value="[dbo].[MonthlyReport_Provision].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MonthlyReport_Provision]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Period" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="638e1016-bc37-450d-932d-91f139da5dd3" ChangeDateTime="11/15/2017 15:23:17">
+    <Property Name="ElementName" Value="[dbo].[MonthlyReport_Provision].[NumberOfLiveCourses]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MonthlyReport_Provision]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NumberOfCourses" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c31498cd-f3e8-4fab-b9ae-a17ecf17ee39" ChangeDateTime="11/15/2017 16:03:33">
+    <Property Name="ElementName" Value="[dbo].[MonthlyReport_Provision].[DU_1to4Weeks]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MonthlyReport_Provision]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DU_1To4Weeks" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b9f2441b-0b7c-410c-9fcc-17c9424c9835" ChangeDateTime="11/15/2017 16:21:28">
+    <Property Name="ElementName" Value="[dbo].[MonthlyReport_Provision].[QL_Levl8]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MonthlyReport_Provision]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="QL_Level8" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f552a35f-b90d-4cef-97d9-da5bbc76773b" ChangeDateTime="11/16/2017 14:56:04">
+    <Property Name="ElementName" Value="[dbo].[Snapshot_QualityScore].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Snapshot_QualityScore]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Period" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a6cbc67e-7bd2-4451-b75f-fd89f9664e73" ChangeDateTime="03/14/2018 14:46:36">
+    <Property Name="ElementName" Value="[dbo].[Snapshot_CourseInstance].[IsDfe]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Snapshot_CourseInstance]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IsDfE" />
+  </Operation>
+</Operations>

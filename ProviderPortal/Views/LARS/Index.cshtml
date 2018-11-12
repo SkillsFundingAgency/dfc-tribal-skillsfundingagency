@@ -1,0 +1,90 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.LARSUploadModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Import LARS Data");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Import LARS Data")</h2>
+
+@Html.Raw(AppGlobal.Language.GetText(this, "SubHeader", "<hr /><p>Use this page to upload new LARS data.  The file should be a zipped copy of the Access Database (MDB) version.  The latest version can be downloaded from <a href=\"https://hub.imservices.org.uk/Learning%20Aims/Downloads/Pages/default.aspx\" target=\"blank\">this page</a></p><hr />"))
+
+@if (!String.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="warning">
+        @Html.Raw(ViewBag.Message)
+    </div>
+}
+
+@Html.EditableDataValidationSummary(false)
+
+@using (Html.BeginForm("Index", "LARS", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{   
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <table class="dt-responsive table table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-md-6">
+                        @AppGlobal.Language.GetText(this, "UploadSectionHeader", "Upload a new file")
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            @AppGlobal.Language.GetText(this, "UploadText", "Click Browse and select your LARS data file. Click upload.")
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.File, new { type = "file", @class = "btn btn-success" })
+                            @Html.ValidationMessageFor(m => m.File)
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="@AppGlobal.Language.GetText(this, "SubmitUpload", "Upload")" class="btn btn-success" />
+                            @if (Model.IsAutomationInProgress)
+                            {
+                                <br /><br />
+                                @Html.Raw(AppGlobal.Language.GetText(this, "ClearAutomationInProgressDescription", "There is a flag in the database which is set when the automated LARS import is in progress.  This is to prevent multiple servers in the server farm from importing the file simultaneously.  If this flag is not cleared for some reason then the automated import will not work.  The flag is currently set.  You can clear the flag by clicking on the button below but you should be sure that the automated import is complete (or has errored) before doing so.<br /><br />"))
+                                <input id="btnClearAutomationInProgress" type="button" name="ClearAutomationInProgress" value="@AppGlobal.Language.GetText(this, "ClearAutomationInProcess", "Clear Automation in Progress Flag")" class="btn btn-warning" />
+                            }
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+@if (Model.LastUploadedBy != null)
+{
+    @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "LastUploadDetails", "<span style=\"font-size: smaller;\">Last uploaded by {0} on {1}.  Filename: {2}</span>"), Model.LastUploadedBy, Model.LastUploadDateTimeLocalTime, Model.LastUploadFileName))
+}
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            $("#btnClearAutomationInProgress").click(function () {
+                if (confirm('@AppGlobal.Language.GetText(this, "ClearAutomationInProgressFlagWarning", "Are you sure you would like clear the automation in progress flag?")') === false) {
+                    return;
+                }
+                var url = '@Url.Action("ClearAutomationInProgressFlag", "LARS")';
+                $.ajax({
+                    url: url,
+                    success: function() {
+                        window.location.reload(true);
+                    },
+                    error: function() {
+                        alert("Error clearing automation in progress flag");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/x-www-form-urlencoded, charset=utf-8'
+                });
+            });
+
+        });
+
+    </script>
+
+}

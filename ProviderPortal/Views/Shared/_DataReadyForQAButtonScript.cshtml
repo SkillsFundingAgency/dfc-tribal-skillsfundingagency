@@ -1,0 +1,74 @@
+﻿@if (UserContext.GetUserContext().ContextName == UserContext.UserContextName.Provider
+                && Permission.HasPermission(false, true, Permission.PermissionName.CanEditProvider))
+{
+    <script>
+
+        function hideShowDataReadyForQA2Button() {
+            var divReadyForQAHeading = $("#divReadyForQAHeading");
+            if ($("#btnDataReadyForQA", divReadyForQAHeading).is(":hidden")) {
+                $("#divDataReadyForQA2").show();
+            } else {
+                $("#divDataReadyForQA2").hide();
+            }
+        }
+
+        function setPositionOfDataReadyForQAButton() {
+            var divReadyForQAHeading = $("#divReadyForQAHeading");
+            var btnDataReadyForQA = $("#btnDataReadyForQA", divReadyForQAHeading);
+            if (btnDataReadyForQA.length == 1) {
+                var imageWidth = 0 //$(".masthead-brand").width();
+                var pageWidth = $(".masthead-row").width() - 30;
+                var taskWizardWidth = $("a.myModal-btn").width();
+                btnDataReadyForQA.css("margin-right", ((pageWidth - imageWidth) / 2) - (btnDataReadyForQA.width() / 2) - taskWizardWidth);
+            }
+        }
+
+        $(document).ready(function () {
+
+            setPositionOfDataReadyForQAButton();
+            hideShowDataReadyForQA2Button();
+
+            $("#btnDataReadyForQA,#btnDataReadyForQA2").click(function (e) {
+                e.preventDefault();
+
+                if (confirm("@AppGlobal.Language.GetText(this, "ConfirmDataReadyForQA", "Are you sure you want to submit your data for quality assurance?")")) {
+
+                    $.ajax({
+                        cache: false,
+                        async: false,
+                        url: '/Provider/DataReadyForQA',
+                        type: 'post',
+                        //data: $("form[action='/Provider/QAForComplianceFromDialog']").serialize(),
+                        success: function(data, status, xhr) {
+                            var ct = xhr.getResponseHeader("content-type") || "";
+                            if (ct.indexOf('json') > -1) {
+                                // Got JSON so everything went OK.
+
+                                if (data.Status == 0) {
+                                    alert(data.Message);
+                                } else {
+                                    alert("@AppGlobal.Language.GetText(this, "DataReadyForQA", "Thank you.  Your data has been submitted for Quality Assurance")");
+
+                                    // Reload the page
+                                    window.location.reload();
+                                }
+                            } else {
+                                // Something wrong happened
+                                alert("@AppGlobal.Language.GetText(this, "ErrorSubmittingDataForQA", "Error Submitting Data for Quality Assurance")");
+                            }
+                        },
+                        error: function() {
+                            alert("@AppGlobal.Language.GetText(this, "ErrorSubmittingDataForQA", "Error Submitting Data for Quality Assurance")");
+                        }
+                    });
+                }
+            });
+        });
+
+        $(window).resize(function() {
+            setPositionOfDataReadyForQAButton();
+            hideShowDataReadyForQA2Button();
+        });
+
+    </script>
+}

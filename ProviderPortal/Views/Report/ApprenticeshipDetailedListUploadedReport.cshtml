@@ -1,0 +1,72 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ApprenticeshipDetailedListUploadedReportViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Detailed List Uploaded");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Detailed List Uploaded")</h2>
+<hr/>
+@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", ""))
+
+<table class="dataTable dt-responsive table table-striped table-bordered" data-ajax="@Url.Action("ApprenticeshipDetailedListUploadedReportJson")" data-created-row="rowCreated" data-name-index="1">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().UKPRN)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderName)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().ApprenticeshipCount)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().FrameworkCount)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().StandardCount)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.UKPRN)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ProviderName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ApprenticeshipCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.FrameworkCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.StandardCount)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    
+    <script type="text/javascript">
+
+        var rightAlignedColumns = [3, 4, 5];
+        var nameIndex = parseInt($("table.dataTable").data("name-index"));
+
+        function rowCreated(row, data, index) {
+            $.each(rightAlignedColumns, function (idx, item) {
+                $("td:nth-child(" + item + ")", row).addClass("alignRight");
+            });
+
+            var $name = $("td:eq(" + nameIndex + ")", row);
+            $name.html("<a class='btn-link' href='@Url.Action("Dashboard","Report")/" + data[data.length - 1] + "'>" + $name.text() + "</a>");
+        }
+
+    </script>
+}
+

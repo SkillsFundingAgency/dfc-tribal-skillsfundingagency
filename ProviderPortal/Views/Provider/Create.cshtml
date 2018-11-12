@@ -1,0 +1,335 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditProviderModel
+
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Add New Provider");
+    var canEditSpecialFields = Permission.HasPermission(false, false, new Permission.PermissionName[] { Permission.PermissionName.CanEditProviderSpecialFields});
+    var apprenticeshipContractExplanation = AppGlobal.Language.GetText(this, "ApprenticeshipContractExplanation", "<br /><span style=\"font-size: 0.8em;\">Apprenticeship information will only be displayed on the digital apprenticeship service website if '<strong>Current contract with the SFA</strong>' is checked</span>");
+}
+
+<h2 class="provider">@AppGlobal.Language.GetText(this, "Header", "Add New Provider")</h2>
+
+<div class="col-md-12">
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+    <hr/>
+    @Html.Raw(AppGlobal.Language.GetText(this, "PageSummary", "Enter a UKPRN for the new Provider and you will see their UKRLP details on the right. These details will also be pre-filled in below. If this provider should have different details for the Course Directory, overwrite these values with the correct ones.<br /><br />UKPRN, Provider Name and Provider Type are compulsory. Contracting body can only be set by Course Directory administrators. If this Provider has a contract with the Skills Funding Agency under which they will run provision, please contact the help desk to have this verified. Courses that are run by a provider who does not have a contract will not be published on the directory, unless they are run by an Organisation of which the provider is a member.<br /><br />For other fields, if no values are entered, the UKRLP data will be used for display on the public Course Directory."))
+    <hr/>
+    <div class="col-md-8">
+    @Html.EditableDataValidationSummary(false)
+
+    @Html.RequiredFields(new {@class = "col-md-offset-2"})
+
+    <div class="form-group">
+        @Html.LanguageLabelFor(m => m.UKPRN, new {@class = "control-label col-md-2"})
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.UKPRN, new {htmlAttributes = new {@class = "form-control", autocomplete = "off"}})
+            <div id="divUKPRN">
+                <a style="display: none; cursor: pointer;" id="aCopyUKRLPData">@AppGlobal.Language.GetText(this, "CopyUKRLPDataLink", "Copy data from UKRLP Details")</a>
+                <div id="divUKPRNMessage">
+                </div>
+            </div>
+            @Html.ValidationMessageFor(m => m.UKPRN)
+        </div>
+    </div>
+
+    @if (canEditSpecialFields)
+    {
+        <div class="form-group">
+            @Html.LanguageLabelFor(m => m.PublishData, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PublishData)
+                @Html.ValidationMessageFor(m => m.PublishData)
+            </div>
+        </div>
+    }
+    else
+    {
+        @Html.HiddenFor(m => m.PublishData)
+    }
+
+    @if (canEditSpecialFields)
+    {
+        <div class="form-group">
+            @Html.LanguageLabelFor(m => m.IsContractingBody, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IsContractingBody)
+                @Html.ValidationMessageFor(m => m.IsContractingBody)
+            </div>
+        </div>
+    }@* These fields are always available ONLY when creating a provider*@<div class="form-group">
+        @Html.LanguageLabelFor(m => m.SFAFunded, new {@class = "control-label col-md-2"})
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.SFAFunded)
+            @Html.ValidationMessageFor(m => m.SFAFunded)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LanguageLabelFor(m => m.DFE1619Funded, new {@class = "control-label col-md-2"})
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DFE1619Funded)
+            @Html.ValidationMessageFor(m => m.DFE1619Funded)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LanguageLabelFor(m => m.ProviderTypeId, new {@class = "control-label col-md-2"})
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.ProviderTypeId, (SelectList) ViewBag.ProviderTypes, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new {@class = "form-control"})
+            @Html.ValidationMessageFor(m => m.ProviderTypeId)
+        </div>
+    </div>
+    @* End *@
+
+    <div class="form-group">
+        @Html.LanguageLabelFor(m => m.ProviderName, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @if (canEditSpecialFields)
+            {
+                @Html.EditorFor(model => model.ProviderName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.ProviderName)
+            }
+            else
+            {
+                @Html.HiddenFor(m => m.ProviderName)
+                @Html.DisplayFor(model => model.ProviderName)
+            }
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LanguageLabelFor(m => m.TradingName, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @if (canEditSpecialFields)
+            {
+                @Html.EditorFor(model => model.TradingName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.TradingName)
+            }
+            else
+            {
+                @Html.HiddenFor(m => m.TradingName)
+                @Html.DisplayFor(model => model.TradingName)
+            }
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LanguageLabelFor(m => m.ProviderAlias, new {@class = "control-label col-md-2"})
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ProviderAlias, new {htmlAttributes = new {@class = "form-control"}})
+            @Html.ValidationMessageFor(m => m.ProviderAlias)
+        </div>
+    </div>
+
+    <div id="dfeLookupArea" style="@Model.DfELookupAreaStyle">
+
+        @if (canEditSpecialFields)
+        {
+            <div class="form-group">
+                @Html.LanguageLabelFor(m => m.SecureAccessId, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.SecureAccessId)
+                    @Html.ValidationMessageFor(m => m.SecureAccessId)
+                </div>
+            </div>
+        }
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(m => m.DfEProviderTypeId, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.DfEProviderTypeId, (SelectList) ViewBag.DfEProviderTypes, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new {@class = "form-control"})
+                @Html.ValidationMessageFor(m => m.DfEProviderTypeId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(m => m.DfEProviderStatusId, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.DfEProviderStatusId, (SelectList) ViewBag.DfEProviderStatuses, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new {@class = "form-control"})
+                @Html.ValidationMessageFor(m => m.DfEProviderStatusId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(m => m.DfELocalAuthorityId, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.DfELocalAuthorityId, (SelectList) ViewBag.DfELocalAuthorities, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new {@class = "form-control"})
+                @Html.ValidationMessageFor(m => m.DfELocalAuthorityId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(m => m.DfERegionId, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.DfERegionId, (SelectList) ViewBag.DfERegions, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new {@class = "form-control"})
+                @Html.ValidationMessageFor(m => m.DfERegionId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(m => m.DfEEstablishmentTypeId, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.DfEEstablishmentTypeId, (SelectList) ViewBag.DfEEstablishmentTypes, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new {@class = "form-control"})
+                @Html.ValidationMessageFor(m => m.DfEEstablishmentTypeId)
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LanguageLabelFor(m => m.UPIN, new {@class = "control-label col-md-2"})
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.UPIN, new {htmlAttributes = new {@class = "form-control"}})
+            @Html.ValidationMessageFor(m => m.UPIN)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LanguageLabelFor(m => m.Loans24Plus, new {@class = "control-label col-md-2"})
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Loans24Plus)
+            @Html.ValidationMessageFor(m => m.Loans24Plus)
+        </div>
+    </div>
+
+    @Html.EditorFor(m => m.Address, "_EditAddressPartial")
+
+    <div class="form-group">
+        @Html.LanguageLabelFor(m => m.Email, new {@class = "control-label col-md-2"})
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Email, new {htmlAttributes = new {@class = "form-control"}})
+            @Html.ValidationMessageFor(m => m.Email)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LanguageLabelFor(m => m.Website, new {@class = "control-label col-md-2"})
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Website, new {htmlAttributes = new {@class = "form-control", data_url = "true"}})
+            @Html.ValidationMessageFor(m => m.Website)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LanguageLabelFor(m => m.Telephone, new {@class = "control-label col-md-2"})
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Telephone, new {htmlAttributes = new {@class = "form-control"}})
+            @Html.ValidationMessageFor(m => m.Telephone)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LanguageLabelFor(m => m.Fax, new {@class = "control-label col-md-2"})
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Fax, new {htmlAttributes = new {@class = "form-control"}})
+            @Html.ValidationMessageFor(m => m.Fax)
+        </div>
+    </div>
+
+    <fieldset>
+        <legend>@AppGlobal.Language.GetText(this, "TrackingCodes", "Analytics Tracking Codes")</legend>
+
+        <span class="explanation">
+                        @Html.Raw(AppGlobal.Language.GetText(this, "TrackingCodesSummary", ""))
+                    </span>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(m => m.ProviderTrackingUrl, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProviderTrackingUrl, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(m => m.ProviderTrackingUrl)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(m => m.VenueTrackingUrl, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.VenueTrackingUrl, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(m => m.VenueTrackingUrl)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(m => m.CourseTrackingUrl, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CourseTrackingUrl, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(m => m.CourseTrackingUrl)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(m => m.BookingTrackingUrl, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BookingTrackingUrl, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(m => m.BookingTrackingUrl)
+            </div>
+        </div>
+
+    </fieldset>
+
+    <fieldset>
+        <legend>
+            @AppGlobal.Language.GetText(this, "MarketingInformationHeader", "Apprenticeships")
+            @if (AppGlobal.Language.GetText(this, "MarketingInformationHeaderTooltip", "") != "")
+            {
+                @Html.Tooltip(AppGlobal.Language.GetText(this, "MarketingInformationHeaderTooltip", ""))
+            }
+        </legend>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(m => m.ApprenticeshipContract, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ApprenticeshipContract)
+                @if (apprenticeshipContractExplanation != "")
+                {
+                    @Html.Raw(apprenticeshipContractExplanation)
+                }
+                @Html.ValidationMessageFor(m => m.ApprenticeshipContract)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(m => m.NationalApprenticeshipProvider, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NationalApprenticeshipProvider)
+                @Html.ValidationMessageFor(m => m.NationalApprenticeshipProvider)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2">&nbsp;</div>
+            <div class="col-md-10 alert alert-warning">
+                @Html.Raw(AppGlobal.Language.GetText(this, "GuidancePrompt", "Please remember to read the guidance before adding your information.  <a href=\"https://www.gov.uk/government/publications/find-apprenticeship-training-how-to-submit-data\" target=\"_blank\" > Click here to view the guidance documentation</a>"))
+            </div>
+
+            @Html.LanguageLabelFor(model => model.MarketingInformation, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.MarketingInformation, new {@class = "form-control markdown-editor"})
+                @Html.ValidationMessageFor(model => model.MarketingInformation)
+            </div>
+        </div>
+    </fieldset>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="@AppGlobal.Language.GetText(this, "Submit", "Create")" class="btn btn-success"/>
+        </div>
+    </div>
+    </div>
+
+    @Html.Partial("_UKPRNDetails", Model.UKRLPData)
+
+    </div>
+}
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Html.Partial("_UKPRNScript")
+    @Html.Partial("_DfEProviderPartial")
+    @Html.Partial("_CKEditorScripts")
+    @Html.Partial("_AddEditProviderScripts")
+}

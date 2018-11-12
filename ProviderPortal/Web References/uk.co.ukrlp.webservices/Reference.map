@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Results>
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://webservices.ukrlp.co.uk/UkrlpProviderQueryWS/ProviderQueryServiceV3?xsd=2" filename="UKRLP-CommonLibrary-v1-6.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://webservices.ukrlp.co.uk/UkrlpProviderQueryWS/ProviderQueryServiceV3?xsd=4" filename="PersonDescriptiveTypes.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://webservices.ukrlp.co.uk/UkrlpProviderQueryWS/ProviderQueryServiceV3?xsd=3" filename="CommonSimpleTypes-v1-3.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://webservices.ukrlp.co.uk/UkrlpProviderQueryWS/ProviderQueryServiceV3?wsdl" filename="ProviderQueryServiceV3.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://webservices.ukrlp.co.uk/UkrlpProviderQueryWS/ProviderQueryServiceV3?xsd=5" filename="BS7666.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://webservices.ukrlp.co.uk/UkrlpProviderQueryWS/ProviderQueryServiceV3?xsd=1" filename="ProviderQueryServiceV3.xsd" />
+  </Results>
+</DiscoveryClientResultsFile>

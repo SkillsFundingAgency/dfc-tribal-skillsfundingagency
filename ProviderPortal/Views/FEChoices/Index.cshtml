@@ -1,0 +1,57 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.FEChoicesUploadModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Import FE Choices Data");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Import FE Choices Data")</h2>
+
+@Html.Raw(AppGlobal.Language.GetText(this, "SubHeader", "<hr /><p>Use this page to upload new FE Choices data.  The file should be a CSV file containing 4 columns.  The first column should contain the <strong>UPIN</strong>, the second column should contain the <strong>Learner Destination</strong> score, the third column should contain the <strong>Employer Satisfaction</strong> score and the last column should contain the <strong>Learner Satisfaction</strong> score.  The file should contain a header row.</p><hr />"))
+
+@if (!String.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="warning">
+        @Html.Raw(ViewBag.Message)
+    </div>
+}
+
+@Html.EditableDataValidationSummary(false)
+
+@using (Html.BeginForm("Index", "FEChoices", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{   
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <table class="dt-responsive table table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-md-6">
+                        @AppGlobal.Language.GetText(this, "UploadSectionHeader", "Upload a new file")
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            @AppGlobal.Language.GetText(this, "UploadText", "Click Browse and select your FE Choices data file. Click upload.")
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.File, new { type = "file", @class = "btn btn-success" })
+                            @Html.ValidationMessageFor(m => m.File)
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="@AppGlobal.Language.GetText(this, "SubmitUpload", "Upload")" class="btn btn-success" />
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+
+@Html.ActionLink(AppGlobal.Language.GetText(this, "DownloadCurrent", "Download Current FE Choices Data"), "DownloadCurrent")
+@if (Model.LastUploadedBy != null)
+{
+    <br />
+    <br />
+    @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "LastUploadDetails", "<span style=\"font-size: smaller;\">Last uploaded by {0} on {1}.  Filename: {2}</span>"), Model.LastUploadedBy, Model.LastUploadDateTimeLocalTime, Model.LastUploadFileName))
+}

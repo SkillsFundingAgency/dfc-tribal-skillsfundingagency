@@ -1,0 +1,124 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditDeliveryInformationModel
+
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Edit Delivery Information");
+    var canEditSpecialFields = Permission.HasPermission(false, true, Permission.PermissionName.CanEditProviderSpecialFields);
+    var apprenticeshipContractExplanation = AppGlobal.Language.GetText(this, "ApprenticeshipContractExplanation", "<br /><span style=\"font-size: 0.8em;\">Apprenticeship information will only be displayed on the Digital Apprenticeship Service website if '<strong>Current contract with the SFA</strong>' is checked</span>");
+    Boolean isMarketingInformationLocked = Model.PassedOverallQAChecks == "1" && !Permission.HasPermission(false, true, Permission.PermissionName.CanQAProviders);
+}
+
+<h2 class="apprenticeships">@AppGlobal.Language.GetText(this, "Header", "Edit Delivery Information")</h2>
+
+
+<div class="col-md-12">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.Raw(AppGlobal.Language.GetText(this, "PageSummary", "The details below are for display on the Find an Apprenticeship Service."))
+            <hr />
+
+            <div class="col-md-8">
+
+                @Html.EditableDataValidationSummary(false)
+                
+                <fieldset id="ApprenticeshipDelivery">
+                    <legend>
+                        @AppGlobal.Language.GetText(this, "MarketingInformationHeader", "Apprenticeships")
+                        @if (AppGlobal.Language.GetText(this, "MarketingInformationHeaderTooltip", "") != "")
+                        {
+                            @Html.Tooltip(AppGlobal.Language.GetText(this, "MarketingInformationHeaderTooltip", ""))
+                        }
+                    </legend>
+
+                    @if (canEditSpecialFields)
+                    {
+                        <div class="form-group">
+                            @Html.LanguageLabelFor(m => m.RoATP, new {@class = "control-label col-md-2"})
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.RoATP)
+                                @Html.ValidationMessageFor(m => m.RoATP)
+                            </div>
+                        </div>
+                    }
+
+                    @if (canEditSpecialFields)
+                    {
+                        <div class="form-group">
+                            @Html.LanguageLabelFor(m => m.ApprenticeshipContract, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ApprenticeshipContract)
+                                @if (apprenticeshipContractExplanation != "")
+                                {
+                                    @Html.Raw(apprenticeshipContractExplanation)
+                                }
+                                @Html.ValidationMessageFor(m => m.ApprenticeshipContract)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LanguageLabelFor(m => m.RoATPProviderTypeName, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.Raw(Model.RoATPProviderTypeName)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LanguageLabelFor(m => m.RoATPStartDate, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.Raw(Model.RoATPStartDate)
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        @Html.HiddenFor(m => m.ApprenticeshipContract)
+                    }
+
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(m => m.NationalApprenticeshipProvider, new {@class = "control-label col-md-2"})
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.NationalApprenticeshipProvider)
+                            @Html.ValidationMessageFor(m => m.NationalApprenticeshipProvider)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-2">&nbsp;</div>
+                        <div class="col-md-10 alert alert-warning">
+                            @Html.Raw(AppGlobal.Language.GetText(this, "GuidancePrompt", "Please remember to read the guidance before adding your information.  <a href=\"https://www.gov.uk/government/publications/find-apprenticeship-training-how-to-submit-data\" target=\"_blank\" > Click here to view the guidance documentation</a>"))
+                        </div>
+
+                        @Html.LanguageLabelFor(model => model.MarketingInformation, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.MarketingInformation, new { @class = "form-control markdown-editor" + (isMarketingInformationLocked ? " markdown-editor-disabled" : "") })
+                            @Html.ValidationMessageFor(model => model.MarketingInformation)
+                            @if (isMarketingInformationLocked)
+                            {
+                                @Html.Raw(AppGlobal.Language.GetText(this, "CantEditMarketingInformation", "This data has passed quality assurance and is locked for editing"))
+                                <br/>
+                                <input id="btnSubmitNewTextForQA" type="button" value="Submit new text" class="btn btn-default"/>
+                                @Html.TooltipFor(m => m.SubmitNewTextToolTip)
+                            }
+                        </div>
+                    </div>
+                </fieldset>          
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="@AppGlobal.Language.GetText(this, "Submit", "Save")" class="btn btn-success" />
+                    </div>
+                </div>                                
+            </div>
+        </div>
+    }
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Html.Partial("_CKEditorScripts")
+    @Html.Partial("_AddEditProviderScripts")
+}

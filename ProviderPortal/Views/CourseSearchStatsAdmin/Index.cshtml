@@ -1,0 +1,127 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using System.Web.UI.WebControls
+@using Tribal.SkillsFundingAgency.ProviderPortal.Models
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.CourseSearchStatsAdminModel
+
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Course Search Stats Administration");
+}
+
+@Html.EditableDataValidationSummary(false)
+
+@using (Html.BeginForm("Index", "CourseSearchStatsAdmin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="container search-stats">
+        <div class="row">
+            <div class="col-md-8">
+                <header>
+                    <h2>@AppGlobal.Language.GetText(this, "Header", "Course Search Statistics Administration")</h2>
+                </header>
+            </div>
+            <div class="col-md-4">
+                <a href="#" id="upload-area-trigger" class="btn btn-primary">Upload File</a>
+                <a href="#" id="create-folder-area-trigger" class="btn btn-primary">Create New Folder</a>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                @Html.AntiForgeryToken()
+                
+                <!-- Hidden modal for File Upload controls -->
+                <div class="modal fade" id="uploadFileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="exampleModalLabel">Upload Course Search Usage Stats File</h4>                                    
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group row">
+                                    @Html.LanguageLabelFor(m => m.UploadToFolder, new { @class = "control-label col-sm-4" })
+                                    <div class="col-sm-6">
+                                        @Html.DropDownListFor(m => m.UploadToFolder, (SelectList)ViewBag.FolderNames, AppGlobal.Language.GetText(this, "PleaseSelect", "Select a folder to upload into"), new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    @Html.LanguageLabelFor(m => m.FileUpload, new { @class = "control-label col-sm-4" })
+                                    <div class="col-sm-6">
+                                        @Html.TextBoxFor(m => m.FileUpload, new { type = "file", @class = "file-input btn btn-block btn-success btn-file" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                                <input type="submit" name="UploadFile" value="@AppGlobal.Language.GetText(this, "UploadFileButtonLabel", "Upload")" class="btn btn-success" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hidden modal for Folder Creation controls -->
+                <div class="modal fade" id="createFolderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="exampleModalLabel">Create New Folder</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group row">
+                                    @Html.LanguageLabelFor(m => m.NewFolderName, new { @class = "control-label col-sm-2" })
+                                    <div class="col-sm-5">
+                                        @Html.TextBoxFor(m => m.NewFolderName, new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                                <input type="submit" name="CreateFolder" value="@AppGlobal.Language.GetText(this, "CreateFolderButtonLabel", "Create")" class="btn btn-success" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @foreach (CourseSearchStatsFolderModel folder in Model.Folders)
+                {
+                    <div class="search-stats-folder-name">
+                        @folder.Name.ToLongDateString()
+                        @if (folder.CanDelete)
+                        {
+                            <a href="#"
+                               data-folder="@folder.Name.ToLongDateString()"
+                               data-action="@Url.Action("DeleteFolder", "CourseSearchStatsAdmin", new { id = folder.Name.ToString("yyyyMMdd") })"
+                               data-item="folder"
+                               class="delete-link">[delete]</a>
+                        }
+                    </div>
+                    <table class="search-stats-folder">
+                        @foreach (CourseSearchStatsFileModel file in folder.Files)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.ActionLink(file.Filename, "GetFile", "CourseSearchStatsAdmin", new { id = folder.Name.ToString("yyyyMMdd"), filename = file.Filename }, null)
+                                    <a href="#"
+                                       data-folder="@folder.Name.ToLongDateString()"
+                                       data-file="@file.Filename"
+                                       data-action="@Url.Action("DeleteFile", "CourseSearchStatsAdmin", new { id = folder.Name.ToString("yyyyMMdd"), filename = file.Filename })"
+                                       data-item="file"
+                                       class="delete-link">[delete]</a>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts
+{
+    @Html.Partial("_CourseSearchStatsAdminScriptPartial")
+}

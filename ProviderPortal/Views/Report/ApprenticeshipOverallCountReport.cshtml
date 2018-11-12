@@ -1,0 +1,50 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ApprenticeshipOverallCountReportViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Overall Count");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Overall Count")</h2>
+<hr/>
+@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", ""))
+
+<table class="dataTable dt-responsive table table-striped table-bordered" data-ajax="@Url.Action("ApprenticeshipOverallCountReportJson")" data-created-row="rowCreated">
+    <thead>
+        <tr>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderCount)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().ApprenticeshipCount)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.ProviderCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ApprenticeshipCount)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    
+    <script type="text/javascript">
+
+        var rightAlignedColumns = [1, 2];
+
+        function rowCreated(row, data, index) {
+            $.each(rightAlignedColumns, function(idx, item) {
+                $("td:nth-child(" + item + ")", row).addClass("alignRight");
+            });
+        }
+
+    </script>
+}
+

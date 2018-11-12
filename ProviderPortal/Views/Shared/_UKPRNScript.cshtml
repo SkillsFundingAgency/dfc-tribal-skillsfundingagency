@@ -1,0 +1,130 @@
+﻿<script type="text/javascript">
+
+    var firstUKPRN = true;
+    var UKPRNChanged = false;
+
+    $(document).ready(function() {
+
+        $("#UKPRN").change(function() {
+            UKPRNChanged = true;
+        });
+
+        $("#UKPRN").blur(function() {
+
+            if (UKPRNChanged == false) {
+                return;
+            }
+
+            UKPRNChanged = false;
+
+            // Remove any existing text and classes from div
+            $("#divUKPRN").slideUp("fast", function() {
+                $("#divUKPRNMessage").text("");
+                $("#divUKPRNMessage").removeClass();
+                $("#aCopyUKRLPData").css("display", "none");
+            });
+
+            $("#divUKPRNData").fadeOut("fast");
+
+            GetUKPRNData(true);
+        });
+
+        $("#aCopyUKRLPData").click(function(e) {
+            e.preventDefault();
+            populateFieldsFromUKRLP();
+        });
+
+        if ($("#UKPRN").val() != "") {
+            firstUKPRN = false;
+            GetUKPRNData(false);
+        }
+
+    });
+
+    function GetUKPRNData(showCopyLink) {
+        if ($("#UKPRN").val() != "") {
+            var ukprn = parseInt($("#UKPRN").val());
+            var url = '@Url.Action("GetUkprn", "Ukrlp", new {UKPRN = "__Ukprn__"})';
+            url = url.replace('__Ukprn__', ukprn);
+            $.ajax({
+                url: url,
+                success: function(result) {
+                    if (result.UKRLP == "") {
+                        $("#divUKPRNMessage").text("@AppGlobal.Language.GetText(this, "UKPRNNotFound", "UKPRN {0} Not Found")".replace("{0}", ukprn));
+                        $("#divUKPRNMessage").addClass("field-validation-error");
+                        $("#divUKPRN").slideDown("fast");
+                    } else {
+                        if (result.InUse === true) {
+                            $("#divUKPRNMessage").text("@AppGlobal.Language.GetText(this, "UKPRNInUse", "WARNING: This UKPRN has a provider attached to it, however you may still proceed")".replace("{0}", ukprn));
+                            $("#divUKPRNMessage").addClass("field-validation-success");
+                        }
+                        $("#ddLegalName").text(result.LegalName);
+                        $("#ddTradingName").text(result.TradingName); 
+                        $("#ddLegalAddress").html(result.LegalFullAddress);
+                        $("#ddLegalAddress1").html(result.LegalAddress1);
+                        $("#ddLegalAddress2").html(result.LegalAddress2);
+                        $("#ddLegalTown").html(result.LegalTown);
+                        $("#ddLegalCounty").html(result.LegalCounty);
+                        $("#ddLegalPostcode").html(result.LegalPostcode);
+                        $("#ddLegalTelephone").text(result.LegalTelephone);
+                        $("#ddLegalFax").text(result.LegalFax);
+                        $("#ddContactName").text(result.ContactName);
+                        $("#ddContactAddress").html(result.ContactFullAddress);
+                        $("#ddContactTelephone").text(result.ContactTelephone);
+                        $("#ddContactFax").text(result.ContactFax);
+                        $("#ddProviderStatus").text(result.Status);
+                        if (result.CompanyRegistrationNumber != "") {
+                            $("#dtCompanyRegistration").css("display", "");
+                            $("#ddCompanyRegistration").css("display", "");
+                            $("#ddCompanyRegistration").text(result.CompanyRegistrationNumber);
+                        } else {
+                            $("#dtCompanyRegistration").css("display", "none");
+                            $("#ddCompanyRegistration").css("display", "none");
+                        }
+                        if (result.CharityRegistrationNumber != "") {
+                            $("#dtCharityRegistration").css("display", "");
+                            $("#ddCharityRegistration").css("display", "");
+                            $("#ddCharityRegistration").text(result.CharityRegistrationNumber);
+                        } else {
+                            $("#dtCharityRegistration").css("display", "none");
+                            $("#ddCharityRegistration").css("display", "none");
+                        }
+                        $("#divUKPRNData").fadeIn("slow", function() {
+                            if (firstUKPRN === true) {
+                                firstUKPRN = false;
+                                populateFieldsFromUKRLP();
+                            } else if (showCopyLink === true) {
+                                $("#aCopyUKRLPData").css("display", "");
+                            }
+                            $("#divUKPRN").slideDown("fast");
+                        });
+                    }
+                },
+                error: function() {
+                    //alert("Error with result: " + result);
+                    $("#divUKPRNMessage").text("@AppGlobal.Language.GetText(this, "UKPRNNotFound", "UKPRN {0} Not Found")".replace("{0}", $("#UKPRN").val()));
+                    $("#divUKPRNMessage").addClass("field-validation-error");
+                    $("#divUKPRN").slideDown("fast");
+                },
+                cache: false,
+                type: 'POST',
+                contentType: 'application/json, charset=utf-8',
+                dataType: 'json'
+            });
+        }
+    }
+
+    function populateFieldsFromUKRLP() {
+        $("#ProviderName,#OrganisationName").val($("#ddLegalName").text());
+        $("#TradingName").val($("#ddTradingName").text());
+        $("#Address_AddressLine1").val($("#ddLegalAddress1").text());
+        $("#Address_AddressLine2").val($("#ddLegalAddress2").text());
+        $("#Address_Town").val($("#ddLegalTown").text());
+        $("#Address_County").val($("#ddLegalCounty").text());
+        $("#Address_Postcode").val($("#ddLegalPostcode").text());
+        $("#Telephone").val($("#ddLegalTelephone").text());
+        $("#Fax").val($("#ddLegalFax").text());
+    }
+
+</script>
+

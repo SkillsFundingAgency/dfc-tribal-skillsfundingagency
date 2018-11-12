@@ -1,0 +1,113 @@
+﻿@if (HttpContext.Current.Items.Contains("_ListCourses"))
+{
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            $("#chkAllCourses").change(function () {
+                $("input[id^='chkCourse_']").each(function () {
+                    $(this).prop("checked", $("#chkAllCourses").prop("checked"));
+                });
+            });
+
+            $("input[id^='chkCourse_']").change(function () {
+                $("#chkAllCourses").prop("checked", $("input[id^='chkCourse_']").length == $("input[id^='chkCourse_']:checked").length);
+            });
+
+            $("#btnArchiveSelectedCourses").click(function() {
+
+                var selectedIds = "";
+                $("input[id^='chkCourse_']:checked").each(function() {
+                    if (selectedIds != "") {
+                        selectedIds += ",";
+                    }
+                    selectedIds += $(this).attr("id").split("_").pop();
+                });
+                if (selectedIds == "") {
+                    alert("@AppGlobal.Language.GetText(this, "SelectCourseToArchive", "Select course(s) to archive")");
+                    return;
+                }
+                if (confirm("@AppGlobal.Language.GetText(this, "ConfirmCourseArchive", "Are you sure you want to archive the selected course(s)?")") === false) {
+                    return;
+                }
+                var url = '@Url.Action("ArchiveSelected", "Course", new {courseIds = "__SelectedIds__"})';
+                url = url.replace('__SelectedIds__', selectedIds);
+                $.ajax({
+                    url: url,
+                    success: function(result) {
+                        if (result == "") {
+                            alert("@AppGlobal.Language.GetText(this, "NoCoursesArchived", "0 Courses Archived")");
+                        } else {
+                            $.each(result, function(i, item) {
+                                $("#divStatus_" + item).fadeOut("slow", function() {
+                                    $(this).text("@AppGlobal.Language.GetText(this, "Archived", "Archived")");
+                                    $(this).fadeIn("Slow", function() {
+                                        if (i == result.length - 1) {
+                                            alert(result.length + " Course" + (result.length == 1 ? "" : "s") + " Archived");
+                                        }
+                                    });
+                                });
+                            });
+                        }
+                        $("#chkAllCourses").prop("checked", false).trigger("change");
+                    },
+                    error: function () {
+                        alert("Error Archiving Courses");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/json, charset=utf-8',
+                    dataType: 'json'
+                });
+            });
+
+            $("#btnUnarchiveSelectedCourses").click(function () {
+
+                var selectedIds = "";
+                $("input[id^='chkCourse_']:checked").each(function () {
+                    if (selectedIds != "") {
+                        selectedIds += ",";
+                    }
+                    selectedIds += $(this).attr("id").split("_").pop();
+                });
+                if (selectedIds == "") {
+                    alert("@AppGlobal.Language.GetText(this, "SelectCourseToUnarchive", "Select course(s) to unarchive")");
+                    return;
+                }
+                if (confirm("@AppGlobal.Language.GetText(this, "ConfirmCourseUnarchive", "Are you sure you want to unarchive the selected course(s)?")") === false) {
+                    return;
+                }
+                var url = '@Url.Action("UnarchiveSelected", "Course", new {courseIds = "__SelectedIds__"})';
+                url = url.replace('__SelectedIds__', selectedIds);
+                $.ajax({
+                    url: url,
+                    success: function(result) {
+                        if (result == "") {
+                            alert("@AppGlobal.Language.GetText(this, "NoCoursesUnarchived", "0 Courses Unarchived")");
+                        } else {
+                            $.each(result, function(i, item) {
+                                $("#divStatus_" + item).fadeOut("slow", function() {
+                                    $(this).text("@AppGlobal.Language.GetText(this, "Pending", "Pending")");
+                                    $(this).fadeIn("Slow", function() {
+                                        if (i == result.length - 1) {
+                                            alert(result.length + " Course" + (result.length == 1 ? "" : "s") + " Unarchived");
+                                        }
+                                    });
+                                });
+                            });
+                        }
+                        $("#chkAllCourses").prop("checked", false).trigger("change");
+                    },
+                    error: function () {
+                        alert("Error Unarchiving Courses");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/json, charset=utf-8',
+                    dataType: 'json'
+                });
+            });
+
+        });
+
+    </script>
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TribalTechnology.InformationManagement.Interfaces.ILog</name>
+    </assembly>
+    <members>
+        <member name="T:TribalTechnology.InformationManagement.Interfaces.ILog">
+            <summary>
+            Interface for event/error logging objects to provide common methods for writing logs
+            </summary>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Interfaces.ILog.WriteLog(System.String)">
+            <summary>
+            Writes the message to the eventlog as information.
+            </summary>
+            <param name="MessageText">The event text to be written</param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Interfaces.ILog.WriteDebug(System.String)">
+            <summary>
+            Writes a debug message to the log.
+            </summary>
+            <param name="MessageText"></param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Interfaces.ILog.WriteError(System.String)">
+            <summary>
+            Writes a error message to the log.
+            </summary>
+            <param name="MessageText"></param>
+        </member>
+        <member name="M:TribalTechnology.InformationManagement.Interfaces.ILog.WriteWarning(System.String)">
+            <summary>
+            Writes a warning message to the log.
+            </summary>
+            <param name="MessageText"></param>
+        </member>
+    </members>
+</doc>

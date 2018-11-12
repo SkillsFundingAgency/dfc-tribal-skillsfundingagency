@@ -1,0 +1,51 @@
+﻿@if (UserContext.GetUserContext().ContextName == UserContext.UserContextName.Provider
+    && Permission.HasPermission(false, true, Permission.PermissionName.CanAddProviderCourse))
+{
+    <script>
+
+        $(function() {
+            $("a.addCourse").click(function(e) {
+                e.preventDefault();
+                OpenAddCourseDialog();
+            });
+        });
+
+        function OpenAddCourseDialog() {
+            BootstrapDialog.show({
+                title: '@AppGlobal.Language.GetText(this, "AddNewCourse", "Add a new course")',
+                message: $('<div></div>').load('@Url.Action("AddCourseDialog", "Course")'),
+                buttons: [
+                    {
+                        label: '@AppGlobal.Language.GetText(this, "Continue", "Continue")',
+                        cssClass: 'btn-success',
+                        action: function (dialog) {
+                            var learningAimRef = "";
+                            if ($("input[name=radLAR]:checked").length == 0) {
+                                alert('@AppGlobal.Language.GetText(this, "IndicateLearningAim", "Please indicate whether the course has a learning aim")');
+                                return;
+                            }
+                            if ($("input[name=radLAR]:checked").val() == "Yes") {
+                                if ($("#addLearningAimId").val() == "") {
+                                    alert('@AppGlobal.Language.GetText(this, "SelectALearningAim", "Please select a learning aim")');
+                                    return;
+                                }
+                                learningAimRef = $("#addLearningAimId").val();
+                            }
+                            dialog.close();
+                            var newLocation = "@Url.Action("Create", "Course", new { id = "__LearningAimRef__" })";
+                            newLocation = newLocation.replace("__LearningAimRef__", learningAimRef);
+                            window.location = newLocation;
+                        }
+                    },
+                    {
+                        label: "@AppGlobal.Language.GetText(this, "Cancel", "Cancel")",
+                        action: function(dialog) {
+                            dialog.close();
+                        }
+                    }
+                ]
+            });
+        }
+
+    </script>
+}

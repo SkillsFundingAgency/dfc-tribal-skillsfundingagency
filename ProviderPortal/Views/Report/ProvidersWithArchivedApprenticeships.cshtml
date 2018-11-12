@@ -1,0 +1,118 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ProvidersWithArchivedApprenticeshipsReportViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Providers With Archived or Unarchived Apprenticeships - Summary");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Providers With Archived or Unarchived Apprenticeships - Summary")</h2>
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.EditableDataValidationSummary(false)
+
+        @Html.RequiredFields(new { @class = "col-md-offset-2" })
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.StartDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.EndDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input name="RunReport" type="submit" value="@AppGlobal.Language.GetText(this, "RunReport", "Run Report")" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@if (ViewBag.ShowResults)
+{
+    @Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", ""))
+
+    <table class="dataTable dt-responsive table table-striped table-bordered" data-ajax="@Url.Action("ProvidersWithArchivedApprenticeshipsJson", new { startDate = Model.StartDate, endDate = Model.EndDate })" data-created-row="rowCreated" data-name-index="1">
+        <thead>
+            <tr>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().ProviderId)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().ProviderName)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().UKPRN)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().NumberOfArchivedApprenticeships)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().NumberOfUnarchivedApprenticeships)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().NumberOfCurrentArchivedApprenticeships)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(m => m.Items.First().NumberOfCurrentLiveApprenticeships)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => item.ProviderId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.ProviderName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.UKPRN)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.NumberOfArchivedApprenticeships)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.NumberOfUnarchivedApprenticeships)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.NumberOfCurrentArchivedApprenticeships)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.NumberOfCurrentLiveApprenticeships)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+
+        var nameIndex = parseInt($("table.dataTable").data("name-index"));
+        var rightAlignedColumns = [4, 5, 6, 7];
+
+        function rowCreated(row, data, index) {
+            $.each(rightAlignedColumns, function (idx, item) {
+                $("td:nth-child(" + item + ")", row).addClass("alignRight");
+            });
+
+            var $name = $("td:eq(" + nameIndex + ")", row);
+            $name.html("<a class='btn-link' href='@Url.Action("Dashboard","Report")/" + data[0] + "'>" + $name.text() + "</a>");
+        }
+
+    </script>
+}

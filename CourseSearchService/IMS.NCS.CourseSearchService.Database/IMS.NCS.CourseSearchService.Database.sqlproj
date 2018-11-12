@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>IMS.NCS.CourseSearchService.Database</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{d9b10e28-c743-422e-99f3-8837b240759c}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql120DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>IMS.NCS.CourseSearchService.Database</RootNamespace>
+    <AssemblyName>IMS.NCS.CourseSearchService.Database</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'sfa-test-s-vi|AnyCPU' ">
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'sfa-test-s-vi-import|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'sfa-prod-test|AnyCPU' " />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'sfa-prod-live|AnyCPU' " />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'sfa-test-s-vi-legacy|AnyCPU' ">
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'sfa-prod-legacy|AnyCPU' ">
+    <OutputPath>bin\sfa-prod-live\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'sfa-prod-test-public|AnyCPU' " />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'sfa-prod-live-public|AnyCPU' " />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'sfa-api-monitoring-local|AnyCPU' ">
+    <OutputPath>bin\sfa-api-monitoring-local\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'sfa-api-monitoring-remote|AnyCPU' ">
+    <OutputPath>bin\sfa-api-monitoring-remote\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Steve-NCS|AnyCPU' ">
+    <OutputPath>bin\Steve-NCS\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Steve-Public-SearchAPI|AnyCPU' ">
+    <OutputPath>bin\Steve-Public-SearchAPI\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Steve-NCS-SearchAPI|AnyCPU' ">
+    <OutputPath>bin\Steve-NCS-SearchAPI\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'sfa-prod-dev|AnyCPU' " />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'sfa-prod-dev-public|AnyCPU' ">
+    <OutputPath>bin\sfa-prod-test\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'sfa-test-s-vi-public|AnyCPU' ">
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo" />
+    <Folder Include="dbo\Functions" />
+    <Folder Include="dbo\Stored Procedures" />
+    <Folder Include="dbo\Tables" />
+    <Folder Include="dbo\Triggers" />
+    <Folder Include="dbo\User Defined Types" />
+    <Folder Include="dbo\File Groups" />
+    <Folder Include="Data" />
+    <Folder Include="remote" />
+    <Folder Include="remote\Schemas" />
+    <Folder Include="remote\Synonyms" />
+    <Folder Include="remote\Stored Procedures" />
+    <Folder Include="search" />
+    <Folder Include="search\Schemas" />
+    <Folder Include="search\Stored Procedures" />
+    <Folder Include="search\Tables" />
+    <Folder Include="FullText Thesaurus" />
+    <Folder Include="remote\Storage" />
+    <Folder Include="PostDeployment" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\Provider.sql" />
+    <Build Include="dbo\Tables\Venue.sql" />
+    <Build Include="dbo\Tables\Application.sql" />
+    <Build Include="dbo\Tables\RecordStatus.sql" />
+    <Build Include="dbo\Tables\CategoryCode.sql" />
+    <Build Include="dbo\Tables\CourseInstanceA10FundingCode.sql" />
+    <Build Include="dbo\File Groups\SFA_SearchAPI_MOD.sql" />
+    <Build Include="dbo\File Groups\SFA_SearchAPI_MOD_File.sql" />
+    <Build Include="dbo\Stored Procedures\Backup_DB.sql" />
+    <Build Include="dbo\Stored Procedures\Backup_DB_to_disk_with_copy_only.sql" />
+    <Build Include="dbo\Tables\ProviderType.sql" />
+    <Build Include="dbo\Tables\ProviderText.sql" />
+    <Build Include="dbo\Tables\Course.sql" />
+    <Build Include="dbo\Tables\CourseInstance.sql" />
+    <Build Include="dbo\Tables\CourseText.sql" />
+    <Build Include="dbo\Tables\CourseInstanceStartDate.sql" />
+    <Build Include="dbo\Tables\AttendanceType.sql" />
+    <Build Include="dbo\Tables\AttendancePattern.sql" />
+    <Build Include="dbo\Tables\DurationUnit.sql" />
+    <Build Include="dbo\Tables\StudyMode.sql" />
+    <Build Include="dbo\Tables\StopWord.sql" />
+    <Build Include="dbo\Tables\Course1.sql" />
+    <Build Include="dbo\Tables\Course3.sql" />
+    <Build Include="dbo\Tables\Course2.sql" />
+    <Build Include="remote\Synonyms\Course.sql" />
+    <Build Include="remote\Synonyms\CourseInstance.sql" />
+    <Build Include="remote\Synonyms\CourseInstanceA10FundingCode.sql" />
+    <Build Include="remote\Synonyms\CourseInstanceStartDate.sql" />
+    <Build Include="remote\Synonyms\CourseText.sql" />
+    <Build Include="remote\Synonyms\LearningAim.sql" />
+    <Build Include="remote\Synonyms\Provider.sql" />
+    <Build Include="remote\Synonyms\ProviderText.sql" />
+    <Build Include="remote\Synonyms\Venue.sql" />
+    <Build Include="remote\Schemas\Remote.sql" />
+    <Build Include="remote\Synonyms\CategoryCode.sql" />
+    <Build Include="dbo\Tables\LearningAim.sql" />
+    <Build Include="remote\Stored Procedures\CopyOverAllData.sql" />
+    <Build Include="remote\Stored Procedures\CopyOverCategoryCode.sql" />
+    <Build Include="remote\Stored Procedures\CopyOverCourse.sql" />
+    <Build Include="remote\Stored Procedures\CopyOverCourseInstance.sql" />
+    <Build Include="remote\Stored Procedures\CopyOverCourseInstanceA10FundingCode.sql" />
+    <Build Include="remote\Stored Procedures\CopyOverCourseInstanceStartDate.sql" />
+    <Build Include="remote\Stored Procedures\CopyOverCourseText.sql" />
+    <Build Include="remote\Stored Procedures\CopyOverLearningAim.sql" />
+    <Build Include="remote\Stored Procedures\CopyOverProvider.sql" />
+    <Build Include="remote\Stored Procedures\CopyOverProviderText.sql" />
+    <Build Include="remote\Stored Procedures\CopyOverVenue.sql" />
+    <Build Include="search\Stored Procedures\PublishAllData.sql" />
+    <Build Include="search\Stored Procedures\PublishCategoryCode.sql" />
+    <Build Include="search\Stored Procedures\PublishCourse.sql" />
+    <Build Include="search\Stored Procedures\PublishCourseInstance.sql" />
+    <Build Include="search\Stored Procedures\PublishCourseInstanceA10FundingCode.sql" />
+    <Build Include="search\Stored Procedures\PublishCourseInstanceStartDate.sql" />
+    <Build Include="search\Stored Procedures\PublishCourseText.sql" />
+    <Build Include="search\Stored Procedures\PublishLearningAim.sql" />
+    <Build Include="search\Stored Procedures\PublishProvider.sql" />
+    <Build Include="search\Stored Procedures\PublishProviderText.sql" />
+    <Build Include="search\Stored Procedures\PublishVenue.sql" />
+    <Build Include="search\Schemas\Search.sql" />
+    <Build Include="search\Tables\CategoryCode.sql" />
+    <Build Include="search\Tables\Course.sql" />
+    <Build Include="search\Tables\CourseInstance.sql" />
+    <Build Include="search\Tables\CourseInstanceA10FundingCode.sql" />
+    <Build Include="search\Tables\CourseInstanceStartDate.sql" />
+    <Build Include="search\Tables\CourseText.sql" />
+    <Build Include="search\Tables\LearningAim.sql" />
+    <Build Include="search\Tables\Provider.sql" />
+    <Build Include="search\Tables\ProviderText.sql" />
+    <Build Include="search\Tables\Venue.sql" />
+    <Build Include="dbo\Stored Procedures\API_Venue_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\API_Provider_GetByProviderId_v2.sql" />
+    <Build Include="dbo\Stored Procedures\API_Provider_GetAll_v2.sql" />
+    <Build Include="dbo\Stored Procedures\API_LearningAim_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\API_Course_GetById_v2.sql" />
+    <Build Include="dbo\Stored Procedures\API_CategoryCode_GetAll_v2.sql" />
+    <Build Include="dbo\Tables\ProviderRequestResponesLog.sql" />
+    <Build Include="dbo\Stored Procedures\ProviderRequestResponesLog_Insert_v2.sql" />
+    <Build Include="dbo\Stored Procedures\API_CourseList_Get_v2.sql" />
+    <Build Include="dbo\Tables\GeoLocation.sql" />
+    <Build Include="dbo\Functions\GetDistance.sql" />
+    <Build Include="dbo\Functions\CategoryLevel.sql" />
+    <Build Include="FullTextIndexes.sql" />
+    <Build Include="dbo\Functions\Split.sql" />
+    <Build Include="dbo\Functions\CategorySortOrder.sql" />
+    <Build Include="dbo\Functions\CategoryTotal.sql" />
+    <Build Include="dbo\Functions\GetPointForPostcode.sql" />
+    <Build Include="dbo\Functions\BuildSearchTerms.sql" />
+    <Build Include="remote\Storage\Course_CourseTitle.sql" />
+    <Build Include="dbo\Tables\QualificationLevel.sql" />
+    <Build Include="dbo\Tables\QualificationType.sql" />
+    <Build Include="dbo\Tables\Log.sql" />
+    <Build Include="dbo\Tables\CourseInstancePriceDescription.sql" />
+    <Build Include="remote\Synonyms\PublicAPIUser.sql" />
+    <Build Include="dbo\Functions\IsValidAPIKey.sql" />
+    <Build Include="dbo\Stored Procedures\API_CategoryCode_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\API_Course_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\API_CourseList_Get.sql" />
+    <Build Include="dbo\Stored Procedures\API_Provider_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\API_Provider_GetByProviderId.sql" />
+    <Build Include="dbo\Stored Procedures\ProviderRequestResponesLog_Insert.sql" />
+    <Build Include="dbo\Tables\Course4.sql" />
+    <Build Include="dbo\Tables\CourseInstance1.sql" />
+    <Build Include="dbo\Tables\Venue1.sql" />
+    <Build Include="search\Tables\VenueText.sql" />
+    <Build Include="remote\Synonyms\VenueText.sql" />
+    <Build Include="dbo\Tables\VenueText.sql" />
+    <Build Include="remote\Stored Procedures\CopyOverVenueText.sql" />
+    <Build Include="search\Stored Procedures\PublishVenueText.sql" />
+    <Build Include="dbo\Stored Procedures\API_CourseList_Get_v3.sql" />
+    <Build Include="search\Tables\CountyAlias.sql" />
+    <Build Include="dbo\Tables\CountyAlias.sql" />
+    <Build Include="dbo\Tables\VenueLocation.sql" />
+    <Build Include="search\Tables\VenueLocation.sql" />
+    <Build Include="remote\Synonyms\VenueLocation.sql" />
+    <Build Include="remote\Synonyms\CountyAlias.sql" />
+    <Build Include="remote\Stored Procedures\CopyOverCountyAlias.sql" />
+    <Build Include="remote\Stored Procedures\CopyOverVenueLocation.sql" />
+    <Build Include="search\Stored Procedures\PublishCountyAlias.sql" />
+    <Build Include="search\Stored Procedures\PublishVenueLocation.sql" />
+    <Build Include="dbo\Functions\SplitAndTrim.sql" />
+    <Build Include="dbo\Functions\BuildExactSearchTerms.sql" />
+    <Build Include="dbo\Tables\CourseFreeText.sql" />
+    <Build Include="dbo\Tables\ProviderFreeText.sql" />
+    <Build Include="dbo\Tables\VenueGeography.sql" />
+    <Build Include="remote\Synonyms\SearchPhrase.sql" />
+    <Build Include="remote\Synonyms\SearchPhrase_QualificationLevel.sql" />
+    <Build Include="remote\Synonyms\SearchPhrase_AttendancePattern.sql" />
+    <Build Include="remote\Synonyms\SearchPhrase_AttendanceType.sql" />
+    <Build Include="remote\Synonyms\SearchPhrase_StudyMode.sql" />
+    <Build Include="remote\Synonyms\QualificationLevel.sql" />
+    <Build Include="remote\Synonyms\StudyMode.sql" />
+    <Build Include="remote\Synonyms\AttendancePattern.sql" />
+    <Build Include="remote\Synonyms\AttendanceType.sql" />
+    <Build Include="remote\Synonyms\ConfigurationSettings.sql" />
+    <Build Include="dbo\Stored Procedures\AddStopWord.sql" />
+    <Build Include="dbo\Stored Procedures\GetStopWords.sql" />
+    <Build Include="dbo\Stored Procedures\DropStopWord.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SFA_SearchAPI-itsdb01s-2014.publish.xml" />
+    <None Include="Data\LookupData.sql" />
+    <None Include="SFA_SearchAPI-sfa-prod-test.publish.xml" />
+    <None Include="FullText Thesaurus\tsenu.xml" />
+    <None Include="SFA_SearchAPI-Jon.publish.xml" />
+    <None Include="SFA_SearchAPI-sfa-prod-dev.publish.xml" />
+    <None Include="SFA_SearchAPI-sfa-prod-live.publish.xml" />
+    <None Include="SFA_SearchAPI-Steve.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeployment.sql" />
+    <None Include="PostDeployment\Custom.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="IMS.NCS.CourseSearchService.Database.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="SFA_CourseDirectory">
+      <DefaultValue>SFA_CourseDirectory</DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
+  </ItemGroup>
+</Project>

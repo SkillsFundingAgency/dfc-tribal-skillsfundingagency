@@ -1,0 +1,54 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditContentViewModel
+<script src="/Scripts/tinymce/tinymce.min.js"></script>
+<script src="/Scripts/ace/ace.js"></script>
+<script>
+    $(function() {
+        var $cb = $("#content-availability input[type=checkbox]");
+
+        function getSelectedContext() {
+            return ($cb.filter("#VisibleToProvider").prop("checked") ? 1 : 0)
+                | ($cb.filter("#VisibleToOrganisation").prop("checked") ? 2 : 0)
+                | ($cb.filter("#VisibleToAdministration").prop("checked") ? 4 : 0)
+                | ($cb.filter("#VisibleToAuthenticatedNoAccess").prop("checked") ? 8 : 0)
+                | ($cb.filter("#VisibleToUnauthenticated").prop("checked") ? 16 : 0)
+                | ($cb.filter("#VisibleToDeletedProvider").prop("checked") ? 32 : 0)
+                | ($cb.filter("#VisibleToDeletedOrganisation").prop("checked") ? 64 : 0);
+        };
+
+        $("#select-all").click(function(event) {
+            $cb.prop("checked", true);
+            event.preventDefault();
+        });
+        $("#select-none").click(function(event) {
+            $cb.prop("checked", false);
+            event.preventDefault();
+        });
+        $("#select-invert").click(function(event) {
+            $cb.each(function() {
+                $(this).prop("checked", !$(this).prop("checked"));
+            });
+            event.preventDefault();
+        });
+        $("#select-fewer, #select-more").click(function(event) {
+            $(".selection-hidden").slideToggle();
+            $("#select-more").toggle();
+            $("#select-fewer").toggle();
+            event.preventDefault();
+        });
+        $(".selection-hidden").hide();
+        $("input[data-action]").click(function(event) {
+            var action = $(this).data("action");
+            if (action == "Publish" || action == "UpdateAvailability") {
+                var otherContexts = parseInt($("input#UnavailableContexts").val());
+                var context = getSelectedContext();
+                if ((context & otherContexts) != 0) {
+                    if (!confirm("@AppGlobal.Language.GetText("SiteContent_Error_ConfirmContextUpdate", "Published content already exists for one or more selected user contexts. If you proceed the other content will be archived or have its availability updated as appropriate. Do you wish to continue?")")) {
+                        event.preventDefault();
+                        return false;
+                    }
+                }
+            }
+            $("#SubmitAction").val(action);
+        });
+    });
+</script>

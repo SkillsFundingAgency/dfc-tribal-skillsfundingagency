@@ -1,0 +1,79 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddressViewModel
+@{
+    HttpContext.Current.Items["_EditAddressPartial"] = true;
+}
+@Html.HiddenFor(m => m.AddressId)
+@Html.HiddenFor(m => m.AddressBaseId)
+<div class="form-group">
+    @Html.LanguageLabelFor(m => m.AddressLine1, new {@class = "control-label col-md-2"})
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.AddressLine1, new { htmlAttributes = new {@class = "form-control"} })
+        @Html.ValidationMessageFor(m => m.AddressLine1)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LanguageLabelFor(m => m.AddressLine2, new {@class = "control-label col-md-2"})
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.AddressLine2, new { htmlAttributes = new {@class = "form-control"} })
+        @Html.ValidationMessageFor(m => m.AddressLine2)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LanguageLabelFor(m => m.Town, new {@class = "control-label col-md-2"})
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.Town, new { htmlAttributes = new {@class = "form-control"} })
+        @Html.ValidationMessageFor(m => m.Town)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LanguageLabelFor(m => m.County, new {@class = "control-label col-md-2"})
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.County, new { htmlAttributes = new {@class = "form-control"} })
+        @Html.ValidationMessageFor(m => m.County)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LanguageLabelFor(m => m.Postcode, new {@class = "control-label col-md-2"})
+    <div class="col-md-10">
+        <div class="col-md-5" style="padding-left: 0;">
+            @Html.EditorFor(model => model.Postcode, new { htmlAttributes = new {@class = "form-control"} })
+        </div>
+        <div class="col-md-5" style="margin-top: 8px;">
+            <a id="aFindAddress" href="#">@AppGlobal.Language.GetText(this, "FindAddress", "Find Address")</a>
+        </div>
+        <div style="clear: both;">
+            @Html.ValidationMessageFor(m => m.Postcode)
+        </div>
+    </div>
+</div>
+
+<div id="divChooseAddress" class="form-group" style="display: none;">
+    <div id="divPostcodeNotFound" style="display:none" class="form-group col-md-10 text-danger">
+        <div class="col-md-offset-3">
+            @AppGlobal.Language.GetText(this, "PostcodeNotFound", "We could not find the postcode you have entered. Postcodes must be entered with a space - e.g. SW1A 1AA. If you believe your postcode is correct and are still receiving this error, please contact the Course Directory Support Team on 0844 811 5073 or support@coursedirectoryproviderportal.org.uk")
+        </div>
+    </div>
+    <div style="clear: both;"></div>
+    <div id="divDDLChooseAddress">
+        <label for="ddlChooseAddress" class="control-label col-md-2">@AppGlobal.Language.GetText(this, "ChooseAddress", "Choose Address")</label>
+        <div class="col-md-10">
+            <select id="ddlChooseAddress" class="form-control">
+            </select>
+        </div>
+    </div>
+</div>
+
+@if (!Model.HideRegion)
+{
+    <div class="form-group">
+        @Html.LanguageLabelFor(m => m.RegionId, new {@class = "control-label col-md-2"})
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.RegionId, Model.Regions, new {@class = "form-control"})
+            @Html.ValidationMessageFor(m => m.RegionId)
+        </div>
+    </div>
+}

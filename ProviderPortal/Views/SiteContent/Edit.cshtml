@@ -1,0 +1,107 @@
+﻿@using Microsoft.Ajax.Utilities
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditContentViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Edit Content Page");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Edit Content Page")</h2>
+<h4></h4>
+<hr/>
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.EditableDataValidationSummary("", new {@class = "text-danger col-md-offset-2"})
+
+            var mClass = "alert-info";
+            var message = "";
+            switch ((Constants.RecordStatus) Model.RecordStatusId)
+            {
+                case Constants.RecordStatus.Live:
+                    message = AppGlobal.Language.GetText(this, "LiveContent", "This content is published and visible to users. You may change the type of users this content is available to. Any other changes will be created as a new pending page.");
+                    break;
+                case Constants.RecordStatus.Pending:
+                    message = AppGlobal.Language.GetText(this, "PendingContent", "This is a pending version of some new content. This content is not visible to users and may be freely edited.");
+                    break;
+                case Constants.RecordStatus.Archived:
+                    message = AppGlobal.Language.GetText(this, "ArchivedContent", "This content is archived and is not visible to users. Any changes will be created as a new pending page.");
+                    break;
+                case Constants.RecordStatus.Deleted:
+                    message = AppGlobal.Language.GetText(this, "DeletedContent", "This content is deleted and should not be visible to anyone. Any changes will be created as a new pending page.");
+                    break;
+            }
+            <div class="col-md-offset-2 alert @(mClass) alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                @Html.Raw(message)
+            </div>
+
+            @Html.RequiredFields(new {@class = "col-md-offset-2"})
+
+            <div class="form-horizontal">
+            
+                @Html.Partial("_AddEditContentPartial", Model)
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        @{
+                            var save = AppGlobal.Language.GetText(this, "Save", "Save");
+                            var saveAsNew = AppGlobal.Language.GetText(this, "SaveAsNew", "Save new version");
+                            var updateAvailability = AppGlobal.Language.GetText(this, "UpdateAvailability", "Update availability");
+                            var publish = AppGlobal.Language.GetText(this, "Publish", "Publish");
+                            var archive = AppGlobal.Language.GetText(this, "Archive", "Archive");
+                            var delete = AppGlobal.Language.GetText(this, "Delete", "Delete");
+                            var history = AppGlobal.Language.GetText(this, "History", "View page history");
+                        }
+
+                        @if (Model.RecordStatusId == (int) Constants.RecordStatus.Pending)
+                        {
+                            <input data-action="Save" type="submit" value="@(save)" class="btn btn-default" />
+                        }
+                        else
+                        {
+                            <input data-action="Save" type="submit" value="@(saveAsNew)" class="btn btn-default" />
+                        }
+                        
+                        @if (Model.RecordStatusId == (int) Constants.RecordStatus.Live)
+                        {
+                            <input data-action="UpdateAvailability" id="UpdateAvailability" type="submit" value="@(updateAvailability)" class="btn btn-default" />
+                        }
+
+                        @if (Model.RecordStatusId != (int) Constants.RecordStatus.Live)
+                        {
+                            <input data-action="Publish" id="Publish" type="submit" value="@(publish)" class="btn btn-default" />
+                        }
+                        
+                        @if (Model.RecordStatusId != (int) Constants.RecordStatus.Archived
+                             && !(Model.Embed && Model.RecordStatusId == (int)Constants.RecordStatus.Live))
+                        {
+                            if (Model.RecordStatusId == (int)Constants.RecordStatus.Live)
+                            {
+                                <input data-action="Archive" id="Archive" type="submit" value="@(archive)" class="btn btn-default" data-confirm="@AppGlobal.Language.GetText(this, "ArchiveLiveWarning", "This content is published and visible to users. Are you sure you want to archive this content?")"/>
+                            }
+                            else
+                            {
+                                <input data-action="Archive" id="Archive" type="submit" value="@(archive)" class="btn btn-default" />
+                            }
+                        }
+
+                        @if (Model.RecordStatusId != (int) Constants.RecordStatus.Live)
+                        {
+                            @Html.ActionLink(delete, "Delete", new { id = Model.Path, version = Model.Version }, new {@class = "btn btn-default"})
+                        }
+                        
+                        @Html.ActionLink(history, "History", new { id = Model.Path }, new {@class = "btn btn-default"})
+
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Html.Partial("_AddEditContentScriptPartial", Model)
+}

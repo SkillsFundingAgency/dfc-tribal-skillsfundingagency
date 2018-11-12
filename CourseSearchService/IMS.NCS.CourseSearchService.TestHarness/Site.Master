@@ -1,0 +1,49 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="IMS.NCS.CourseSearchService.TestHarness.SiteMaster" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head runat="server">
+    <title></title>
+    <link href="Styles/Site.css" rel="stylesheet" type="text/css" />
+    <script src="Scripts/default.js" type="text/javascript"></script>
+
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <div class="page">
+
+        <div id="header">
+            <div id="title">
+                <h6><asp:Label ID="lblEnvironment" runat="server" /> (version: <asp:Label ID="lblVersion" runat="server"></asp:Label>)</h6>
+                <h6 style="font-size: smaller;"><asp:Label ID="lblUrl" runat="server" /></h6>
+            </div>
+
+            <div id="menucontainer">
+
+                <ul id="menu">
+                    <li id="liHome"><a href="Home.aspx">Home</a></li>
+                    <li id="liCourseSearch"><a href="CourseSearch.aspx">Course Search</a></li>
+                    <li id="liProviderSearch"><a href="ProviderSearch.aspx">Provider Search</a></li>
+                    <li id="liCategoryList"><a href="CategoryList.aspx">Category List</a></li>
+                </ul>
+
+            </div>
+        </div>
+
+        <div id="mainnavigation">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+            <div id="footer">
+                © 2011-15
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        setUpShowHidePanels();
+
+    </script>
+</body>
+</html>

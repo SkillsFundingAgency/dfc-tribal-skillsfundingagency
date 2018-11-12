@@ -1,0 +1,362 @@
+﻿@using System.Collections.Specialized
+@using Tribal.SkillsFundingAgency.ProviderPortal.Models;
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ProviderDashboardReportViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Provider Dashboard");
+    var inAdminContext = UserContext.GetUserContext().IsAdministration();
+}
+
+<div class="dashboard-report-providername">
+    <h2>@Model.ProviderName</h2>
+
+    @Html.Action("Display", "SiteContent", new { id = "Alert/Provider", safeEmbed = true })
+
+    @if (Model.NumberOfPendingCourses > 0)
+    {
+        <div class="alert alert-warning">
+            @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "PendingCoursesExist", "You have {0} pending course(s).  Pending courses are not published to the National Course Search Service.  To move a course from the Pending status you must add an opportunity.  <a href=\"/Course/List?qualitySearchMode={1}\">Click here to view your pending courses</a>"), Model.NumberOfPendingCourses.ToString("N0"), Constants.CourseSearchQAFilter.CoursesPending))
+        </div>
+    }
+</div>
+
+
+@if (inAdminContext && !Model.RenderForPdf)
+{
+    <div class="col-md-12 btn-toolbar">
+        <button class="btn btn-default pull-right" onclick="$('form#context-switch').submit()">Switch to provider</button>
+    </div>
+}
+<hr />
+<div class="dashboard-report">
+
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                @if (!(Model.IsTASOnly.HasValue && Model.IsTASOnly.Value))
+                {
+                    <div class="panel panel-primary quality-scoring">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@AppGlobal.Language.GetText(this, "QualityScoringHeader", "Quality Scoring")</h3>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-striped table-bordered">
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(m => m.AutoAggregateQualityRating)
+                                        @Html.TooltipFor(m => m.AutoAggregateQualityRating, new { @class = "pull-right" })
+                                    </th>
+                                    @Html.DashboardQualityCell(Model.AutoAggregateQualityRating, "top")
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(m => m.CoursesWithLongSummary)
+                                        @Html.TooltipFor(m => m.CoursesWithLongSummary, new { @class = "pull-right" })
+                                    </th>
+                                    @Html.DashboardQualityCell(Model.CoursesWithLongSummary, Model.Courses, "shortSummary", Constants.CourseSearchQAFilter.CourseShortSummary.ToString())
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(m => m.CoursesWithLearningAims)
+                                        @Html.TooltipFor(m => m.CoursesWithLearningAims, new { @class = "pull-right" })
+                                    </th>
+                                    @Html.DashboardQualityCell(Model.CoursesWithLearningAims, Model.Courses, "learningAims", Constants.CourseSearchQAFilter.LearningAimNone.ToString())
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(m => m.CoursesWithDistinctLongSummary)
+                                        @Html.TooltipFor(m => m.CoursesWithDistinctLongSummary, new { @class = "pull-right" })
+                                    </th>
+                                    @Html.DashboardQualityCell(Model.CoursesWithDistinctLongSummary, Model.Courses, "nonDistinctSummary", Constants.CourseSearchQAFilter.CourseNonDistinctSummary.ToString())
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(m => m.CoursesWithFutureStartDates)
+                                        @Html.TooltipFor(m => m.CoursesWithFutureStartDates, new { @class = "pull-right" })
+                                    </th>
+                                    @Html.DashboardQualityCell(Model.CoursesWithFutureStartDates, Model.CourseInstances, "futureStartDates")
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+
+                    <div>
+                        @if (Permission.HasPermission(false, true, Permission.PermissionName.CanRecalculateQualityScores))
+                        {
+                            @Html.ActionLink(AppGlobal.Language.GetText(this, "RecalculateScore", "Update Quality Scoring"), "DashboardRecalculate", "Report", inAdminContext ? new { id = Model.ProviderId } : null, new { @class = "btn btn-default" })
+                        }
+                        <a href="/Help/DataQuality" target="_blank" class="btn btn-default">@AppGlobal.Language.GetText(this, "DashboardDataQualityHelp", "How to improve your data quality")</a>
+                    </div>
+                }
+                <div style="margin-top:10px;">
+                    <p>@Html.Raw(AppGlobal.Language.GetText(this,"DashboardContactUs","If you need further help, please contact the Course Directory Support Team on <a href=\"tel:08448115073\">0844 811 5073</a> or <a href=\"mailto:support@coursedirectoryproviderportal.org.uk\">support@coursedirectoryproviderportal.org.uk</a>"))</p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="panel panel-primary recent-activity">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@AppGlobal.Language.GetText(this, "RecentActivityHeader", "Recent Activity")</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-bordered">
+                            @if(!(Model.IsTASOnly.HasValue && Model.IsTASOnly.Value))
+                            { 
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayNameFor(m => m.DateNextUpdateDue)
+                                        @Html.TooltipFor(m => m.DateNextUpdateDue, new { @class = "pull-right" })
+                                    </th>
+                                    <td>
+                                        @Html.DisplayFor(m => m.DateNextUpdateDue)
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <th scope="row">
+                                    @Html.DisplayNameFor(m => m.LastUpdatingDateTimeUtc)
+                                    @Html.TooltipFor(m => m.LastUpdatingDateTimeUtc, new { @class = "pull-right" })
+                                </th>
+                                <td>
+                                    @Html.DisplayFor(m => m.LastUpdatingDateTimeUtc)
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    @Html.DisplayNameFor(m => m.LastUpdatingUserDisplayName)
+                                    @Html.TooltipFor(m => m.LastUpdatingUserDisplayName, new { @class = "pull-right" })
+                                </th>
+                                <td>
+                                    @Html.DisplayFor(m => m.LastUpdatingUserDisplayName)
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    @Html.DisplayNameFor(m => m.LastProviderLoginDateTimeUtc)
+                                    @Html.TooltipFor(m => m.LastProviderLoginDateTimeUtc, new { @class = "pull-right" })
+                                </th>
+                                <td>
+                                    @Html.DisplayFor(m => m.LastProviderLoginDateTimeUtc)
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    @Html.DisplayNameFor(m => m.LastProviderLoginUserDisplayName)
+                                    @Html.TooltipFor(m => m.LastProviderLoginUserDisplayName, new { @class = "pull-right" })
+                                </th>
+                                <td>
+                                    @Html.DisplayFor(m => m.LastProviderLoginUserDisplayName)
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">
+                                    @Html.DisplayNameFor(m => m.ProviderCreatedDateTimeUTC)
+                                    @Html.TooltipFor(m => m.ProviderCreatedDateTimeUTC, new { @class = "pull-right" })
+                                </th>
+                                <td>
+                                    @Html.DisplayFor(m => m.ProviderCreatedDateTimeUTC)
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    @Html.DisplayNameFor(m => m.ParentOrganisations)
+                                    @Html.TooltipFor(m => m.ParentOrganisations, new { @class = "pull-right" })
+                                </th>
+                                <td>
+                                    <ul class="list-unstyled" style="margin-bottom:0px;">
+                                        @foreach (var org in Model.ParentOrganisations)
+                                        {
+                                            <li>@Html.ActionLink(org.OrganisationName, "Details", "Organisation", new { id = org.OrganisationId }, null)</li>
+                                        }
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    @AppGlobal.Language.GetText(this, "ProviderUsersHeader", "My users")
+                                </th>
+                                <td>
+                                    @Html.ActionLink(@AppGlobal.Language.GetText(this, "ProviderUsersLink", "View my users"), "Users", "Manage")
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if(!(Model.IsTASOnly.HasValue && Model.IsTASOnly.Value))
+    { 
+        <div class="col-md-6">
+            <div class="panel panel-primary pie-charts">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@AppGlobal.Language.GetText(this, "ChartTitleCourses", "Courses")</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <div id="CoursesChart"></div>
+                        <p><em><small>@AppGlobal.Language.GetText(this, "ChartFooterCourses", "Click on each bar to view content")</small></em></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (!(Model.IsTASOnly.HasValue && Model.IsTASOnly.Value))
+    { 
+        <div class="col-md-6">
+            <div class="panel panel-primary pie-charts">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@AppGlobal.Language.GetText(this, "ChartTitleOpportunities", "Opportunities")</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <div id="OpportunitiesChart"></div>
+                        <p><em><small>@AppGlobal.Language.GetText(this, "ChartFooterOpportunities", "Click on each bar to view content")</small></em></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (Model.RenderForPdf)
+    {
+        var sourceUrl = Url.Action("Index", "Home", null, Request.Url.Scheme);
+        <div class="col-md-12">
+            <p>@Html.Raw(String.Format(AppGlobal.Language.GetText(this, "FooterExportSource", "Data source: <a href='{0}'>{0}</a>"), sourceUrl))</p>
+            <p>@String.Format(AppGlobal.Language.GetText(this, "FooterExportDate", "Generated: {0}"), DateTime.Now.ToString(Constants.ConfigSettings.LongDateTimeFormat))</p>
+        </div>
+    }
+    @if (inAdminContext && !Model.RenderForPdf)
+    {
+        using (Html.BeginForm("Dashboard", "Admin", FormMethod.Post, new { id = "context-switch" }))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="ProviderId" value="P@(Model.ProviderId)" />
+            <input type="hidden" name="Provider" value="@(Model.ProviderName)" />
+            <input type="hidden" name="SuccessAction" value="Dashboard" />
+            <input type="hidden" name="SuccessController" value="Report" />
+            <input type="hidden" name="FailureAction" value="Dashboard" />
+            <input type="hidden" name="FailureController" value="Report" />
+        }
+    }
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="//www.google.com/jsapi"></script>
+    <script>
+        $(function() {
+
+            var charts = [
+                {
+                    id: "CoursesChart",
+                    title: "@Html.DisplayNameFor(m => m.CoursesChart)",
+                    data: @Html.Raw(ProviderDashboardReportViewModelExtensions.EncodeChart(Model.CoursesChart))
+                }, {
+                    id: "OpportunitiesChart",
+                    title: "@Html.DisplayNameFor(m => m.OpportunitiesChart)",
+                    data: @Html.Raw(ProviderDashboardReportViewModelExtensions.EncodeChart(Model.OpportunitiesChart))
+                }
+            ];
+
+            var chartsDrawn = 0;
+
+            function drawChart(id, title, array) {
+                var data = google.visualization.arrayToDataTable(array);
+
+                var view = new google.visualization.DataView(data);
+                view.setColumns([0, 1, 2]);
+
+                var options = {
+                    title: title,
+                    titleTextStyle: { fontSize: 14 },
+                    legend: { position: 'none' }
+                    @(Model.RenderForPdf ? String.Empty : ", sliceVisibilityThreshold: 0")
+                };
+                var chart = new google.visualization.ColumnChart(document.getElementById(id));
+                google.visualization.events.addListener(chart, 'ready', function() {
+                    chartsDrawn++;
+                    if (chartsDrawn === 2) {
+                        setTimeout(function() { $("html").addClass("rendered"); }, 1000);
+                    }
+                });
+
+                google.visualization.events.addListener(chart, 'select', function () {
+                    var selectedLink = data.getValue(chart.getSelection()[0]['row'], 3)
+                    if (selectedLink == "none")
+                    {
+                        alert("The option to view data for this graph is not yet available");
+                    }
+                    else if (selectedLink != null & selectedLink != "")
+                    {
+                        if (selectedLink.startsWith("Courses")) {
+                            window.location = "/Course/List?qualitySearchMode=" + selectedLink;
+                        }
+                        else {
+                            window.location = "/Opportunity/List?qualitySearchMode=" + selectedLink;
+                        }
+                    }
+                });
+
+                chart.draw(view, options);
+            }
+
+            function drawCharts() {
+                for (var i = 0; i < charts.length; i++) {
+                    var sum = 0;
+                    for (var j = 1; j < charts[i].data.length; j++) {
+                        sum += charts[i].data[j][1];
+                    }
+                    var title = charts[i].title + (sum == 0 ? " (No data)" : "");
+                    drawChart(charts[i].id, title, charts[i].data);
+                }
+            }
+
+            if (google) {
+                google.load('visualization', '1.0', {
+                    packages: ['corechart'],
+                    callback: function() {
+                        if (typeof google === "object" && typeof google.visualization === "object") {
+                            drawCharts();
+                        } else {
+                            google.setOnLoadCallback(drawCharts);
+                        }
+                        var redrawOnResize;
+                        $(window).bind("resize", function() {
+                            clearTimeout(redrawOnResize);
+                            redrawOnResize = setTimeout(drawCharts, 50);
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+
+    @if (Model.RenderForPdf)
+    {
+        <script>
+            $(function() {
+                var $brand = $(".masthead-brand");
+                var i = $brand.css("background-image");
+                i = i.substr(i.indexOf('"') + 1);
+                i = i.substr(0, i.indexOf('"'));
+                $brand
+                    .append("<img src='" + i + "'/>")
+                    .css("background-image", "");
+            });
+        </script>
+    }
+}
+
+@section Styles
+{
+    @if (Model.RenderForPdf)
+    {
+        @Styles.Render("~/Content/bootstrap-pdf.css")
+        @Styles.Render("~/Content/report-dashboard-pdf.css")
+    }
+}
+        

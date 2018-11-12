@@ -1,0 +1,10 @@
+﻿@if (true == (bool?)Session[UserContext.InvalidContextDetected])
+{
+    Session.Remove(UserContext.InvalidContextDetected);
+    <div class="col-md-12">
+        <div class="alert alert-danger">
+            <span class="glyphicon glyphicon-warning-sign"></span>
+            @AppGlobal.Language.GetText(this, "InvalidContextError", "The application detected that you attempted an invalid action for your current context and has redirected you back to the current home page.")
+        </div>
+    </div>
+}

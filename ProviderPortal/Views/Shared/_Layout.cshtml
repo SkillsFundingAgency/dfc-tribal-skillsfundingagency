@@ -1,0 +1,95 @@
+﻿@using System
+@using Tribal.SkillsFundingAgency.ProviderPortal.Classes
+@using Tribal.SkillsFundingAgency.ProviderPortal.Controllers
+@{
+    Boolean showDataReadyForQAButton = new ProviderController().showDataReadyForQAButton();
+    Boolean showTASRefreshConfirmButton = new ProviderController().showTASRefreshConfirmButton();
+    var includeUserWizard =  UserContext.GetUserContext().IsProvider();
+}
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - @Constants.ConfigSettings.SiteName</title>
+    @Styles.Render("~/Content/css")
+    @RenderSection("styles", false)
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    @Html.Partial("_HeaderMenuPartial")
+    <div class="container no-left-padding">
+        <div class="row masthead-row">
+            <div class="col-md-12">
+                @Html.Partial("_ContextHeaderPartial")
+                <div class="masthead-brand"></div>
+            </div>
+        </div>
+        @Html.Partial("_BootstrapMenuPartial")
+    </div>
+    <div class="container body-content">
+        @Html.Partial("_InvalidContext")
+        @Html.Partial("_SessionMessage")
+        @RenderBody()
+    </div>
+    <div class="page-footer">
+        <div class="container">
+            <footer>
+                <div class="col-md-12">
+                    @Html.Action("Display", "SiteContent", new { id = "Footer", safeEmbed = true })
+                </div>
+                <div class="@(showDataReadyForQAButton ? "col-md-4" : "col-md-6")">
+                    <p>&copy; 2010-@DateTime.UtcNow.Year <a href="https://www.gov.uk/government/organisations/skills-funding-agency" target="_blank">Skills Funding Agency</a><br />All rights reserved</p>
+                </div>
+                @if (showDataReadyForQAButton)
+                {
+                    <div class="col-md-4" style="text-align: center; margin-top: -0px;">
+                        <input id="btnDataReadyForQA" type="button" value="@AppGlobal.Language.GetText(this, "ReadyForQAButtonText", "Ready for QA")" class="btn btn-readyforqa" />
+                        @if (AppGlobal.Language.GetText(this, "DataReadyForQATooltip", "") != "")
+                        {
+                            @Html.Tooltip(AppGlobal.Language.GetText(this, "DataReadyForQATooltip", ""))
+                        }
+                    </div>
+                }
+                <div class="@(showDataReadyForQAButton ? "col-md-4" : "col-md-6")">
+                    <p class="pull-right">Course Directory Provider Portal<br />Version @(AppGlobal.Version)</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    @if (includeUserWizard)
+    {
+        @Html.Partial("_ProviderUserWizard")
+    }
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/datatables")
+    @Html.Partial("_AllCoursesUpToDateScript")
+    @Html.Partial("_AddCourseDialogScript")
+    @Html.Partial("_ChooseAddressScript")
+    @Html.Partial("_ListCoursesScript")
+    @Html.Partial("_ListApprenticeshipsScript")
+    @if (showDataReadyForQAButton)
+    {
+        @Html.Partial("_DataReadyForQAButtonScript")
+    }
+    @if (showTASRefreshConfirmButton)
+    {
+        @Html.Partial("_TASRefreshConfirmScript")
+    }
+    @Html.Partial("_SetCoursesUpToDateButtonScript")
+    @Html.Partial("_CheckUrlScript")
+
+    @if (includeUserWizard)
+    {
+        @Html.Partial("_ProviderUserWizardScript")
+    }
+
+    @RenderSection("scripts", false)
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/site")
+</body>
+</html>

@@ -1,0 +1,73 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Areas.Api.Models
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AccountSearchViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Find a User Account");
+    var context = UserContext.GetUserContext();
+    var canAddUser = (context.ContextName == UserContext.UserContextName.Administration && Permission.HasPermission(false, true, Permission.PermissionName.CanAddEditAdminUsers))
+                     || (context.ContextName == UserContext.UserContextName.Organisation && Permission.HasPermission(false, true, Permission.PermissionName.CanAddEditOrganisationUsers))
+                     || (context.ContextName == UserContext.UserContextName.Provider && Permission.HasPermission(false, true, Permission.PermissionName.CanAddEditProviderUsers));
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Find a User Account")</h2>
+<h4>@AppGlobal.Language.GetText(this, "SubHeader", "Select the user account you would like to view.")</h4>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @AppGlobal.Language.GetText(this, "FormHeader", "")
+        @Html.EditableDataValidationSummary(true)
+        @Html.HiddenFor(m => m.UserId)
+        @Html.RequiredFields(new {@class = "col-md-offset-4"})
+        <div class="form-group">
+            @Html.LanguageLabelFor(m => m.Username, new {@class = "control-label col-md-4"})
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.Username, new {@class = "form-control typeahead provider-typeahead"})
+                @Html.ValidationMessageFor(m => m.Username)
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-8 col-md-offset-4">
+                <input type="submit" value="@AppGlobal.Language.GetText(this, "Submit", "Go")" class="btn btn-success" />
+            </div>
+        </div>
+        
+        @if (canAddUser)
+        {
+            <div class="form-group">
+                <div class="col-md-8 col-md-offset-4">
+                    @Html.ActionLink(AppGlobal.Language.GetText(this, "Create", "Add a new user"), "Create", "Account", null, new {@class = "btn btn-default"})
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Html.Partial("_TypeaheadPartial", new TypeaheadViewModel
+    {
+        JQuerySelector = ".provider-typeahead",
+        SearchFields = new[] {"name", "email", "phone"},
+        PrefetchUrl = "/api/typeahead/users",
+        ClearPrefetchCache = true, /*For debugging*/
+        //RemoteUrl = "/api/typeahead/users/%QUERY",
+        Name = "UserId",
+        DisplayKey = "name",
+        ValueKey = "email",
+        EmptyMessage = AppGlobal.Language.GetText(this, "NoMatchedUsers", "Unable to find any users that match your current query."),
+        Suggestion = "function(a){return '<p>' + a.name + ' (' + a.email + ')<br/><small>' + a.phone + '</small></p>';}"
+    })
+    <script>
+        $(function() {
+            $(".context-switch").each(function(i, item) {
+                $(item).bind("click", function() {
+                    $("#ProviderId").val($(item).data("id")).closest("form").find("#Provider").val($(item).text()).end().submit();
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,141 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Areas.Api.Models
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AdminDashboardViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "View a Provider or Organisation");
+    bool canAddProvider = Permission.HasPermission(false, true, Permission.PermissionName.CanAddProvider);
+    bool canAddOrganisation = Permission.HasPermission(false, true, Permission.PermissionName.CanAddOrganisation);
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "View a Provider or Organisation")</h2>
+<h4>@AppGlobal.Language.GetText(this, "SubHeader", "Select the provider or organisation you would like to view.")</h4>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @AppGlobal.Language.GetText(this, "FormHeader", "")
+        @Html.EditableDataValidationSummary(true)
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(m => m.ProviderId)
+        @Html.RequiredFields(new {@class = "col-md-offset-4"})
+        <div class="form-group">
+            @Html.LanguageLabelFor(m => m.Provider, new {@class = "control-label col-md-4"})
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.Provider, new {@class = "form-control typeahead provider-typeahead"})
+                @Html.ValidationMessageFor(m => m.Provider)
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-8 col-md-offset-4">
+                <input type="submit" value="@AppGlobal.Language.GetText(this, "Submit", "Go")" class="btn btn-success" />
+            </div>
+        </div>
+        
+        @if (canAddProvider || canAddOrganisation)
+        {
+            <div class="form-group">
+                <div class="col-md-8 col-md-offset-4">
+                    @if (canAddProvider)
+                    {
+                        @Html.ActionLink(AppGlobal.Language.GetText(this, "AddProvider", "Add a new provider"), "Create", "Provider", null, new {@class = "btn btn-default"})
+                    }
+                    @if (canAddOrganisation)
+                    {
+                        @Html.ActionLink(AppGlobal.Language.GetText(this, "AddOrganisation", "Add a new organisation"), "Create", "Organisation", null, new {@class = "btn btn-default"})
+                    }
+                </div>
+            </div>
+        }
+
+        @if (Model.RecentProviders.Any())
+        {
+            <div class="form-group">
+                @Html.LanguageLabelFor(m => m.RecentProviders, new {@class = "control-label col-md-4"})
+                <div class="col-md-8">
+                    <ul class="list-unstyled form-group-list">
+                        @foreach (SelectListItem provider in Model.RecentProviders)
+                        {
+                            <li class="context-switch btn-link" data-id="@(provider.Value)">@provider.Text</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+        
+        @if (Model.RecentOrganisations.Any())
+        {
+            <div class="form-group">
+                @Html.LanguageLabelFor(m => m.RecentOrganisations, new {@class = "control-label col-md-4"})
+                <div class="col-md-8">
+                    <ul class="list-unstyled form-group-list">
+                        @foreach (SelectListItem provider in Model.RecentOrganisations)
+                        {
+                            <li class="context-switch btn-link" data-id="@(provider.Value)">@provider.Text</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+        
+        @if (Model.UserProviders.Any())
+        {
+            <div class="form-group">
+                @Html.LanguageLabelFor(m => m.UserProviders, new {@class = "control-label col-md-4"})
+                <div class="col-md-8">
+                    <ul class="list-unstyled form-group-list">
+                        @foreach (SelectListItem provider in Model.UserProviders)
+                        {
+                            <li class="context-switch btn-link" data-id="@(provider.Value)">@provider.Text</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+       
+        @if (Model.UserOrganisations.Any())
+        {
+            <div class="form-group">
+                @Html.LanguageLabelFor(m => m.UserOrganisations, new {@class = "control-label col-md-4"})
+                <div class="col-md-8">
+                    <ul class="list-unstyled form-group-list">
+                        @foreach (SelectListItem provider in Model.UserOrganisations)
+                        {
+                            <li class="context-switch btn-link" data-id="@(provider.Value)">@provider.Text</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Html.Partial("_TypeaheadPartial", new TypeaheadViewModel
+    {
+        JQuerySelector = ".provider-typeahead",
+        SearchFields = new[] {"ukprn", "town", "postcode", "name", "alias"},
+        PrefetchUrl = "/api/typeahead/providersandorganisations",
+        ClearPrefetchCache = true, /*For debugging*/
+        //RemoteUrl = "/api/typeahead/providers/%QUERY",
+        Name = "ProviderId",
+        DisplayKey = "name",
+        ValueKey = "id",
+        EmptyMessage = AppGlobal.Language.GetText(this, "NoMatchedProviders", "Unable to find any providers that match your current query."),
+        Suggestion = "function(a){return '<p' + (a.deleted ? ' style=\"text-decoration:line-through\">' : '>') + a.name + ' (' + a.ukprn + ')<br/><small>' + a.town + (a.town != '' ? ', ' : '') + a.postcode + '</small></p>';}"
+    })
+    <script>
+        $(function() {
+            $(".context-switch").each(function(i, item) {
+                $(item).bind("click", function() {
+                    $("#ProviderId").val($(item).data("id")).closest("form").find("#Provider").val($(item).text()).end().submit();
+                });
+            });
+        });
+    </script>
+}

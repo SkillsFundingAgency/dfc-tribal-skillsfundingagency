@@ -1,0 +1,113 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditAccountViewModel
+
+<div class="col-md-8">
+    @Html.EditableDataValidationSummary("", new {@class = "text-danger"})
+    @Html.HiddenFor(m => m.UserId)
+    @Html.HiddenFor(m => m.ProviderId)
+    @Html.HiddenFor(m => m.IsSecureAccessUser)
+    @Html.RequiredFields(new {@class = "col-md-offset-2"})
+
+    <div class="form-group">
+        @Html.LanguageLabelFor(m => m.Email, new {@class = "col-md-2 control-label"})
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new {@class = "form-control", autocomplete = "off"})
+            @Html.ValidationMessageFor(m => m.Email)
+        </div>
+    </div>
+
+    @if(Model.CanEditRole && !Model.EditingSelf)
+    {
+        <div id="RoleGroup" class="form-group">
+            @Html.LanguageLabelFor(m => m.RoleId, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.RoleId, Model.Roles, new {@class = "form-control"})
+                @Html.ValidationMessageFor(m => m.RoleId)
+            </div>
+        </div>
+    }
+               
+    @if (Model.CanEditUserType)
+    {
+        <div id="UserTypeGroup" class="form-group" style="display:@(Model.RoleId == null ? "none" : "block")">
+            @Html.LanguageLabelFor(m => m.UserTypeId, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.UserTypeId, Model.UserTypes, new {@class = "form-control"})
+                @Html.ValidationMessageFor(m => m.UserTypeId)
+            </div>
+        </div>
+    }
+                
+    @if (Model.CanEditProviderOrganisation)
+    {
+        <div id="ProviderGroup" class="form-group" style="display:none">
+            @Html.LanguageLabelFor(m => m.Provider, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Provider, new {@class = "form-control typeahead provider-typeahead"})
+                @Html.ValidationMessageFor(m => m.Provider)
+            </div>
+        </div>
+        
+        <div id="OrganisationGroup" class="form-group" style="display:none">
+            @Html.LanguageLabelFor(m => m.Organisation, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Organisation, new {@class = "form-control typeahead organisation-typeahead"})
+                @Html.ValidationMessageFor(m => m.Organisation)
+            </div>
+        </div>
+    }
+
+    <div class="form-group">
+        @Html.LanguageLabelFor(m => m.Name, new {@class = "col-md-2 control-label"})
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Name, new {@class = "form-control"})
+            @Html.ValidationMessageFor(m => m.Name)
+        </div>
+    </div>
+    
+    @if (!Model.IsSecureAccessUser)
+    {
+        @Html.EditorFor(m => m.Address, "_EditAddressPartial")
+    }   
+
+    <div class="form-group">
+        @Html.LanguageLabelFor(m => m.PhoneNumber, new {@class = "col-md-2 control-label"})
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PhoneNumber, new {@class = "form-control"})
+            @Html.ValidationMessageFor(m => m.PhoneNumber)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="@AppGlobal.Language.GetText(this, ViewBag.SubmitKey, ViewBag.SubmitValue)" />
+            @* The referenced form is on the Edit Account view. *@
+            @if (!Model.EditingSelf && Model.UserId != null)
+            {
+                 if (Model.IsDeleted)
+                 {
+                     <a href="javascript:document.getElementById('deleteForm').submit()" class="btn btn-default pull-right" data-confirm="Are you sure you want to restore this account?">Restore account</a>
+                 }
+                 else
+                 {
+                     <a href="javascript:document.getElementById('deleteForm').submit()" class="btn btn-default pull-right" data-confirm="Are you sure you want to delete this account?">Delete account</a>
+                 }
+            }
+        </div>
+    </div>
+</div>
+
+@if (Model.CanEditRole && !Model.EditingSelf)
+{
+    <div class="col-md-4 sidebar">
+        <h4>@AppGlobal.Language.GetText(this, "RolesHeader", "Available Roles")</h4>
+        <div class="box">
+            <dl>
+                @foreach (var role in Model.AspNetRoles)
+                {
+                    <dt>@role.Name</dt>
+                    <dd>@AppGlobal.Language.GetText(role.LanguageFieldName, role.Description)</dd>
+                }
+            </dl>
+        </div>
+    </div>
+}

@@ -1,0 +1,78 @@
+﻿@using Microsoft.Ajax.Utilities
+@model IEnumerable<Tribal.SkillsFundingAgency.ProviderPortal.Models.BulkUploadHistoryViewModel>
+@{
+    String PageDataType = ViewBag.PageType ?? "";
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", string.Format("Latest {0} Files Uploaded", PageDataType));
+}
+<h2 class="@(PageDataType == "Course" ? "courses" : "apprenticeships")">@AppGlobal.Language.GetText(this, "Header", string.Format("Latest {0} Files Uploaded", PageDataType))</h2>
+
+<table class="dataTable" id="tableHistory">
+    <thead>
+        <tr>
+            <th data-type="datetime-eu">
+                @Html.DisplayNameFor(model => model.UploadedDateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FileName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusDescription)
+            </th>
+            @if (Model.FirstOrDefault() != null && Model.FirstOrDefault().IsOrganisationUpload)
+            {
+                <th class="col-md-2">
+                    @Html.DisplayNameFor(model => model.ProviderName)
+                </th> 
+            }
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DownloadUrl)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderByDescending(m => m.UploadedDateTime))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UploadedDateTime)
+                </td>
+                <td>
+                    @if (@item.IsUploadSuccessful || !item.IsAuthorisedToViewAndDownload)
+                    {
+                        @Html.DisplayFor(modelItem => item.FileName)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.FileName, "HistoryDetails", new { id = @item.BulkUploadId })
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StatusDescription)
+                </td>
+                @if (Model.FirstOrDefault() != null && Model.FirstOrDefault().IsOrganisationUpload)
+                {
+                    <td>
+                        @MvcHtmlString.Create(item.ProviderName.Replace(Environment.NewLine, "<br />"))
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @if (item.IsDownloadAvailable && item.IsAuthorisedToViewAndDownload)
+                    {
+                        @Html.ActionLink(AppGlobal.Language.GetText(this, "DownloadAvailable", "Available"), "Download", new { id = @item.BulkUploadId })
+                    }
+                    else
+                    {
+                        @AppGlobal.Language.GetText(this, "DownloadUnAvailable", "Not Available")
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

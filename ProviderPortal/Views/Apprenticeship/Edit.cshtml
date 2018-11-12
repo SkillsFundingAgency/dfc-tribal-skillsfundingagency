@@ -1,0 +1,24 @@
+﻿@using Permission = Tribal.SkillsFundingAgency.ProviderPortal.Permission
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditApprenticeshipViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Edit Apprenticeship");
+}
+
+<h2 class="apprenticeships">@AppGlobal.Language.GetText(this, "Header", "Edit Apprenticeship")</h2>
+
+@Html.Partial("_EditApprenticeship", Model)
+
+<fieldset>
+    <legend>@AppGlobal.Language.GetText(this, "DeliveryLocations", "Delivery Locations")</legend>
+    @if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditProviderApprenticeship))
+    {
+        <a href="@Url.Action("Create", "DeliveryLocation", new { Id = @Model.ApprenticeshipId })" style="float: right; margin-top: -45px;">@AppGlobal.Language.GetText(this, "AddDeliveryLocation", "Add New Delivery Location")</a>
+    }
+    <div class="col-md-12">
+        @Html.Partial("DisplayTemplates/_ListDeliveryLocations", Model.DeliveryLocations.Items)
+    </div>
+</fieldset>
+
+@section Scripts {
+    @Html.Partial("_EditApprenticeshipScripts", Model)
+}

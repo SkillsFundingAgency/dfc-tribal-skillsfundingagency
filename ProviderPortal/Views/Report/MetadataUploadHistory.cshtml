@@ -1,0 +1,70 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.MetadataUploadHistoryReportViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Metadata Upload History");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Metadata Upload History")</h2>
+<hr/>
+@*@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", "<p>The table below shows the recent bulk uploads for all providers and organisations. Use the 'Search' box to filter the table, and the arrows at the top of the columns to sort it. Use the buttons on the top right of the table to copy to your clipboard, save in comma separated values (CSV) format, save in Microsoft Excel format or print.<p>"))*@
+
+<table class="dataTable" data-ajax="@Url.Action("MetadataUploadHistoryJson")">
+    <thead>
+        <tr>
+            <th scope="col" data-type="datetime-eu">
+                @Html.DisplayNameFor(m => m.Items.First().CreatedDateTimeUtc)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().MetadataUploadTypeDescription)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().RowsBefore)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().RowsAfter)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().CreatedByUser)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().Duration)
+            </th>
+            <th scope="col" class="none">
+                @Html.DisplayNameFor(m => m.Items.First().FileName)
+            </th>
+            <th scope="col" class="none">
+                @Html.DisplayNameFor(m => m.Items.First().FileSizeInBytes)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.CreatedDateTimeUtc)
+                </td>                
+                <td>
+                    @Html.DisplayFor(m => item.MetadataUploadTypeDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.RowsBefore)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.RowsAfter)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CreatedByUser)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Duration)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.FileName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.FileSizeInBytes)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

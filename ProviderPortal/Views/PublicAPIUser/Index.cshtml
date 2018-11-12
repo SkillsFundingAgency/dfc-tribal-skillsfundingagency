@@ -1,0 +1,82 @@
+﻿@model List<Tribal.SkillsFundingAgency.ProviderPortal.Models.ListPublicAPIUserModel>
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "List Public API Users");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "List Public API Users")</h2>
+@if (Permission.HasPermission(false, false, Permission.PermissionName.CanAddEditPublicAPIUsers))
+{
+    <a href="@Url.Action("Create", "PublicAPIUser")" style="float: right; margin-top: -45px;">@AppGlobal.Language.GetText(this, "AddPublicAPIUser", "Add Public API User")</a>
+}
+
+<table class="dataTable dt-responsive table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model[0].APIKey)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].CompanyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Telephone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].ContactFirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].ContactLastName)
+            </th>
+            <th data-type="date-eu">
+                @Html.DisplayNameFor(model => model[0].LastUpdate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Status)
+            </th>
+            <th data-sort='false' data-filter="false">@AppGlobal.Language.GetText(this, "Actions", "Actions")</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var APIUser in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => APIUser.APIKey)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => APIUser.CompanyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => APIUser.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => APIUser.Telephone)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => APIUser.ContactFirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => APIUser.ContactLastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => APIUser.LastUpdate)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => APIUser.Status)
+                </td>
+                <td>
+                    @if (Permission.HasPermission(false, false, Permission.PermissionName.CanAddEditPublicAPIUsers))
+                    {
+                        <a href="@Url.Action("Edit", "PublicAPIUser", new {Id = APIUser.APIKey})">@AppGlobal.Language.GetText(this, "Edit", "Edit")<span class="hide"> @Html.DisplayFor(model => APIUser.CompanyName)</span></a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+    
+</table>
+
+<hr />

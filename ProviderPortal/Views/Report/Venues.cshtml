@@ -1,0 +1,65 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ProviderVenueReportViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Venues");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Venues")</h2>
+<hr/>
+@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", "<p>Using the table below you can filter and order your venues. Use the buttons on the top right of the table to copy to your clipboard, save in comma separated values (CSV) format, save in Microsoft Excel format or print.<p>"))
+@Html.Partial("_BulkUploadMessagePartial")
+
+<table class="dataTable dt-responsive table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().RecordStatusName)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderOwnVenueRef)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().Address.AddressLine1)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().Address.AddressLine2)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().Address.Town)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().Address.County)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().Address.Postcode)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.RecordStatusName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ProviderOwnVenueRef)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Address.AddressLine1)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Address.AddressLine2)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Address.Town)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Address.County)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Address.Postcode)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

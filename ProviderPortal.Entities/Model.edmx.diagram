@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1a964832598547ea9d25e0aa18de1a2e" Name="Diagram1" ZoomLevel="85">
+        <EntityTypeShape EntityType="ProviderPortalModel.A10FundingCode" Width="1.5" PointX="3" PointY="77.875" />
+        <EntityTypeShape EntityType="ProviderPortalModel.Address" Width="1.5" PointX="14.25" PointY="31.875" />
+        <EntityTypeShape EntityType="ProviderPortalModel.Application" Width="1.5" PointX="3.75" PointY="22.75" />
+        <EntityTypeShape EntityType="ProviderPortalModel.AspNetRole" Width="1.5" PointX="14.25" PointY="37" />
+        <EntityTypeShape EntityType="ProviderPortalModel.AspNetUserClaim" Width="1.5" PointX="18.75" PointY="81.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.AspNetUserLogin" Width="1.5" PointX="18.75" PointY="84.375" />
+        <EntityTypeShape EntityType="ProviderPortalModel.AspNetUser" Width="1.5" PointX="16.5" PointY="44" />
+        <EntityTypeShape EntityType="ProviderPortalModel.AttendancePattern" Width="1.5" PointX="8.25" PointY="72.125" />
+        <EntityTypeShape EntityType="ProviderPortalModel.AttendanceType" Width="1.5" PointX="8.25" PointY="61.875" />
+        <EntityTypeShape EntityType="ProviderPortalModel.ConfigurationSetting" Width="1.5" PointX="2.75" PointY="6.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.Course" Width="1.5" PointX="6" PointY="43.125" />
+        <EntityTypeShape EntityType="ProviderPortalModel.CourseInstanceStartDate" Width="1.5" PointX="12.75" PointY="64.875" />
+        <EntityTypeShape EntityType="ProviderPortalModel.CourseLearnDirectClassification" Width="1.5" PointX="11.25" PointY="45.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.DurationUnit" Width="1.5" PointX="8.25" PointY="59.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.EmailTemplate" Width="1.5" PointX="11.25" PointY="28.125" />
+        <EntityTypeShape EntityType="ProviderPortalModel.EmailTemplateGroup" Width="1.5" PointX="9" PointY="29" />
+        <EntityTypeShape EntityType="ProviderPortalModel.GlobalEventComputer" Width="1.5" PointX="0.75" PointY="2.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.GlobalEventLog" Width="1.5" PointX="3" PointY="1.75" />
+        <EntityTypeShape EntityType="ProviderPortalModel.GlobalEventSource" Width="1.5" PointX="0.75" PointY="5.875" />
+        <EntityTypeShape EntityType="ProviderPortalModel.GlobalEventType" Width="1.5" PointX="0.75" PointY="10.5" />
+        <EntityTypeShape EntityType="ProviderPortalModel.GlobalEventUser" Width="1.5" PointX="0.75" PointY="8.125" />
+        <EntityTypeShape EntityType="ProviderPortalModel.Language" Width="1.5" PointX="14.875" PointY="55.25" />
+        <EntityTypeShape EntityType="ProviderPortalModel.LanguageField" Width="1.5" PointX="16.5" PointY="67.875" />
+        <EntityTypeShape EntityType="ProviderPortalModel.LanguageKeyChild" Width="1.5" PointX="14.25" PointY="67.875" />
+        <EntityTypeShape EntityType="ProviderPortalModel.LanguageKeyGroup" Width="1.5" PointX="12" PointY="68.125" />
+        <EntityTypeShape EntityType="ProviderPortalModel.LanguageText" Width="1.5" PointX="18.75" PointY="58.875" />
+        <EntityTypeShape EntityType="ProviderPortalModel.LearnDirectClassification" Width="1.5" PointX="1.5" PointY="25.5" />
+        <EntityTypeShape EntityType="ProviderPortalModel.LearningAim" Width="1.5" PointX="3.75" PointY="27.125" />
+        <EntityTypeShape EntityType="ProviderPortalModel.LearningAimAwardOrg" Width="1.5" PointX="1.5" PointY="28.375" />
+        <EntityTypeShape EntityType="ProviderPortalModel.OrganisationType" Width="1.5" PointX="22.5" PointY="37.125" />
+        <EntityTypeShape EntityType="ProviderPortalModel.Permission" Width="1.5" PointX="16.5" PointY="37.875" />
+        <EntityTypeShape EntityType="ProviderPortalModel.Prison" Width="1.5" PointX="7.75" PointY="9.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.Provider" Width="1.5" PointX="8.25" PointY="40.5" />
+        <EntityTypeShape EntityType="ProviderPortalModel.ProviderPortalUsageStatistic" Width="1.5" PointX="13.5" PointY="42.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.ProviderRegion" Width="1.5" PointX="12" PointY="33.125" />
+        <EntityTypeShape EntityType="ProviderPortalModel.ProviderType" Width="1.5" PointX="6" PointY="53.875" />
+        <EntityTypeShape EntityType="ProviderPortalModel.ProviderUserType" Width="1.5" PointX="14.25" PointY="28.25" />
+        <EntityTypeShape EntityType="ProviderPortalModel.ProviderUserTypeInRole" Width="1.5" PointX="16.5" PointY="33" />
+        <EntityTypeShape EntityType="ProviderPortalModel.QualificationLevel" Width="1.5" PointX="3.75" PointY="33.875" />
+        <EntityTypeShape EntityType="ProviderPortalModel.QualificationType" Width="1.5" PointX="1.5" PointY="30.75" />
+        <EntityTypeShape EntityType="ProviderPortalModel.RecordStatu" Width="1.5" PointX="0.75" PointY="44.75" />
+        <EntityTypeShape EntityType="ProviderPortalModel.StatisticAction" Width="1.5" PointX="11.25" PointY="41.875" />
+        <EntityTypeShape EntityType="ProviderPortalModel.StatisticType" Width="1.5" PointX="11.25" PointY="39.25" />
+        <EntityTypeShape EntityType="ProviderPortalModel.StudyMode" Width="1.5" PointX="8.25" PointY="74.875" />
+        <EntityTypeShape EntityType="ProviderPortalModel.UcasStudyModeMapping" Width="1.5" PointX="10.5" PointY="74.875" />
+        <EntityTypeShape EntityType="ProviderPortalModel.Ukrlp" Width="1.5" PointX="3" PointY="48.375" />
+        <EntityTypeShape EntityType="ProviderPortalModel.Venue" Width="1.5" PointX="12.75" PointY="51.875" />
+        <EntityTypeShape EntityType="ProviderPortalModel.VenueLocation" Width="2" PointX="7.75" PointY="67.25" />
+        <AssociationConnector Association="ProviderPortalModel.FK_A10FundingCode_RecordStatus" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Address_ProviderRegion" />
+        <AssociationConnector Association="ProviderPortalModel.FK_AspNetUsers_Address" />
+        <AssociationConnector Association="ProviderPortalModel.FK_LegalAddressId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_PrimaryAddressId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Provider_Address" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Venue_Address" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Course_Application" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ProviderUserTypeInRole_AspNetRoles" />
+        <AssociationConnector Association="ProviderPortalModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_AspNetUsers_ProviderUserType" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Course_CreatedByUserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Course_ModifiedByUserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Provider_InformationOfficer" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Provider_RelationshipManager" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Course_LearningAim" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Course_Provider" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Course_QualificationLevel" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Course_QualificationType" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Course_RecordStatus" />
+        <AssociationConnector Association="ProviderPortalModel.FK_CourseLearnDirectClassification_Course" />
+        <AssociationConnector Association="ProviderPortalModel.FK_CourseLearnDirectClassification_LearnDirectClassification" />
+        <AssociationConnector Association="ProviderPortalModel.FK_EmailTemplate_EmailTemplateGroup" />
+        <AssociationConnector Association="ProviderPortalModel.FK_GlobalEventLog_ComputerID" />
+        <AssociationConnector Association="ProviderPortalModel.FK_GlobalEventLog_SourceID" />
+        <AssociationConnector Association="ProviderPortalModel.FK_GlobalEventLog_TypeID" />
+        <AssociationConnector Association="ProviderPortalModel.FK_GlobalEventLog_UserID" />
+        <AssociationConnector Association="ProviderPortalModel.FK_LanguageText_Language" />
+        <AssociationConnector Association="ProviderPortalModel.FK_LanguageFieldNew_LanguageKeyChild" />
+        <AssociationConnector Association="ProviderPortalModel.FK_LanguageText_LanguageFieldNew" />
+        <AssociationConnector Association="ProviderPortalModel.FK_LanguageKeyChild_LanguageKeyGroup" />
+        <AssociationConnector Association="ProviderPortalModel.FK_LearningAim_LearningAimAwardOrg" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Provider_ProviderRegion" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Provider_ProviderType" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Provider_RecordStatus" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Provider_Ukrlp" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ProviderPortalUsageStatistics_Provider" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Venue_Provider" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ProviderPortalUsageStatistics_StatisticAction" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ProviderPortalUsageStatistics_StatisticType" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ProviderUserTypeInRole_ProviderUserType" />
+        <AssociationConnector Association="ProviderPortalModel.FK_UkrlpStatus" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Venue_RecordStatus" />
+        <AssociationConnector Association="ProviderPortalModel.FK_UcasStudyModeMapping_StudyMode" />
+        <AssociationConnector Association="ProviderPortalModel.AspNetUserRoles" />
+        <AssociationConnector Association="ProviderPortalModel.PermissionInRole" />
+        <AssociationConnector Association="ProviderPortalModel.ProviderUser" />
+        <EntityTypeShape EntityType="ProviderPortalModel.AddressBase" Width="1.5" PointX="2.75" PointY="10.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.GeoLocation" Width="1.5" PointX="9.75" PointY="9.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.OrganisationProvider" Width="1.5" PointX="27" PointY="50.375" />
+        <AssociationConnector Association="ProviderPortalModel.FK_OrganisationProviderInvite_Provider" />
+        <EntityTypeShape EntityType="ProviderPortalModel.Organisation" Width="1.5" PointX="24.75" PointY="45" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Organisation_Address" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Organisation_InformationOfficer" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Organisation_RelationshipManager" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Organisation_OrganisationType" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Organisation_RecordStatus" />
+        <AssociationConnector Association="ProviderPortalModel.FK_OrganisationProviderInvite_Organisation" />
+        <AssociationConnector Association="ProviderPortalModel.OrganisationUser" />
+        <AssociationConnector Association="ProviderPortalModel.FK_VenueLocation_ParentVenueLocationId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_LearningAim_QualificationTypeId" />
+        <EntityTypeShape EntityType="ProviderPortalModel.CourseLanguage" Width="1.5" PointX="10.75" PointY="1.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.QualificationTitle" Width="1.5" PointX="4.75" PointY="12.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.CourseInstance" Width="1.5" PointX="10.5" PointY="54.875" />
+        <AssociationConnector Association="ProviderPortalModel.FK_CourseInstance_Application" />
+        <AssociationConnector Association="ProviderPortalModel.FK_CourseInstance_AttendancePattern" />
+        <AssociationConnector Association="ProviderPortalModel.FK_CourseInstance_AttendanceType" />
+        <AssociationConnector Association="ProviderPortalModel.FK_CourseInstance_Course" />
+        <AssociationConnector Association="ProviderPortalModel.FK_CourseInstance_DisplayByOrganisation" />
+        <AssociationConnector Association="ProviderPortalModel.FK_CourseInstance_DurationUnit" />
+        <AssociationConnector Association="ProviderPortalModel.FK_CourseInstance_OfferedByOrganisation" />
+        <AssociationConnector Association="ProviderPortalModel.FK_CourseInstance_Provider_Display" />
+        <AssociationConnector Association="ProviderPortalModel.FK_CourseInstance_Provider_Offered" />
+        <AssociationConnector Association="ProviderPortalModel.FK_CourseInstance_RecordStatus" />
+        <AssociationConnector Association="ProviderPortalModel.FK_CourseInstance_StudyType" />
+        <AssociationConnector Association="ProviderPortalModel.FK_CourseInstance_VenueLocation" />
+        <AssociationConnector Association="ProviderPortalModel.FK_CourseInstanceStartDate_CourseInstance" />
+        <AssociationConnector Association="ProviderPortalModel.CourseInstanceA10FundingCode" />
+        <AssociationConnector Association="ProviderPortalModel.CourseInstanceVenue" />
+        <EntityTypeShape EntityType="ProviderPortalModel.QualityEmailStatuses" Width="2" PointX="5.5" PointY="56.25" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Provider_QualityEmailStatus" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Organisation_QualityEmailStatus" />
+        <EntityTypeShape EntityType="ProviderPortalModel.BulkUploadErrorType" Width="1.5" PointX="21.75" PointY="34" />
+        <EntityTypeShape EntityType="ProviderPortalModel.BulkUploadStatu" Width="1.5" PointX="19.5" PointY="38.875" />
+        <EntityTypeShape EntityType="ProviderPortalModel.QualificationTypeMap" Width="1.5" PointX="11.75" PointY="8.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.LearningAimValidity" Width="1.5" PointX="8.75" PointY="12.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.FEChoice" Width="1.5" PointX="6" PointY="63.875" />
+        <AssociationConnector Association="ProviderPortalModel.FEChoiceProvider" />
+        <EntityTypeShape EntityType="ProviderPortalModel.OrganisationQualityScore" Width="1.5" PointX="27" PointY="55" />
+        <AssociationConnector Association="ProviderPortalModel.FK_OrganisationQualityScore_Organisation" />
+        <AssociationConnector Association="ProviderPortalModel.FK_LearningAim_LearnDirect1" />
+        <AssociationConnector Association="ProviderPortalModel.FK_LearningAim_LearnDirect2" />
+        <AssociationConnector Association="ProviderPortalModel.FK_LearningAim_LearnDirect3" />
+        <EntityTypeShape EntityType="ProviderPortalModel.DfEEstablishmentPhase" Width="1.5" PointX="11.75" PointY="11.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.DfEEstablishmentStatu" Width="1.5" PointX="8.25" PointY="37.875" />
+        <EntityTypeShape EntityType="ProviderPortalModel.DfEEstablishmentType" Width="1.5" PointX="6" PointY="51.375" />
+        <EntityTypeShape EntityType="ProviderPortalModel.DfELocalAuthority" Width="1.5" PointX="6" PointY="58.875" />
+        <EntityTypeShape EntityType="ProviderPortalModel.DfEProviderStatu" Width="1.5" PointX="6" PointY="38.75" />
+        <EntityTypeShape EntityType="ProviderPortalModel.DfEProviderType" Width="1.5" PointX="6" PointY="61.375" />
+        <EntityTypeShape EntityType="ProviderPortalModel.DfERegion" Width="1.5" PointX="6" PointY="35.875" />
+        <EntityTypeShape EntityType="ProviderPortalModel.DfEWsProviderStatu" Width="1.5" PointX="3.75" PointY="39" />
+        <AssociationConnector Association="ProviderPortalModel.FK_DfEEstablishmentStatus_DfEProviderStatus" />
+        <AssociationConnector Association="ProviderPortalModel.FK_DfEProviderStatus_DfEWsProviderStatus" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Provider_DfEEstablishmentType" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Provider_DfELocalAuthority" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Provider_DfEProviderStatus" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Provider_DfEProviderType" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Provider_DfERegion" />
+        <EntityTypeShape EntityType="ProviderPortalModel.OpenDataDownload" Width="1.5" PointX="13.75" PointY="4.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.PublicAPIUser" Width="2.125" PointX="3" PointY="43.625" />
+        <AssociationConnector Association="ProviderPortalModel.FK_PublicAPIUser_RecordStatus" />
+        <EntityTypeShape EntityType="ProviderPortalModel.BulkUpload" Width="1.5" PointX="19.5" PointY="52.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.BulkUploadStatusHistory" Width="1.5" PointX="21.75" PointY="47.625" />
+        <AssociationConnector Association="ProviderPortalModel.FK_BulkUploadStatusHistory_AspNetUsers" />
+        <AssociationConnector Association="ProviderPortalModel.FK_BulkUploadStatusHistory_BulkUpload" />
+        <AssociationConnector Association="ProviderPortalModel.FK_BulkUploadStatusHistory_BulkUploadStatus" />
+        <EntityTypeShape EntityType="ProviderPortalModel.BulkUploadProvider" Width="1.5" PointX="10.5" PointY="48.875" />
+        <AssociationConnector Association="ProviderPortalModel.FK_BulkUploadProvider_BulkUpload" />
+        <AssociationConnector Association="ProviderPortalModel.FK_BulkUploadProvider_Provider" />
+        <EntityTypeShape EntityType="ProviderPortalModel.BulkUploadExceptionItem" Width="1.5" PointX="27" PointY="42" />
+        <AssociationConnector Association="ProviderPortalModel.FK_BulkUploadExceptionItem_BulkUpload" />
+        <EntityTypeShape EntityType="ProviderPortalModel.ProgressMessage" Width="1.5" PointX="13.75" PointY="7.625" />
+        <AssociationConnector Association="ProviderPortalModel.FK_BulkUploadExceptionItem_BulkUploadErrorType" />
+        <EntityTypeShape EntityType="ProviderPortalModel.v_BulkUploadCurrentStatus" Width="2.625" PointX="13.75" PointY="10.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.Content" Width="1.5" PointX="18.75" PointY="46.5" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Content_CreatedByUserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Content_ModifiedByUserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Content_Language" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Content_RecordStatus" />
+        <EntityTypeShape EntityType="ProviderPortalModel.QualityScore" Width="1.5" PointX="21.75" PointY="51.375" />
+        <AssociationConnector Association="ProviderPortalModel.FK_QualityScore_ModifiedByApplication" />
+        <AssociationConnector Association="ProviderPortalModel.FK_QualityScore_AspNetUser" />
+        <AssociationConnector Association="ProviderPortalModel.FK_QualityScore_ModifiedByAspNetUser" />
+        <AssociationConnector Association="ProviderPortalModel.FK_QualityScore_Provider" />
+        <EntityTypeShape EntityType="ProviderPortalModel.QualityEmailLog" Width="1.5" PointX="13.5" PointY="46.875" />
+        <AssociationConnector Association="ProviderPortalModel.FK_QualityEmailLog_EmailTemplate" />
+        <AssociationConnector Association="ProviderPortalModel.FK_QualityEmailLog_NextEmailTemplate" />
+        <AssociationConnector Association="ProviderPortalModel.FK_QualityEmailLog_Provider" />
+        <EntityTypeShape EntityType="ProviderPortalModel.MetadataUpload" Width="1.5" PointX="18.75" PointY="42.375" />
+        <EntityTypeShape EntityType="ProviderPortalModel.MetadataUploadType" Width="1.5" PointX="16.5" PointY="41" />
+        <AssociationConnector Association="ProviderPortalModel.FK_MetadataUpload_CreatedByUser" />
+        <AssociationConnector Association="ProviderPortalModel.FK_MetadataUpload_MetadataUploadType" />
+        <EntityTypeShape EntityType="ProviderPortalModel.UCAS_CourseEntry" Width="2.5" PointX="22.625" PointY="5" />
+        <EntityTypeShape EntityType="ProviderPortalModel.UCAS_Course" Width="2.25" PointX="22.625" PointY="29.125" />
+        <EntityTypeShape EntityType="ProviderPortalModel.UCAS_CoursesIndex" Width="2" PointX="22.625" PointY="24.875" />
+        <EntityTypeShape EntityType="ProviderPortalModel.UCAS_Currency" Width="1.5" PointX="22.625" PointY="15.75" />
+        <EntityTypeShape EntityType="ProviderPortalModel.UCAS_Deletion" Width="1.5" PointX="22.625" PointY="27.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.UCAS_Fee" Width="1.5" PointX="22.625" PointY="17.375" />
+        <EntityTypeShape EntityType="ProviderPortalModel.UCAS_Org" Width="1.5" PointX="22.625" PointY="10.25" />
+        <EntityTypeShape EntityType="ProviderPortalModel.UCAS_PlaceOfStudy" Width="2" PointX="22.625" PointY="21.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.UCAS_Start" Width="1.5" PointX="22.625" PointY="19.75" />
+        <EntityTypeShape EntityType="ProviderPortalModel.UCAS_StartsIndex" Width="1.75" PointX="22.625" PointY="1.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.UCAS_Town" Width="1.5" PointX="22.625" PointY="7.25" />
+        <EntityTypeShape EntityType="ProviderPortalModel.UCAS_FeeYear" Width="1.5" PointX="22.625" PointY="8.75" />
+        <EntityTypeShape EntityType="ProviderPortalModel.UserProvisionHistory" Width="1.5" PointX="30" PointY="47.625" />
+        <AssociationConnector Association="ProviderPortalModel.FK_UserProvisionHistory_User" />
+        <AssociationConnector Association="ProviderPortalModel.FK_UserProvisionHistory_Organisation" />
+        <AssociationConnector Association="ProviderPortalModel.FK_UserProvisionHistory_Provider" />
+        <EntityTypeShape EntityType="ProviderPortalModel.SectorSubjectAreaTier1" Width="1.5" PointX="5.75" PointY="4.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.SectorSubjectAreaTier2" Width="1.5" PointX="5.75" PointY="1" />
+        <EntityTypeShape EntityType="ProviderPortalModel.Standard" Width="1.5" PointX="8" PointY="4.125" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Standard_SectorSubjectAreaTier1" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Standard_SectorSubjectAreaTier2" />
+        <EntityTypeShape EntityType="ProviderPortalModel.StandardSectorCode" Width="1.5" PointX="5.75" PointY="8.5" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Standard_StandardSectorCode" />
+        <EntityTypeShape EntityType="ProviderPortalModel.ProgType" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ProviderPortalModel.Apprenticeship" Width="2.125" PointX="18.75" PointY="27.75" />
+        <EntityTypeShape EntityType="ProviderPortalModel.DeliveryMode" Width="1.5" PointX="24" PointY="33.5" />
+        <EntityTypeShape EntityType="ProviderPortalModel.Location" Width="1.5" PointX="27" PointY="36.125" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Location_Address" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Apprenticeship_CreatedByUserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Apprenticeship_ModifiedByUserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Apprenticeship_Provider" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Apprenticeship_RecordStatus" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Apprenticeship_Standard" />
+        <AssociationConnector Association="ProviderPortalModel.FK_DeliveryMode_RecordStatus" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Location_Provider" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Location_RecordStatus" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Standard_RecordStatus" />
+        <EntityTypeShape EntityType="ProviderPortalModel.ApprenticeshipLocation" Width="1.5" PointX="29.25" PointY="33.25" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ApprenticeshipLocation_ApprenticeshipId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ApprenticeshipLocation_LocationId" />
+        <AssociationConnector Association="ProviderPortalModel.ApprenticeshipLocationDeliveryMode" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ApprenticeshipLocation_Application" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ApprenticeshipLocation_RecordStatus" />
+        <EntityTypeShape EntityType="ProviderPortalModel.Framework" Width="1.5" PointX="11" PointY="23" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Apprenticeship_FrameworkId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Framework_ProgType" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Framework_RecordStatus" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Framework_SectorSubjectAreaTier1" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Framework_SectorSubjectAreaTier2" />
+        <AssociationConnector Association="ProviderPortalModel.FK_LearningAim_RecordStatus" />
+        <EntityTypeShape EntityType="ProviderPortalModel.UCAS_Qualification" Width="1.5" PointX="22.625" PointY="3.5" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Apprenticeship_AddedByApplicationId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ApprenticeshipLocation_CreatedByUserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ApprenticeshipLocation_ModifiedByUserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_AspNetUsers_CreatedByUserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_AspNetUsers_ModifiedByUserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_CourseInstance_CreatedByUserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_CourseInstance_ModifiedByUserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Location_CreatedByUserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Location_ModifiedByUserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Organisation_CreatedByUserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Organisation_ModifiedByUserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Provider_CreatedByUserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Provider_ModifiedByUserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Venue_CreatedByUserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_venue_ModifiedByUserId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_UcasStudyModeMapping_AttendancePattern" />
+        <AssociationConnector Association="ProviderPortalModel.FK_UcasStudyModeMapping_AttendanceType" />
+        <AssociationConnector Association="ProviderPortalModel.FK_AspNetUsers_UserOrganisationId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_AspNetUsers_UserproviderId" />
+        <AssociationConnector Association="ProviderPortalModel.FK_BulkUploadExceptionItem_Provider" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Organisation_Ukrlp" />
+        <EntityTypeShape EntityType="ProviderPortalModel.UCAS_PG_Course" Width="1.5" PointX="26.125" PointY="6.375" />
+        <EntityTypeShape EntityType="ProviderPortalModel.UCAS_PG_CourseOption" Width="1.5" PointX="26.125" PointY="9" />
+        <EntityTypeShape EntityType="ProviderPortalModel.UCAS_PG_CourseOptionFee" Width="1.5" PointX="26.125" PointY="1" />
+        <EntityTypeShape EntityType="ProviderPortalModel.UCAS_PG_Location" Width="1.5" PointX="26.125" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProviderPortalModel.UCAS_PG_Provider" Width="1.5" PointX="26.125" PointY="12.5" />
+        <EntityTypeShape EntityType="ProviderPortalModel.QAComplianceFailureReason" Width="2" PointX="21" PointY="65" />
+        <EntityTypeShape EntityType="ProviderPortalModel.QAStyleFailureReason" Width="2.125" PointX="21" PointY="62.5" />
+        <AssociationConnector Association="ProviderPortalModel.FK_QAComplianceFailureReason_RecordStatus" />
+        <AssociationConnector Association="ProviderPortalModel.FK_QAStyleFailureReason_RecordStatus" />
+        <EntityTypeShape EntityType="ProviderPortalModel.ApprenticeshipQACompliance" Width="1.5" PointX="24.625" PointY="40.25" />
+        <EntityTypeShape EntityType="ProviderPortalModel.ApprenticeshipQAStyle" Width="1.5" PointX="21.625" PointY="42.25" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ApprenticeshipQACompliance_Apprenticeship" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ApprenticeshipQAStyle_Apprenticeship" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ApprenticeshipQACompliance_AspNetUsers" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ApprenticeshipQAStyle_AspNetUsers" />
+        <AssociationConnector Association="ProviderPortalModel.ApprenticeshipQAComplianceFailureReason1" />
+        <AssociationConnector Association="ProviderPortalModel.ApprenticeshipQAStyleFailureReason1" />
+        <EntityTypeShape EntityType="ProviderPortalModel.ProviderQACompliance" Width="1.5" PointX="27.75" PointY="46.375" />
+        <EntityTypeShape EntityType="ProviderPortalModel.ProviderQAStyle" Width="1.5" PointX="24.75" PointY="54.5" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ProviderQACompliance_AspNetUsers" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ProviderQAStyle_AspNetUsers" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ProviderQACompliance_Provider" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ProviderQAStyle_Provider" />
+        <AssociationConnector Association="ProviderPortalModel.ProviderQAComplianceFailureReason" />
+        <AssociationConnector Association="ProviderPortalModel.ProviderQAStyleFailureReason" />
+        <EntityTypeShape EntityType="ProviderPortalModel.AutomatedTask" Width="1.5" PointX="0.625" PointY="0.875" />
+        <EntityTypeShape EntityType="ProviderPortalModel.Provider_AllCoursesOKConfirmations" Width="1.5" PointX="24.75" PointY="58.375" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Provider_AllCoursesOKConfirmations_AspNetUsers" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Provider_AllCoursesOKConfirmations_Provider" />
+        <EntityTypeShape EntityType="ProviderPortalModel.RoATPProviderType" Width="1.5" PointX="10.375" PointY="4.875" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Provider_RoATPProviderType" />
+        <EntityTypeShape EntityType="ProviderPortalModel.ProviderUnableToComplete" Width="1.5" PointX="27.75" PointY="58" />
+        <EntityTypeShape EntityType="ProviderPortalModel.UnableToCompleteFailureReason" Width="1.5" PointX="30" PointY="51.625" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ProviderUnableToComplete_AspNetUsers" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ProviderUnableToComplete_Provider" />
+        <AssociationConnector Association="ProviderPortalModel.FK_UnableToCompleteFailureReason_RecordStatus" />
+        <AssociationConnector Association="ProviderPortalModel.ProviderUnableToCompleteFailureReason" />
+        <EntityTypeShape EntityType="ProviderPortalModel.ImportBatch" Width="1.5" PointX="27.5" PointY="30.625" />
+        <EntityTypeShape EntityType="ProviderPortalModel.ImportBatchProvider" Width="1.5" PointX="29.75" PointY="42" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ImportBatchProvider_AspNetUsers" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ImportBatchProvider_Batch" />
+        <AssociationConnector Association="ProviderPortalModel.FK_ImportBatchProvider_Provider" />
+        <AssociationConnector Association="ProviderPortalModel.FK_Provider_MaxLocationsUserId" />
+        <EntityTypeShape EntityType="ProviderPortalModel.SearchPhrase" Width="2.125" PointX="13.5" PointY="58.625" />
+        <AssociationConnector Association="ProviderPortalModel.SearchPhrase_AttendancePattern" />
+        <AssociationConnector Association="ProviderPortalModel.SearchPhrase_AttendanceType" />
+        <AssociationConnector Association="ProviderPortalModel.SearchPhrase_QualificationLevel" />
+        <AssociationConnector Association="ProviderPortalModel.SearchPhrase_StudyMode" />
+        <AssociationConnector Association="ProviderPortalModel.FK_SearchPhrase_RecordStatus" />
+        <AssociationConnector Association="ProviderPortalModel.FK_SearchPhrase_CreatedByUser" />
+        <AssociationConnector Association="ProviderPortalModel.FK_SearchPhrase_ModifiedByUser" />
+        <EntityTypeShape EntityType="ProviderPortalModel.ProviderTASRefresh" Width="1.5" PointX="32.75" PointY="45.125" />
+        <AssociationConnector Association="ProviderPortalModel.FK_TASRefresh_AspNetUsers" />
+        <AssociationConnector Association="ProviderPortalModel.FK_TASRefresh_Batch" />
+        <AssociationConnector Association="ProviderPortalModel.FK_TASRefresh_Provider" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

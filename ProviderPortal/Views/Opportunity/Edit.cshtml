@@ -1,0 +1,468 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Areas.Api.Models
+@using Tribal.SkillsFundingAgency.ProviderPortal.Entities
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditOpportunityModel
+
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Edit Opportunity");
+    var RecordStatusDeleted = (int)Constants.RecordStatus.Deleted;
+}
+
+<h2 class="courses">@AppGlobal.Language.GetText(this, "Header", "Edit Opportunity")</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>@AppGlobal.Language.GetText(this, "SubHeader", "")</h4>
+        <hr />
+
+        @Html.EditableDataValidationSummary(false)
+
+        @if (Model.RecordStatusId == (Int32)Constants.RecordStatus.Archived)
+        {
+            <div class="col-md-offset-2 warning">
+                @Html.Raw(AppGlobal.Language.GetText(this, "OpportunityArchivedWarning", "<strong>Warning:</strong> this opportunity is currently <strong>ARCHIVED</strong> and it will not be published to the learner search."))
+            </div>
+        }
+        
+        @Html.HiddenFor(model => model.OpportunityId)
+
+        @Html.RequiredFields(new {@class="col-md-offset-2"}) 
+        
+        <div class="form-group">@Html.LanguageLabelFor(model => model.ProviderOwnOpportunityRef, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProviderOwnOpportunityRef, new { htmlAttributes = new {@class = "form-control"} })
+                @Html.ValidationMessageFor(model => model.ProviderOwnOpportunityRef)
+            </div>
+        </div>
+        
+        @if (Model.IsInOrganisation)
+        {
+            <div class="form-group">@Html.LanguageLabelFor(model => model.OfferedById, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.OfferedById, (SelectList) ViewBag.OfferedByOptions, Model.ProviderName, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.OfferedById)
+                </div>
+            </div>
+
+            <div class="form-group">@Html.LanguageLabelFor(model => model.DisplayId, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.DisplayId, (SelectList) ViewBag.DisplayByOptions, Model.ProviderName, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.DisplayId)
+                </div>
+            </div>
+
+            <div id="divBothSearched" class="form-group" style="display: none;">@Html.LanguageLabelFor(model => model.BothOfferedByDisplayBySearched, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.BothOfferedByDisplayBySearched)
+                    @Html.ValidationMessageFor(model => model.BothOfferedByDisplayBySearched)
+                </div>
+            </div>
+        }
+            
+        <fieldset>
+            <legend>@AppGlobal.Language.GetText(this, "A10Funding", "Funding Code")</legend>
+            <span class="explanation">
+                @Html.Raw(AppGlobal.Language.GetText(this, "A10FundingSummary", ""))
+            </span>
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.A10FundingCodes, new { @class = "control-label col-md-2" })
+                <div class="col-md-1">
+                    <input id="chkA10_NA" title="@(String.Format("{0} - {1}", AppGlobal.Language.GetText(this, "NA", "N/A"), AppGlobal.Language.GetText(this, "NotApplicable", "Not Applicable")))" type="checkbox" name="SelectedA10FundingCodes" value="-1" @(Model.SelectedA10FundingCodes.Contains(-1) ? "checked" : "") />
+                    <label for="chkA10_NA" title="@(String.Format("{0} - {1}", AppGlobal.Language.GetText(this, "NA", "N/A"), AppGlobal.Language.GetText(this, "NotApplicable", "Not Applicable")))" style="font-weight: normal;">@AppGlobal.Language.GetText(this, "NA", "N/A")</label>
+                </div>
+                <div class="col-md-8" style="border-left: 1px solid #ccc; padding-left: 25px;">
+                    @{ Int32 A10CodeCount = 0; }
+                    @foreach (A10FundingCode fc in Model.A10FundingCodes)
+                    {
+                        <input id="@fc.A10FundingCodeId" title="@(String.Format("{0} - {1}", fc.A10FundingCodeId, fc.A10FundingCodeName))" type="checkbox" name="SelectedA10FundingCodes" @((fc.RecordStatusId == RecordStatusDeleted && !Model.SelectedA10FundingCodes.Contains(fc.A10FundingCodeId)) ? "disabled=\"disabled\"" : "") value="@fc.A10FundingCodeId" @(Model.SelectedA10FundingCodes.Contains(fc.A10FundingCodeId) ? "checked" : "") />
+                        <label for="@fc.A10FundingCodeId" title="@(String.Format("{0} - {1}", fc.A10FundingCodeId, fc.A10FundingCodeName))" @((fc.RecordStatusId == RecordStatusDeleted && !Model.SelectedA10FundingCodes.Contains(fc.A10FundingCodeId)) ? "class=greyout" : "")  style="font-weight: normal;">@fc.A10FundingCodeId</label>
+                        A10CodeCount++;
+                        if (A10CodeCount == 4)
+                        {
+                            <br />
+                            A10CodeCount = 0;
+                        }
+                        else
+                        {
+                            @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                        }
+                    }
+                    @Html.ValidationMessageFor(model => model.A10FundingCodes)
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>@AppGlobal.Language.GetText(this, "Attendance", "Attendance")</legend>
+            <span class="explanation">
+                @Html.Raw(AppGlobal.Language.GetText(this, "AttendanceSummary", ""))
+            </span>
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.StudyModeId, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.StudyModeId, (SelectList)ViewBag.StudyModes, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.StudyModeId)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.AttendanceModeId, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.AttendanceModeId, (SelectList)ViewBag.AttendanceTypes, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AttendanceModeId)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.AttendancePatternId, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.AttendancePatternId, (SelectList)ViewBag.AttendancePatterns, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AttendancePatternId)
+                </div>
+            </div>
+        </fieldset>
+        
+        <fieldset>
+            <legend>@AppGlobal.Language.GetText(this, "Duration", "Duration")</legend>
+            <span class="explanation">
+                @Html.Raw(AppGlobal.Language.GetText(this, "DurationSummary", "Duration is mandatory unless you enter both a Start Date and End Date (see below). For duration, you may enter a number and unit (e.g. \"6 months\"0 or \"2 semesters\"), or a description (e.g. \"Different durations available.\"), or both. Take care your duration and duration description don't conflict – if they do, you may need to create a separate opportunity instead."))
+            </span>
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.Duration, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="col-md-4" style="padding-left: 0px;">
+                        @Html.EditorFor(model => model.Duration, new { htmlAttributes = new {@class = "form-control"} })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.LanguageLabelFor(model => model.DurationUnitId, new { @class = "control-label col-md-2", style="display: none;" })
+                        @Html.DropDownListFor(model => model.DurationUnitId, (SelectList)ViewBag.DurationUnits, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control" })
+                    </div>
+                    <div style="clear: both;"></div>
+                    @Html.ValidationMessageFor(model => model.Duration)
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.DurationDescription, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DurationDescription, new { htmlAttributes = new {@class = "form-control"} })
+                @Html.ValidationMessageFor(model => model.DurationDescription)
+            </div>
+        </div>
+
+        <fieldset>
+            <legend>@AppGlobal.Language.GetText(this, "Dates", "Dates")</legend>
+            <span class="explanation">
+                @Html.Raw(AppGlobal.Language.GetText(this, "DatesSummary", "You must enter at least one of Start Date, Start Month and Start Date Description. You cannot enter both a Start Date and Start Month, but Start Date Description can always be entered."))
+            </span>
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.StartDate, new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(model => model.StartDate, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.StartDate)
+                </div>
+                <div class="col-md-2">
+                    <img id="imgStartDate" src="~/Content/images/Calendar.png" alt="Calendar Picker" style="cursor: pointer;" />
+                </div>
+            </div>           
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.StartMonth, new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(model => model.StartMonth, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.StartMonth)
+                </div>
+                <div class="col-md-2">
+                    <img id="imgStartMonth" src="~/Content/images/Calendar.png" alt="Calendar Picker" style="cursor: pointer;" />
+                    <div id="divStartMonth" class="sidebar floatingright" style="display: none;">
+                        <a title="@AppGlobal.Language.GetText(this, "Close", "Close")" href="#" id="aStartMonthClose" style="float: right; margin-right: -15px; margin-top: -20px;"><img src="/Content/images/Close.png" alt="Close"/></a>
+                        @for (Int32 i = 1; i <= 24; i++)
+                        {
+                            <input type="checkbox" id="StartMonth_@i" value="@DateTime.Now.AddMonths(i).ToString(ViewBag.StartMonthFormat)" @(!String.IsNullOrWhiteSpace(Model.StartMonth) && Model.StartMonth.Contains(DateTime.Now.AddMonths(i).ToString(ViewBag.StartMonthFormat)) ? "checked" : "") />
+                            <label id="lblStartMonth_@i" for="StartMonth_@i">@DateTime.Now.AddMonths(i).ToString(ViewBag.StartMonthFormat)</label>
+                            <br />
+                        }
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.StartDateDescription, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.StartDateDescription, new { htmlAttributes = new {@class = "form-control"} })
+                    @Html.ValidationMessageFor(model => model.StartDateDescription)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.EndDate, new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new {@class = "form-control"} })
+                </div>
+                <div class="col-md-10 col-md-offset-2">
+                    @Html.ValidationMessageFor(model => model.EndDate)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.Timetable, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Timetable, new { htmlAttributes = new {@class = "form-control"} })
+                    @Html.ValidationMessageFor(model => model.Timetable)
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>@AppGlobal.Language.GetText(this, "Price", "Price")</legend>
+            <span class="explanation">
+                @Html.Raw(AppGlobal.Language.GetText(this, "PriceSummary", "You must enter a Price in pounds or a Price Description, or both. Please also use the Price Description field to provide details of any financial support you offer e.g. bursaries."))
+            </span>
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.Price, new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new {@class = "form-control"} })
+                </div>
+                <div class="col-md-10 col-md-offset-2">
+                    @Html.ValidationMessageFor(model => model.Price)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.PriceDescription, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PriceDescription, new { htmlAttributes = new {@class = "form-control"} })
+                    @Html.ValidationMessageFor(model => model.PriceDescription)
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>@AppGlobal.Language.GetText(this, "Venue", "Venue")</legend>
+            <span class="explanation">
+                @Html.Raw(AppGlobal.Language.GetText(this, "VenueSummary", "You may enter a region or venue but not both. If you select none, the region will be automatically set to United Kingdom. We strongly recommend selecting one for all but pure online or distance learning, as it will make your opportunity easier for learners to find."))
+            </span>
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.VenueId, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.VenueId, (SelectList)ViewBag.Venues, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.VenueId)
+                </div>
+            </div>
+            <div class="col-md-offset-2">
+                <a href="#" id="addVenueDialog">@AppGlobal.Language.GetText(this, "AddNewVenue", "Add New Venue")</a>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.RegionId, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.HiddenFor(model => model.RegionId)
+                    @Html.EditorFor(model => model.RegionName, new { htmlAttributes = new {@class = "form-control venuelocation-typeahead"} })
+                    @Html.ValidationMessageFor(model => model.RegionId)
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>@AppGlobal.Language.GetText(this, "FurtherInformation", "Further Information")</legend>
+            <span class="explanation">
+                @Html.Raw(AppGlobal.Language.GetText(this, "FurtherInformationSummary", ""))
+            </span>
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.LanguageOfInstruction, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LanguageOfInstruction, new { htmlAttributes = new {@class = "form-control courselanguage-typeahead"} })
+                    @Html.ValidationMessageFor(model => model.LanguageOfInstruction)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.LanguageOfAssessment, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LanguageOfAssessment, new { htmlAttributes = new {@class = "form-control courselanguage-typeahead"} })
+                    @Html.ValidationMessageFor(model => model.LanguageOfAssessment)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.ApplyFrom, new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.ApplyFrom, new { htmlAttributes = new {@class = "form-control"} })
+                    @Html.ValidationMessageFor(model => model.ApplyFrom)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.ApplyUntil, new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.ApplyUntil, new { htmlAttributes = new {@class = "form-control"} })
+                    @Html.ValidationMessageFor(model => model.ApplyUntil)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.ApplyUntilDescription, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ApplyUntilDescription, new { htmlAttributes = new {@class = "form-control"} })
+                    @Html.ValidationMessageFor(model => model.ApplyUntilDescription)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.ApplyTo, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ApplyTo, new { htmlAttributes = new {@class = "form-control"} })
+                    @Html.ValidationMessageFor(model => model.ApplyTo)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.EnquireTo, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.EnquireTo, new { htmlAttributes = new {@class = "form-control"} })
+                    @Html.ValidationMessageFor(model => model.EnquireTo)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.Url, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Url, new { htmlAttributes = new {@class = "form-control", data_url = "true"} })
+                    @Html.ValidationMessageFor(model => model.Url)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.AcceptedThroughoutYear, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.AcceptedThroughoutYear)
+                    @Html.ValidationMessageFor(model => model.AcceptedThroughoutYear)
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="@AppGlobal.Language.GetText(this, "Submit", "Save")" class="btn btn-success" />
+                @if (Model.RecordStatusId != (Int32)Constants.RecordStatus.Archived) 
+                {
+                    <input id="btnArchive" type="button" name="Archive" value="@AppGlobal.Language.GetText(this, "Archive", "Archive")" class="btn btn-default" />
+                }
+                else
+                {
+                    <input id="btnUnarchive" type="button" name="Unarchive" value="@AppGlobal.Language.GetText(this, "Unarchive", "Unarchive")" class="btn btn-default" />
+                }
+                @if (Tribal.SkillsFundingAgency.ProviderPortal.Permission.HasPermission(false, false, Tribal.SkillsFundingAgency.ProviderPortal.Permission.PermissionName.CanDeleteProviderOpportunity))
+                {
+                    <input id="btnDelete" type="button" name="Delete" value="@AppGlobal.Language.GetText(this, "Delete", "Delete")" class="btn btn-default" />
+                }
+                @if (Tribal.SkillsFundingAgency.ProviderPortal.Permission.HasPermission(false, false, Tribal.SkillsFundingAgency.ProviderPortal.Permission.PermissionName.CanAddProviderOpportunity))
+                {
+                    <input id="btnDuplicate" type="button" name="Duplicate" value="@AppGlobal.Language.GetText(this, "Duplicate", "Duplicate")" class="btn btn-default" />
+                }
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+
+    @Html.Partial("_AddEditOpportunityScripts")
+
+    @Html.Partial("_TypeaheadPartial", new TypeaheadViewModel
+    {
+        JQuerySelector = ".venuelocation-typeahead",
+        SearchFields = new[] {"VenueLocationId", "LocationName", "ParentVenueLocation"},
+        PrefetchUrl = "/api/typeahead/venuelocations",
+        ClearPrefetchCache = true, /*For debugging*/
+        Name = "RegionId",
+        DisplayKey = "LocationName",
+        ValueKey = "VenueLocationId",
+        EmptyMessage = AppGlobal.Language.GetText(this, "NoMatchedLocations", "Unable to find any locations that match your current query."),
+        Suggestion = "function(a){return '<p>' + a.LocationName + (a.ParentVenueLocation != null ? ' (' + a.ParentVenueLocation + ')' : '') + '</p>';}",
+        //SuggestionLimit = 45
+    })
+
+    @Html.Partial("_TypeaheadPartial", new TypeaheadViewModel
+    {
+        JQuerySelector = ".courselanguage-typeahead",
+        SearchFields = new[] {"Language"},
+        PrefetchUrl = "/api/typeahead/CourseLanguages",
+        ClearPrefetchCache = true, /*For debugging*/
+        DisplayKey = "Language",
+        ValueKey = "Language",
+        HideEmptyMessage = true,
+        UseAttributeForName = true,
+        Suggestion = "function(a){return '<p>' + a.Language + '</p>';}"
+    })
+
+    @Html.Partial("_AddVenueScript")
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            $("#btnArchive").click(function() {
+                if (confirm('@AppGlobal.Language.GetText(this, "ArchiveOpportunityWarning", "Are you sure you would like to archive this opportunity?")') === false) {
+                    return;
+                }
+                var url = '@Url.Action("Archive", "Opportunity", new {Id = @Model.OpportunityId})';
+                $.ajax({
+                    url: url,
+                    success: function() {
+                        window.location.reload(true);
+                    },
+                    error: function() {
+                        alert("Error archiving opportunity");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/x-www-form-urlencoded, charset=utf-8'
+                });
+            });
+
+            $("#btnUnarchive").click(function() {
+                var url = '@Url.Action("Unarchive", "Opportunity", new {Id = @Model.OpportunityId})';
+                $.ajax({
+                    url: url,
+                    success: function() {
+                        window.location.reload(true);
+                    },
+                    error: function() {
+                        alert("Error unarchiving opportunity");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/x-www-form-urlencoded, charset=utf-8'
+                });
+            });
+
+            $("#btnDelete").click(function() {
+                if (confirm('@AppGlobal.Language.GetText(this, "DeleteOpportunityWarning", "Are you sure you would like to delete this opportunity?")') === false) {
+                    return;
+                }
+                var url = '@Url.Action("Delete", "Opportunity", new {Id = @Model.OpportunityId})';
+                $.ajax({
+                    url: url,
+                    success: function() {
+                        window.location.replace("@Url.Action("Edit", "Course", new {Id = Model.CourseId})");
+                    },
+                    error: function() {
+                        alert("Error deleting opportunity");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/x-www-form-urlencoded, charset=utf-8'
+                });
+            });
+
+            $("#btnDuplicate").click(function() {
+                window.location.replace("@Url.Action("Duplicate", "Opportunity", new {Id = Model.OpportunityId})");
+            });
+        });
+
+    </script>
+}

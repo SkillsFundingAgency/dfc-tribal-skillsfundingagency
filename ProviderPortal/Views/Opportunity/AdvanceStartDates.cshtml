@@ -1,0 +1,110 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Models
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AdvanceStartDatesModel
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("AdvanceStartDates", "Opportunity", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    if (Model.CountUpdates > 0)
+    {
+        <!-- ||Input**Mode|| IMPORTANT DO NOT DELETE THIS COMMENT -->
+        <div class="form-horizontal">
+            <div class="alert alert-info">
+                @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "NumberSelectedOpportunities", "Advance Start Date for {0} opportunties."), Model.CountUpdates))
+            </div>
+
+            @Html.EditableDataValidationSummary(false)
+
+            @Html.RequiredFields(new { @class = "col-md-offset-3" })
+
+            @Html.HiddenFor(model => model.OpportunityIdsToUpdate)
+            @Html.HiddenFor(model => model.CountUpdates)
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.NewStartDate, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.NewStartDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NewStartDate)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.NewEndDate, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.NewEndDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NewEndDate)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(m => m.CreateOrUpdate, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.CreateOrUpdate, EnumHelper.GetSelectList(typeof(AdvanceStartDateOptions)), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.CreateOrUpdate)
+                </div>
+            </div>
+
+            <div style="clear: both;"></div>
+        </div>
+    }
+    else if (Model.CountUpdated > 0)
+    {
+        <div class="alert alert-info">
+            @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "NumberUpdatedOpportunities", "Start Dates have been successfully advanced for {0} opportunties."), Model.CountUpdated))
+        </div>
+    }
+    if (Model.CountErrors > 0)
+    { 
+        <asp:Panel id="ErrorPanel" runat="server" visible="false">
+            <h3>Opportunities not updated</h3>
+
+            <p>@Html.Raw(String.Format(AppGlobal.Language.GetText(this, "NumberErrorOpportunities", "There are {0} opportunties which cannot be updated. Either the start and end dates are not valid for the opportunity duration or the opportunity has multiple start dates specified."), Model.CountErrors))</p>
+
+            <table class="dataTable dt-responsive table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.OpportunitiesNotUpdated.First().CourseTitle)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.OpportunitiesNotUpdated.First().OpportunityDetails)
+                        </th>
+                        <th data-type="date-eu">
+                            @Html.DisplayNameFor(model => model.OpportunitiesNotUpdated.First().StartDate)
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var opportunity in Model.OpportunitiesNotUpdated)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(model => opportunity.CourseTitle)
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Edit", "Opportunity", new {Id = opportunity.OpportunityId})" target="_blank">@Html.DisplayFor(model => opportunity.OpportunityDetails)</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => opportunity.StartDate)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </asp:Panel>
+    }
+}
+
+
+<script type="text/javascript">
+        $(function () {
+            $("input[id='NewStartDate']").change(function () {
+                if ($("input[id='NewEndDate']").val() == "") {
+                    $("input[id='NewEndDate']").val($("input[id='NewStartDate']").val());
+                }
+            });
+        });
+</script>

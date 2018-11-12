@@ -1,0 +1,32 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Entities
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.OverrideMaximumNumberOfLocationsModel
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("OverrideMaximumNumberOfLocations", "Provider", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <div class="alert alert-info">
+            @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "CurrentNumberOfLocations", "This provider currently has {0} locations."), Model.NumberOfLocations.ToString("N0")))
+        </div>
+
+        @Html.EditableDataValidationSummary(false)
+
+        @Html.RequiredFields(new { @class = "col-md-offset-3" })
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.MaximumNumberOfLocations, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.MaximumNumberOfLocations, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MaximumNumberOfLocations)
+            </div>
+        </div>
+
+        <div style="clear: both;"></div>
+
+    </div>
+}
+

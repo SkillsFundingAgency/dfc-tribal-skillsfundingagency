@@ -1,0 +1,98 @@
+﻿@model IEnumerable<Tribal.SkillsFundingAgency.ProviderPortal.Models.FullOpportunityListModel>
+
+
+@if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditProviderOpportunity))
+{
+    <div style="float: right;">
+        <input type="button" class="btn btn-default" value="@AppGlobal.Language.GetText(this, "AdvanceSelected", "Advance Selected")" id="btnAdvanceStartDates" />
+        <input type="button" class="btn btn-default" value="@AppGlobal.Language.GetText(this, "ArchiveSelected", "Archive Selected")" id="btnArchiveSelectedOpportunities" />
+        <input type="button" class="btn btn-default" value="@AppGlobal.Language.GetText(this, "UnarchiveSelected", "Unarchive Selected")" id="btnUnarchiveSelectedOpportunities" />
+
+     </div>
+    <div style="clear: both;"></div>
+}
+
+<table class="dataTable dt-responsive table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CourseDetails)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OpportunityDetails)
+            </th>
+            <th data-type="date-eu">
+                @Html.DisplayNameFor(model => model.LastUpdate)
+            </th>
+            <th data-type="date-eu">
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th data-sort='false' data-filter="false">
+            </th>
+            @if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditProviderOpportunity))
+            {
+                <th data-sort='false' data-filter="false">
+                    <label for="chkAllOpportunities" class="hide">@AppGlobal.Language.GetText(this, "CheckUncheckAll", "Check/Uncheck All")</label>
+                    <input type="checkbox" id="chkAllOpportunities" />
+                </th>
+            }
+
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var opportunity in Model) {
+            <tr>
+                <td>
+                    <div id="divStatus_@opportunity.OpportunityId">
+                        @Html.DisplayFor(model => opportunity.Status)
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(model => opportunity.CourseDetails)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => opportunity.OpportunityDetails)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => opportunity.LastUpdate)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => opportunity.StartDate)
+                </td>
+                <td>
+                    @if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditProviderOpportunity))
+                    {
+                        <a href="@Url.Action("Edit", "Opportunity", new {Id = opportunity.OpportunityId})">@AppGlobal.Language.GetText(this, "Edit", "Edit")<span class="hide"> @Html.DisplayFor(model => opportunity.OpportunityDetails)</span></a>
+                        <br />
+                        <a href="@Url.Action("Duplicate", "Opportunity", new {Id = opportunity.OpportunityId})">@AppGlobal.Language.GetText(this, "Duplicate", "Duplicate")<span class="hide"> @Html.DisplayFor(model => opportunity.OpportunityDetails)</span></a>
+                        <br />
+                        <a href="@Url.Action("Edit", "Course", new {Id = opportunity.CourseId})">@AppGlobal.Language.GetText(this, "EditCourse", "Edit Course")<span class="hide"> @Html.DisplayFor(model => opportunity.OpportunityDetails)</span></a>
+
+                    }
+                    else if (Permission.HasPermission(false, false, Permission.PermissionName.CanViewProviderOpportunity))
+                    {
+                        <a href="@Url.Action("View", "Opportunity", new {Id = opportunity.OpportunityId})">@AppGlobal.Language.GetText(this, "View", "View")<span class="hide"> @Html.DisplayFor(model => opportunity.OpportunityDetails)</span></a>
+                        <br />
+                        <a href="@Url.Action("View", "Course", new {Id = opportunity.CourseId})">@AppGlobal.Language.GetText(this, "ViewCourse", "View Course")<span class="hide"> @Html.DisplayFor(model => opportunity.OpportunityDetails)</span></a>
+
+                    }
+                </td>
+                <td>
+                    @if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditProviderCourse))
+                    {
+                        <label for="chkOpportunity_@opportunity.OpportunityId" class="hide">@opportunity.OpportunityDetails</label>
+                        <input type="checkbox" id="chkOpportunity_@opportunity.OpportunityId" />
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+    
+</table>
+
+<hr />
+

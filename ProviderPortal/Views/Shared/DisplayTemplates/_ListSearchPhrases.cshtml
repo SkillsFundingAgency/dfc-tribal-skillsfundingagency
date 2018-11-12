@@ -1,0 +1,88 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Models
+@model IEnumerable<SearchPhraseListItemModel>
+
+@if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditAPISearchPhrases))
+{
+    <div style="clear: both;"></div>
+}
+
+<table class="dataTable dt-responsive table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SearchPhrase)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RemovePhraseFromSearch)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QualificationLevels)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AttendanceTypes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AttendancePatterns)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudyModes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedByUser)
+            </th>
+            <th data-type="date-eu">
+                @Html.DisplayNameFor(model => model.UpdatedDateTimeUtc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th data-sort='false' data-filter="false">@AppGlobal.Language.GetText(this, "Actions", "Actions")</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+            var itemCount = 1;
+        }
+        @foreach (var searchPhrase in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => searchPhrase.SearchPhrase)
+                </td>
+                <td style="text-align: center;">
+                    @Html.DisplayFor(model => searchPhrase.RemovePhraseFromSearch)
+                </td>
+                <td>
+                    @Html.Raw(searchPhrase.QualificationLevels)
+                </td>
+                <td>
+                    @Html.Raw(searchPhrase.AttendanceTypes)
+                </td>
+                <td>
+                    @Html.Raw(searchPhrase.AttendancePatterns)
+                </td>
+                <td>
+                    @Html.Raw(searchPhrase.StudyModes)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => searchPhrase.UpdatedByUser)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => searchPhrase.UpdatedDateTimeUtc)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => searchPhrase.Status)
+                </td>
+                <td>
+                    @if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditAPISearchPhrases))
+                    {
+                        <a href="@Url.Action("Edit", "SearchPhrase", new {Id = searchPhrase.SearchPhraseId})">@AppGlobal.Language.GetText(this, "Edit", "Edit")<span class="hide"> @Html.DisplayFor(model => searchPhrase.SearchPhrase)</span></a>
+                    }
+                </td>
+            </tr>
+            itemCount++;
+        }
+    </tbody>
+
+</table>

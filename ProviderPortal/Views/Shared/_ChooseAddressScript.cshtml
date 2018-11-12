@@ -1,0 +1,62 @@
+﻿@if (HttpContext.Current.Items.Contains("_EditAddressPartial") || HttpContext.Current.Items.Contains("_EditLocationAddressPartial"))
+{
+    <script>
+
+        $(function() {
+            $("#aFindAddress").click(function(e) {
+                e.preventDefault();
+                if ($("input[id$='Postcode']").val() == "") {
+                    alert("@AppGlobal.Language.GetText(this, "EnterAPostcode", "Please enter a postcode")");
+                    $("input[id$='Postcode']").focus();
+                    return;
+                }
+                $("#ddlChooseAddress").empty().append('<option value="-1" selected="selected">@AppGlobal.Language.GetText(this, "PleaseSelectYourAddress", "Please select your address")</option>');
+                var url = '@Url.Action("GetAddresses", "Address", new {Postcode = "__Postcode__"})';
+                url = url.replace('__Postcode__', $("input[id$='Postcode']").val());
+                $.ajax({
+                    url: url,
+                    success: function(result) {
+                        if (result.length == 0) {
+                            $("#divPostcodeNotFound").show();
+                            $("#divDDLChooseAddress").hide();
+                        } else {
+                            $("#divPostcodeNotFound").hide();
+                            $("#divDDLChooseAddress").show();
+                        }
+                        $("#ddlChooseAddress").empty();
+                        $.each(result, function(i, item) {
+                            $("#ddlChooseAddress").append('<option value="' + item.Key + '">' + item.Value + '</option>');
+                        });
+                        $("#ddlChooseAddress").html($('#ddlChooseAddress option').sort(function(x, y) {
+                            return $(x).text() < $(y).text() ? -1 : 1;
+                        }));
+                        $("#ddlChooseAddress").prepend('<option value="-1" selected="selected">@AppGlobal.Language.GetText(this, "PleaseSelectYourAddress", "Please select your address")</option>');
+                        $("#ddlChooseAddress").val("-1");
+                        $("#divChooseAddress").slideDown("fast");
+                    },
+                    error: function() {
+                        alert("Error retrieving address");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/json, charset=utf-8',
+                    dataType: 'json'
+                });
+            });
+
+            $("#ddlChooseAddress").change(function() {
+                var selected = $("#ddlChooseAddress :selected");
+                if (selected.val() != "-1") {
+                    var data = selected.val().split("~");
+                    $("input[id$='AddressLine1']").val(data[0]);
+                    $("input[id$='AddressLine2']").val(data[1]);
+                    $("input[id$='Town']").val(data[2]);
+                    $("input[id$='County']").val(data[3]);
+                    $("input[id$='Postcode']").val(data[4]);
+                    $("input[id$='AddressBaseId']").val(data[5]);
+                }
+            });
+        });
+
+    </script>
+}

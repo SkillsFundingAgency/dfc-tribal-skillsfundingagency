@@ -1,0 +1,482 @@
+﻿<script type="text/javascript">
+
+    var marketingInformationLabel = "";
+
+    function setMandatoryMarketingInformation(cb) {
+        var isMandatory = false;
+
+        if (cb.attr("type") == "hidden") {
+            isMandatory = cb.val() == "True";
+        }
+        else if (cb.attr("type") == "checkbox") {
+            if (cb.prop("checked") === true) {
+                isMandatory = true;
+            }
+        }
+
+        if (isMandatory === true) {
+            $("label[for='MarketingInformation']").html(marketingInformationLabel + ' <span class="required" arias-required="true">*</span>');
+        } else {
+            $("label[for='MarketingInformation']").html(marketingInformationLabel);
+        }
+    }
+
+    // Marketing Information field has a really long label and this causes the responsive design to kick in
+    // causing the marketing information field to move down to the next line.  This corrects that by 
+    // changing the CSS slightly whilst keeping the responsive design working correctly.
+    function fixMarketingInformationWidth() {
+        var marketingInfoDiv = $("#MarketingInformation").parent("div");
+        if ($(window).width() > 990) {
+            marketingInfoDiv.css("width", "80%");
+            marketingInfoDiv.css("padding-right", "0px");
+        } else {
+            marketingInfoDiv.css("width", "");
+            marketingInfoDiv.css("padding-right", "");
+        }
+    }
+
+    function ensureImportBatchesAreSameSize() {
+        var maxHeight = 0;
+        var maxWidth = 0;
+
+        $(".importbatch").each(function () {
+            if ($(this).height() > maxHeight) {
+                maxHeight = $(this).height();
+            }
+            if ($(this).width() > maxWidth) {
+                maxWidth = $(this).width();
+            }
+        });
+
+        $(".importbatch").each(function () {
+            $(this).height(maxHeight);
+            $(this).width(maxWidth);
+        });
+    }
+
+    $(document).ready(function () {
+        var lblMarketingInfo = $("label[for='MarketingInformation']");
+        lblMarketingInfo.text(lblMarketingInfo.text() + " @AppGlobal.Language.GetText(this, "MarketingInformationMaxCharacterCount", "(max 750 characters)")");
+
+        fixMarketingInformationWidth();
+
+        $(window).resize(function () {
+            fixMarketingInformationWidth();
+        });
+
+        marketingInformationLabel = lblMarketingInfo.html();
+
+        setMandatoryMarketingInformation($("#ApprenticeshipContract"));
+
+        $("#ApprenticeshipContract").change(function () {
+            setMandatoryMarketingInformation($(this));
+        });
+
+        ensureImportBatchesAreSameSize();
+
+        $("#btnQAForCompliance").click(function () {
+            BootstrapDialog.show({
+                title: '@AppGlobal.Language.GetText(this, "ComplianceChecksRecord", "Compliance Checks Record")',
+                message: $('<div></div>').load('@Url.Action("QAForComplianceFromDialog", "Provider")'),
+                buttons: [
+                    {
+                        label: '@AppGlobal.Language.GetText(this, "Save", "Save")',
+                        cssClass: 'btn-success',
+                        action: function (dialog) {
+                            $.ajax({
+                                cache: false,
+                                async: false,
+                                url: '@Url.Action("QAForComplianceFromDialog", "Provider")',
+                                type: 'post',
+                                data: $("form[action='@Url.Action("QAForComplianceFromDialog", "Provider")']").serialize(),
+                                success: function (data, status, xhr) {
+                                    var ct = xhr.getResponseHeader("content-type") || "";
+                                    if (ct.indexOf('html') > -1) {
+                                        // Got HTML so there must have been a problem
+                                        dialog.setMessage($('<div></div>').html(data));
+                                    }
+                                    if (ct.indexOf('json') > -1) {
+                                        // Got JSON so everything went OK.
+                                        // Close the dialog
+                                        dialog.close();
+
+                                        // Reload the page
+                                        window.location.reload();
+                                    }
+                                },
+                                error: function () {
+                                    alert("@AppGlobal.Language.GetText(this, "ErrorQAingProvider", "Error QAing Provider")");
+                                }
+                            });
+                        }
+                    },
+                    {
+                        label: "@AppGlobal.Language.GetText(this, "Cancel", "Cancel")",
+                        action: function (dialog) {
+                            dialog.close();
+                        }
+                    }
+                ]
+            });
+        });
+
+        $("#btnUnableToComplete").click(function() {
+            BootstrapDialog.show({
+                title: '@AppGlobal.Language.GetText(this, "UnableToCompleteRecord", "Incomplete process completion reason")',
+                message: $('<div></div>').load('@Url.Action("UnableToCompleteFromDialog", "Provider")'),
+                buttons: [
+                    {
+                        label: '@AppGlobal.Language.GetText(this, "Save", "Save")',
+                        cssClass: 'btn-success',
+                        action: function(dialog) {
+                            $.ajax({
+                                cache: false,
+                                async: false,
+                                url: '@Url.Action("UnableToCompleteFromDialog", "Provider")',
+                                type: 'post',
+                                data: $("form[action='@Url.Action("UnableToCompleteFromDialog", "Provider")']").serialize(),
+                                success: function(data, status, xhr) {
+                                    var ct = xhr.getResponseHeader("content-type") || "";
+                                    if (ct.indexOf('html') > -1) {
+                                        // Got HTML so there must have been a problem
+                                        dialog.setMessage($('<div></div>').html(data));
+                                    }
+                                    if (ct.indexOf('json') > -1) {
+                                        // Got JSON so everything went OK.
+                                        // Close the dialog
+                                        dialog.close();
+
+                                        // Reload the page
+                                        window.location.reload();
+                                    }
+                                },
+                                error: function() {
+                                    alert("@AppGlobal.Language.GetText(this, "ErrorUnableToCompleteProvider", "Error Unable to Complete Provider")");
+                                }
+                            });
+                        }
+                    },
+                    {
+                        label: "@AppGlobal.Language.GetText(this, "Cancel", "Cancel")",
+                        action: function(dialog) {
+                            dialog.close();
+                        }
+                    }
+                ]
+            });
+        });
+
+        $("#btnUnableToCompleteClear").click(function() {            
+            $.ajax({
+                cache: false,
+                async: false,
+                url: '@Url.Action("UnableToCompleteClear", "Provider")',
+                type: 'post',                                
+                success: function(data, status, xhr) {
+                    var ct = xhr.getResponseHeader("content-type") || "";
+                    if (ct.indexOf('html') > -1) {
+                        // Got HTML so there must have been a problem
+                        dialog.setMessage($('<div></div>').html(data));
+                    }
+                    if (ct.indexOf('json') > -1) {
+                                        
+                        // Reload the page
+                        window.location.reload();
+                    }                             
+                },
+                error: function() {
+                    alert("@AppGlobal.Language.GetText(this, "ErrorUnableToCompleteClearProvider", "Error Unable to Complete Clear Provider")");
+                }
+            });                    
+        });
+
+
+        $("#btnQAForStyle").click(function() {
+            BootstrapDialog.show({
+                title: '@AppGlobal.Language.GetText(this, "StyleChecksRecord", "Style Checks Record")',
+                message: $('<div></div>').load('@Url.Action("QAForStyleFromDialog", "Provider")'),
+                buttons: [
+                    {
+                        label: '@AppGlobal.Language.GetText(this, "Save", "Save")',
+                        cssClass: 'btn-success',
+                        action: function (dialog) {
+                            $.ajax({
+                                cache: false,
+                                async: false,
+                                url: '@Url.Action("QAForStyleFromDialog", "Provider")',
+                                type: 'post',
+                                data: $("form[action='@Url.Action("QAForStyleFromDialog", "Provider")']").serialize(),
+                                success: function (data, status, xhr) {
+                                    var ct = xhr.getResponseHeader("content-type") || "";
+                                    if (ct.indexOf('html') > -1) {
+                                        // Got HTML so there must have been a problem
+                                        dialog.setMessage($('<div></div>').html(data));
+                                    }
+                                    if (ct.indexOf('json') > -1) {
+                                        // Got JSON so everything went OK.
+                                        // Close the dialog
+                                        dialog.close();
+
+                                        // Reload the page
+                                        window.location.reload();
+                                    }
+                                },
+                                error: function () {
+                                    alert("@AppGlobal.Language.GetText(this, "ErrorQAingProvider", "Error QAing Provider")");
+                                }
+                            });
+                        }
+                    },
+                    {
+                        label: "@AppGlobal.Language.GetText(this, "Cancel", "Cancel")",
+                        action: function (dialog) {
+                            dialog.close();
+                        }
+                    }
+                ]
+            });
+        });
+
+        $("#btnSendQAFailEmail").click(function (e) {
+            e.preventDefault();
+
+            if (confirm("@AppGlobal.Language.GetText(this, "ConfirmSendQAFailEmail", "Are you sure you want to send the QA fail email?")")) {
+
+                $.ajax({
+                    cache: false,
+                    async: false,
+                    url: '@Url.Action("SendQAFailEmail", "Provider")',
+                    type: 'post',
+                    success: function (data, status, xhr) {
+                        var ct = xhr.getResponseHeader("content-type") || "";
+                        if (ct.indexOf('json') > -1) {
+                            // Got JSON so everything went OK.
+
+                            if (data.Status == 0) {
+                                alert(data.Message);
+                            } else {
+                                alert("@AppGlobal.Language.GetText(this, "QAFailEmailSent", "QA failure email successfully sent")");
+
+                                // Reload the page
+                                window.location.reload();
+                            }
+                        } else {
+                            // Something wrong happened
+                            alert("@AppGlobal.Language.GetText(this, "ErrorSendingQAFailEmail", "Error sending QA failure email")");
+                        }
+                    },
+                    error: function () {
+                        alert("@AppGlobal.Language.GetText(this, "ErrorSendingQAFailEmail", "Error sending QA failure email")");
+                    }
+                });
+            }
+        });
+
+        $("#btnSubmitNewTextForQA").click(function () {
+            BootstrapDialog.show({
+                title: '@AppGlobal.Language.GetText(this, "NewTextForBriefOverview", "New Text for: Your Generic Apprenticeship Information for Employers")',
+                message: $('<div></div>').load('@Url.Action("SubmitNewMarketingInformationText", "Provider")'),
+                buttons: [
+                    {
+                        label: '@AppGlobal.Language.GetText(this, "SubmitNewText", "Submit")',
+                        cssClass: 'btn-success',
+                        action: function (dialog) {
+                            CKEDITOR.instances['NewMarketingInformation'].updateElement();
+                            $.ajax({
+                                cache: false,
+                                async: false,
+                                url: '@Url.Action("SubmitNewMarketingInformationText", "Provider")',
+                                type: 'post',
+                                data: $("form[action='@Url.Action("SubmitNewMarketingInformationText", "Provider")']").serialize(),
+                                success: function (data, status, xhr) {
+                                    var ct = xhr.getResponseHeader("content-type") || "";
+                                    if (ct.indexOf('html') > -1) {
+                                        // Got HTML so there must have been a problem
+                                        dialog.setMessage($('<div></div>').html(data));
+                                    }
+                                    if (ct.indexOf('json') > -1) {
+                                        // Got JSON so everything went OK.
+                                        // Close the dialog
+                                        dialog.close();
+
+                                        alert("@AppGlobal.Language.GetText(this, "NewMarketingInformationTextSubmitted", "Thank you. Your new brief overview has been submitted for quality assurance")");
+                                    }
+                                },
+                                error: function (err, result) {
+                                    alert(err.responseText);
+                                    //alert("@AppGlobal.Language.GetText(this, "ErrorSubmittingMarketingInformationText", "Error Submitting New Text")");
+                                }
+                            });
+                        }
+                    },
+                    {
+                        label: "@AppGlobal.Language.GetText(this, "Cancel", "Cancel")",
+                        action: function (dialog) {
+                            dialog.close();
+                        }
+                    }
+                ]
+            });
+        });
+
+        $("#btnAssignImportBatchToProvider").click(function (e) {
+            e.preventDefault();
+
+            // Do nothing for new provider
+            if ($("#ProviderId").length == 0 || $("#ProviderId").val() == "") {
+                return;
+            }
+
+            var providerId = $("#ProviderId").val();
+            var importBatchId = $("#ddlAssignImportBatch").val();
+
+            if (importBatchId == "") {
+                alert("@AppGlobal.Language.GetText(this, "PleaseSelectImportBatchToAssign", "Please select the import batch to assign to this provider.")");
+                return;
+            }
+
+            var importBatchName = $("#ddlAssignImportBatch option:selected").text();
+
+            if (!confirm("@AppGlobal.Language.GetText(this, "AssignBatchToProviderConfirmation", "Are you sure you want to assign batch {0} to this provider?")".replace("{0}", importBatchName))) {
+                return;
+            }
+
+            $.ajax({
+                cache: false,
+                async: false,
+                url: '@Url.Action("AssignImportBatch", "Provider")',
+                type: 'post',
+                data: { providerId: providerId, importBatchId: importBatchId },
+                success: function (data, status, xhr) {
+                    var ct = xhr.getResponseHeader("content-type") || "";
+                    if (ct.indexOf('json') > -1) {
+                        if (data.Status == 0) {
+                            // Failure
+                            alert(data.Message);
+                        } else {
+                            // Success.  Add it to the page
+                            var div = $('<div class="importbatch" style="display: none"><span class="header"></span><span class="information"></span></div>');
+                            var header = $("span.header", div);
+                            header.html(importBatchName);
+
+                            var information = $("span.information", div);
+                            var informationText = '@AppGlobal.Language.GetText("AddEditProviderModel_Edit_NewProviderLabel", "New Provider:")<span class="data">@AppGlobal.Language.GetText("AddEditProviderModel_Edit_No", "No")</span><br />';
+                            informationText += '@AppGlobal.Language.GetText("AddEditProviderModel_Edit_HadProviderInfoLabel", "Had Provider Level Info:")<span class="data">' + data.HasProviderLevelInfo + '</span><br />';
+                            informationText += '@AppGlobal.Language.GetText("AddEditProviderModel_Edit_HadApprenticeshipsLabel", "Had Apprenticeships:")<span class="data">' + data.HasApprenticeshipsLabel + '</span><br />';
+                            informationText += '@AppGlobal.Language.GetText("AddEditProviderModel_Edit_ImportDateLabel", "Date Imported:")<span class="data">@DateTime.UtcNow.ToString(Constants.ConfigSettings.ShortDateTimeFormat)</span><br />';
+                            informationText += '@AppGlobal.Language.GetText("AddEditProviderModel_Edit_ImportBatchManuallyAddedByLabel", "Manually Added by:")<span class="data">' + data.ManuallyAddedBy + '</span><br />';
+                            information.html(informationText);
+
+                            $("#ddlAssignImportBatch option[value='" + importBatchId + "']").remove();
+                            if ($("#ddlAssignImportBatch option").length == 1) {
+                                $("#divAssignImportBatch").slideUp("fast");
+                            }
+
+                            div.appendTo($("#divImportBatches"));
+                            ensureImportBatchesAreSameSize();
+
+                            div.fadeIn("slow");
+                        }
+                    }
+                },
+                error: function () {
+                    alert("@AppGlobal.Language.GetText(this, "ErrorAssigningImportBatchToProvider", "Error Assigning Import Batch to Provider")");
+                }
+            });
+        });
+
+        $("#btnOverrideMaxLocations").click(function (e) {
+            e.preventDefault();
+
+            // Do nothing for new provider
+            if ($("#ProviderId").length == 0 || $("#ProviderId").val() == "") {
+                return;
+            }
+
+            BootstrapDialog.show({
+                title: '@AppGlobal.Language.GetText(this, "OverrideMaximumNumberOfLocationsForProvider", "Override Number of Locations for Provider")',
+                message: $('<div></div>').load('@Url.Action("OverrideMaximumNumberOfLocations", "Provider")'),
+                buttons: [
+                    {
+                        label: '@AppGlobal.Language.GetText(this, "Save", "Save")',
+                        cssClass: 'btn-success',
+                        action: function (dialog) {
+                            $.ajax({
+                                cache: false,
+                                async: false,
+                                url: '@Url.Action("OverrideMaximumNumberOfLocations", "Provider")',
+                                type: 'post',
+                                data: $("form[action='@Url.Action("OverrideMaximumNumberOfLocations", "Provider")']").serialize(),
+                                success: function (data, status, xhr) {
+                                    var ct = xhr.getResponseHeader("content-type") || "";
+                                    if (ct.indexOf('html') > -1) {
+                                        // Got HTML so there must have been a problem
+                                        dialog.setMessage($('<div></div>').html(data));
+                                    }
+                                    if (ct.indexOf('json') > -1) {
+                                        // Got JSON so everything went OK.
+                                        // Close the dialog
+                                        dialog.close();
+
+                                        // Reload the page
+                                        window.location.reload();
+                                    }
+                                },
+                                error: function () {
+                                    alert("@AppGlobal.Language.GetText(this, "ErrorOverridingMaximumNumberOfLocations", "Error Overriding Maximum Number of Locations for Provider")");
+                                }
+                            });
+                        }
+                    },
+                    {
+                        label: "@AppGlobal.Language.GetText(this, "Cancel", "Cancel")",
+                        action: function (dialog) {
+                            dialog.close();
+                        }
+                    }
+                ]
+            });
+        });
+
+        $("#btnClearOverrideMaxLocations").click(function (e) {
+            e.preventDefault();
+
+            // Do nothing for new provider
+            if ($("#ProviderId").length == 0 || $("#ProviderId").val() == "") {
+                return;
+            }
+
+            if (!confirm("@AppGlobal.Language.GetText(this, "ConfirmResetMaxLocations", "Reset Maximum Number of Locations for this Provider to the System Default?")")) {
+                return;
+            }
+
+            var providerId = $("#ProviderId").val();
+
+            $.ajax({
+                cache: false,
+                async: false,
+                url: '@Url.Action("ResetMaximumNumberOfLocations", "Provider")',
+                type: 'post',
+                success: function (data, status, xhr) {
+                    var ct = xhr.getResponseHeader("content-type") || "";
+                    if (ct.indexOf('html') > -1) {
+                        // Got HTML so there must have been a problem
+                        alert("@AppGlobal.Language.GetText(this, "ErrorResettingMaximumNumberOfLocations", "Error Resetting Maximum Number of Locations for Provider")");
+                    }
+                    if (ct.indexOf('json') > -1) {
+                        // Got JSON so everything went OK.
+
+                        // Reload the page
+                        window.location.reload();
+                    }
+                },
+                error: function () {
+                    alert("@AppGlobal.Language.GetText(this, "ErrorResettingMaximumNumberOfLocations", "Error Resetting Maximum Number of Locations for Provider")");
+                }
+            });
+        });
+
+    }); // Document.Ready
+
+</script>
+

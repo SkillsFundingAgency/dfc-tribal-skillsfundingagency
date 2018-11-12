@@ -1,0 +1,21 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.VenueSearchModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "View all Venues");
+}
+
+<div class="col-md-12" style="padding-left: 0px; padding-right: 0px;">
+    <div class="col-md-10" style="padding-left: 0px; padding-right: 0px;">
+        <h2 class="courses">@AppGlobal.Language.GetText(this, "Header", "View all Venues")</h2>
+    </div>
+    @if (Permission.HasPermission(false, false, Permission.PermissionName.CanAddProviderVenue))
+    {
+        <div class="col-md-2 text-right" style="padding-left: 0px; padding-right: 0px;">
+            <div style="margin-top: 18px; margin-bottom: 8px;">
+                <a href="@Url.Action("Create", "Venue", null)" class="btn btn-course">@AppGlobal.Language.GetText(this, "AddVenue", "Add Venue")</a>
+            </div>
+        </div>
+    }
+</div>
+
+@Html.DisplayFor(m => m.Venues, "_ListVenues")
+

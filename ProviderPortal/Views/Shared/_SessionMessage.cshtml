@@ -1,0 +1,40 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Classes
+@if (Session[SessionMessage.SessionMessageKey] != null)
+{
+    switch ((SessionMessageType) Session[SessionMessage.SessionMessageTypeKey])
+    {
+        case SessionMessageType.Success:
+            <div class="session-message alert-dismissible alert-success alert" role="alert" style="display:none">
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                <span class="sr-only">Success:</span> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                @Html.Raw(Session[SessionMessage.SessionMessageKey])
+            </div>
+            break;
+        case SessionMessageType.Info:
+            <div class="session-message alert-dismissible alert-info alert" role="alert" style="display:none">
+                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                <span class="sr-only">Information:</span> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                @Html.Raw(Session[SessionMessage.SessionMessageKey])
+            </div>
+            break;
+        case SessionMessageType.Warning:
+            <div class="session-message alert-dismissible alert-warning alert" role="alert" style="display:none">
+                <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+                <span class="sr-only">Warning:</span> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                @Html.Raw(Session[SessionMessage.SessionMessageKey])
+            </div>
+            break;
+        case SessionMessageType.Danger:
+            <div class="session-message alert-dismissible alert-danger alert" role="alert" style="display:none">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                @Html.Raw(Session[SessionMessage.SessionMessageKey])
+            </div>
+            break;
+    }
+    SessionMessage.Clear();
+}

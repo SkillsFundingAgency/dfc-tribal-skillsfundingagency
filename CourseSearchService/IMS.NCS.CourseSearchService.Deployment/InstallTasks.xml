@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Tasks>
+	<Xml>
+		<file name="$TARGET_DIR$Web.config">
+
+			<!-- /configuration/system.serviceModel -->
+			<!--<change xpath="configuration/system.serviceModel/services/service/endpoint[@binding='basicHttpBinding']">
+      --><!-- WCF endpoint address --><!--
+				<attribute name="address" value="/IMS.NCS.CourseSearchService/CourseSearchService.svc" /> 
+			</change>-->
+
+      <!-- /configuration/connectionStrings -->
+      <change xpath="configuration/connectionStrings/add[@name='Logging Database']">
+         <!--Logging--> 
+        <attribute name="connectionString" value="server=$logging_sqlserver.instance$;database=Xansa_Logging;Integrated Security=True" />
+      </change>
+
+      <change xpath="configuration/connectionStrings/add[@name='HotCoursesDb']">
+         <!--Hot Courses Db-->  
+        <attribute name="connectionString" value="Data Source=$oracle_ndlpp_search.instance$;User Id=NDLPP_SEARCH; Password=$password.ndlpp_search$; Validate Connection=true;" />
+      </change>
+
+      <!-- logging priority -->
+      <!-- default exception policy priority -->
+      <change xpath="configuration/exceptionHandling/exceptionPolicies/add[@name='WCF Exception Shielding']/exceptionTypes/add[@name='Exception']/exceptionHandlers/add[@name='Logging Handler']">
+        <attribute name="priority" value="$environment.log_priority$"/>
+      </change>
+
+      <change xpath="configuration/appSettings/add[@key='ServiceAccountDomain']">
+        <attribute name="value" value="$imservices_domain.name$"/>
+      </change>
+      <change xpath="configuration/appSettings/add[@key='ServiceAccountPassword']">
+        <attribute name="value" value="$password.svc-ncs-dataimport$"/>
+      </change>
+
+      <!-- wcf exception policy priority -->
+      <change xpath="configuration/exceptionHandling/exceptionPolicies/add[@name='WCF Exception Policy']/exceptionTypes/add[@name='Exception']/exceptionHandlers/add[@name='Logging Handler']">
+        <attribute name="priority" value="$environment.log_priority$"/>
+      </change>
+
+		</file>
+	</Xml>
+
+  <Web>
+    <IIS7CreateAppPool
+      appPoolName ="$ncs.app_pool_name$"
+	    FrameworkVersion="v4.0"
+      ManagedPipelineMode="Integrated"
+      ProcessModel.MaxProcesses="1"
+      ProcessModel.PingingEnabled="true"
+      ProcessModel.IdentityType="ApplicationPoolIdentity"
+      DeleteIfExists="true">
+    </IIS7CreateAppPool>
+    <IIS7CreateApplication
+      websiteName="$ncs.website_name$"
+      applicationName="IMS.NCS.CourseSearchService"
+      folder="$TARGET_DIR$"
+      appPoolName ="$ncs.app_pool_name$"
+      DeleteIfExists="true">
+    </IIS7CreateApplication>
+</Web>
+
+</Tasks>

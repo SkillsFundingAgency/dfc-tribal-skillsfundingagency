@@ -1,0 +1,93 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Log in");
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="row">
+    <div class="col-md-12">
+        <section id="loginForm">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <h4>@AppGlobal.Language.GetText(this, "FormHeader", "Use a portal account to log in.")</h4>
+                <hr />
+                if (SessionManager.SessionHasTimedOut)
+                {
+                    <div class="alert alert-dismissable alert-info" id="TimeOutMessage">
+                        <i class="glyphicon glyphicon-info-sign"></i>
+                        @String.Format(AppGlobal.Language.GetText(this, "TimeOutMessage", "Your session has been inactive for over {0} minutes and has timed out for security reasons."),Constants.ConfigSettings.LoginValidPeriod)
+                        <button type="button" class="close" data-dismiss="alert">x</button>
+                    </div>
+                }
+                <div class="col-md-6">
+                    @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                    @Html.RequiredFields(new {@class = "col-md-offset-2"})
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(m => m.Email, new {@class = "col-md-2 control-label"})
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.Email, new {@class = "form-control"})
+                            @Html.ValidationMessageFor(m => m.Email, "", new {@class = "text-danger", autocomplete = "off"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(m => m.Password, new {@class = "col-md-2 control-label"})
+                        <div class="col-md-10">
+                            @Html.PasswordFor(m => m.Password, new {@class = "form-control", autocomplete = "off"})
+                            @Html.ValidationMessageFor(m => m.Password, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                    @if (Constants.ConfigSettings.AutoSiteLoginAllow)
+                    {
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(m => m.RememberMe)
+                                    @Html.LanguageLabelFor(m => m.RememberMe)
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Log in" class="btn btn-success"/>
+                        </div>
+                    </div>
+                    <div class="col-md-offset-2">
+                        @if (Constants.ConfigSettings.AllowSelfRegistration)
+                        {
+                            <p>
+                                @Html.ActionLink(AppGlobal.Language.GetText(this, "Register", "Register as a new user"), "Register")
+                            </p>
+                        }
+                        <p>
+                            @Html.ActionLink(AppGlobal.Language.GetText(this, "ForgotPassword", "Forgot your password?"), "ForgotPassword")
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <p>If you don't know your log in details or you need further information please visit the <a href="/Help">help pages</a>, contact the Course Directory Support Team on <a href="tel:08448115073">0844 811 5073</a> or <a target="_blank" href="mailto:support@coursedirectoryproviderportal.org.uk">support@coursedirectoryproviderportal.org.uk</a>. For help with your course data you can contact an information officer at <a target="_blank" href="mailto:support@coursedirectoryproviderportal.org.uk">support@coursedirectoryproviderportal.org.uk</a>.</p>
+                </div>
+            }
+        </section>
+    </div>
+    @* Uncomment when external login sources are enabled and change col-md-12 to col-md-8 in the above div
+    <div class="col-md-4">
+        <section id="socialLoginForm">
+            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+        </section>
+    </div>*@
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @if (SessionManager.SessionHasTimedOut)
+    {
+        <script>
+            $(function() {
+                setTimeout(function() { $('#TimeOutMessage').hide(); }, 10000);
+            });
+        </script>
+    }
+}

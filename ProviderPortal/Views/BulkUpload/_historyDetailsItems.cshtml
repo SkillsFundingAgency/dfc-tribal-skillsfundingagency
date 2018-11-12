@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Tribal.SkillsFundingAgency.ProviderPortal.Models.BulkUploadHistoryDetailItemsViewModel>
+<p></p>
+<table class="dataTable dt-responsive table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th class="col-md-1">
+                @Html.DisplayNameFor(model => model.ErrorType)
+            </th>
+            <th class="col-md-1">
+                @Html.DisplayNameFor(model => model.RowId)
+            </th>
+            <th class="col-md-1">
+                @Html.DisplayNameFor(model => model.ColumnName)
+            </th>
+            <th class="col-md-2">
+                @Html.DisplayNameFor(model => model.ActualColumnValue)
+            </th>
+            <th class="col-md-1">
+                @Html.DisplayNameFor(model => model.Provider)
+            </th>
+            <th class="col-md-6">
+                @Html.DisplayNameFor(model => model.Details)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ErrorType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RowId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ColumnName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActualColumnValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Provider)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Details)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

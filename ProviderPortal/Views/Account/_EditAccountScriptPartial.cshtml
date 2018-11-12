@@ -1,0 +1,110 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Areas.Api.Models
+@using Tribal.SkillsFundingAgency.ProviderPortal.Entities
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditAccountViewModel
+
+@if (Model.CanEditProviderOrganisation)
+{
+    @Html.Partial("_TypeaheadPartial", new TypeaheadViewModel
+    {
+        JQuerySelector = ".provider-typeahead",
+        SearchFields = new[] {"ukprn", "town", "postcode", "name", "alias"},
+        PrefetchUrl = "/api/typeahead/providers",
+        ClearPrefetchCache = true, /*For debugging*/
+        //RemoteUrl = "/api/typeahead/providers/%QUERY",
+        Name = "ProviderId",
+        DisplayKey = "name",
+        ValueKey = "id",
+        EmptyMessage = AppGlobal.Language.GetText(this, "NoMatchedProviders", "Unable to find any providers that match your current query."),
+        Suggestion = "function(a){return '<p>' + a.name + ' (' + a.ukprn + ')<br/><small>' + a.town + ', ' + a.postcode + '</small></p>';}"
+    })
+    @Html.Partial("_TypeaheadPartial", new TypeaheadViewModel
+    {
+        JQuerySelector = ".organisation-typeahead",
+        SearchFields = new[] {"ukprn", "town", "postcode", "name", "alias"},
+        PrefetchUrl = "/api/typeahead/organisations",
+        ClearPrefetchCache = true, /*For debugging*/
+        //RemoteUrl = "/api/typeahead/providers/%QUERY",
+        Name = "ProviderId",
+        DisplayKey = "name",
+        ValueKey = "id",
+        EmptyMessage = AppGlobal.Language.GetText(this, "NoMatchedOrganisations", "Unable to find any organisations that match your current query."),
+        Suggestion = "function(a){return '<p>' + a.name + ' (' + a.ukprn + ')<br/><small>' + a.town + ', ' + a.postcode + '</small></p>';}"
+    })
+}
+@{
+    var putir = new ProviderPortalEntities().ProviderUserTypeInRoles.Select(x => new
+    {
+        role = x.AspNetRole.Name,
+        userTypeId = x.ProviderUserTypeId,
+        userTypeName = x.ProviderUserType.ProviderUserTypeName,
+        infoOfficer = x.ProviderUserType.IsInformationOfficer,
+        relManager = x.ProviderUserType.IsRelationshipManager,
+        context = x.AspNetRole.UserContextId
+    });
+    var ric = Model.AspNetRoles.Select(x => new
+    {
+        role = x.Name,
+        context = x.UserContextId
+    }).ToArray();
+}
+<script>
+    (function($) {
+        var $userTypeGroup = $("#UserTypeGroup"),
+            $userTypeId = $("#UserTypeId"),
+            $organisationGroup = $("#OrganisationGroup"),
+            $providerGroup = $("#ProviderGroup"),
+            $providerId = $("#ProviderId"),
+            $roles = $("#RoleId"),
+            typesInRole = @Html.Raw(Json.Encode(putir)),
+            rolesInContext = @Html.Raw(Json.Encode(ric));
+
+        function updateRoles() {
+            var role = $roles.val();
+            $userTypeGroup.toggle(role !== "");
+            $.each(rolesInContext, function(i, item) {
+                if (item.role === role) {
+                    switch (item.context) {
+                    case @((int) UserContext.UserContextName.Provider):
+                        $organisationGroup.hide();
+                        $providerGroup.show();
+                        break;
+                    case @((int) UserContext.UserContextName.Organisation):
+                        $providerGroup.hide();
+                        $organisationGroup.show();
+                        break;
+                    default:
+                            $organisationGroup.hide();
+                            $providerGroup.hide();
+                            break;
+                    }
+                    var currentUserType = $userTypeId.val();
+                    $userTypeId.empty();
+                    $.each(typesInRole, function(j, jtem) {
+                        if (jtem.role === role) {
+                            var $opt = $('<option>', {
+                                value: jtem.userTypeId,
+                                text: jtem.userTypeName
+                            });
+                            if (currentUserType == jtem.userTypeId) {
+                                $opt.prop('selected', true);
+                            }
+                            $userTypeId.append($opt);
+                        }
+                    });
+                }
+            });
+        }
+
+        $("label[for=Provider],label[for=Organisation]")
+            .append(' <span class="required" aria-required="true">*</span>');
+        $('#RoleId').bind('change', function() {
+            updateRoles();
+        });
+        $userTypeId.val('@(Model.UserTypeId)');
+        $providerId.val('@(Model.ProviderId)');
+        updateRoles();
+        $userTypeId.val('@(Model.UserTypeId)');
+        $providerId.val('@(Model.ProviderId)');
+
+    })(jQuery);
+</script>

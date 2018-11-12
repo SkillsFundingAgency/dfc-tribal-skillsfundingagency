@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+                  xmlns:shibmd="urn:mace:shibboleth:metadata:1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  entityID="https://sa.education.gov.uk/idp/shibboleth">
+  <IDPSSODescriptor
+    protocolSupportEnumeration="urn:mace:shibboleth:1.0 urn:oasis:names:tc:SAML:1.1:protocol urn:oasis:names:tc:SAML:2.0:protocol">
+    <KeyDescriptor>
+      <ds:KeyInfo>
+        <ds:X509Data>
+          <ds:X509Certificate>MIIFIzCCBAugAwIBAgIRAP6K4wC3+3MpQXaPI+WDHvMwDQYJKoZIhvcNAQEFBQAw cDELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4G A1UEBxMHU2FsZm9yZDEaMBgGA1UEChMRQ09NT0RPIENBIExpbWl0ZWQxFjAUBgNV BAMTDUNPTU9ETyBTU0wgQ0EwHhcNMTQwNTI3MDAwMDAwWhcNMTkwNTI2MjM1OTU5 WjB2MSEwHwYDVQQLExhEb21haW4gQ29udHJvbCBWYWxpZGF0ZWQxHjAcBgNVBAsT FUhvc3RlZCBieSBFZHVzZXJ2IEx0ZDETMBEGA1UECxMKQ09NT0RPIFNTTDEcMBoG A1UEAxMTc2EuZWR1Y2F0aW9uLmdvdi51azCCASIwDQYJKoZIhvcNAQEBBQADggEP ADCCAQoCggEBAMP0DA3pZPnj4ZYq1YPXPhSlAw3OYNJbTjStpjl+OaV/qfMHBx4j S7+FhUnDp/IR0hX0Pkhn01jKCqTEygoCN9g3QJWDuXS3/E+wqhv+ySDTQahmaY34 qt/3PzkwFZCDGc6YEX7ra59d3OSLjzwJdu6cCqm/PadXyMJaIIHBLSyucLSmd1re 6aBfDUGbRgqpPsVYcx/NfEFUPHfJ7BZeYZMk4r3EbB/1bPn626FxnVkCXBzsdWhK 76319FQft8YhALjRSXSF8/JFiQgKXqE/IaosuiCPb9l6FLi1Qx08GzNr1xq6gCfj D2gjq/uE4qZwXImpqROLvvuyjyEWSTnGqqECAwEAAaOCAbAwggGsMB8GA1UdIwQY MBaAFBtrvR+KSRiUVDdVtCAX7Te5dxh9MB0GA1UdDgQWBBRGbycFTiXtuGI9gATM jHaI0zlnWTAOBgNVHQ8BAf8EBAMCBaAwDAYDVR0TAQH/BAIwADAdBgNVHSUEFjAU BggrBgEFBQcDAQYIKwYBBQUHAwIwTwYDVR0gBEgwRjA6BgsrBgEEAbIxAQICBzAr MCkGCCsGAQUFBwIBFh1odHRwczovL3NlY3VyZS5jb21vZG8uY29tL0NQUzAIBgZn gQwBAgEwOAYDVR0fBDEwLzAtoCugKYYnaHR0cDovL2NybC5jb21vZG9jYS5jb20v Q09NT0RPU1NMQ0EuY3JsMGkGCCsGAQUFBwEBBF0wWzAzBggrBgEFBQcwAoYnaHR0 cDovL2NydC5jb21vZG9jYS5jb20vQ09NT0RPU1NMQ0EuY3J0MCQGCCsGAQUFBzAB hhhodHRwOi8vb2NzcC5jb21vZG9jYS5jb20wNwYDVR0RBDAwLoITc2EuZWR1Y2F0 aW9uLmdvdi51a4IXd3d3LnNhLmVkdWNhdGlvbi5nb3YudWswDQYJKoZIhvcNAQEF BQADggEBAI/kSEF7EFGeRnZLAfH2A/DKVi63WFDfABcaKHjqHSMyLVMGVo8Mpzze AAy4AFrWWEbEfXsXG7hdgi+OSb9C+/CcgDhn7DkHnM6wIGIxWoZI6QhjxSj6omF6 zq7XVoyog1nMUjTLUd33ajwIqTg6ZH08fzZKbyWRk2lvDrCZ/HEkuS2vQl1WyXKj AvAEWJ83NAIhIuJ4DoRwiJmbs8u5Ih1ncx3fCOeStdt125zIAgtlI9xo6GNGQuFQ BkXocYHbiUL4IIQI6h5IW1sU4DhrX3Cf8F5vo2GjGbzs9L0edugGd32o1Tg/fbz8 O88SMAwBvNww9SLGScR+emj0BLeNgeA=</ds:X509Certificate>
+        </ds:X509Data>
+      </ds:KeyInfo>
+    </KeyDescriptor>
+    <NameIDFormat>urn:mace:shibboleth:1.0:nameIdentifier</NameIDFormat>
+    <NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</NameIDFormat>
+    <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+                         Location="https://sa.education.gov.uk/idp/profile/SAML2/POST/SSO" />
+    <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST-SimpleSign"
+                         Location="https://sa.education.gov.uk/idp/profile/SAML2/POST-SimpleSign/SSO" />
+    <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+                         Location="https://sa.education.gov.uk/idp/profile/SAML2/Redirect/SSO" />
+    <SingleSignOnService Binding="urn:mace:shibboleth:1.0:profiles:AuthnRequest"
+                         Location="https://sa.education.gov.uk/idp/profile/Shibboleth/SSO" />
+  </IDPSSODescriptor>
+</EntityDescriptor>

@@ -1,0 +1,239 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditApprenticeshipViewModel
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.FrameworkOrStandardId)
+    @Html.HiddenFor(model => model.RecordStatusId)
+    @Html.HiddenFor(model => model.ApprenticeshipId)
+    
+<div class="form-horizontal">
+    <h4>@AppGlobal.Language.GetText(this, "SubHeader", "")</h4>
+    <hr />
+    @Html.Raw(AppGlobal.Language.GetText(this, "Summary", ""))
+    @Html.EditableDataValidationSummary(false)
+
+    @if (Model.DisplayNotPublishedBanner)
+    {
+        <div class="warning">
+            @if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditProvider))
+            {
+                @Html.Raw(AppGlobal.Language.GetText(this, "NoProviderApprenticeshipContractWithEditLink", @"Apprenticeship information will not be displayed on the digital apprenticeship service website as 'Current contract with the SFA' is not checked. Click <a href=""/Provider/Edit#ApprenticeshipDelivery"">Edit Provider</a> to enter it."))
+            }
+            else
+            {
+                @Html.Raw(AppGlobal.Language.GetText(this, "NoProviderApprenticeshipContractWithEditLink", @"Apprenticeship information will not be displayed on the digital apprenticeship service website as 'Current contract with the SFA' is not checked. Click <a href=""/Provider/Edit#ApprenticeshipDelivery"">Edit Provider</a> to enter it."))
+            }
+        </div>
+    }
+    else if (Model.ApprenticeshipId == 0 || Model.RecordStatusId == (Int32)Constants.RecordStatus.Live)
+    {
+        <div class="warning">
+            @Html.Raw(AppGlobal.Language.GetText(this, "DASAPIOvernightRefresh", "Information entered here will appear on the digital apprenticeship service website after an overnight refresh."))
+        </div>
+    }
+
+    @if (Model.ApprenticeshipId != 0)
+    {
+        if (Model.RecordStatusId == (Int32)Constants.RecordStatus.Archived)
+        {
+            <div class="warning">
+                @Html.Raw(AppGlobal.Language.GetText(this, "ApprenticeshipArchivedWarning", "<strong>Warning:</strong> this apprenticeship is currently <strong>ARCHIVED</strong> and neither it nor any of its delivery locations will be published to the digital apprenticeship service."))
+            </div>
+        }
+        else if (Model.RecordStatusId == (Int32)Constants.RecordStatus.Pending)
+        {
+            <div class="warning">
+                @Html.Raw(AppGlobal.Language.GetText(this, "ApprenticeshipPendingWarning", "<strong>Warning:</strong> this apprenticeship is currently PENDING as it does not have any delivery locations. It will not be viewable to employers on the website."))
+            </div>
+        }
+    }
+
+    @Html.RequiredFields(new { @class = "col-md-offset-2" })
+
+    <div class="form-group">
+        @Html.LanguageLabelFor(model => model.FrameworkOrStandard, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.FrameworkOrStandard, new { htmlAttributes = new { @class = "form-control", placeholder = AppGlobal.Language.GetText(this, "StandardFrameworkPlaceholder", "Start typing the name of a standard or framework here..") } })
+            @Html.ValidationMessageFor(model => model.FrameworkOrStandard)
+
+            <div id="RegulatedStandardMessage" class="warning collapse" style="margin-top: 10px;">
+                @Html.Raw(AppGlobal.Language.GetText(this, "RegulatedStandard", "This standard (or part of this standard) requires training providers to be approved by the associated approval body. Please check the <a href=\"https://www.instituteforapprenticeships.org/developing-new-apprenticeships/resources/regulated-occupations/\" target=\"_blank\">Institute for Apprenticeships</a> website for more information."))
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-2">&nbsp;</div>
+        <div class="col-md-10 alert alert-warning">
+            @Html.Raw(AppGlobal.Language.GetText(this, "GuidancePrompt", "Please remember to read the guidance before adding your information.  <a href=\"https://www.gov.uk/government/publications/find-apprenticeship-training-how-to-submit-data\" target=\"_blank\" > Click here to view the guidance documentation</a>"))
+        </div>
+        @Html.LanguageLabelFor(model => model.MarketingInformation, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.MarketingInformation, new { @class = "form-control markdown-editor" })
+            @Html.ValidationMessageFor(model => model.MarketingInformation)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LanguageLabelFor(model => model.Url, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @class = "form-control", data_url = "true" } })
+            @Html.ValidationMessageFor(model => model.Url)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LanguageLabelFor(m => m.ContactEmail, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ContactEmail, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.ContactEmail)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LanguageLabelFor(m => m.ContactTelephone, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ContactTelephone, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.ContactTelephone)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LanguageLabelFor(m => m.ContactWebsite, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ContactWebsite, new { htmlAttributes = new { @class = "form-control", data_url = "true" } })
+            @Html.ValidationMessageFor(m => m.ContactWebsite)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @if (Model.ApprenticeshipId == 0)
+            {
+                @*<input name="Create" type="submit" value="@AppGlobal.Language.GetText(this, "Create", "Create")" class="btn btn-success" />*@
+                <input name="CreateAndAdd" type="submit" value="@AppGlobal.Language.GetText(this, "CreateAndAddOpportunity", "Create and Add Delivery Location")" class="btn btn-success" />
+            }
+            else
+            {
+                <input name="Edit" type="submit" value="@AppGlobal.Language.GetText(this, "Edit", "Save")" class="btn btn-success" />
+                if (Model.RecordStatusId != (Int32)Constants.RecordStatus.Archived)
+                {
+                    <input id="btnArchive" type="button" name="Archive" value="@AppGlobal.Language.GetText(this, "Archive", "Archive")" class="btn btn-default" />
+                }
+                else
+                {
+                    <input id="btnUnarchive" type="button" name="Unarchive" value="@AppGlobal.Language.GetText(this, "Unarchive", "Unarchive")" class="btn btn-default" />
+                }
+                if (Permission.HasPermission(false, false, Permission.PermissionName.CanDeleteProviderApprenticeship))
+                {
+                    <input id="btnDelete" type="button" name="Delete" value="@AppGlobal.Language.GetText(this, "Delete", "Delete")" class="btn btn-default" />
+                }
+            }
+        </div>
+    </div>
+
+    @if (Permission.HasPermission(false, false, new[] { Permission.PermissionName.CanQAApprenticeships, Permission.PermissionName.CanViewApprenticeshipQA }) && Model.ApprenticeshipId > 0)
+    {
+        <fieldset>
+            <legend>
+                @AppGlobal.Language.GetText(this, "QualityAssuranceOptions", "Quality Assurance Options")
+                @if (AppGlobal.Language.GetText(this, "QualityAssuranceOptionsTooltip", "") != "")
+                {
+                    @Html.Tooltip(AppGlobal.Language.GetText(this, "QualityAssuranceOptionsTooltip", ""))
+                }
+            </legend>
+            <a href="@Url.Action("ProviderQAHistory", "Report", new { Id = @Model.ProviderId })" style="float: right; margin-top: -45px;">@AppGlobal.Language.GetText(this, "ViewQAHistory", "View QA History")</a>
+
+            <p class="required-message col-md-offset-2">
+                @if (Model.LastQAdForComplianceOn.HasValue)
+                {
+                    @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "LastQAdForComplianceOnBy", "Last Quality Assured for Compliance on <b>{0}</b> by <b>{1}</b>."), Model.LastQAdForComplianceOn.Value.ToLocalTime().ToString(Constants.ConfigSettings.ShortDateTimeFormat), Server.HtmlEncode(Model.LastQAdForComplianceBy)))
+                }
+                else
+                {
+                    @Html.Raw(AppGlobal.Language.GetText(this, "NeverQAdForCompliance", "Last Quality Assured for Compliance : <b>Never</b>"))
+                }
+            </p>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(m => m.HasBeenQAdForCompliance, new { @class = "control-label col-md-2" })
+                <div class="col-md-10" style="padding-top: 7px;">
+                    @if (Model.HasBeenQAdForCompliance)
+                    {
+                        @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+                    }
+                    else
+                    {
+                        @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+                    }
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(m => m.HasPassedComplianceChecks, new { @class = "control-label col-md-2" })
+                <div class="col-md-10" style="padding-top: 2px;">
+                    @if (Model.HasPassedComplianceChecks)
+                    {
+                        @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+                    }
+                    else
+                    {
+                        @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+                    }
+                    @if (Permission.HasPermission(false, false, Permission.PermissionName.CanQAApprenticeships) && Model.RecordStatusId == (Int32)Constants.RecordStatus.Live)
+                    {
+                        <input id="btnQAForCompliance" type="button" name="btnQAForCompliance" value="@AppGlobal.Language.GetText(this, "QAForCompliance", "QA for Compliance")" class="btn btn-default col-md-offset-1" />
+                    }
+                </div>
+            </div>
+
+            <p class="required-message col-md-offset-2">
+                @if (Model.LastQAdForStyleOn.HasValue)
+                {
+                    @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "LastQAdForStyleOnBy", "Last Quality Assured for Style on <b>{0}</b> by <b>{1}</b>."), Model.LastQAdForStyleOn.Value.ToLocalTime().ToString(Constants.ConfigSettings.ShortDateTimeFormat), Server.HtmlEncode(Model.LastQAdForStyleBy)))
+                }
+                else
+                {
+                    @Html.Raw(AppGlobal.Language.GetText(this, "NeverQAdForStyle", "Last Quality Assured for Style : <b>Never</b>"))
+                }
+            </p>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(m => m.HasBeenQAdForStyle, new { @class = "control-label col-md-2" })
+                <div class="col-md-10" style="padding-top: 7px;">
+                    @if (Model.HasBeenQAdForStyle)
+                    {
+                        @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+                    }
+                    else
+                    {
+                        @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+                    }
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(m => m.HasPassedStyleChecks, new { @class = "control-label col-md-2" })
+                <div class="col-md-10" style="padding-top: 2px;">
+                    @if (Model.HasPassedStyleChecks)
+                    {
+                        @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+                    }
+                    else
+                    {
+                        @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+                    }
+                    @if (Permission.HasPermission(false, false, Permission.PermissionName.CanQAApprenticeships) && Model.RecordStatusId == (Int32)Constants.RecordStatus.Live)
+                    {
+                        <input id="btnQAForStyle" type="button" name="btnQAForStyle" value="@AppGlobal.Language.GetText(this, "QAForStyle", "QA for Style")" class="btn btn-default col-md-offset-1" />
+                    }
+                </div>
+            </div>
+
+        </fieldset>
+    }
+
+</div>
+}

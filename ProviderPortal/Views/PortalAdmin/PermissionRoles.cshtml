@@ -1,0 +1,211 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Models
+@model PermissionRolesViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Roles and Permissions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<p>@AppGlobal.Language.GetText(this, "ParagraphHeading", "This page allows setting up new roles, or editing existing roles.  Roles are then assigned to people to provide the permissions they require to use the portal.")</p>
+@using (Html.BeginForm("PermissionRoles", "PortalAdmin", FormMethod.Post, new { role = "form", id = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    @*<h4>@AppGlobal.Language.GetText(this, "FormHeader", "Roles and Permissions")</h4>*@
+    <hr />
+    @Html.EditableDataValidationSummary(string.Empty, new { @class = "text-danger" })
+    @Html.RequiredFields()
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.SelectedRoleId)
+                    @Html.DropDownListFor(m => m.SelectedRoleId, new SelectList(Model.Roles, "Value", "Text"), AppGlobal.Language.GetText(this, "SelectRole", "Select a role to change..."), new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.PermissionsInRole)
+                    @Html.ListBoxFor(m => m.PermissionsInRole, new SelectList(Model.PermissionsInRole, "Value", "Text"), new { @class = "form-control list-has", size = "8" })
+                </div>
+            </div>
+            <div class="col-md-4 form-control-static ">
+                <div class="form-group ">
+                    <p class="center-block">
+                        <div class="btn-group form-control-static">
+                            <input type="button" value="< Add" class="btn btn-default" id="btnAdd" />
+                            <input type="button" value="Remove >" class="btn btn-default" id="btnRemove" />
+                        </div>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.PermissionsNotInRole)
+                    @Html.ListBoxFor(m => m.PermissionsNotInRole, new SelectList(Model.PermissionsNotInRole, "Value", "Text"), new { @class = "form-control list-has-not", size = "8" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.RoleName)
+                    @Html.TextBoxFor(m => m.RoleName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group ">
+                    @Html.LanguageLabelFor(m => m.RoleDescription)
+                    @Html.TextBoxFor(m => m.RoleDescription, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group ">
+                    @Html.LanguageLabelFor(m => m.RoleUserContextId)
+                    @Html.DropDownListFor(m => m.RoleUserContextId, new SelectList(Model.UserContexts, "Value", "Text"), AppGlobal.Language.GetText(this, "SelectUserContext", "Please select a user context..."), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.RoleUserContextId)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <input type="button" value="Save" class="btn btn-success" id="SaveButton" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Html.HiddenFor(m => m.DropDownSelectedRoleId)
+    @Html.HiddenFor(m => m.DelimitedListPermissionsInRole)
+    @Html.HiddenFor(m => m.DelimitedListPermissionsNotInRole)
+    @Html.HiddenFor(m => m.IsSave)
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        var unSavedChanges = false;
+
+        $(document).ready(function ()
+        {
+            $("#SelectedRoleId").attr("onchange", "return ConfirmSaveChanges();");
+            $("#SaveButton").click(function () { $("#IsSave").val("true"); PostBackWithValues(); });
+            $("#RoleName").change(function () { unSavedChanges = true; });
+            AddRemoveBetweenLists("#btnAdd", "#btnRemove", ".list-has", ".list-has-not");
+        });
+
+        function PostBackWithValues()
+        {
+            // Save selected items into hidden field for post back
+            $("#DelimitedListPermissionsInRole").val(GetDelimitedListFromSelect(".list-has", '|', false));
+            $("#DelimitedListPermissionsNotInRole").val(GetDelimitedListFromSelect(".list-has-not", '|', false));
+            $("#form").submit();
+        }
+
+        function ConfirmSaveChanges()
+        {
+            if (unSavedChanges)
+            {
+                BootstrapDialog.show({
+                    title: '@AppGlobal.Language.GetText(this, "ConfirmUnsavedTitle", "You have unsaved changes")',
+                    message: '@AppGlobal.Language.GetText(this, "ConfirmUnsavedText",  "Changes made to the role and permissions currently selected have not been saved, do you want to save these changes?")',
+                    buttons: [
+                        {
+                            label: "@AppGlobal.Language.GetText(this, "ConfirmYes", "Yes, save my changes")",
+                            cssClass: 'btn-success',
+                            action: function (dialogItself)
+                            {
+                                $("#IsSave").val("true");
+                                dialogItself.close();
+                                PostBackWithValues();
+                            }
+                        }, {
+                            label: "@AppGlobal.Language.GetText(this, "ConfirmNo", "Don't save")",
+                            cssClass: 'btn-warning',
+                            action: function (dialogItself)
+                            {
+                                $("#IsSave").val("false");
+                                dialogItself.close();
+                                PostBackWithValues();
+                            }
+                        }, {
+                            label: "@AppGlobal.Language.GetText(this, "ConfirmCancel", "Cancel")",
+                            action: function (dialogItself)
+                            {
+                                var previousSelectedRoleId = $('#DropDownSelectedRoleId').val();
+                                $("#SelectedRoleId option[value='" + previousSelectedRoleId + "']").attr('selected', 'selected');
+                                dialogItself.close();
+                            }
+                        }
+                    ]
+                });
+            }
+            else
+            {
+                $("#IsSave").val("false");
+                PostBackWithValues();
+            }
+        }
+
+        function GetDelimitedListFromSelect(selectList, delimiter, includeValueOnly)
+        {
+            var result = $(selectList + ' option').map(function (i, opt)
+            {
+                if (includeValueOnly)
+                {
+                    return $(opt).val();
+                }
+                else
+                {
+                    return $(opt).val() + delimiter + $(opt).text();
+                }
+
+            }).toArray().join(delimiter);
+            return result;
+        }
+
+        function AddRemoveBetweenLists(buttonAdd, buttonRemove, listAdded, listRemoved)
+        {
+            $(buttonAdd).click(function ()
+            {
+                $(listRemoved + " > option:selected").each(function ()
+                {
+                    $(this).remove().appendTo(listAdded);
+                    unSavedChanges = true;
+                });
+            });
+
+            $(buttonRemove).click(function ()
+            {
+                $(listAdded + " > option:selected").each(function ()
+                {
+                    $(this).remove().appendTo(listRemoved);
+                    unSavedChanges = true;
+                });
+            });
+
+            $(listRemoved).dblclick(function ()
+            {
+                $(listRemoved + " > option:selected").each(function ()
+                {
+                    $(this).remove().appendTo(listAdded);
+                    unSavedChanges = true;
+                });
+            });
+
+            $(listAdded).dblclick(function ()
+            {
+                $(listAdded + "> option:selected").each(function ()
+                {
+                    $(this).remove().appendTo(listRemoved);
+                    unSavedChanges = true;
+                });
+            });
+        }
+
+    </script>
+}

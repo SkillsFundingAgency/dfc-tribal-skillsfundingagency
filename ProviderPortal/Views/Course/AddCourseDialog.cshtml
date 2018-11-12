@@ -1,0 +1,51 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddCourseModel
+@using Tribal.SkillsFundingAgency.ProviderPortal.Areas.Api.Models
+@{
+    Layout = null;
+}
+<div id="dialogAddCourse" title="@AppGlobal.Language.GetText(this, "AddNewCourse", "Add a new course")">
+    <div>
+        @AppGlobal.Language.GetText(this, "DoesYourCourseHaveLAR", "Does your course have a Learning Aim Reference?")
+        <span class="glyphicon-question-sign glyphicon" tabindex="0" title="@AppGlobal.Language.GetText(this, "LARFieldHint", "The Learning Aim Reference is an identifier for a Learning Aim in the Learning Aim Reference (LARS) administered by The Data Service (https://www.gov.uk/government/publications/lara-learning-aim-reference-application). All courses funded by the Skills Funding Agency should have a Learning Aim Reference.")"></span>
+        &nbsp;&nbsp;
+        <input type="radio" name="radLAR" id="radLARYes" value="Yes" style="margin-right: 4px;" @(Model.CourseHasLearningAimRef == 2 ? "checked" : "") /><label for="radLARYes">@AppGlobal.Language.GetText(this, "Yes", "Yes")</label>
+        &nbsp;&nbsp;
+        <input type="radio" name="radLAR" id="radLARNo" value="No" style="margin-right: 4px;" @(Model.CourseHasLearningAimRef == 1 ? "checked" : "") /><label for="radLARNo">@AppGlobal.Language.GetText(this, "No", "No")</label>
+    </div>
+    <div id="divAddCourse2" style="@(Model.CourseHasLearningAimRef == 2 ? "" : "display: none;")">
+        <div style="font-size: smaller; margin-top: 10px; margin-bottom: 5px;">
+            @AppGlobal.Language.GetText(this, "TypeInYourLAR", "Type your Learning Aim Reference and the qualification title will appear. If the qualification title is correct for this course, press Go; if not, check your Learning Aim Reference is correct.")
+        </div>
+        <div>
+            <label class="control-label">@AppGlobal.Language.GetText(this, "LearningAimReference", "Learning Aim Reference")</label>
+            <input type="hidden" id="addLearningAimId" value="@(Model.LearningAim != null ? Model.LearningAim.LearningAimRefId : "")" />
+            <input type="text" class="form-control learningaims-typeahead" value="@(Model.LearningAim != null ? Model.LearningAim.LearningAimTitle : "")" />
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_TypeaheadPartial", new TypeaheadViewModel
+{
+    JQuerySelector = ".learningaims-typeahead",
+    RemoteUrl = "/Api/Typeahead/LearningAims?query=%QUERY",
+    Name = "addLearningAimId",
+    DisplayKey = "LearningAimTitle",
+    ValueKey = "LearningAimRefId",
+    EmptyMessage = AppGlobal.Language.GetText(this, "NoMatchedLearningAims", "Unable to find any learning aims that match your current query."),
+    Suggestion = "function(a){return '<p>' + a.LearningAimRefId + ' - ' + a.LearningAimTitle + '<br/><small>(' + a.Qualification + ')</small></p>';}"
+})
+
+
+<script>
+
+    $(function() {
+        $("#radLARNo, #radLARYes").click(function() {
+            if ($(this).attr("id") == "radLARYes") {
+                $("#divAddCourse2").slideDown("fast");
+            } else {
+                $("#divAddCourse2").slideUp("fast");
+            }
+        });
+    });
+
+</script>

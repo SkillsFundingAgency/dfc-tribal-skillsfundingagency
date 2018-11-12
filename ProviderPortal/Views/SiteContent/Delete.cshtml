@@ -1,0 +1,115 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ContentViewModel
+
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Delete Site Content");
+    var backToList = AppGlobal.Language.GetText(this, "BackToList", "Back to list");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Delete Site Content")</h2>
+<hr/>
+@if (Model.Content.Embed && Model.Content.RecordStatusId == (int) Constants.RecordStatus.Live)
+{
+    <h3 class="text-danger">@AppGlobal.Language.GetText(this,"CannotDeleteLiveEmbed", "Deleting embedded content that is currently live is not permitted.")</h3>
+
+    <div class="form-actions no-color">
+         @Html.ActionLink(backToList, "Index")
+    </div>
+}
+else
+{
+    <h3>@AppGlobal.Language.GetText(this, "SubHeader", "Are you sure you want to delete this?")</h3>
+    <div class="row">
+        <dl class="dl-horizontal">
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Content.Path)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Content.Path)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Content.Version)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Content.Version)
+            </dd>
+        
+            <dt>
+                @Html.DisplayNameFor(model => model.Content.Title)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Content.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Content.Body)
+            </dt>
+
+            <dd>
+                <pre class="pre-scrollable"><code>@Html.DisplayFor(model => model.Content.Body)</code></pre>
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Content.Scripts)
+            </dt>
+
+            <dd>
+                <pre class="pre-scrollable"><code>@Html.DisplayFor(model => model.Content.Scripts)</code></pre>
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Content.Styles)
+            </dt>
+
+            <dd>
+                <pre class="pre-scrollable"><code>@Html.DisplayFor(model => model.Content.Styles)</code></pre>
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Content.Summary)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Content.Summary)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Content.UserContext)
+            </dt>
+
+            <dd>
+                @UserContext.ToEnglishList(Model.Content.UserContext)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Content.Embed)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Content.Embed)
+            </dd>
+
+        </dl>
+        
+        @if (Model.Content.RecordStatusId == (int) Constants.RecordStatus.Live)
+        {
+            <h3 class="text-warning">@AppGlobal.Language.GetText(this, "DeletingLiveContent", "The content you are deleting is currently live and published on the site.")</h3>
+        }
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" name="id" value="@Model.Content.ContentId"/>
+
+            <div class="form-actions no-color">
+                <input type="submit" value="@AppGlobal.Language.GetText(this, "Submit", "Delete")" class="btn btn-default" /> |
+                @Html.ActionLink(backToList, "Index")
+            </div>
+        }
+    </div>
+}

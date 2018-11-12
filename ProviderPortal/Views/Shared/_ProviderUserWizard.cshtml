@@ -1,0 +1,457 @@
+﻿@{
+    // Provider
+    var canEditProvider = Permission.HasPermission(false, false, Permission.PermissionName.CanEditProvider);
+    var canViewProvider = Permission.HasPermission(false, false, Permission.PermissionName.CanViewProvider);
+    // Courses, opportunities & venues
+    var canAddProviderVenue = Permission.HasPermission(false, false, Permission.PermissionName.CanAddProviderVenue);
+    var canViewProviderVenue = Permission.HasPermission(false, false, Permission.PermissionName.CanViewProviderVenue);
+    var canAddProviderCourse = Permission.HasPermission(false, false, Permission.PermissionName.CanAddProviderCourse);
+    var canViewProviderCourse = Permission.HasPermission(false, false, Permission.PermissionName.CanViewProviderCourse);
+    // Apprenticeships and locations
+    var canAddProviderLocation = Permission.HasPermission(false, false, Permission.PermissionName.CanAddProviderLocation);
+    var canViewProviderLocation = Permission.HasPermission(false, false, Permission.PermissionName.CanViewProviderLocation);
+    var canAddProviderApprenticeship = Permission.HasPermission(false, false, Permission.PermissionName.CanAddProviderApprenticeship);
+    var canViewProviderApprenticeship = Permission.HasPermission(false, false, Permission.PermissionName.CanViewProviderApprenticeship);
+    var userRealName = HttpContext.Current.Session[Constants.SessionFieldNames.UserRealName] ?? "Hello";
+
+    //Testing
+    //canEditProvider = false;
+    //canAddProviderVenue = false;
+    //canAddProviderCourse = false;
+    //canAddProviderLocation = false;
+    //canAddProviderApprenticeship = false;
+    //canViewProvider = false;
+    //canViewProviderVenue = false;
+    //canViewProviderCourse = false;
+    //canViewProviderLocation = false;
+    //canViewProviderApprenticeship = false;
+
+}
+
+
+<div id="userWizardModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-title"><img src="~/Content/UserWizard/images/task-wizard.svg" alt="Task Wizard icon" />@AppGlobal.Language.GetText(this, "WizardTitle", "Task Wizard")</div>
+        <div class="modal-content">
+            <a href="#close-option" id="close-icon" class="close" data-toggle="tab" data-step="3"><img src="~/Content/UserWizard/images/close-icon.svg" alt="Close modal" /></a>
+            <div class="modal-body" id="myWizard">
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="portal">
+                        <div class="row">
+                            <div class="col-8 col-md-8">
+                                <p><strong>@userRealName@AppGlobal.Language.GetText(this, "WizardIntro1", ", welcome to the ESFA Course Directory Portal.")</strong></p>
+                                <p>@AppGlobal.Language.GetText(this, "WizardIntro2Part1", "We’ve listed out some") <img src="~/Content/UserWizard/images/task-wizard.svg" alt="Task Wizard icon" /> @AppGlobal.Language.GetText(this, "WizardIntro2Part2", "common tasks to get you started. If you’d prefer to navigate around the system, please close this box.")</p>
+                            </div>
+                            <div class="col-4">&nbsp;</div>
+
+
+                            @if (canViewProviderApprenticeship || canAddProviderApprenticeship || canAddProviderLocation)
+                            {
+                                <div class="col-12 col-md-12">
+                                    <h4>@AppGlobal.Language.GetText(this, "WizardApprenticeTitle", "Apprenticeship")</h4>
+                                    <p>@AppGlobal.Language.GetText(this, "WizardApprenticeIntro", "Only complete this if you have applied to be, or already are, on the RoATP.") </p>
+                                    <div class="modal-btn-list">
+                                        @if (canAddProviderApprenticeship)
+                                        {
+                                            <div class="modal-btn-item">
+                                                <a class="modal-btn--link" href="#add-apprentiship" data-toggle="tab" data-step="2">
+                                                    <div class="modal-btn--icon apprenticeship-bg">
+                                                        <img src="~/Content/UserWizard/images/manage-apprenticeships.svg" alt="Apprenticeship icon" />
+                                                    </div>
+                                                    <div class="modal-btn--content modal-btn--content__apprenticeship">
+                                                        <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardApprenticeManageTitle", "Manage Apprenticeships")</p>
+                                                        <p>@AppGlobal.Language.GetText(this, "WizardApprenticeManageInfo", "Add or edit a Framework or Standard")</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        }
+                                        else if (canViewProviderApprenticeship)
+                                        {
+                                            <div class="modal-btn-item">
+                                                <a href="@Url.Action("List","Apprenticeship",null)" class="modal-btn--link">
+                                                    <div class="modal-btn--icon apprenticeship-bg">
+                                                        <img src="~/Content/UserWizard/images/view-apprenticeships.svg" alt="Apprenticeship icon" />
+                                                    </div>
+                                                    <div class="modal-btn--content modal-btn--content__apprenticeship">
+                                                        <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardApprenticeViewTitle", "View Apprenticeships")</p>
+                                                        <p>@AppGlobal.Language.GetText(this, "WizardApprenticeViewInfo", "View your apprenticeships")</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        }
+
+                                        @if (canAddProviderLocation)
+                                        {
+                                            <div class="modal-btn-item">
+                                                <a class="modal-btn--link" href="#add-apprenticeDelivLoc" data-toggle="tab" data-step="2">
+                                                    <div class="modal-btn--icon apprenticeship-bg">
+                                                        <img src="~/Content/UserWizard/images/delivery-locations.svg" alt="Apprenticeship icon" />
+                                                    </div>
+                                                    <div class="modal-btn--content modal-btn--content__apprenticeship">
+                                                        <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardApprenticeLocationTitle", "Delivery Locations")</p>
+                                                        <p>@AppGlobal.Language.GetText(this, "WizardApprenticeLocationInfo", "Add or edit a location where you deliver apprenticeships")</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        }
+                                        else if (canViewProviderLocation)
+                                        {
+                                            <div class="modal-btn-item">
+                                                <a href="@Url.Action("List","Location",null)" class="modal-btn--link">
+                                                    <div class="modal-btn--icon apprenticeship-bg">
+                                                        <img src="~/Content/UserWizard/images/view-locations.svg" alt="Apprenticeship icon" />
+                                                    </div>
+                                                    <div class="modal-btn--content modal-btn--content__apprenticeship">
+                                                        <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardApprenticeLocationViewTitle", "Delivery Locations")</p>
+                                                        <p>@AppGlobal.Language.GetText(this, "WizardApprenticeLocationViewInfo", "View your existing apprenticeship locations")</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        }
+
+
+                                    </div>
+                                </div>
+                            }
+
+                            @if (canViewProviderCourse || canAddProviderCourse || canAddProviderVenue)
+                            {
+                                <div class="col-12 col-md-12">
+                                    <h4>@AppGlobal.Language.GetText(this, "WizardCourseTitle", "Courses")</h4>
+                                    <p>@AppGlobal.Language.GetText(this, "WizardCourseIntro", "Only complete this if you have an ESFA contract to deliver FE or post-16 courses.")</p>
+                                    <div class="modal-btn-list">
+
+                                        @if (canAddProviderCourse)
+                                        {
+                                            <div class="modal-btn-item">
+                                                <a class="modal-btn--link" href="#add-course" data-toggle="tab" data-step="2">
+                                                    <div class="modal-btn--icon course-bg">
+                                                        <img src="~/Content/UserWizard/images/manage-courses.svg" alt="Course icon" />
+                                                    </div>
+                                                    <div class="modal-btn--content modal-btn--content__course">
+                                                        <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardCourseManageTitle", "Manage courses")</p>
+                                                        <p>@AppGlobal.Language.GetText(this, "WizardCourseManageInfo", "Add or edit courses and opportunities")</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        }
+                                        else if (canViewProviderCourse)
+                                        {
+                                            <div class="modal-btn-item">
+                                                <a href="@Url.Action("List","Course",null)" class="modal-btn--link">
+                                                    <div class="modal-btn--icon course-bg">
+                                                        <img src="~/Content/UserWizard/images/view-courses.svg" alt="Course icon" />
+                                                    </div>
+                                                    <div class="modal-btn--content modal-btn--content__course">
+                                                        <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardCourseViewTitle", "View courses")</p>
+                                                        <p>@AppGlobal.Language.GetText(this, "WizardCourseViewInfo", "View existing courses")</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        }
+
+                                        @if (canAddProviderVenue)
+                                        {
+                                            <div class="modal-btn-item modal-btn--link__course">
+                                                <a class="modal-btn--link" href="#add-courseVenue" data-toggle="tab" data-step="2">
+                                                    <div class="modal-btn--icon course-bg">
+                                                        <img src="~/Content/UserWizard/images/venue-information.svg" alt="Course icon" />
+                                                    </div>
+                                                    <div class="modal-btn--content modal-btn--content__course">
+                                                        <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardCourseVenueTitle", "Venue Information")</p>
+                                                        <p>@AppGlobal.Language.GetText(this, "WizardCourseVenueInfo", "Add or edit venues where you deliver courses")</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        }
+                                        else if (canViewProviderVenue)
+                                        {
+                                            <div class="modal-btn-item">
+                                                <a href="@Url.Action("List","Venue",null)" class="modal-btn--link">
+                                                    <div class="modal-btn--icon course-bg">
+                                                        <img src="~/Content/UserWizard/images/view-venues.svg" alt="Apprenticeship icon" />
+                                                    </div>
+                                                    <div class="modal-btn--content modal-btn--content__course">
+                                                        <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardCourseVenueViewTitle", "View Venues")</p>
+                                                        <p>@AppGlobal.Language.GetText(this, "WizardCourseVenueViewInfo", "View your existing course venues")</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+
+                            @if (canEditProvider || canViewProvider)
+                            {
+                                <div class="col-12 col-md-12">
+                                    <h4>Main provider details</h4>
+                                    <div class="modal-btn-list">
+                                        @if (canEditProvider)
+                                        {
+                                            <div class="modal-btn-item">
+                                                <a href="@Url.Action("Edit","Provider",null)" class="modal-btn--link">
+                                                    <div class="modal-btn--icon manage-bg">
+                                                        <img src="~/Content/UserWizard/images/manage-organisation.svg" alt="Manage icon" />
+                                                    </div>
+                                                    <div class="modal-btn--content modal-btn--content__manage">
+                                                        <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardOrgManageTitle", "Manage my organisation")</p>
+                                                        <p>@AppGlobal.Language.GetText(this, "WizardOrgManageInfo", "Edit your provider details")</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        }
+                                        <div class="modal-btn-item">
+                                            <a href="@Url.Action("Dashboard","Report",null)" class="modal-btn--link">
+                                                <div class="modal-btn--icon manage-bg">
+                                                    <img src="~/Content/UserWizard/images/provider-overview.svg" alt="Manage icon" />
+                                                </div>
+                                                <div class="modal-btn--content modal-btn--content__manage">
+                                                    <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardOrgOverviewTitle", "Provider Overview")</p>
+                                                    <p>@AppGlobal.Language.GetText(this, "WizardOrgOverviewIfno", "View your provider dashboard")</p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <a href="#close-option" class="close-link" data-toggle="tab" data-step="3">@AppGlobal.Language.GetText(this, "WizardCloseWindow", "I'm ok thanks, close this window")</a>
+                    </div>
+
+                    <div class="tab-pane fade" id="add-apprentiship">
+                        <div class="row">
+                            <div class="col-8 col-md-8">
+                                <p class="p-margin">@AppGlobal.Language.GetText(this, "WizardApprenticeManageIntro", "How would you like to enter the apprenticeship information?")</p>
+                            </div>
+                            <div class="col-4">&nbsp;</div>
+
+                            <div class="col-12 col-md-12">
+                                <div class="modal-btn-list">
+                                    <div class="modal-btn-item">
+
+                                        <a href="@Url.Action("Create","Apprenticeship",null)" class="modal-btn--link">
+                                            <div class="modal-btn--icon apprenticeship-bg">
+                                                <img src="~/Content/UserWizard/images/add-apprenticeship.svg" alt="Apprenticeship icon" />
+                                            </div>
+                                            <div class="modal-btn--content modal-btn--content__apprenticeship">
+                                                <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardApprenticeAddTitle", "Add Apprenticeship")</p>
+                                                <p>@AppGlobal.Language.GetText(this, "WizardApprenticeAddInfo", "Manually add an apprenticeship")</p>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="modal-btn-item">
+                                        <a href="@Url.Action("Apprenticeships","BulkUpload",null)" class="modal-btn--link">
+                                            <div class="modal-btn--icon apprenticeship-bg">
+                                                <img src="~/Content/UserWizard/images/upload-apprenticeships.svg" alt="Apprenticeship icon" />
+                                            </div>
+                                            <div class="modal-btn--content modal-btn--content__apprenticeship">
+                                                <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardApprenticeUploadTitle", "Upload Apprenticeships")</p>
+                                                <p>@AppGlobal.Language.GetText(this, "WizardApprenticeUploadInfo", "Bulk upload multiple apprenticeships")</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="modal-btn-list">
+                                    <div class="modal-btn-item">
+                                        <a href="@Url.Action("List","Apprenticeship",null)" class="modal-btn--link">
+                                            <div class="modal-btn--icon apprenticeship-bg">
+                                                <img src="~/Content/UserWizard/images/view-apprenticeships.svg" alt="Apprenticeship icon" />
+                                            </div>
+                                            <div class="modal-btn--content modal-btn--content__apprenticeship">
+                                                <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardApprenticeViewEditTitle", "View Apprenticeships")</p>
+                                                <p>@AppGlobal.Language.GetText(this, "WizardApprenticeViewEditInfo", "View and edit your existing apprenticeships")</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <a href="#portal" class="close-link" data-toggle="tab" data-step="1">@AppGlobal.Language.GetText(this, "WizardBack", "< back to previous screen")</a>
+                    </div>
+
+                    <div class="tab-pane fade" id="add-apprenticeDelivLoc">
+                        <div class="row">
+                            <div class="col-8 col-md-8">
+                                <p class="p-margin">@AppGlobal.Language.GetText(this, "WizardApprenticeLocationManageIntro", "How would you like to manage your delivery locations?")</p>
+                            </div>
+                            <div class="col-4">&nbsp;</div>
+
+                            <div class="col-12 col-md-12">
+                                <div class="modal-btn-list">
+                                    <div class="modal-btn-item">
+
+                                        <a href="@Url.Action("Create","Location",null)" class="modal-btn--link">
+                                            <div class="modal-btn--icon apprenticeship-bg">
+                                                <img src="~/Content/UserWizard/images/add-locations.svg" alt="Apprenticeship icon" />
+                                            </div>
+                                            <div class="modal-btn--content modal-btn--content__apprenticeship">
+                                                <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardApprenticeLocationAddTitle", "Add Location")</p>
+                                                <p>@AppGlobal.Language.GetText(this, "WizardApprenticeLocationAddInfo", "Add a new apprenticeship location")</p>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="modal-btn-item">
+                                        <a href="@Url.Action("List","Location",null)" class="modal-btn--link">
+                                            <div class="modal-btn--icon apprenticeship-bg">
+                                                <img src="~/Content/UserWizard/images/view-locations.svg" alt="Apprenticeship icon" />
+                                            </div>
+                                            <div class="modal-btn--content modal-btn--content__apprenticeship">
+                                                <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardApprenticeLocationViewEditTitle", "View Locations")</p>
+                                                <p>@AppGlobal.Language.GetText(this, "WizardApprenticeLocationViewEditInfo", "View and edit your existing apprenticeship locations")</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#portal" class="close-link" data-toggle="tab" data-step="1">@AppGlobal.Language.GetText(this, "WizardBack", "< back to previous screen")</a>
+                    </div>
+
+                    <div class="tab-pane fade" id="add-course">
+                        <div class="row">
+                            <div class="col-8 col-md-8">
+                                <p class="p-margin">@AppGlobal.Language.GetText(this, "WizardCourseManageIntro", "How would you like to enter the course information?")</p>
+                            </div>
+                            <div class="col-4">&nbsp;</div>
+
+                            <div class="col-12 col-md-12">
+                                <div class="modal-btn-list">
+                                    <div class="modal-btn-item">
+                                        <a href="@Url.Action("Create","Venue",null)" class="modal-btn--link addCourse">
+                                            <div class="modal-btn--icon course-bg">
+                                                <img src="~/Content/UserWizard/images/add-course.svg" alt="Course icon" />
+                                            </div>
+                                            <div class="modal-btn--content modal-btn--content__course">
+                                                <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardCourseAddTitle", "Add Course")</p>
+                                                <p>@AppGlobal.Language.GetText(this, "WizardCourseAddInfo", "Manually add a new course")</p>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="modal-btn-item">
+                                        <a href="@Url.Action("Courses","BulkUpload",null)" class="modal-btn--link">
+                                            <div class="modal-btn--icon course-bg">
+                                                <img src="~/Content/UserWizard/images/upload-courses.svg" alt="Course icon" />
+                                            </div>
+                                            <div class="modal-btn--content modal-btn--content__course">
+                                                <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardCourseUploadTitle", "Upload Courses")</p>
+                                                <p>@AppGlobal.Language.GetText(this, "WizardCourseUploadInfo", "Bulk upload multiple courses")</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="modal-btn-list">
+                                    <div class="modal-btn-item">
+                                        <a href="@Url.Action("List","Course",null)" class="modal-btn--link">
+                                            <div class="modal-btn--icon course-bg">
+                                                <img src="~/Content/UserWizard/images/view-courses.svg" alt="Course icon" />
+                                            </div>
+                                            <div class="modal-btn--content modal-btn--content__course">
+                                                <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardCourseViewEditTitle", "View Courses")</p>
+                                                <p>@AppGlobal.Language.GetText(this, "WizardCourseViewEditInfo", "View and edit your existing courses")</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#portal" class="close-link" data-toggle="tab" data-step="1">@AppGlobal.Language.GetText(this, "WizardBack", "< back to previous screen")</a>
+                    </div>
+
+                    <div class="tab-pane fade" id="add-courseVenue">
+                        <div class="row">
+                            <div class="col-8 col-md-8">
+                                <p class="p-margin">@AppGlobal.Language.GetText(this, "WizardVenueManageIntro", "How would you like to manage your course venues?")</p>
+                            </div>
+                            <div class="col-4">&nbsp;</div>
+
+                            <div class="col-12 col-md-12">
+                                <div class="modal-btn-list">
+                                    <div class="modal-btn-item">
+
+                                        <a href="@Url.Action("Create","Venue",null)" class="modal-btn--link">
+                                            <div class="modal-btn--icon course-bg">
+                                                <img src="~/Content/UserWizard/images/add-venue.svg" alt="Apprenticeship icon" />
+                                            </div>
+                                            <div class="modal-btn--content modal-btn--content__course">
+                                                <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardVenueAddTitle", "Add Venue")</p>
+                                                <p>@AppGlobal.Language.GetText(this, "WizardVenueAddInfo", "Add a new course venue")</p>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="modal-btn-item">
+                                        <a href="@Url.Action("List","Venue",null)" class="modal-btn--link">
+                                            <div class="modal-btn--icon course-bg">
+                                                <img src="~/Content/UserWizard/images/view-venues.svg" alt="Apprenticeship icon" />
+                                            </div>
+                                            <div class="modal-btn--content modal-btn--content__course">
+                                                <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardVenueViewEditTitle", "View Venues")</p>
+                                                <p>@AppGlobal.Language.GetText(this, "WizardVenueViewEditInfo", "View and edit your existing course venues")</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#portal" class="close-link" data-toggle="tab" data-step="1">< back to previous screen</a>
+                    </div>
+
+                    <div class="tab-pane fade" id="close-option">
+                        <div class="row">
+                            <div class="col-11 col-md-11">
+                                <div class="flex flex-col">
+                                    <div>
+                                        <img src="~/Content/UserWizard/images/task-wizard-img.svg" alt="Task Wizard" class="r-margin" />
+                                    </div>
+                                    <div>
+                                        <p class="p-margin">@AppGlobal.Language.GetText(this, "WizardReopenHelp", "This icon will display in the top navigation if you’d like to return to this screen in the future.")</p>
+                                    </div>
+                                </div>
+                                <p>
+                                    @AppGlobal.Language.GetText(this, "WizardShowAgainPart1", "Should we show this")
+                                <strong>@AppGlobal.Language.GetText(this, "WizardShowAgainPart2", "Task Wizard")</strong>
+                                @AppGlobal.Language.GetText(this, "WizardShowAgainPart3", "next time you login?")
+                            </p>
+                        </div>
+                        <div class="col-4">&nbsp;</div>
+
+                        <div class="col-12 col-md-12">
+                            <div class="modal-btn-list">
+                                <div class="modal-btn-item">
+                                    <a id="userWizardCloseShow" href="#" class="modal-btn--link" aria-hidden="true">
+                                        <div class="modal-btn--content modal-btn--content__plain">
+                                            <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardYes", "Yes")</p>
+                                            <p>@AppGlobal.Language.GetText(this, "WizardYesShowAgain", "Please show this window again.")</p>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="modal-btn-item">
+                                    <a id="userWizardCloseHide" href="#" class="modal-btn--link" aria-hidden="true">
+                                        <div class="modal-btn--content modal-btn--content__plain">
+                                            <p class="modal-btn--content_title">@AppGlobal.Language.GetText(this, "WizardNo", "No")</p>
+                                            <p>
+                                                @AppGlobal.Language.GetText(this, "WizardNoShowAgainPart1", "Don't show it again") <br />
+                                            @AppGlobal.Language.GetText(this, "WizardNoShowAgainPart2", "I know where to find it.")
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+

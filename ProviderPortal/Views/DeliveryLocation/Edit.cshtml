@@ -1,0 +1,12 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditDeliveryLocationViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Edit Delivery Location");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Edit Delivery Location")</h2>
+
+@Html.Partial("_EditDeliveryLocation", Model)
+
+@section Scripts {
+    @Html.Partial("_EditDeliveryLocationScripts", Model)
+}

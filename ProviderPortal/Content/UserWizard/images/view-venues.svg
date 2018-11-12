@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="39px" height="48px" viewBox="0 0 39 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>view-venues</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Artboard-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-114.000000, -620.000000)">
+        <g id="view-venues" transform="translate(114.000000, 620.000000)">
+            <rect id="Rectangle-7" stroke="#000000" stroke-width="2" x="1" y="8" width="26" height="39"></rect>
+            <path d="M5,3.94988458 L5,8 L23,8 L23,3.94988458 L14,1.05060717 L5,3.94988458 Z" id="Rectangle-7" stroke="#000000" stroke-width="2"></path>
+            <rect id="Rectangle-12" stroke="#000000" stroke-width="2" x="5" y="12" width="7" height="7"></rect>
+            <rect id="Rectangle-12" stroke="#000000" stroke-width="2" x="16" y="12" width="7" height="7"></rect>
+            <rect id="Rectangle-12" stroke="#000000" stroke-width="2" x="5" y="23" width="7" height="7"></rect>
+            <rect id="Rectangle-12" stroke="#000000" stroke-width="2" x="16" y="23" width="7" height="7"></rect>
+            <g id="Group-9" transform="translate(20.000000, 28.000000)">
+                <g id="Group-8" fill="#FFFFFF" stroke="#000000" stroke-width="2">
+                    <circle id="Oval-4" cx="6.5" cy="6.5" r="6.5"></circle>
+                </g>
+                <rect id="Rectangle-8" fill="#000000" transform="translate(14.242641, 14.242641) rotate(-45.000000) translate(-14.242641, -14.242641) " x="13.2426407" y="9.24264069" width="2" height="10" rx="1"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

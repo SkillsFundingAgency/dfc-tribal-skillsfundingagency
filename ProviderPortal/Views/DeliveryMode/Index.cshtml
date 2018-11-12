@@ -1,0 +1,67 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.DeliveryModeViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Manage Delivery Modes");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Manage Delivery Modes")</h2>
+<hr/>
+
+<div class="site-content">
+    <div class="col-md-12 btn-toolbar">
+        @Html.ActionLink(AppGlobal.Language.GetText(this, "Create", "Add new Delivery Mode"), "Create", "DeliveryMode", null, new {@class = "pull-right btn btn-default"})
+    </div>
+</div>
+
+@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", ""))
+<table class="dataTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().DeliveryModeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().DeliveryModeDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().BulkUploadRef)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().DASRef)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().MustHaveFullLocation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().RecordStatusName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeliveryModeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeliveryModeDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BulkUploadRef)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DASRef)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MustHaveFullLocation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecordStatusName)
+            </td>
+            <td>
+                @Html.ActionLink(AppGlobal.Language.GetText(this, "Edit", "Edit"), "Edit", new { id = item.DeliveryModeId })
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,260 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Entities
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditSearchPhraseModel
+
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Edit Search API Phrase Replacement");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Edit Search API Phrase Replacement")</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>@AppGlobal.Language.GetText(this, "SubHeader", "")</h4>
+        <hr />
+
+        @Html.EditableDataValidationSummary(false)
+
+        @if (Model.RecordStatusId == (Int32)Constants.RecordStatus.Archived)
+        {
+            <div class="col-md-offset-2 warning">
+                @Html.Raw(AppGlobal.Language.GetText(this, "SearchPhraseArchivedWarning", "<strong>Warning:</strong> this search phrase is currently <strong>ARCHIVED</strong> and it will not be used by the course search."))
+            </div>
+        }
+
+        @Html.HiddenFor(model => model.SearchPhraseId)
+
+        @Html.RequiredFields(new { @class = "col-md-offset-2" })
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.SearchPhrase, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SearchPhrase, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SearchPhrase)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(m => m.RemovePhraseFromSearch, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RemovePhraseFromSearch)
+                @Html.ValidationMessageFor(m => m.RemovePhraseFromSearch)
+            </div>
+        </div>
+
+        <fieldset>
+            <legend>
+                @AppGlobal.Language.GetText(this, "QualificationLevels", "Qualification Levels")
+                @if (AppGlobal.Language.GetText(this, "QualificationLevelsTooltip", "Select the qualification levels to filter on for this search phrase") != "")
+                {
+                    @Html.Tooltip(AppGlobal.Language.GetText(this, "QualificationLevelsTooltip", "Select the qualification levels to filter on for this search phrase"))
+                }
+            </legend>
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.QualificationLevels, new { @class = "control-label col-md-2" })
+                <div class="col-md-8" style="border-left: 1px solid #ccc; padding-left: 25px; margin-left: 10px; padding-top: 8px;">
+                    @foreach (QualificationLevel ql in Model.QualificationLevels)
+                    {
+                        <input id="QL_@ql.QualificationLevelId" title="@(String.Format("{0} - {1}", ql.BulkUploadRef, ql.QualificationLevelName))" type="checkbox" name="SelectedQualificationLevels" value="@ql.QualificationLevelId" @(Model.SelectedQualificationLevels.Contains(ql.QualificationLevelId) ? "checked" : "") />
+                        <label for="QL_@ql.QualificationLevelId" title="@(String.Format("{0} - {1}", ql.BulkUploadRef, ql.QualificationLevelName))" style="font-weight: normal;">@ql.QualificationLevelName</label>
+                        <br />
+                    }
+                    @Html.ValidationMessageFor(model => model.SelectedQualificationLevels)
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>
+                @AppGlobal.Language.GetText(this, "StudyModes", "Study Modes")
+                @if (AppGlobal.Language.GetText(this, "StudyModesTooltip", "Select the study modes to filter on for this search phrase") != "")
+                {
+                    @Html.Tooltip(AppGlobal.Language.GetText(this, "StudyModesTooltip", "Select the study modes to filter on for this search phrase"))
+                }
+            </legend>
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.StudyModes, new { @class = "control-label col-md-2" })
+                <div class="col-md-8" style="border-left: 1px solid #ccc; padding-left: 25px; margin-left: 10px; padding-top: 8px;">
+                    @foreach (StudyMode sm in Model.StudyModes)
+                    {
+                        <input id="SM_@sm.StudyModeId" title="@(String.Format("{0} - {1}", sm.BulkUploadRef, sm.StudyModeName))" type="checkbox" name="SelectedStudyModes" value="@sm.StudyModeId" @(Model.SelectedStudyModes.Contains(sm.StudyModeId) ? "checked" : "") />
+                        <label for="SM_@sm.StudyModeId" title="@(String.Format("{0} - {1}", sm.BulkUploadRef, sm.StudyModeName))" style="font-weight: normal;">@sm.StudyModeName</label>
+                        <br />
+                    }
+                    @Html.ValidationMessageFor(model => model.SelectedStudyModes)
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>
+                @AppGlobal.Language.GetText(this, "AttendanceTypes", "Attendance Modes")
+                @if (AppGlobal.Language.GetText(this, "AttendanceTypesTooltip", "Select the attendance modes to filter on for this search phrase") != "")
+                {
+                    @Html.Tooltip(AppGlobal.Language.GetText(this, "AttendanceTypesTooltip", "Select the attendance modes to filter on for this search phrase"))
+                }
+            </legend>
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.AttendanceTypes, new { @class = "control-label col-md-2" })
+                <div class="col-md-8" style="border-left: 1px solid #ccc; padding-left: 25px; margin-left: 10px; padding-top: 8px;">
+                    @foreach (AttendanceType at in Model.AttendanceTypes)
+                    {
+                        <input id="AT_@at.AttendanceTypeId" title="@(String.Format("{0} - {1}", at.BulkUploadRef, at.AttendanceTypeName))" type="checkbox" name="SelectedAttendanceTypes" value="@at.AttendanceTypeId" @(Model.SelectedAttendanceTypes.Contains(at.AttendanceTypeId) ? "checked" : "") />
+                        <label for="AT_@at.AttendanceTypeId" title="@(String.Format("{0} - {1}", at.BulkUploadRef, at.AttendanceTypeName))" style="font-weight: normal;">@at.AttendanceTypeName</label>
+                        <br />
+                    }
+                    @Html.ValidationMessageFor(model => model.SelectedAttendanceTypes)
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>
+                @AppGlobal.Language.GetText(this, "AttendancePatterns", "Attendance Patterns")
+                @if (AppGlobal.Language.GetText(this, "AttendancePatternsTooltip", "Select the attendance patterns to filter on for this search phrase") != "")
+                {
+                    @Html.Tooltip(AppGlobal.Language.GetText(this, "AttendancePatternsTooltip", "Select the attendance patterns to filter on for this search phrase"))
+                }
+            </legend>
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.AttendancePatterns, new { @class = "control-label col-md-2" })
+                <div class="col-md-8" style="border-left: 1px solid #ccc; padding-left: 25px; margin-left: 10px; padding-top: 8px;">
+                    @foreach (AttendancePattern ap in Model.AttendancePatterns)
+                    {
+                        <input id="AP_@ap.AttendancePatternId" title="@(String.Format("{0} - {1}", ap.BulkUploadRef, ap.AttendancePatternName))" type="checkbox" name="SelectedAttendancePatterns" value="@ap.AttendancePatternId" @(Model.SelectedAttendancePatterns.Contains(ap.AttendancePatternId) ? "checked" : "") />
+                        <label for="AP_@ap.AttendancePatternId" title="@(String.Format("{0} - {1}", ap.BulkUploadRef, ap.AttendancePatternName))" style="font-weight: normal;">@ap.AttendancePatternName</label>
+                        <br />
+                    }
+                    @Html.ValidationMessageFor(model => model.SelectedAttendancePatterns)
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="@AppGlobal.Language.GetText(this, "Submit", "Save")" class="btn btn-success" />
+                @if (Model.RecordStatusId != (Int32)Constants.RecordStatus.Archived)
+                {
+                    <input id="btnArchive" type="button" name="Archive" value="@AppGlobal.Language.GetText(this, "Archive", "Archive")" class="btn btn-default" />
+                }
+                else
+                {
+                    <input id="btnUnarchive" type="button" name="Unarchive" value="@AppGlobal.Language.GetText(this, "Unarchive", "Unarchive")" class="btn btn-default" />
+                }
+                <input id="btnDelete" type="button" name="Delete" value="@AppGlobal.Language.GetText(this, "Delete", "Delete")" class="btn btn-danger" />
+                <input id="btnMoveUp" type="button" name="MoveUp" value="@AppGlobal.Language.GetText(this, "MoveUp", "Move Up")" class="btn btn-default" style="margin-left: 30px;" />
+                <input id="btnMoveDown" type="button" name="MoveDown" value="@AppGlobal.Language.GetText(this, "MoveDown", "Move Down")" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            $("#btnArchive").click(function() {
+                if (confirm('@AppGlobal.Language.GetText(this, "ArchiveSearchPhraseWarning", "Are you sure you would like to archive this search phrase?")') === false) {
+                    return;
+                }
+                var url = '@Url.Action("Archive", "SearchPhrase", new {Id = @Model.SearchPhraseId})';
+                $.ajax({
+                    url: url,
+                    success: function() {
+                        window.location.reload(true);
+                    },
+                    error: function() {
+                        alert("Error archiving search phrase");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/x-www-form-urlencoded, charset=utf-8'
+                });
+            });
+
+            $("#btnUnarchive").click(function() {
+                if (confirm('@AppGlobal.Language.GetText(this, "UnarchiveSearchPhraseWarning", "Are you sure you would like to unarchive this search phrase?")') === false) {
+                    return;
+                }
+                var url = '@Url.Action("Unarchive", "SearchPhrase", new {Id = @Model.SearchPhraseId})';
+                $.ajax({
+                    url: url,
+                    success: function() {
+                        window.location.reload(true);
+                    },
+                    error: function() {
+                        alert("Error unarchiving search phrase");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/x-www-form-urlencoded, charset=utf-8'
+                });
+            });
+
+            $("#btnDelete").click(function() {
+                if (confirm('@AppGlobal.Language.GetText(this, "DeleteSearchPhraseWarning", "Are you sure you would like to delete this search phrase?")') === false) {
+                    return;
+                }
+                var url = '@Url.Action("Delete", "SearchPhrase", new {Id = @Model.SearchPhraseId})';
+                $.ajax({
+                    url: url,
+                    success: function() {
+                        window.location.replace("@Url.Action("Index", "SearchPhrase")");
+                    },
+                    error: function() {
+                        alert("Error deleting search phrase");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/x-www-form-urlencoded, charset=utf-8'
+                });
+            });
+
+            $("#btnMoveUp").click(function () {
+                var url = '@Url.Action("MoveUp", "SearchPhrase", new { Id = @Model.SearchPhraseId })';
+                $.ajax({
+                    url: url,
+                    success: function (data, status, xhr) {
+                        var ct = xhr.getResponseHeader("content-type") || "";
+                        if (ct.indexOf('json') > -1) {
+                            // Got JSON so everything went OK.
+                            alert(data.Message);
+                        }
+                    },
+                    error: function () {
+                        alert("Error changing sort order");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/json, charset=utf-8',
+                    dataType: 'json'
+                });
+            });
+
+            $("#btnMoveDown").click(function () {
+                var url = '@Url.Action("MoveDown", "SearchPhrase", new { Id = @Model.SearchPhraseId })';
+                $.ajax({
+                    url: url,
+                    success: function (data, status, xhr) {
+                        var ct = xhr.getResponseHeader("content-type") || "";
+                        if (ct.indexOf('json') > -1) {
+                            // Got JSON so everything went OK.
+                            alert(data.Message);
+                        }
+                    },
+                    error: function() {
+                        alert("Error changing sort order");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/json charset=utf-8',
+                    dataType: 'json'
+                });
+            });
+        });
+
+    </script>
+}

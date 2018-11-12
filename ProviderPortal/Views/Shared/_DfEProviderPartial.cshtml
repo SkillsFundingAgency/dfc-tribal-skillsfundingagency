@@ -1,0 +1,36 @@
+﻿<script type="text/javascript">
+
+    function setDfEProviderLookupVisibility(isLoad) {
+        var dfeFunded, sfaFunded;
+        if ($('#DFE1619Funded').is(':checkbox')) {
+            dfeFunded = $('#DFE1619Funded:checked').length > 0;
+        } else {
+            dfeFunded = @Html.Raw(Json.Encode(Model.DFE1619Funded));
+        }
+        if ($('#SFAFunded').is(':checkbox')) {
+            sfaFunded = $('#SFAFunded:checked').length > 0;
+        } else {
+            sfaFunded = @Html.Raw(Json.Encode(Model.SFAFunded));
+        }
+
+        var dfeLookupArea = $('#dfeLookupArea');
+
+        if (dfeFunded) {
+            dfeLookupArea.show('slow');
+        } else {
+            dfeLookupArea.hide('slow');
+        }
+
+        if (sfaFunded || isLoad === true) return;
+
+        var providerTypeDfE1619 = @Html.Raw(Json.Encode(Model.ProviderTypeDfE1619));
+        $('#ProviderTypeId').val(dfeFunded ? providerTypeDfE1619 : '');
+    }
+
+    $(document).ready(function() {
+        var dfe1619Checkbox = $('#DFE1619Funded');
+        dfe1619Checkbox.change(setDfEProviderLookupVisibility);
+        setDfEProviderLookupVisibility(true);
+    });  
+
+</script>

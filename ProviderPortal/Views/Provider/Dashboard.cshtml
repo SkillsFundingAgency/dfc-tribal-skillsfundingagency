@@ -1,0 +1,202 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ProviderDashboardModel
+
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Provider Dashboard");
+    var canEditProvider = Permission.HasPermission(false, false, Permission.PermissionName.CanEditProvider);
+    var canViewProvider = Permission.HasPermission(false, false, Permission.PermissionName.CanViewProvider);
+    var canViewProviderReports = Permission.HasPermission(false, false, Permission.PermissionName.CanViewProviderReports);
+    // Courses, opportunities & venues
+    var canAddProviderVenue = Permission.HasPermission(false, false, Permission.PermissionName.CanAddProviderVenue);
+    var canViewProviderVenue = Permission.HasPermission(false, false, Permission.PermissionName.CanViewProviderVenue);
+    var canAddProviderCourse = Permission.HasPermission(false, false, Permission.PermissionName.CanAddProviderCourse);
+    var canViewProviderCourse = Permission.HasPermission(false, false, Permission.PermissionName.CanViewProviderCourse);
+    // Apprenticeships and locations
+    var canAddProviderLocation = Permission.HasPermission(false, false, Permission.PermissionName.CanAddProviderLocation);
+    var canViewProviderLocation = Permission.HasPermission(false, false, Permission.PermissionName.CanViewProviderLocation);
+    var canAddProviderApprenticeship = Permission.HasPermission(false, false, Permission.PermissionName.CanAddProviderApprenticeship);
+    var canViewProviderApprenticeship = Permission.HasPermission(false, false, Permission.PermissionName.CanViewProviderApprenticeship);
+}
+
+<h2>@Model.Provider.ProviderName</h2>
+<hr/>
+
+@if (!Model.Provider.PublishData)
+{
+    <div class="alert alert-info" data-action="publish">
+        @Html.Raw(AppGlobal.Language.GetText(this, "DataNotPublished", "Your course data is not currently published to the National Course Search Service."))
+        @if (canEditProvider)
+        {
+            @Html.Raw(AppGlobal.Language.GetText(this, "PublishDataLink", "<strong><a href='#' data-action='publish'>Publish courses</a></strong>"))
+        }
+    </div>
+}
+
+@if (Model.NumberOfPendingCourses > 0)
+{
+    <div class="alert alert-warning">
+        @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "PendingCoursesExist", "You have {0} pending course(s).  Pending courses are not published to the National Course Search Service.  To move a course from the Pending status you must add an opportunity.  <a href=\"/Course/PendingCourseList\">Click here to view your pending courses</a>"), Model.NumberOfPendingCourses.ToString("N0")))
+    </div>
+}
+
+@if (canEditProvider || canViewProvider || canViewProviderReports)
+{
+    <h4>@AppGlobal.Language.GetText(this, "MainDetailsHeader", "Main provider details")</h4>
+    if (canEditProvider)
+    {
+        <p>@Html.ActionLink(AppGlobal.Language.GetText(this, "EditProvider", "Update the main information details"), "Edit", "Provider", null, null)</p>
+    }
+    else if (canViewProvider)
+    {
+        <p>@Html.ActionLink(AppGlobal.Language.GetText(this, "ViewProvider", "View the main information details"), "Details", "Provider", null, null)</p>
+    }
+    if (canViewProviderReports)
+    {
+        <p>@Html.ActionLink(AppGlobal.Language.GetText(this, "ViewDashboard", "View dashboard"), "Dashboard", "Report", null, null)</p>
+    }
+    <hr/>
+}
+
+@if (canAddProviderVenue || canViewProviderVenue || canAddProviderCourse || canViewProviderCourse)
+{
+    <h4>@AppGlobal.Language.GetText(this, "CourseDataHeader", "Course data")</h4>
+    <hr/>
+    if (canAddProviderVenue || canViewProviderVenue)
+    {
+        <h5>@AppGlobal.Language.GetText(this, "VenuesHeader", "Venue information")</h5>
+        if (Permission.HasPermission(false, false, Permission.PermissionName.CanAddProviderVenue))
+        {
+            <p>@Html.ActionLink(AppGlobal.Language.GetText(this, "AddNewVenue", "Add new venue"), "Create", "Venue")</p>
+        }
+        if (Permission.HasPermission(false, false, Permission.PermissionName.CanViewProviderVenue))
+        {
+            <p>@Html.ActionLink(AppGlobal.Language.GetText(this, "ListVenues", "View / amend venues"), "List", "Venue", null, null)</p>
+        }
+        <hr/>
+    }
+
+    if (canAddProviderCourse || canViewProviderCourse)
+    {
+        <h5>@AppGlobal.Language.GetText(this, "CoursesHeader", "Course information")</h5>
+        if (Permission.HasPermission(false, false, Permission.PermissionName.CanAddProviderCourse))
+        {
+            <p><a class="addCourse" style="cursor: pointer;">@AppGlobal.Language.GetText(this, "AddNewCourse", "Add a new course")</a></p>
+        }
+        if (Permission.HasPermission(false, false, Permission.PermissionName.CanViewProviderCourse))
+        {
+            <p>@Html.ActionLink(AppGlobal.Language.GetText(this, "ListCourses", "View / amend courses"), "List", "Course", null, null)</p>
+        }
+        <hr/>
+    }
+}
+
+@if (canAddProviderLocation || canViewProviderLocation || canAddProviderApprenticeship || canViewProviderApprenticeship)
+{
+    <h4>@AppGlobal.Language.GetText(this, "ApprenticeshipDataHeader", "Apprenticeship data")</h4>
+    <hr/>
+    if (canAddProviderLocation || canViewProviderLocation)
+    {
+        <h5>@AppGlobal.Language.GetText(this, "LocationsHeader", "Location information")</h5>
+        if (Permission.HasPermission(false, false, Permission.PermissionName.CanAddProviderLocation))
+        {
+            <p>@Html.ActionLink(AppGlobal.Language.GetText(this, "AddNewLocation", "Add new location"), "Create", "Location")</p>
+        }
+        if (Permission.HasPermission(false, false, Permission.PermissionName.CanViewProviderLocation))
+        {
+            <p>@Html.ActionLink(AppGlobal.Language.GetText(this, "ListLocations", "View / amend locations"), "List", "Location", null, null)</p>
+        }
+        <hr/>
+    }
+
+    if (canAddProviderApprenticeship || canViewProviderApprenticeship)
+    {
+        <h5>@AppGlobal.Language.GetText(this, "ApprenticeshipsHeader", "Apprenticeship information")</h5>
+        if (Permission.HasPermission(false, false, Permission.PermissionName.CanAddProviderApprenticeship))
+        {
+            <p>@Html.ActionLink(AppGlobal.Language.GetText(this, "AddNewApprenticeship", "Add a new apprenticeship"), "Create", "Apprenticeship", null, null)</p>
+        }
+        if (Permission.HasPermission(false, false, Permission.PermissionName.CanViewProviderApprenticeship))
+        {
+            <p>@Html.ActionLink(AppGlobal.Language.GetText(this, "ListApprenticeships", "View / amend apprenticeships"), "List", "Apprenticeship", null, null)</p>
+        }
+        <hr/>
+    }
+}
+
+
+@section Scripts {
+    @if (!Model.Provider.PublishData && canEditProvider)
+    {
+        using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+        }
+        <script type="x-template" data-action="publish">
+                <p>@AppGlobal.Language.GetText(this, "AcceptInvitationPreface", "By clicking on Publish My data you are agreeing that your course data is ready to be published and made available on the National Course Search Service. Your data will appear on the NCS within 24 hours.")</p>
+        </script>
+        <script>
+            $(function() {
+                var $form = $("form#publish");
+                $("a[data-action=publish]").bind("click", function(event) {
+
+                    event.preventDefault();
+
+                    BootstrapDialog.show({
+                        title: '@AppGlobal.Language.GetText(this, "PublishDataTitle", "Publish Course Data")',
+                        message: function() {
+                            return $("script[type=x-template][data-action=publish]").html().format('@Model.Provider.ProviderName');
+                        },
+                        nl2br: false,
+                        buttons: [
+                            {
+                                label: '@AppGlobal.Language.GetText(this, "CancelPublishData", "Cancel")',
+                                cssClass: 'btn-warning',
+                                action: function(dialog) {
+                                    dialog.close();
+                                }
+                            },
+                            {
+                                label: '@AppGlobal.Language.GetText(this, "ActionPublishData", "Publish Course Data")',
+                                cssClass: 'btn-success',
+                                action: function(dialog) {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "@Url.Action("PublishData")",
+                                        data: { "__RequestVerificationToken": $("input[name=__RequestVerificationToken]").val() },
+                                        dataType: "json",
+                                        success: function(data) {
+                                            dialog.close();
+                                            $("div[data-action=publish]").fadeOut();
+
+                                            BootstrapDialog.show({
+                                                message: '@AppGlobal.Language.GetText(this, "PublishDataSuccess", "Your course data will be published to the National Course Search Service within the next 24 hours.")',
+                                                buttons: [{
+                                                    label: 'Close',
+                                                    action: function (dialog) {
+                                                        dialog.close();
+                                                    }
+                                                }]
+                                            });
+                                        },
+                                        error: function() {
+                                            BootstrapDialog.show({
+                                                message: '@AppGlobal.Language.GetText(this, "PublishDataFailed", "A problem occured when setting your provision as ready to be published. Please try again later.")',
+                                                buttons: [{
+                                                    label: 'Close',
+                                                    action: function (dialog) {
+                                                        dialog.close();
+                                                    }
+                                                }]
+                                            });
+                                        }
+                                    });
+
+                                }
+                            }
+                        ]
+                    });
+
+                });
+            });
+        </script>
+}
+    }

@@ -1,0 +1,211 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.DailyReportViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "SFA Daily Report");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "SFA Daily Report")</h2>
+<hr/>
+@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", "<p>The table below is part of the MI reporting. Use the 'Search' box to filter the table, and the arrows at the top of the columns to sort it. Use the buttons on the top right of the table to copy to your clipboard, save in comma separated values (CSV) format, save in Microsoft Excel format or print. <p>"))
+
+<table class="dataTable dt-responsive table table-striped table-bordered" data-ajax="@Url.Action("DailyReportJson")" data-created-row="rowCreated">
+    <thead>
+        <tr>
+            <th scope="col" class="none">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderId)
+            </th>
+            <th scope="col" class="all">
+                @Html.DisplayNameFor(m => m.Items.First().Ukprn)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().IsTASOnly)
+            </th>
+            <th scope="col" class="all" data-type="string-case-insensitive">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderName)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().Courses)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().Opportunities)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().OpportunitiesPerCourse)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().Summaries)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().DistinctSummaries)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().Aims)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().DistinctAims)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().Url)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().DistinctUrl)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().BookingUrl)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().DistinctBookingUrl)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().SpecificStarts)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().FutureStarts)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().EntryRequirements)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().Prices)
+            </th>
+            <th scope="col" data-type="date-eu">
+                @Html.DisplayNameFor(m => m.Items.First().LastActivity)
+            </th>
+            <th scope="col" data-type="date-eu">
+                @Html.DisplayNameFor(m => m.Items.First().LastUpdated)
+            </th>
+            <th scope="col" class="all" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().Autoscore)
+            </th>
+            <th scope="col" class="all" data-type="enum-quality">
+                @Html.DisplayNameFor(m => m.Items.First().Rating)
+            </th>
+            <th scope="col" data-type="numeric">
+                @Html.DisplayNameFor(m => m.Items.First().LiveSuperuser)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().Region)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderType)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().RoATP)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.ProviderId)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Ukprn)
+                </td>
+                <td>
+                    @(item.IsTASOnly == null ? String.Empty : item.IsTASOnly.Value
+                          ? AppGlobal.Language.GetText(this, "IsTASOnly", "Yes")
+                          : AppGlobal.Language.GetText(this, "IsTASOnly", "No"))
+                </td>    
+                <td>
+                    @Html.DisplayFor(m => item.ProviderName)
+                </td>
+                <td class="alignRight">                 
+                    @Html.DisplayFor(m => Convert.ToInt32(item.Courses))
+                </td>
+                <td class="alignRight">                  
+                    @Html.DisplayFor(m => Convert.ToInt32(item.Opportunities))
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.OpportunitiesPerCourse)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.Summaries)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.DistinctSummaries)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.Aims)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.DistinctAims)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.Url)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.DistinctUrl)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.BookingUrl)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.DistinctBookingUrl)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.SpecificStarts)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.FutureStarts)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.EntryRequirements)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.Prices)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.LastActivity)
+                </td>
+                <td class="alignRight">
+                    @Html.DisplayFor(m => item.LastUpdated)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Autoscore)
+                </td>
+                <td class="@item.RatingCssClass" data-type="quality">
+                    @Html.DisplayFor(m => item.Rating)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.LiveSuperuser)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Region)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ProviderType)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.RoATP)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    
+    <script type="text/javascript">
+
+        var quality = {};
+        quality["@QualityIndicator.GetQualityText(1, false)"] = '@QualityIndicator.GetQualityBackground(1)';
+        quality["@QualityIndicator.GetQualityText(2, false)"] = '@QualityIndicator.GetQualityBackground(2)';
+        quality["@QualityIndicator.GetQualityText(3, false)"] = '@QualityIndicator.GetQualityBackground(3)';
+        quality["@QualityIndicator.GetQualityText(4, false)"] = '@QualityIndicator.GetQualityBackground(4)';
+
+        var ratingColPosition = 23;
+
+        var rightAlignedColumns = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 29, 22];
+
+        function rowCreated(row, data, index) {
+            $("td:nth-child(" + ratingColPosition + ")", row).addClass(quality[data[ratingColPosition - 1]]);
+
+            $.each(rightAlignedColumns, function(idx, item) {
+                $("td:nth-child(" + item + ")", row).addClass("alignRight");
+            });
+        }
+
+    </script>
+}

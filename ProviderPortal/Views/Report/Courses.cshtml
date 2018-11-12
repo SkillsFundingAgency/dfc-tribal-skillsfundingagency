@@ -1,0 +1,59 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ProviderCourseReportViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Courses");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Courses")</h2>
+<hr/>
+@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", "<p>Using the table below you can filter and order your courses. Use the buttons on the top right of the table to copy to your clipboard, save in comma separated values (CSV) format, save in Microsoft Excel format or print.<p>"))
+@Html.Partial("_BulkUploadMessagePartial")
+
+<table class="dataTable dt-responsive table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().RecordStatusName)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderOwnCourseRef)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().CourseTitle)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().QualificationTypeName)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().QualificationTitle)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().AwardOrgName)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.RecordStatusName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ProviderOwnCourseRef)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CourseTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualificationTypeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualificationTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AwardOrgName)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

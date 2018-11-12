@@ -1,0 +1,131 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ViewCourseModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Course Details");
+}
+
+<h2 class="courses">@AppGlobal.Language.GetText(this, "Header", "Course Details")</h2>
+<h3>@Model.CourseTitle</h3>
+<hr/>
+<div class="col-md-12">
+        
+    @if (Model.RecordStatusId == (Int32)Constants.RecordStatus.Archived)
+    {
+        <div class="col-md-offset-2 warning">
+            @Html.Raw(AppGlobal.Language.GetText(this, "CourseArchivedWarning", "<strong>Warning:</strong> this course is currently <strong>ARCHIVED</strong> and neither it nor any of its opportunities will be published to the learner search."))
+        </div>
+    }
+    @if (Model.RecordStatusId == (Int32)Constants.RecordStatus.Pending)
+    {
+        <div class="col-md-offset-2 warning">
+            @Html.Raw(AppGlobal.Language.GetText(this, "CoursePendingWarning", "<strong>Warning:</strong> this course is currently <strong>PENDING</strong> and neither it nor any of its opportunities will be published to the learner search."))
+        </div>
+    }
+        
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(m => m.RecordStatusId)</dt>
+        <dd>@Html.DisplayTextFor(m => m.RecordStatusName)</dd>
+    
+        @if (!String.IsNullOrEmpty(Model.LearningAimId))
+        {
+            <dt>@Html.DisplayNameFor(m => m.LearningAimId)</dt>
+            <dd>@Html.DisplayTextFor(m => m.LearningAim)</dd>
+        }
+
+        <dt>@Html.DisplayNameFor(m => m.Qualification)</dt>
+        <dd>@Html.DisplayTextFor(m => m.Qualification)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.CourseTitle)</dt>
+        <dd>@Html.DisplayTextFor(m => m.CourseTitle)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.ProviderOwnCourseRef)</dt>
+        <dd>@Html.DisplayTextFor(m => m.ProviderOwnCourseRef)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.CourseSummary)</dt>
+        <dd>@Html.DisplayTextFor(m => m.CourseSummary)</dd>    
+    
+        @if (String.IsNullOrEmpty(Model.LearningAimId))
+        {
+            <dt>@Html.DisplayNameFor(m => m.QualificationTypeId)</dt>
+            <dd>@Html.DisplayTextFor(m => m.QualificationType)</dd>
+        }
+
+        <dt>@Html.DisplayNameFor(m => m.QualificationLevelId)</dt>
+        <dd>@Html.DisplayTextFor(m => m.QualificationLevel)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.Url)</dt>
+        <dd>
+            @if (Model.Url != null)
+            {
+                var prefix = Model.Url.Contains("://") ? "" : "http://";
+                <a href="@prefix@Model.Url" target="_blank">@Model.Url</a>
+            }
+        </dd>
+            
+        <dt>@Html.DisplayNameFor(m => m.EntryRequirements)</dt>
+        <dd>@Html.DisplayTextFor(m => m.EntryRequirements)</dd>    
+    
+        @if (String.IsNullOrEmpty(Model.LearningAimId))
+        {
+            <dt>@Html.DisplayNameFor(m => m.LearnDirectClassificationId1)</dt>
+            <dd>@Html.DisplayTextFor(m => m.LearnDirectClassification_1)</dd>
+
+            if (!String.IsNullOrEmpty(Model.LearnDirectClassificationId2))
+            {
+                <dt>@Html.DisplayNameFor(m => m.LearnDirectClassificationId2)</dt>
+                <dd>@Html.DisplayTextFor(m => m.LearnDirectClassification_2)</dd>
+            }
+
+            if (!String.IsNullOrEmpty(Model.LearnDirectClassificationId3))
+            {
+                <dt>@Html.DisplayNameFor(m => m.LearnDirectClassificationId3)</dt>
+                <dd>@Html.DisplayTextFor(m => m.LearnDirectClassification_3)</dd>
+            }
+
+            if (!String.IsNullOrEmpty(Model.LearnDirectClassificationId4))
+            {
+                <dt>@Html.DisplayNameFor(m => m.LearnDirectClassificationId4)</dt>
+                <dd>@Html.DisplayTextFor(m => m.LearnDirectClassification_4)</dd>
+            }
+
+            if (!String.IsNullOrEmpty(Model.LearnDirectClassificationId5))
+            {
+                <dt>@Html.DisplayNameFor(m => m.LearnDirectClassificationId5)</dt>
+                <dd>@Html.DisplayTextFor(m => m.LearnDirectClassification_5)</dd>
+            }
+        }
+            
+        <dt>@Html.DisplayNameFor(m => m.BookingUrl)</dt>
+        <dd>
+            @if (Model.BookingUrl != null)
+            {
+                var prefix = Model.BookingUrl.Contains("://") ? "" : "http://";
+                <a href="@prefix@Model.BookingUrl" target="_blank">@Model.BookingUrl</a>
+            }
+        </dd>
+            
+        <dt>@Html.DisplayNameFor(m => m.AssessmentMethod)</dt>
+        <dd>@Html.DisplayFor(m => m.AssessmentMethod)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.EquipmentRequired)</dt>
+        <dd>@Html.DisplayFor(m => m.EquipmentRequired)</dd>
+            
+        <dt>@Html.DisplayNameFor(m => m.AwardingOrganisation)</dt>
+        <dd>@Html.DisplayFor(m => m.AwardingOrganisation)</dd>
+            
+        <dt>@Html.DisplayNameFor(m => m.UcasTariffPoints)</dt>
+        <dd>@Html.DisplayFor(m => m.UcasTariffPoints)</dd>
+            
+    </dl>
+
+    <fieldset>
+        <legend>@AppGlobal.Language.GetText(this, "Opportunities", "Opportunities")</legend>
+        @if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditProviderOpportunity))
+        {
+            <a href="@Url.Action("Create", "Opportunity", new { Id = @Model.CourseId })" style="float: right; margin-top: -45px;">@AppGlobal.Language.GetText(this, "AddOpportunity", "Add New Opportunity")</a>
+        }
+        <div class="col-md-12">
+            @Html.DisplayFor(m => m.Opportunities, "_ListOpportunities")
+        </div>
+    </fieldset>
+    
+</div>

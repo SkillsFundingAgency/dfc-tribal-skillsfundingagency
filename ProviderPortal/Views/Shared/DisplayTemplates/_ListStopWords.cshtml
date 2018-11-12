@@ -1,0 +1,41 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Models
+@model IEnumerable<ListStopWordsItemModel>
+
+@if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditStopWords))
+{
+    <div style="clear: both;"></div>
+}
+
+<table class="dataTable dt-responsive table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StopWord)
+            </th>
+            <th data-sort='false' data-filter="false">@AppGlobal.Language.GetText(this, "Actions", "Actions")</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{ 
+            var itemCount = 1;
+        }
+        @foreach (var stopWord in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => stopWord.StopWord)
+                </td>
+                <td>
+                    @if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditStopWords))
+                    {
+                        <a id="aDelete_@itemCount" href="#" onclick="deleteStopWord(event, '@stopWord.StopWord');">@AppGlobal.Language.GetText(this, "Delete", "Delete")<span class="hide"> @Html.DisplayFor(model => stopWord.StopWord)</span></a>
+                    }
+                </td>
+            </tr>
+            itemCount++;
+        }
+    </tbody>
+
+</table>
+

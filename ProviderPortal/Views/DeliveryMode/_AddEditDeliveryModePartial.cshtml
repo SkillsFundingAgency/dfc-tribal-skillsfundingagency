@@ -1,0 +1,67 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Models
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.DeliveryModeViewModelItem
+
+@Html.HiddenFor(m => m.IsNew)
+<div class="form-group">
+    @Html.LanguageLabelFor(m => m.DeliveryModeId, new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @if (Model.IsNew)
+        {
+            @Html.TextBoxFor(m => m.DeliveryModeId, new { @class = "form-control", Value = Model.DeliveryModeId > 0 ? Model.DeliveryModeId.ToString() : String.Empty })
+            @Html.ValidationMessageFor(m => m.DeliveryModeId)
+        }
+        else
+        {
+            @Html.HiddenFor(m => m.DeliveryModeId)
+            @Html.DisplayFor(m => m.DeliveryModeId)
+        }
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LanguageLabelFor(m => m.DeliveryModeName, new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.DeliveryModeName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.DeliveryModeName)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LanguageLabelFor(m => m.DeliveryModeDescription, new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.DeliveryModeDescription, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.DeliveryModeDescription)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LanguageLabelFor(m => m.BulkUploadRef, new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.BulkUploadRef, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.BulkUploadRef)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LanguageLabelFor(m => m.DASRef, new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.DASRef, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.DASRef)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LanguageLabelFor(m => m.MustHaveFullLocation, new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(m => m.MustHaveFullLocation, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.MustHaveFullLocation)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LanguageLabelFor(m => m.RecordStatusId, new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.DropDownListFor(m => m.RecordStatusId, (List<SelectListItem>)ViewBag.RecordStatu, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.RecordStatusId)
+    </div>
+</div>

@@ -1,0 +1,8 @@
+﻿@model MailAddressPhoneNumber
+<span class="mail-address">
+    &quot;@Model.DisplayName&quot; &lt;<a href="mailto:@Model.Address">@Model.Address</a>&gt;
+    @if (!String.IsNullOrWhiteSpace(Model.PhoneNumber))
+    {
+        <text>(@Model.PhoneNumber)</text>
+    }
+</span>

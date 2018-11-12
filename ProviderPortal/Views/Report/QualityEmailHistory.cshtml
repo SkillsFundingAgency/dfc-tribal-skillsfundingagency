@@ -1,0 +1,182 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Entities
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.QualityEmailHistoryReportViewModel
+@{
+    ViewBag.Title = String.Format(
+        AppGlobal.Language.GetText(this, "Title", "Quality Email History: {0:dd/MM/yyyy} to {1:dd/MM/yyyy}"),
+        Model.StartDate ?? DateTime.MinValue, Model.EndDate ?? DateTime.MaxValue);
+    var cutOff = new DateTime(2015, 1, 11);
+}
+
+<h2>@String.Format(
+        AppGlobal.Language.GetText(this, "Header", "Quality Email History: {0:dd/MM/yyyy} to {1:dd/MM/yyyy}"),
+        Model.StartDate ?? DateTime.MinValue, Model.EndDate ?? DateTime.MaxValue)</h2>
+<hr/>
+@*@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", "<p>The table below shows the recent bulk uploads for all providers and organisations. Use the 'Search' box to filter the table, and the arrows at the top of the columns to sort it. Use the buttons on the top right of the table to copy to your clipboard, save in comma separated values (CSV) format, save in Microsoft Excel format or print.<p>"))*@
+
+<span class="show-filter-options pull-left" @(ViewData.ModelState.IsValid ? String.Empty : "style=display:none")>
+    <button class="btn btn-link" data-toggle=".filter-options,.show-filter-options">
+        @AppGlobal.Language.GetText(this, "ShowFilter", "Show date filter")
+    </button>
+</span>
+<div class="filter-options form-horizontal"  @(ViewData.ModelState.IsValid ? "style=display:none" : String.Empty)>
+    <h3>@AppGlobal.Language.GetText(this, "FilterHeader", "Filter by Date")</h3>
+    @using (Html.BeginForm("QualityEmailHistory", "Report", FormMethod.Post, null))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            @Html.LanguageLabelFor(m => m.StartDate, new {@class = "control-label col-md-2"})
+            <div class="col-md-2">
+                @Html.EditorFor(m => m.StartDate, new { htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(m => m.StartDate)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LanguageLabelFor(m => m.EndDate, new {@class = "control-label col-md-2"})
+            <div class="col-md-2">
+                @Html.EditorFor(m => m.EndDate, new { htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(m => m.EndDate)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10 col-md-offset-2">
+                <input type="submit" value="@AppGlobal.Language.GetText(this, "Submit", "Go")" class="btn btn-success" />           
+                <button class="btn btn-default" data-toggle=".show-filter-options,.filter-options">
+                    @AppGlobal.Language.GetText(this, "CancelFilter", "Cancel")
+                </button>
+            </div>
+        </div>
+    }
+</div>
+
+@if (Model.StartDate < cutOff || Model.EndDate < cutOff)
+{
+    <div class="alert alert-infor alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        @AppGlobal.Language.GetText(this, "AccuracyWarning", "Data from this period may be inaccurate.")
+    </div>
+}
+
+<table class="dataTable" data-ajax="@Url.Action("QualityEmailHistoryJson", new { startDate = Model.StartDate, endDate = Model.EndDate })" data-created-row="rowCreated" data-init="tableInit" data-status-index="0">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().TrafficLightStatus)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().Ukprn)
+            </th>
+            <th scope="col" class="none">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderId)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderName)
+            </th>
+            <th scope="col" class="none">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderTypeName)
+            </th>
+            <th scope="col" data-type="date-eu">
+                @Html.DisplayNameFor(m => m.Items.First().ModifiedDateTimeUtc)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().SFAFunded)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().DfE1619Funded)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().QualityEmailsPaused)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().HasValidRecipients)
+            </th>
+            <th scope="col" data-type="date-eu">
+                @Html.DisplayNameFor(m => m.Items.First().EmailDateTimeUtc)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().EmailTemplateName)
+            </th>
+            <th scope="col" data-type="date-eu">
+                @Html.DisplayNameFor(m => m.Items.First().NextEmailDateTimeUtc)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().NextEmailTemplateName)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.TrafficLightStatus)
+                </td>                
+                <td>
+                    @Html.DisplayFor(m => item.Ukprn)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ProviderId)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ProviderName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ProviderTypeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ModifiedDateTimeUtc)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.SFAFunded)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.DfE1619Funded)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QualityEmailsPaused)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.HasValidRecipients)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.EmailDateTimeUtc)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.EmailTemplateName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NextEmailDateTimeUtc)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NextEmailTemplateName)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts
+{
+    <script>
+        @* This script naughtily assumes some position data for various columns *@
+        var trafficLight = {};
+        trafficLight["@QualityIndicator.GetTrafficText(1)"] = '@QualityIndicator.GetTrafficBackground(1)';
+        trafficLight["@QualityIndicator.GetTrafficText(2)"] = '@QualityIndicator.GetTrafficBackground(2)';
+        trafficLight["@QualityIndicator.GetTrafficText(3)"] = '@QualityIndicator.GetTrafficBackground(3)';
+
+        var statusIndex = parseInt($("table.dataTable").data("status-index"));
+
+        function rowCreated(row, data, index) {
+            var $status = $("td:eq(" + statusIndex + ")", row);
+            $status.addClass(trafficLight[data[statusIndex]]);
+        }
+
+        function tableInit(e, settings, json) {
+            var $s = $(".show-filter-options");
+            $("#DataTables_Table_0_length").append($s);
+            @if (ViewData.ModelState.IsValid)
+            {
+                <text>$s.show();</text>
+            }
+        }
+    </script>
+}

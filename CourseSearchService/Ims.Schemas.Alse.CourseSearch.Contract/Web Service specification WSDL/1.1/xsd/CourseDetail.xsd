@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://schemas.imservices.gov.uk/alse/coursesearch/coursedetail/1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:clib="http://schemas.imservices.gov.uk/alse/coursesearch/commonlibrary/1.1" targetNamespace="http://schemas.imservices.gov.uk/alse/coursesearch/coursedetail/1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0" id="coursedetail.xsd">
+	<xsd:import namespace="http://schemas.imservices.gov.uk/alse/coursesearch/commonlibrary/1.1" schemaLocation="commonlibrary.xsd"/>
+		<xsd:complexType name="CourseDetailStructure">
+		<xsd:sequence>
+			<xsd:element name="Provider" type="clib:ProviderDetail"/>
+			<xsd:element name="Course" type="clib:CourseDetail"/>
+			<xsd:element name="Opportunity" type="clib:OpportunityDetail" maxOccurs="unbounded"/>
+			<xsd:element name="Venue" type="clib:VenueDetail" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CourseDetailRequestStructure">
+		<xsd:sequence>
+			<xsd:element name="CourseID" type="xsd:integer" maxOccurs="10"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CourseDetailResponseStructure">
+		<xsd:sequence>
+			<xsd:element name="RequestDetails" type="CourseDetailRequestStructure"/>
+			<xsd:element name="CourseDetails" type="CourseDetailStructure" maxOccurs="10"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="CourseDetailRequest" type="CourseDetailRequestStructure"/>
+	<xsd:element name="CourseDetailResponse" type="CourseDetailResponseStructure"/>
+</xsd:schema>

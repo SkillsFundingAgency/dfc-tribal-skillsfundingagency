@@ -1,0 +1,81 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.CacheViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Cache");
+}
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function() {
+            @if (!string.IsNullOrEmpty(Model.Message))
+            {
+                @:setTimeout(function () { $('#divMsg').hide(); }, 10000);
+            }
+
+        });
+    </script>
+}
+
+<header>
+    <h2>@AppGlobal.Language.GetText(this, "Header", "Cache")</h2>
+    <h3>@AppGlobal.Language.GetText(this, "SubHeader", "Allows management of cached resources")</h3>
+</header>
+
+<div class="row">
+    <div class="col-md-12">
+        @if (!string.IsNullOrEmpty(Model.Message))
+        {
+            <div id="divMsg" class="alert alert-success fade in">
+                @Model.Message
+                <button type="button" class="close" data-dismiss="alert">x</button>
+            </div>
+        }
+    </div>
+</div>
+        
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-4">
+            <fieldset>
+                <legend>@AppGlobal.Language.GetText(this, "LabelHeadingCacheManagement", "Cache Management")</legend>
+                <label for="btnFlushCache" class="btn btn-danger"><i class="icon-remove icon-white"></i> @AppGlobal.Language.GetText(this, "ButtonFlushCache", "Flush Cache")</label>
+                <input type="submit" name="btnFlushCache" id="btnFlushCache" class="hidden" value="@AppGlobal.Language.GetText(this, "ButtonFlushCache", "Flush Cache")" />
+
+                <p>@Model.CacheMemoryFree</p>
+        
+                @if (!Model.CacheItems.Any())
+                {
+                    <p>@AppGlobal.Language.GetText(this, "LabelCacheIsEmpty", "Cache is Empty")</p>
+                }
+                else
+                {
+                    <dl style="width:100%; word-wrap: break-word;">
+                    @foreach (var item in Model.CacheItems)
+                    {
+                        <dt>@item.Key</dt>
+                    }
+                    </dl>
+                }
+            </fieldset>
+        </div>
+        <div class="col-md-4">            
+            <fieldset>
+                <legend>@AppGlobal.Language.GetText(this, "LabelHeadingLanguageManagement", "Language Management")</legend>
+                <p>
+                    <label for="btnReloadLanguages" class="btn btn-warning"><i class="icon-repeat icon-white"></i> @AppGlobal.Language.GetText(this, "ButtonReloadLanguages", "Reload Languages")</label>
+                    <input type="submit" name="btnReloadLanguages" id="btnReloadLanguages" class="hidden" value="@AppGlobal.Language.GetText(this, "ButtonReloadLanguages", "Reload Languages")" />
+                </p>
+            </fieldset>
+        </div>
+        <div class="col-md-4">            
+            <fieldset>
+                <legend>@AppGlobal.Language.GetText(this, "LabelHeadingConfiguration", "Configuration Settings")</legend>
+                <p>
+                    <label for="btnReloadConfiguration" class="btn btn-warning"><i class="icon-repeat icon-white"></i> @AppGlobal.Language.GetText(this, "ButtonReloadConfiguration", "Reload Configuration")</label>
+                    <input type="submit" name="btnReloadConfiguration" id="btnReloadConfiguration" class="hidden" value="@AppGlobal.Language.GetText(this, "ButtonReloadConfiguration", "Reload Configuration")" />
+                </p>
+            </fieldset>
+        </div>
+    </div>
+}
+

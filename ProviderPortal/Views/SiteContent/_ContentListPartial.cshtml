@@ -1,0 +1,92 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Models
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ContentListViewModel
+
+<table class="dataTable">
+    <thead>
+        <tr>
+            <th class="@(Model.DisplayMode == ContentListDisplayMode.History ? "none" : "")">
+                @Html.DisplayNameFor(model => model.Items.First().Path)
+            </th>
+            <th class="@(Model.DisplayMode == ContentListDisplayMode.Index ? "none" : "")">
+                 @Html.DisplayNameFor(model => model.Items.First().Version)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().UserContext)
+            </th>
+            <th >
+                @Html.DisplayNameFor(model => model.Items.First().RecordStatus)
+            </th>
+            <th class="none">
+                @Html.DisplayNameFor(model => model.Items.First().Embed)
+            </th>
+            <th data-type="datetime-eu">
+                @Html.DisplayNameFor(model => model.Items.First().LastModifiedDateTimeUtc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().LastModifiedBy)
+            </th>
+            <th class="none">
+                @Html.DisplayNameFor(model => model.Items.First().Language)
+            </th>
+            <th class="none">
+                @Html.DisplayNameFor(model => model.Items.First().Summary)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items) {
+            <tr>
+                <td>
+                    @if (!item.Embed)
+                    {
+                        <a href="/@item.Path?version=@item.Version">@item.Path</a>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Path)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Version)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @(UserContext.ToEnglishList(item.UserContext))
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RecordStatus)
+                </td>
+                <td>
+                    @(item.Embed.ToString())
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastModifiedDateTimeLocal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastModifiedBy)
+                </td>           
+                <td>
+                    @Html.DisplayFor(modelItem => item.Language)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Summary)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.Path, version = item.Version }) |
+                    @Html.ActionLink("View", "Display", new { id=item.Path, version = item.Version })
+                    @if (Model.DisplayMode == ContentListDisplayMode.Index)
+                    {
+                        <text> | </text>
+                        @Html.ActionLink("History", "History", new {id = item.Path })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,2 @@
+﻿CREATE TYPE [dbo].[GEL_Type_t]
+    FROM NVARCHAR (50) NULL;

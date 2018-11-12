@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SFA_DataWarehouseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DWH_Period">
+          <Key>
+            <PropertyRef Name="Period" />
+          </Key>
+          <Property Name="Period" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="PeriodType" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="PeriodName" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="PeriodStartDate" Type="date" Nullable="false" />
+          <Property Name="PreviousPeriod" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="NextPeriod" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="NextPeriodStartDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DWH_Period_Latest">
+          <Key>
+            <PropertyRef Name="Period" />
+          </Key>
+          <Property Name="Period" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="PeriodType" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="PeriodName" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="PeriodStartDate" Type="date" Nullable="false" />
+          <Property Name="PreviousPeriod" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="NextPeriod" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="NextPeriodStartDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="SFA_DataWarehouseModelStoreContainer">
+          <EntitySet Name="DWH_Period" EntityType="Self.DWH_Period" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DWH_Period_Latest" EntityType="Self.DWH_Period_Latest" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ProviderPortalDataWarehouseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DWH_Period">
+          <Key>
+            <PropertyRef Name="Period" />
+          </Key>
+          <Property Name="Period" Type="String" MaxLength="7" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PeriodType" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PeriodName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PeriodStartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PreviousPeriod" Type="String" MaxLength="7" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NextPeriod" Type="String" MaxLength="7" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NextPeriodStartDate" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityContainer Name="ProviderPortalDataWarehouseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DWH_Period" EntityType="Self.DWH_Period" />
+          <EntitySet Name="DWH_Period_Latest" EntityType="ProviderPortalDataWarehouseModel.DWH_Period_Latest" />
+        </EntityContainer>
+        <EntityType Name="DWH_Period_Latest">
+          <Key>
+            <PropertyRef Name="Period" />
+          </Key>
+          <Property Name="Period" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Name="PeriodType" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="PeriodName" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="PeriodStartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PreviousPeriod" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Name="NextPeriod" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Name="NextPeriodStartDate" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SFA_DataWarehouseModelStoreContainer" CdmEntityContainer="ProviderPortalDataWarehouseEntities">
+          <EntitySetMapping Name="DWH_Period">
+            <EntityTypeMapping TypeName="ProviderPortalDataWarehouseModel.DWH_Period">
+              <MappingFragment StoreEntitySet="DWH_Period">
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="PeriodType" ColumnName="PeriodType" />
+                <ScalarProperty Name="PeriodName" ColumnName="PeriodName" />
+                <ScalarProperty Name="PeriodStartDate" ColumnName="PeriodStartDate" />
+                <ScalarProperty Name="PreviousPeriod" ColumnName="PreviousPeriod" />
+                <ScalarProperty Name="NextPeriod" ColumnName="NextPeriod" />
+                <ScalarProperty Name="NextPeriodStartDate" ColumnName="NextPeriodStartDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DWH_Period_Latest">
+            <EntityTypeMapping TypeName="ProviderPortalDataWarehouseModel.DWH_Period_Latest">
+              <MappingFragment StoreEntitySet="DWH_Period_Latest">
+                <ScalarProperty Name="NextPeriodStartDate" ColumnName="NextPeriodStartDate" />
+                <ScalarProperty Name="NextPeriod" ColumnName="NextPeriod" />
+                <ScalarProperty Name="PreviousPeriod" ColumnName="PreviousPeriod" />
+                <ScalarProperty Name="PeriodStartDate" ColumnName="PeriodStartDate" />
+                <ScalarProperty Name="PeriodName" ColumnName="PeriodName" />
+                <ScalarProperty Name="PeriodType" ColumnName="PeriodType" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

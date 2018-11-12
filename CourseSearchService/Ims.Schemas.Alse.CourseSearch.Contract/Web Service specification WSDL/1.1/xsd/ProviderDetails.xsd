@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://schemas.imservices.gov.uk/alse/coursesearch/providerdetails/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:clib="http://schemas.imservices.gov.uk/alse/coursesearch/commonlibrary/1.1" targetNamespace="http://schemas.imservices.gov.uk/alse/coursesearch/providerdetails/1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0" id="providerdetails.xsd">
+	<xsd:import namespace="http://schemas.imservices.gov.uk/alse/coursesearch/commonlibrary/1.1" schemaLocation="commonlibrary.xsd"/>
+	<xsd:complexType name="ProviderDetailsRequestStructure">
+		<xsd:sequence>
+			<xsd:element name="ProviderID" type="xsd:integer"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ProviderDetailsResponseStructure">
+		<xsd:sequence>
+			<xsd:element name="RequestDetails" type="ProviderDetailsRequestStructure"/>
+			<xsd:element name="ProviderDetails" type="clib:ProviderDetail"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="ProviderDetailsRequest" type="ProviderDetailsRequestStructure"/>
+	<xsd:element name="ProviderDetailsResponse" type="ProviderDetailsResponseStructure"/>
+</xsd:schema>

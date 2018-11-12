@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://schemas.imservices.gov.uk/alse/coursesearch/courselist/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:clib="http://schemas.imservices.gov.uk/alse/coursesearch/commonlibrary/1.0" targetNamespace="http://schemas.imservices.gov.uk/alse/coursesearch/courselist/1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0" id="CourseListRequest_v1.0.xsd">
+	<xsd:import namespace="http://schemas.imservices.gov.uk/alse/coursesearch/commonlibrary/1.0" schemaLocation="commonlibrary.xsd"/>
+	<xsd:element name="CourseListRequest" type="CourseListRequestStructure"/>
+	<xsd:complexType name="CourseListRequestStructure">
+		<xsd:sequence>
+			<xsd:element name="CourseSearchCriteria" type="SearchCriteriaStructure"/>
+			<xsd:element name="SortBy" type="clib:SortType" minOccurs="0"/>
+			<xsd:element name="PageNo" type="xsd:integer" minOccurs="0"/>
+			<xsd:element name="RecordsPerPage" type="clib:RecordsPerPageType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SearchCriteriaStructure">
+		<xsd:sequence>
+			<xsd:element name="SubjectKeyword" type="clib:StringType" minOccurs="0"/>
+			<xsd:element name="Location" type="clib:StringType" minOccurs="0"/>
+			<xsd:element name="Distance" type="clib:DistanceType" minOccurs="0"/>
+			<xsd:element name="ProviderID" type="clib:ProviderIDType" minOccurs="0"/>
+			<xsd:element name="ProviderKeyword" type="clib:ProviderNameType" minOccurs="0"/>
+			<xsd:element name="LDCS" type="clib:LDCSInputType" minOccurs="0"/>
+			<xsd:element name="QualificationTypes" type="clib:QualificationTypes" minOccurs="0"/>
+			<xsd:element name="QualificationLevels" type="clib:QualificationLevels" minOccurs="0"/>
+			<xsd:element name="StudyModes" type="clib:StudyModeType" minOccurs="0"/>
+			<xsd:element name="AttendanceModes" type="clib:AttendaceModeType" minOccurs="0"/>
+			<xsd:element name="AttendancePatterns" type="clib:AttendancePatternType" minOccurs="0"/>
+			<xsd:element name="A10Codes" type="clib:A10InputType" minOccurs="0"/>
+			<xsd:element name="EarliestStartDate" type="clib:DateType" minOccurs="0"/>
+			<xsd:element name="TTGFlag" type="clib:StringType" minOccurs="0"/>
+			<xsd:element name="TQSFlag" type="clib:StringType" minOccurs="0"/>
+			<xsd:element name="IESFlag" type="clib:StringType" minOccurs="0"/>
+			<xsd:element name="FlexStartFlag" type="clib:StringType" minOccurs="0"/>
+			<xsd:element name="OppsAppClosedFlag" type="clib:StringType" minOccurs="0"/>
+			<xsd:element name="ERAppStatus" type="clib:StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="ERTtgStatus" type="clib:StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="AdultLRStatus" type="clib:StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="OtherFundingStatus" type="clib:StringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="SFLFlag" type="clib:StringType" minOccurs="0"/>
+			<xsd:element name="ILSFlag" type="clib:StringType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="CourseListResponse" type="CourseListResponseStructure"/>
+	<xsd:complexType name="CourseListResponseStructure">
+		<xsd:sequence>
+			<xsd:element name="ResultInfo" type="clib:ResultInfoType"/>
+			<xsd:element name="CourseDetails" type="CourseStructure" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="RequestDetails" type="CourseListRequestStructure"/>
+			<xsd:element name="MatchingLDCS" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="LDCS" type="clib:LDCSInfoType"/>
+						<xsd:element name="Counts" type="xsd:integer" default="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CourseStructure">
+		<xsd:sequence>
+			<xsd:element name="Provider" type="clib:ProviderNameType"/>
+			<xsd:element name="Course" type="clib:CourseInfo"/>
+			<xsd:element name="Opportunity" type="clib:OpportunityInfo"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,146 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.BulkUploadHistoryDetailViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Bulk Upload Summary");
+}
+<h2>@AppGlobal.Language.GetText(this, "Header", "Bulk Upload Summary")</h2>
+
+@if (Model.UploadStatus.Equals(Constants.BulkUploadStatus.Needs_Confirmation))
+{
+    @Html.Partial("_partialUploadSummary", Model)
+}
+else
+{
+    @Html.Partial("_uploadSummary", Model)
+}
+
+@if (Model.ErrorSummary != null)
+{
+    
+    if (Model.ErrorSummary.HasProviderErrorsOrWarnings)
+    {
+        <div class="col-md-4">
+            <input type="submit" value="@Constants.BulkUpload_SectionName.Providers: @Model.ErrorSummary.ProviderErrorCount error@(Model.ErrorSummary.ProviderErrorCount == 1 ? "" : "s"),  @Model.ErrorSummary.ProviderWarningCount warning@(Model.ErrorSummary.ProviderWarningCount == 1 ? "" : "s"), @Model.ErrorSummary.ProviderNoticeCount notice@(Model.ErrorSummary.ProviderNoticeCount == 1 ? "" : "s")" class="btn btn-success" id="DisplayError_Providers" data-target="DisplayError_Provider_contents"/>
+        </div>
+    }
+    
+    if (Model.FileContentType == Constants.FileContentType.CourseData)
+    { 
+        if (Model.ErrorSummary.HasVenueErrorsOrWarnings)
+        {
+        <div class="col-md-4">
+            <input type="submit" value="@Constants.BulkUpload_SectionName.Venues: @Model.ErrorSummary.VenueErrorCount error@(Model.ErrorSummary.VenueErrorCount == 1 ? "" : "s"),  @Model.ErrorSummary.VenueWarningCount warning@(Model.ErrorSummary.VenueWarningCount == 1 ? "" : "s"), @Model.ErrorSummary.VenueNoticeCount notice@(Model.ErrorSummary.VenueNoticeCount == 1 ? "" : "s")" class="btn btn-success" id="DisplayError_Venue" data-target="DisplayError_Venue_contents"/>
+        </div>
+        }
+        if (Model.ErrorSummary.HasCourseErrorsOrWarnings)
+        {
+            <div class="col-md-4">
+                <input type="submit" value="@Constants.BulkUpload_SectionName.Courses: @Model.ErrorSummary.CourseErrorCount error@(Model.ErrorSummary.CourseErrorCount == 1 ? "" : "s"),  @Model.ErrorSummary.CourseWarningCount warning@(Model.ErrorSummary.CourseWarningCount == 1 ? "" : "s"), @Model.ErrorSummary.CourseNoticeCount notice@(Model.ErrorSummary.CourseNoticeCount == 1 ? "" : "s")" class="btn btn-success" id="DisplayError_Course" data-target="DisplayError_Course_contents"/>
+            </div>
+        }
+        if (Model.ErrorSummary.HasOpportunityErrorsOrWarnings)
+        {
+            <div class="col-md-4">
+                <input type="submit" value="@Constants.BulkUpload_SectionName.Opportunities: @Model.ErrorSummary.OpportunityErrorCount error@(Model.ErrorSummary.OpportunityErrorCount == 1 ? "" : "s"),  @Model.ErrorSummary.OpportunityWarningCount warning@(Model.ErrorSummary.OpportunityWarningCount == 1 ? "" : "s"), @Model.ErrorSummary.OpportunityNoticeCount notice@(Model.ErrorSummary.OpportunityNoticeCount == 1 ? "" : "s")" class="btn btn-success" id="DisplayError_Opportunity" data-target="DisplayError_Opportunity_contents"/>
+            </div>
+        }
+    }
+    else
+    {
+        if (Model.ErrorSummary.HasLocationErrorsOrWarnings)
+        {
+            <div class="col-md-4">
+                <input type="submit" value="@Constants.BulkUpload_SectionName.Locations: @Model.ErrorSummary.LocationErrorCount error@(Model.ErrorSummary.LocationErrorCount == 1 ? "" : "s"),  @Model.ErrorSummary.LocationWarningCount warning@(Model.ErrorSummary.LocationWarningCount == 1 ? "" : "s"), @Model.ErrorSummary.LocationNoticeCount notice@(Model.ErrorSummary.LocationNoticeCount == 1 ? "" : "s")" class="btn btn-success" id="DisplayError_Location" data-target="DisplayError_Location_contents" />
+            </div>
+        }
+        if (Model.ErrorSummary.HasApprenticeshipErrorsOrWarnings)
+        {
+            <div class="col-md-4">
+                <input type="submit" value="@Constants.BulkUpload_SectionName.Apprenticeships: @Model.ErrorSummary.ApprenticeshipErrorCount error@(Model.ErrorSummary.ApprenticeshipErrorCount == 1 ? "" : "s"),  @Model.ErrorSummary.ApprenticeshipWarningCount warning@(Model.ErrorSummary.ApprenticeshipWarningCount == 1 ? "" : "s"), @Model.ErrorSummary.ApprenticeshipNoticeCount notice@(Model.ErrorSummary.ApprenticeshipNoticeCount == 1 ? "" : "s")" class="btn btn-success" id="DisplayError_Apprenticeship" data-target="DisplayError_Apprenticeship_contents" />
+            </div>
+        }
+        if (Model.ErrorSummary.HasDeliveryLocationErrorsOrWarnings)
+        {
+            <div class="col-md-4">
+                <input type="submit" value="@Constants.BulkUpload_SectionName.DeliveryLocations: @Model.ErrorSummary.DeliveryLocationErrorCount error@(Model.ErrorSummary.DeliveryLocationErrorCount == 1 ? "" : "s"),  @Model.ErrorSummary.DeliveryLocationWarningCount warning@(Model.ErrorSummary.DeliveryLocationWarningCount == 1 ? "" : "s"), @Model.ErrorSummary.DeliveryLocationNoticeCount notice@(Model.ErrorSummary.DeliveryLocationNoticeCount == 1 ? "" : "s")" class="btn btn-success" id="DisplayError_DeliveryLocation" data-target="DisplayError_DeliveryLocation_contents" />
+            </div>
+        }
+    }
+
+
+    <div style="clear: both; height: 5px;">&nbsp;</div>
+    
+    if (Model.ErrorSummary.HasProviderErrorsOrWarnings)
+    {
+        <div id="DisplayError_Provider_contents">
+            @Html.Partial("_historyDetailsItems", Model.ErrorSummary.UploadSummaryDetails.Where(u => u.SectionName.Equals(Constants.BulkUpload_SectionName.Providers)))
+        </div>
+    }
+
+    if (Model.ErrorSummary.HasCourseErrorsOrWarnings)
+    {
+        <div id="DisplayError_Course_contents">
+            @Html.Partial("_historyDetailsItems", Model.ErrorSummary.UploadSummaryDetails.Where(u => u.SectionName.Equals(Constants.BulkUpload_SectionName.Courses)))
+        </div>
+    }
+
+    if (Model.ErrorSummary.HasVenueErrorsOrWarnings)
+    {
+        <div id="DisplayError_Venue_contents">
+            @Html.Partial("_historyDetailsItems", Model.ErrorSummary.UploadSummaryDetails.Where(u => u.SectionName.Equals(Constants.BulkUpload_SectionName.Venues)))
+        </div>
+    }
+
+    if (Model.ErrorSummary.HasOpportunityErrorsOrWarnings)
+    {
+        <div id="DisplayError_Opportunity_contents">
+            @Html.Partial("_historyDetailsItems", Model.ErrorSummary.UploadSummaryDetails.Where(u => u.SectionName.Equals(Constants.BulkUpload_SectionName.Opportunities)))
+        </div>
+    }
+
+    if (Model.ErrorSummary.HasApprenticeshipErrorsOrWarnings)
+    {
+        <div id="DisplayError_Apprenticeship_contents">
+            @Html.Partial("_historyDetailsItems", Model.ErrorSummary.UploadSummaryDetails.Where(u => u.SectionName.Equals(Constants.BulkUpload_SectionName.Apprenticeships)))
+        </div>
+    }
+
+    if (Model.ErrorSummary.HasLocationErrorsOrWarnings)
+    {
+        <div id="DisplayError_Location_contents">
+            @Html.Partial("_historyDetailsItems", Model.ErrorSummary.UploadSummaryDetails.Where(u => u.SectionName.Equals(Constants.BulkUpload_SectionName.Locations)))
+        </div>
+    }
+
+    if (Model.ErrorSummary.HasDeliveryLocationErrorsOrWarnings)
+    {
+        <div id="DisplayError_DeliveryLocation_contents">
+            @Html.Partial("_historyDetailsItems", Model.ErrorSummary.UploadSummaryDetails.Where(u => u.SectionName.Equals(Constants.BulkUpload_SectionName.DeliveryLocations)))
+        </div>
+    }
+}
+
+@section Scripts {
+    <script>
+        $(function() {
+            //Hide all content divs
+            $("div[id*=_contents]").hide();
+
+            //on click get the data target attribute and show respective object
+            $("[type=submit][id^=DisplayError]").click(function(e) {
+
+                var target = $(this).attr('data-target');
+                if ($("#" + target).is(':visible')) {
+                    $("div[id*=_contents]").hide();
+                    return;
+                }
+
+                $("div[id*=_contents]").hide();
+
+                $(this).attr('data-target');
+                $("#" + target).show();
+
+                e.preventDefault();
+            });
+        });
+    </script>
+}

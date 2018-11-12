@@ -1,0 +1,136 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ViewOpportunityModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Opportunity Details");
+}
+
+<h2 class="courses">@AppGlobal.Language.GetText(this, "Header", "Opportunity Details")</h2>
+<h3>@Model.ProviderOwnOpportunityRef</h3>
+<hr/>
+<div class="col-md-12">
+        
+    @if (Model.RecordStatusId == (Int32)Constants.RecordStatus.Archived)
+    {
+        <div class="col-md-offset-2 warning">
+            @Html.Raw(AppGlobal.Language.GetText(this, "OpportunityArchivedWarning", "<strong>Warning:</strong> this opportunity is currently <strong>ARCHIVED</strong> and it will not be published to the learner search."))
+        </div>
+    }
+        
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(m => m.RecordStatusId)</dt>
+        <dd>@Html.DisplayTextFor(m => m.RecordStatusName)</dd>
+    
+        @if (Model.IsInOrganisation)
+        {
+            <dt>@Html.DisplayNameFor(m => m.OfferedById)</dt>
+            <dd>@Html.DisplayFor(m => m.OfferedByName)</dd>    
+
+            <dt>@Html.DisplayNameFor(m => m.DisplayId)</dt>
+            <dd>@Html.DisplayFor(m => m.DisplayName)</dd>
+
+            if (Model.OfferedById != Model.DisplayId)
+            {
+                <dt>@Html.DisplayNameFor(m => m.BothOfferedByDisplayBySearched)</dt>
+                <dd>@Html.DisplayFor(m => m.BothOfferedByDisplayBySearched)</dd>
+            }
+        }
+
+        <dt>@Html.DisplayNameFor(m => m.ProviderOwnOpportunityRef)</dt>
+        <dd>@Html.DisplayTextFor(m => m.ProviderOwnOpportunityRef)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.A10FundingCodes)</dt>
+        <dd>
+            @if (Model.SelectedA10FundingCodes.Contains(-1))
+            {
+                @AppGlobal.Language.GetText(this, "NA", "N/A")
+                <br />
+            }
+            @foreach (Tribal.SkillsFundingAgency.ProviderPortal.Entities.A10FundingCode a10 in Model.A10FundingCodes)
+            {
+                if (Model.SelectedA10FundingCodes.Contains(a10.A10FundingCodeId))
+                {
+                    @Html.Raw(a10.A10FundingCodeId + " - " + a10.A10FundingCodeName)
+                    <br />
+                }
+            }
+        </dd>
+
+        <dt>@Html.DisplayNameFor(m => m.StudyModeId)</dt>
+        <dd>@Html.DisplayTextFor(m => m.StudyMode)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.AttendanceModeId)</dt>
+        <dd>@Html.DisplayTextFor(m => m.AttendanceMode)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.AttendancePatternId)</dt>
+        <dd>@Html.DisplayTextFor(m => m.AttendancePattern)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.Duration)</dt>
+        <dd>
+            @Html.DisplayTextFor(m => m.Duration)
+            @Html.DisplayTextFor(m => m.DurationUnit)
+        </dd>    
+
+        <dt>@Html.DisplayNameFor(m => m.DurationDescription)</dt>
+        <dd>@Html.DisplayTextFor(m => m.DurationDescription)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.StartDate)</dt>
+        <dd>@Html.DisplayFor(m => m.StartDate)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.StartMonth)</dt>
+        <dd>@Html.DisplayFor(m => m.StartMonth)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.StartDateDescription)</dt>
+        <dd>@Html.DisplayTextFor(m => m.StartDateDescription)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.EndDate)</dt>
+        <dd>@Html.DisplayFor(m => m.EndDate)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.Timetable)</dt>
+        <dd>@Html.DisplayTextFor(m => m.Timetable)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.Price)</dt>
+        <dd>@Html.DisplayFor(m => m.Price)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.PriceDescription)</dt>
+        <dd>@Html.DisplayFor(m => m.PriceDescription)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.VenueId)</dt>
+        <dd>@Html.DisplayFor(m => m.Venue)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.RegionId)</dt>
+        <dd>@Html.DisplayFor(m => m.RegionName)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.LanguageOfInstruction)</dt>
+        <dd>@Html.DisplayFor(m => m.LanguageOfInstruction)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.LanguageOfAssessment)</dt>
+        <dd>@Html.DisplayFor(m => m.LanguageOfAssessment)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.ApplyFrom)</dt>
+        <dd>@Html.DisplayFor(m => m.ApplyFrom)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.ApplyUntil)</dt>
+        <dd>@Html.DisplayFor(m => m.ApplyUntil)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.ApplyUntilDescription)</dt>
+        <dd>@Html.DisplayFor(m => m.ApplyUntilDescription)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.ApplyTo)</dt>
+        <dd>@Html.DisplayFor(m => m.ApplyTo)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.EnquireTo)</dt>
+        <dd>@Html.DisplayFor(m => m.EnquireTo)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.Url)</dt>
+        <dd>
+            @if (Model.Url != null)
+            {
+                var prefix = Model.Url.Contains("://") ? "" : "http://";
+                <a href="@prefix@Model.Url" target="_blank">@Model.Url</a>
+            }
+        </dd>
+
+        <dt>@Html.DisplayNameFor(m => m.AcceptedThroughoutYear)</dt>
+        <dd>@Html.DisplayFor(m => m.AcceptedThroughoutYear)</dd>    
+    </dl>
+    
+</div>

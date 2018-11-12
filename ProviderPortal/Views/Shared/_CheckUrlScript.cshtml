@@ -1,0 +1,57 @@
+﻿<script type="text/javascript">
+
+    $(document).ready(function() {
+
+        $("input[data-url='true']").each(function () {
+            if ($(this).val() != "") {
+                checkUrl($(this));
+            }
+        });
+
+        $("input[data-url='true']").blur(function() {
+            checkUrl($(this));
+        });
+
+        function checkUrl(control) {
+            var textValue = control.val();
+            var textId = control.attr("id");
+
+            // Get/create span for warning message
+            var spanMessage = $("#spanUrl_" + textId);
+            if (spanMessage.length == 0) {
+                spanMessage = $("<span></span>").attr("id", "spanUrl_" + textId).addClass("field-validation-error");
+                spanMessage.insertAfter(control);
+            }
+
+            if (textValue == "") {
+                spanMessage.fadeTo("slow", 0);
+                return;
+            }
+
+            $.ajax({
+                cache: true,
+                async: true,
+                url: '/Provider/IsUrlValid',
+                type: 'post',
+                data: "url=" + textValue,
+                success: function (data, status, xhr) {
+                    var ct = xhr.getResponseHeader("content-type") || "";
+                    if (ct.indexOf('json') > -1) {
+                        if (data.IsValid == 0 || data.IsReachable == 1) {
+                            // Not a valid Url or is reachable - no need to display the message
+                            spanMessage.fadeTo("slow", 0);
+                        } else if (data.IsReachable == 0) {
+                            // Url in correct format but not reachable
+                            var controlLabel = $("label[for='" + textId + "']").html().replace("<span class=\"required\" aria-required=\"true\">*</span>", "");
+                            spanMessage.html("@AppGlobal.Language.GetText("Shared_CheckUrlScript_UrlNotReachable", "The web address for {0} returns a response that suggests this page may not exist. Please check that the web address entered is correct.")".replace("{0}", controlLabel));
+                            spanMessage.fadeTo("slow", 100);
+                        }
+                }
+                }
+            });
+
+        }
+
+    });
+
+</script>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="31px" height="45px" viewBox="0 0 31 45" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>delivery-locations</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Artboard-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-537.000000, -84.000000)">
+        <g id="delivery-locations" transform="translate(538.000000, 85.000000)" stroke="#000000" stroke-width="2">
+            <g id="Group-8" transform="translate(6.000000, 5.000000)">
+                <circle id="Oval-4" cx="8.5" cy="8.5" r="8.5"></circle>
+            </g>
+            <path d="M14.5,41.9493044 C24.1666667,28.9885207 29,19.8387526 29,14.5 C29,6.49187113 22.5081289,0 14.5,0 C6.49187113,0 0,6.49187113 0,14.5 C0,19.8387526 4.83333333,28.9885207 14.5,41.9493044 Z" id="Combined-Shape"></path>
+        </g>
+    </g>
+</svg>

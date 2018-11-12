@@ -1,0 +1,447 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.AddressType">
+    <Position X="10.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAsIIAAAAgAAIAAQAAAAACAAASAEAgAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.ProviderDetail">
+    <Position X="0.5" Y="9" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AABAAABAgCAAgAAIAAIAAAAAAAAAAAAAAAIBIAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.ProviderInfo">
+    <Position X="0.5" Y="5.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAEAAAAgAAAAAAAAAAAAEAAAAAAAAARAEg=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.CourseDetailResponseStructure">
+    <Position X="6.75" Y="2.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.CourseDetailStructure">
+    <Position X="10.25" Y="4.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAIIAEAAAAAIAAQAABAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.CourseDetail">
+    <Position X="3.5" Y="5.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>DgYAAAEAEIIoIxAGgAMAUXACCCEEYIBIQAQQgEAYKJA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.CourseInfo">
+    <Position X="3.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAIACAhAAAAAAAAgAAAAgAAAQAAIUQgAIAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.CourseStructure">
+    <Position X="6.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAEAAAAAIAAQAABAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.CourseListRequestStructure">
+    <Position X="27.75" Y="2.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAAAAQAEAAAAAAAACAAAAAAAAAAAAAJAAAAAgAYgAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.LDCSInputType">
+    <Position X="27.75" Y="6.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAACAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.AttendaceModeType">
+    <Position X="17.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.AttendancePatternType">
+    <Position X="20.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.A10InputType">
+    <Position X="6.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.CourseListResponseStructureMatchingLDCS">
+    <Position X="20.75" Y="2.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAQAAAAAAAAAAAQAAAIAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.CategoryInfo">
+    <Position X="27.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAQAIAIAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.Level2">
+    <Position X="6.75" Y="7.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAIAAAAAAAAAAAAAAAAAAAAAABAAQAIAIAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.ProviderSearchInput">
+    <Position X="6.75" Y="10.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.CourseListInput">
+    <Position X="17.75" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.CourseDetailInput">
+    <Position X="31.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.CourseDetailOutput">
+    <Position X="35.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.QualificationTypes">
+    <Position X="6.75" Y="12.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.SubjectBrowseInput">
+    <Position X="6.75" Y="14.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.DurationType">
+    <Position X="10.25" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABABAAAAAAAAAAAAgAAAAAAAAAAAAACAYA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.OpportunityDetail">
+    <Position X="13.75" Y="0.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AQAkCxKAAQAiKAAAkAAAEAE1ADIABgxFAAAgJEBAAEg=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.ProviderSearchOutput">
+    <Position X="10.25" Y="10.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.RequestAuthType">
+    <Position X="10.25" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAACBAAIAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.SubjectBrowseOutput">
+    <Position X="10.25" Y="14.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.FaultDetails" BaseTypeListCollapsed="true">
+    <Position X="17.75" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AIAAIAAAgAAAAAAAAAAAAAAAAAAAAAAEAAAAAAIAIAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.OpportunityInfo">
+    <Position X="17.75" Y="7.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAABCAAAAAACAAAAEAAAEAAlABIABAgAAAAgAEAAAEA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.ProviderSearchRequestStructure">
+    <Position X="17.75" Y="12" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.ResultInfoType">
+    <Position X="17.75" Y="14" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAACAAABAQAAAAAAAAAAAAAAAQQAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.VenueDetail">
+    <Position X="13.75" Y="11" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAgCBAgAAAAgIAAAAAAAAAQQAIAgIFIAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.CourseListOutput">
+    <Position X="20.75" Y="5.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.LDCSInfoType">
+    <Position X="20.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAgAAAAAAAgAAAAAAAQgAAAACAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.ProviderDetailsInput">
+    <Position X="20.75" Y="10" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.ProviderSearchResponseStructure">
+    <Position X="20.75" Y="12" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIACgAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.SearchCriteriaStructure">
+    <Position X="25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IMCgAAUBgAgUAFsAEAPCQBCBAAwCBIFIAEVAAFIICFg=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.VenueInfo">
+    <Position X="20.75" Y="14.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAABAgAAAAgAAAAAAAAAAAQBAAAAAABAIAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.ProviderDetailsOutput">
+    <Position X="27.75" Y="8.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.ProviderSearchResponseStructureRequestDetails">
+    <Position X="27.75" Y="10.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.ServiceInterfaceClient" BaseTypeListCollapsed="true">
+    <Position X="25.5" Y="12.5" Width="4.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAEMEQAAABAAAAAAAAQAAAQAEAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.CourseListResponseStructure">
+    <Position X="31.75" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BACAAACgAAAAAAAQAAAAAAAAhAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.LDCSOutputType">
+    <Position X="31.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgEAAgEAAAAAAACAAABEAAAAQAAAAAAAIQAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.ProviderDetailsRequestStructure">
+    <Position X="31.75" Y="9" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.Level1">
+    <Position X="35.5" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAIAAAAAAAAAAAAAAAAAAAAAABAAQAIAIAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.ProviderDetailsResponseStructure">
+    <Position X="35.5" Y="5.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIACgAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.ProviderStructure">
+    <Position X="31.75" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.StartDateType">
+    <Position X="31.75" Y="13" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAQEAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.StudyModeType">
+    <Position X="35.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ims.Schemas.Alse.CourseSearch.Contract.QualificationLevels">
+    <Position X="35.5" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Ims.Schemas.Alse.CourseSearch.Contract.ServiceInterface">
+    <Position X="0.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAIAQAAAAAAAAAAAAQAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Ims.Schemas.Alse.CourseSearch.Contract.ServiceInterfaceChannel">
+    <Position X="0.5" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Ims.Schemas.Alse.CourseSearch.Contract.CourseDetailAdultLRStatus">
+    <Position X="6.75" Y="17.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAgA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ims.Schemas.Alse.CourseSearch.Contract.ItemChoiceType">
+    <Position X="6.75" Y="19.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ims.Schemas.Alse.CourseSearch.Contract.CourseDetailDataType">
+    <Position X="10.25" Y="17.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAEAAAAAAAAAAAIAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ims.Schemas.Alse.CourseSearch.Contract.OpportunityDetailApplicationAcceptedThroughoutYear">
+    <Position X="13.75" Y="19.25" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAIAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ims.Schemas.Alse.CourseSearch.Contract.CourseDetailERAppStatus">
+    <Position X="13.75" Y="17.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAgA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ims.Schemas.Alse.CourseSearch.Contract.SortType">
+    <Position X="17.75" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJACAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ims.Schemas.Alse.CourseSearch.Contract.CourseDetailERTTGStatus">
+    <Position X="20.75" Y="17.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAgA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ims.Schemas.Alse.CourseSearch.Contract.YesNoType">
+    <Position X="25" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ims.Schemas.Alse.CourseSearch.Contract.CourseDetailIndependentLivingSkills">
+    <Position X="27.75" Y="17.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAIAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ims.Schemas.Alse.CourseSearch.Contract.CourseDetailOtherFundingNonFundedStatus">
+    <Position X="31.75" Y="17.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAgA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ims.Schemas.Alse.CourseSearch.Contract.CourseDetailSkillsForLifeFlag">
+    <Position X="35.5" Y="17.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAIAA=</HashCode>
+      <FileName>CourseSearchContract.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

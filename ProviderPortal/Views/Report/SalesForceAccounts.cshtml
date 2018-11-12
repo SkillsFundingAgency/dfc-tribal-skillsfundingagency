@@ -1,0 +1,87 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Models
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.SalesForceAccountsViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "SalesForce Accounts");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "SalesForce Accounts")</h2>
+<hr/>
+@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", "<p>This table contains information about providers and organisations in a format ready to be imported into SalesForce. Save the table as CSV and use the Data Import Wizard to import the information.<p>"))
+
+<table class="dataTable dt-responsive table table-striped table-bordered" data-ajax="@Url.Action("SalesForceAccountsJson")">
+    <thead>
+        <tr>
+            <th scope="col" data-type="string-case-insensitive">
+                @Html.DisplayNameFor(m => m.Items.First().Name)
+            </th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().Type)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().BillingStreet)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().BillingCity)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().BillingState)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().BillingPostalCode)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().Phone)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().Fax)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().Website)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().UKPRN)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().Region)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().ExternalId)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().QualityStatus)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().PrimaryContact)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().PrimaryContactEmail)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().DatePortalLastUpdated)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().SFAFunded)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().DFE1619Funded)</th>            
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().DfEProviderType)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().DfEProviderStatus)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().DfELocalAuthority)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().DfERegion)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().DfEEstablishmentType)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().LastQualityEmailName)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().LastQualityEmailDate)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().NextQualityEmailName)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().NextQualityEmailDate)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().QualityEmailSent)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().QualityEmailsPaused)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().AutoAggregateQualityRating)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().TrafficLightStatus)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (SalesForceAccountsViewModelItem item in Model.Items)
+        {
+            <tr>
+                <td>@Html.DisplayFor(m => item.Name)</td>
+                <td>@Html.DisplayFor(m => item.Type)</td>
+                <td>@Html.DisplayFor(m => item.BillingStreet)</td>
+                <td>@Html.DisplayFor(m => item.BillingCity)</td>
+                <td>@Html.DisplayFor(m => item.BillingState)</td>
+                <td>@Html.DisplayFor(m => item.BillingPostalCode)</td>
+                <td>@Html.DisplayFor(m => item.Phone)</td>
+                <td>@Html.DisplayFor(m => item.Fax)</td>
+                <td>@Html.DisplayFor(m => item.Website)</td>
+                <td>@Html.DisplayFor(m => item.UKPRN)</td>
+                <td>@Html.DisplayFor(m => item.Region)</td>
+                <td>@Html.DisplayFor(m => item.ExternalId)</td>
+                <td>@Html.DisplayFor(m => item.QualityStatus)</td>
+                <td>@Html.DisplayFor(m => item.PrimaryContact)</td>
+                <td>@Html.DisplayFor(m => item.PrimaryContactEmail)</td>
+                <td>@Html.DisplayFor(m => item.DatePortalLastUpdated)</td>
+                <td>@Html.DisplayFor(m => item.SFAFunded)</td>
+                <td>@Html.DisplayFor(m => item.DFE1619Funded)</td>                
+                <td>@Html.DisplayFor(m => item.DfEProviderType)</td>
+                <td>@Html.DisplayFor(m => item.DfEProviderStatus)</td>
+                <td>@Html.DisplayFor(m => item.DfELocalAuthority)</td>
+                <td>@Html.DisplayFor(m => item.DfERegion)</td>
+                <td>@Html.DisplayFor(m => item.DfEEstablishmentType)</td>
+                <td>@Html.DisplayFor(m => item.LastQualityEmailName)</td>
+                <td>@Html.DisplayFor(m => item.LastQualityEmailDate)</td>
+                <td>@Html.DisplayFor(m => item.NextQualityEmailName)</td>
+                <td>@Html.DisplayFor(m => item.NextQualityEmailDate)</td>
+                <td>@Html.DisplayFor(m => item.QualityEmailSent)</td>
+                <td>@Html.DisplayFor(m => item.QualityEmailsPaused)</td>
+                <td>@Html.DisplayFor(m => item.AutoAggregateQualityRating)</td>
+                <td>@Html.DisplayFor(m => item.TrafficLightStatus)</td>
+            </tr>
+        }
+    </tbody>
+</table>

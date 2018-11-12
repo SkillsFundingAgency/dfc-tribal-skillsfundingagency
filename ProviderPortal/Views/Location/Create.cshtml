@@ -1,0 +1,106 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditLocationModel
+
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Add New Location");
+    Layout = Model.IsInDialog ? "" : "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (!Model.IsInDialog)
+{
+    <h2 class="apprenticeships">@AppGlobal.Language.GetText(this, "Header", "Add New Location")</h2>
+}
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()    
+
+    <div class="form-horizontal">
+        <h4>@AppGlobal.Language.GetText(this, "SubHeader", "")</h4>
+        <hr />
+
+        @if (!ViewBag.CanProviderCreateNewLocation)
+        {
+            <div class="alert alert-danger">
+                @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "MaxNumberOfLocationsReached", "You have reached the maximum number of locations allowed ({0}).  If you require more locations please contact our helpdesk."), ViewBag.MaxNumberOfLocations))
+            </div>
+        }
+
+        @Html.EditableDataValidationSummary(false)
+
+        @Html.RequiredFields(new { @class = "col-md-offset-2" })
+
+        @Html.HiddenFor(m => m.ProviderId)
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.ProviderOwnLocationRef, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProviderOwnLocationRef, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ProviderOwnLocationRef)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LanguageLabelFor(model => model.LocationName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LocationName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LocationName)
+            </div>
+        </div>
+
+        <fieldset>
+            <legend>@AppGlobal.Language.GetText(this, "AddressHeader", "Address Details")</legend>
+            @Html.EditorFor(m => m.Address, "_EditLocationAddressPartial")
+        </fieldset>
+
+        <fieldset>
+            <legend>@AppGlobal.Language.GetText(this, "ContactDetailsHeader", "Contact Details")</legend>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.Telephone, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Telephone)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(model => model.Website, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-control", data_url = "true" } })
+                    @Html.ValidationMessageFor(model => model.Website)
+                </div>
+            </div>
+        </fieldset>
+
+        @if (!Model.IsInDialog)
+        {
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="@AppGlobal.Language.GetText(this, "Submit", "Create")" class="btn btn-success" />
+                </div>
+            </div>
+        }
+    </div>
+
+    if (Model.IsInDialog)
+    {
+        @Html.Partial("_ChooseAddressScript")
+        <script>
+            $('.modal-dialog .glyphicon-question-sign').tooltip({ placement: "auto" });
+        </script>
+    
+        <style>
+            .modal-dialog {
+                width: 620px
+            }
+        </style>
+    }
+}

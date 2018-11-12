@@ -1,0 +1,88 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.IQualityAssurance
+
+<p class="required-message col-md-offset-2">
+    @if (Model.LastQAdForComplianceOn.HasValue)
+    {
+        @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "LastQAdForComplianceOnBy", "Last Quality Assured for Compliance on <b>{0}</b> by <b>{1}</b>."), Model.LastQAdForComplianceOn, Server.HtmlEncode(Model.LastQAdForComplianceBy)))
+    }
+    else
+    {
+        @Html.Raw(AppGlobal.Language.GetText(this, "NeverQAdForCompliance", "Last Quality Assured for Compliance : <b>Never</b>"))
+    }
+</p>
+
+<div class="form-group">
+    @Html.LanguageLabelFor(m => m.HasBeenQAdForCompliance, new { @class = "control-label col-md-2" })
+    <div class="col-md-10" style="padding-top: 7px;">
+        @if (Model.HasBeenQAdForCompliance)
+        {
+            @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+        }
+        else
+        {
+            @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+        }
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LanguageLabelFor(m => m.HasPassedComplianceChecks, new { @class = "control-label col-md-2" })
+    <div class="col-md-10" style="padding-top: 2px;">
+        @if (Model.HasPassedComplianceChecks)
+        {
+            @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+        }
+        else
+        {
+            @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+        }
+        @if (Permission.HasPermission(false, false, Permission.PermissionName.CanQAApprenticeships) && Model.IsLive())
+        {
+            <input id="btnQAForCompliance" type="button" name="btnQAForCompliance" value="@AppGlobal.Language.GetText(this, "QAForCompliance", "QA for Compliance")" class="btn btn-default col-md-offset-1" />
+        }
+    </div>
+</div>
+
+<p class="required-message col-md-offset-2">
+    @if (Model.LastQAdForStyleOn.HasValue)
+    {
+        @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "LastQAdForStyleOnBy", "Last Quality Assured for Style on <b>{0}</b> by <b>{1}</b>."), Model.LastQAdForStyleOn, Server.HtmlEncode(Model.LastQAdForStyleBy)))
+    }
+    else
+    {
+        @Html.Raw(AppGlobal.Language.GetText(this, "NeverQAdForStyle", "Last Quality Assured for Style : <b>Never</b>"))
+    }
+</p>
+
+<div class="form-group">
+    @Html.LanguageLabelFor(m => m.HasBeenQAdForStyle, new { @class = "control-label col-md-2" })
+    <div class="col-md-10" style="padding-top: 7px;">
+        @if (Model.HasBeenQAdForStyle)
+        {
+            @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+        }
+        else
+        {
+            @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+        }
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LanguageLabelFor(m => m.HasPassedStyleChecks, new { @class = "control-label col-md-2" })
+    <div class="col-md-10" style="padding-top: 2px;">
+        @if (Model.HasPassedStyleChecks)
+        {
+            @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+        }
+        else
+        {
+            @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+        }
+        @if (Permission.HasPermission(false, false, Permission.PermissionName.CanQAApprenticeships) && Model.IsLive())
+        {
+            <input id="btnQAForStyle" type="button" name="btnQAForStyle" value="@AppGlobal.Language.GetText(this, "QAForStyle", "QA for Style")" class="btn btn-default col-md-offset-1" />
+        }
+    </div>
+</div>
+

@@ -1,0 +1,38 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditContentViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Create a New Content Page");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Create a New Content Page")</h2>
+<h4></h4>
+<hr/>
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.EditableDataValidationSummary("", new {@class = "text-danger"})
+            @Html.RequiredFields(new {@class = "col-md-offset-2"})
+
+            <div class="form-horizontal">
+            
+                @Html.Partial("_AddEditContentPartial", Model)
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input data-action="Save" type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Html.Partial("_AddEditContentScriptPartial", Model)
+}
+
+

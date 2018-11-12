@@ -1,0 +1,46 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ProviderTrafficLightStatusViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Provider Traffic Light Status");
+}
+
+<span id="top"></span>
+<h2>@AppGlobal.Language.GetText(this, "Header", "Provider Traffic Light Status") for @Model.Today.ToString(Constants.ConfigSettings.ShortDateFormat)</h2>
+
+@if (Request.IsAuthenticated)
+{
+    <ul>
+        @foreach (var status in Model.Log)
+        {
+            <li><a href="#@status.Key.Replace(" ", "")">@status.Key (@status.Value.Count())</a></li>
+        }
+    </ul>
+
+    foreach (var status in Model.Log)
+    {
+        <span id="@status.Key.Replace(" ", "")"></span>
+        <h3>@status.Key (@status.Value.Count())</h3>
+        if (status.Value.Any())
+        {
+            <ul>
+                @foreach (var provider in status.Value.OrderBy(x => x))
+                {
+                    <li>@provider</li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>None.</p>
+        }
+        <a href="#top">Back to top</a>
+    }
+}
+else
+{
+    <ul>
+        @foreach (var status in Model.Log)
+        {
+            <li>@status.Key (@status.Value.Count())</li>
+        }
+    </ul>
+}

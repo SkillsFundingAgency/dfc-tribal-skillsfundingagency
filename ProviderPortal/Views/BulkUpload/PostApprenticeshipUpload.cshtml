@@ -1,0 +1,21 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.BulkUploadStatusViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Bulk Upload");
+}
+<div class="form-group col-md-6 sidebar" style="margin-top: 5vh; margin-bottom: 40vh;">
+    @if (Model.IsValid== false)
+    {
+        @Model.Message
+    }
+    else
+    {
+        <div>
+            @AppGlobal.Language.GetText(this, "PostUpload", "Your file has uploaded and is being processed. You will receive an email when the file has finished processing.")
+        </div>
+        <p></p>
+        <div>
+            @Html.ActionLink(@AppGlobal.Language.GetText(this, "Viewstatus", "View Upload Status"), "ApprenticeshipHistory")
+        </div>  
+    }
+</div>
+

@@ -1,0 +1,315 @@
+﻿@using Permission = Tribal.SkillsFundingAgency.ProviderPortal.Permission
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ProviderOrganisationsViewModel
+
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Organisation Membership");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Organisation Membership")</h2>
+<hr/>
+
+@if (ViewBag.Message != null)
+{
+    <div class="col-md-12">
+        <div class="alert alert-danger">
+            @ViewBag.Message
+        </div>
+    </div>
+}
+<div class="col-md-12">
+    <h4>@AppGlobal.Language.GetText(this, "OrganisationTableHeader", "Current Organisations")</h4>
+    <hr/>
+    @if (!Model.Organisations.Any(x => x.IsAccepted && !x.IsRejected))
+    {
+        <p class="alert alert-info" role="alert">
+            @String.Format(AppGlobal.Language.GetText(this, "NoOrganisationsDescription", "{0} is not a member of any Organisations."), Model.Provider.ProviderName)
+        </p>
+    }
+    else
+    {
+        <p>@String.Format(AppGlobal.Language.GetText(this, "OrganisationTableDescription", "{0} is a member of the following Organisations. Click the name of the Organisation to see more information. Click Leave to leave the Organisation. Contact the Organisation if you need further information."), Model.Provider.ProviderName)</p>
+        <table class="dataTable dt-responsive table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Organisations.First().Ukprn)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Organisations.First().OrganisationName)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Organisations.First().PrimaryContacts)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Organisations.First().CanOrganisationEditProvider)
+                    </th>
+                    <th scope="col">
+                        @AppGlobal.Language.GetText(this, "OrganisationActionsTableHeader", "Actions")
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Organisations)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(i => item.Ukprn)
+                        </td>
+                        <td>
+                            @if (Permission.HasPermission(false, true, Permission.PermissionName.CanViewOrganisation))
+                            {
+                                @Html.ActionLink(item.OrganisationName, "Details", "Organisation", new { id = item.OrganisationId }, null)
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(i => item.OrganisationName)
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(i => item.PrimaryContacts)
+                        </td>
+                        <td class="text-center">
+                            <label for="chkEditProvider_@item.OrganisationId" class="hide">@AppGlobal.Language.GetText(this, "CanOrgEditProvider", String.Format("Can {0} Edit Provider Details", item.OrganisationName))</label>
+                            <input id="chkEditProvider_@item.OrganisationId" type="checkbox" class="center" data-id="@item.OrganisationId" data-action="toggleorg" @(item.CanOrganisationEditProvider ? "checked" : "") />
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Membership", "Organisation")" data-id="@item.OrganisationId" data-action="leave" data-name="@item.OrganisationName">@AppGlobal.Language.GetText(this, "LeaveOrganisation", "Leave")<span class="hide"> @Html.DisplayFor(i => item.OrganisationName)</span></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+<div class="col-md-12">
+    <h4>@AppGlobal.Language.GetText(this, "InvitationsTableHeader", "Invitations")</h4>
+    <hr/>
+
+    @if (!Model.Invitations.Any())
+    {
+        <p class="alert alert-info" role="alert">
+            @AppGlobal.Language.GetText(this, "NoPendingInvitations", "There are no pending invitations.")
+        </p>
+    }
+    else
+    {
+        <table class="dataTable dt-responsive table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Organisations.First().Ukprn)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Organisations.First().OrganisationName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Organisations.First().PrimaryContacts)
+                    </th>
+                    <th>
+                        @AppGlobal.Language.GetText(this, "InvitationActionsTableHeader", "Actions")
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Invitations)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(i => item.Ukprn)
+                        </td>
+                        <td>
+                            @if (Permission.HasPermission(false, true, Permission.PermissionName.CanViewOrganisation))
+                            {
+                                @Html.ActionLink(item.OrganisationName, "Details", "Organisation", new { id = item.OrganisationId }, null)
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(i => item.OrganisationName)
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(i => item.PrimaryContacts)
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Membership", "Organisation")" data-id="@item.OrganisationId" data-action="accept" data-name="@item.OrganisationName">@AppGlobal.Language.GetText(this, "AcceptInvitation", "Accept")<span class="hide"> @Html.DisplayFor(i => item.OrganisationName)</span></a> |
+                            <a href="@Url.Action("Membership", "Organisation")" data-id="@item.OrganisationId" data-action="reject" data-name="@item.OrganisationName">@AppGlobal.Language.GetText(this, "RejectInvitation", "Reject")<span class="hide"> @Html.DisplayFor(i => item.OrganisationName)</span></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@using (Html.BeginForm("Membership", "Organisation", FormMethod.Post, new {id = "membershipAction"}))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="action"/>
+    <input type="hidden" name="id"/>
+    <input type="hidden" name="reason"/>
+    <input type="hidden" name="flag"/>
+}
+
+<script type="x-template" data-action="accept">
+   <div class="form-group">
+       <p>@AppGlobal.Language.GetText(this, "AcceptInvitationPreface", "You are accepting that {0} will become a member Provider of {1}. The superusers for this Organisation will have access to view and edit your data unless you check the box below. Please note if do you check this box, you will be responsible for uploading all provision you offer for this Organisation – the Organisation superuser will be unable to do so. You may change this setting later.")</p>
+       <label><input type="checkbox"/> @AppGlobal.Language.GetText(this, "DenySuperUserAccess", "Deny Organisation Superuser ability to view or change data")</label>
+    </div>
+</script>
+<script type="x-template" data-action="reject">
+    <div class="form-group">
+        <label for="txtRejectReason" style="font-weight: normal">@AppGlobal.Language.GetText(this, "RejectInvitationPreface", "Please briefly explain your reasons for rejecting the invitation to join {1}:")</label>
+        <textarea id="txtRejectReason" class="form-control" rows="5" data-max-length="200"></textarea>
+        <span data-valmsg-replace="true" data-valmsg-for="Reason" style="display:none" class="text-danger field-validation-error"><span id="Reason-error" class="">The Reason field should be at most 200 characters long.</span></span>
+    </div>
+</script>
+<script type="x-template" data-action="leave">
+    <div class="form-group">
+        <label for="txtLeaveReason" style="font-weight: normal">@AppGlobal.Language.GetText(this, "LeaveOrganisationPreface", "Please briefly explain your reasons for leaving {1}:")</label>
+        <textarea id="txtLeaveReason" class="form-control" rows="5" data-max-length="200"></textarea>
+        <span data-valmsg-replace="true" data-valmsg-for="Reason" style="display:none" class="text-danger field-validation-error"><span id="Reason-error" class="">The Reason field should be at most 200 characters long.</span></span>
+    </div>
+</script>
+
+@section Scripts
+{
+    <script>
+        $(function() {
+            var $form = $("form#membershipAction"),
+                $action = $form.find("input[name=action]"),
+                $id = $form.find("input[name=id]"),
+                $reason = $form.find("input[name=reason]"),
+                $flag = $form.find("input[name=flag]");
+
+            $("a[data-action]")
+                .filter("a[data-action=accept]").bind("click", function(event) {
+
+                    event.preventDefault();
+                    $id.val($(this).data("id"));
+                    $action.val($(this).data("action"));
+                    var name = $(this).data("name");
+
+                    BootstrapDialog.show({
+                        title: '@AppGlobal.Language.GetText(this, "AcceptInvitationTitle", "Accept Organisation Membership")',
+                        message: function() {
+                            return $("script[type=x-template][data-action=accept]").html().format('@Model.Provider.ProviderName', name);
+                        },
+                        nl2br: false,
+                        buttons: [
+                            {
+                                label: '@AppGlobal.Language.GetText(this, "CancelAcceptInvitation", "Cancel")',
+                                cssClass: 'btn-warning',
+                                action: function(dialog) {
+                                    dialog.close();
+                                }
+                            },
+                            {
+                                label: '@AppGlobal.Language.GetText(this, "ActionAcceptInvitation", "Join this Organisation")',
+                                cssClass: 'btn-success',
+                                action: function(dialog) {
+                                    $flag.val(dialog.$modalBody.find('input[type=checkbox]').prop('checked'));
+                                    $form.submit();
+                                }
+                            }
+                        ]
+                    });
+
+                }).end()
+                .filter("a[data-action=leave]").bind("click", function(event) {
+
+                    event.preventDefault();
+                    $id.val($(this).data("id"));
+                    $action.val($(this).data("action"));
+                    var name = $(this).data("name");
+
+                    BootstrapDialog.show({
+                        title: '@AppGlobal.Language.GetText(this, "LeaveOrganisationTitle", "Leave Organisation")',
+                        message: function() {
+                            return $("script[type=x-template][data-action=leave]").html().format('@Model.Provider.ProviderName', name);
+                        },
+                        nl2br: false,
+                        buttons: [
+                            {
+                                label: '@AppGlobal.Language.GetText(this, "CancelLeaveOrganisation", "Cancel")',
+                                cssClass: 'btn-warning',
+                                action: function(dialog) {
+                                    dialog.close();
+                                }
+                            },
+                            {
+                                label: '@AppGlobal.Language.GetText(this, "ActionRejectInvitation", "Leave this Organisation")',
+                                cssClass: 'btn-success',
+                                action: function(dialog) {
+                                    var $textarea = dialog.$modalBody.find("textarea"),
+                                        reason = $textarea.val(),
+                                        maxlength = parseInt($textarea.data("max-length")),
+                                        isInvalid = reason.length > maxlength,
+                                        $error = dialog.$modalBody.find("span.field-validation-error");
+                                    $error.toggle(isInvalid);
+                                    if (!isInvalid) {
+                                        $reason.val(reason);
+                                        $form.submit();
+                                    }
+                                }
+                            }
+                        ]
+                    });
+
+                }).end()
+                .filter("a[data-action=reject]").bind("click", function(event) {
+
+                    event.preventDefault();
+                    $id.val($(this).data("id"));
+                    $action.val($(this).data("action"));
+                    var name = $(this).data("name");
+
+                    BootstrapDialog.show({
+                        title: '@AppGlobal.Language.GetText(this, "RejectInvitationTitle", "Reject Invitation")',
+                        message: function() {
+                            return $("script[type=x-template][data-action=reject]").html().format('@Model.Provider.ProviderName', name);
+                        },
+                        nl2br: false,
+                        buttons: [
+                            {
+                                label: '@AppGlobal.Language.GetText(this, "CancelRejectInvitation", "Cancel")',
+                                cssClass: 'btn-warning',
+                                action: function(dialog) {
+                                    dialog.close();
+                                }
+                            },
+                            {
+                                label: '@AppGlobal.Language.GetText(this, "ActionRejectInvitation", "Reject Invitation")',
+                            cssClass: 'btn-success',
+                            action: function(dialog) {
+                                var $textarea = dialog.$modalBody.find("textarea"),
+                                    reason = $textarea.val(),
+                                    maxlength = parseInt($textarea.data("max-length")),
+                                    isInvalid = reason.length > maxlength,
+                                    $error = dialog.$modalBody.find("span.field-validation-error");
+                                $error.toggle(isInvalid);
+                                if (!isInvalid) {
+                                    $reason.val(reason);
+                                    $form.submit();
+                                }
+                            }
+                        }
+                    ]
+                });
+
+            }).end();
+
+            $("input[data-action=toggleorg]").bind("change", function() {
+
+                $id.val($(this).data("id"));
+                $action.val($(this).data("action"));
+                $flag.val($(this).prop("checked"));
+                $form.submit();
+
+            });
+        });
+
+
+    </script>
+
+}

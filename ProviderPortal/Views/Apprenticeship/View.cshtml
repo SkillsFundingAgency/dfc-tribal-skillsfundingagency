@@ -1,0 +1,179 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ViewApprenticeshipModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Apprenticeship Details");
+}
+
+<h2 class="apprenticeships">@AppGlobal.Language.GetText(this, "Header", "Apprenticeship Details")</h2>
+<h3>@Model.FrameworkOrStandard</h3>
+<hr/>
+<div class="col-md-12">
+        
+    @if (Model.DisplayNotPublishedBanner)
+    {
+        <div class="warning">
+            @if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditProvider))
+            {
+                @Html.Raw(AppGlobal.Language.GetText(this, "NoProviderApprenticeshipContractWithEditLink", @"Apprenticeship information will not be displayed on the digital apprenticeship service website as 'Current contract with the SFA' is not checked. Click <a href=""/Provider/Edit#ApprenticeshipDelivery"">Edit Provider</a> to enter it."))
+            }
+            else
+            {
+                @Html.Raw(AppGlobal.Language.GetText(this, "NoProviderApprenticeshipContractWithoutEditLink", "Apprenticeship information will not be displayed on the Digital Apprenticeship Service website as 'Current contract with the SFA' is not checked."))
+            }
+        </div>
+    }
+
+    @if (Model.RecordStatusId == (Int32) Constants.RecordStatus.Archived)
+    {
+        <div class="col-md-offset-2 warning">
+            @Html.Raw(AppGlobal.Language.GetText(this, "ApprenticeshipArchivedWarning", "<strong>Warning:</strong> this apprenticeship is currently <strong>ARCHIVED</strong> and neither it nor any of its delivery locations will be published to the digital apprenticeship service."))
+        </div>
+    }
+    @if (Model.RecordStatusId == (Int32) Constants.RecordStatus.Pending)
+    {
+        <div class="col-md-offset-2 warning">
+            @Html.Raw(AppGlobal.Language.GetText(this, "ApprenticeshipPendingWarning", "<strong>Warning:</strong> this apprenticeship is currently PENDING as it does not have any delivery locations. It will not be viewable to employers on the website."))
+        </div>
+    }
+        
+    <dl class="dl-horizontal">
+        
+        <dt>@Html.DisplayNameFor(m => m.RecordStatusName)</dt>
+        <dd>@Html.DisplayTextFor(m => m.RecordStatusName)</dd>
+    
+        <dt>@Html.DisplayNameFor(m => m.FrameworkOrStandard)</dt>
+        <dd>@Html.DisplayTextFor(m => m.FrameworkOrStandard)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.MarketingInformation)</dt>
+        <dd>@Html.DisplayTextFor(m => m.MarketingInformation)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.Url)</dt>
+        <dd>
+            @if (Model.Url != null)
+            {
+                var prefix = Model.Url.Contains("://") ? "" : "http://";
+                <a href="@prefix@Model.Url" target="_blank">@Model.Url</a>
+            }
+        </dd>
+            
+        <dt>@Html.DisplayNameFor(m => m.ContactEmail)</dt>
+        <dd>
+            @if (Model.ContactEmail != null)
+            {
+                <a href="mailto:@Model.ContactEmail" target="_blank">@Model.ContactEmail</a>
+            }
+        </dd>
+            
+        <dt>@Html.DisplayNameFor(m => m.ContactTelephone)</dt>
+        <dd>@Html.DisplayTextFor(m => m.ContactTelephone)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.ContactWebsite)</dt>
+        <dd>
+            @if (Model.ContactWebsite != null)
+            {
+                var prefix = Model.ContactWebsite.Contains("://") ? "" : "http://";
+                <a href="@prefix@Model.ContactWebsite" target="_blank">@Model.ContactWebsite</a>
+            }
+        </dd>            
+    </dl>
+    
+    @if (Permission.HasPermission(false, false, Permission.PermissionName.CanViewApprenticeshipQA))
+    {
+        <fieldset>
+            <legend>
+                @AppGlobal.Language.GetText(this, "QualityAssurance", "Quality Assurance")
+                @if (AppGlobal.Language.GetText(this, "QualityAssuranceTooltip", "") != "")
+                {
+                    @Html.Tooltip(AppGlobal.Language.GetText(this, "QualityAssuranceTooltip", ""))
+                }
+            </legend>
+            <a href="@Url.Action("ViewQAHistory", "Apprenticeship", new { Id = @Model.ApprenticeshipId })" style="float: right; margin-top: -45px;">@AppGlobal.Language.GetText(this, "ViewQAHistory", "View QA History")</a>
+        
+            <p class="required-message col-md-offset-2">
+                @if (Model.LastQAdForComplianceOn.HasValue)
+                {
+                    @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "LastQAdForComplianceOnBy", "Last Quality Assured for Compliance on <b>{0}</b> by <b>{1}</b>."), Model.LastQAdForComplianceOn, Model.LastQAdForComplianceBy))
+                }
+                else
+                {
+                    @Html.Raw(AppGlobal.Language.GetText(this, "NeverQAdForCompliance", "Last Quality Assured for Compliance : <b>Never</b>"))
+                }  
+            </p>
+                
+            <dl class="dl-horizontal">
+                <dt>@Html.DisplayNameFor(m => m.HasBeenQAdForCompliance)</dt>
+                <dd>
+                    @if (Model.HasBeenQAdForCompliance)
+                    {
+                        @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+                    }
+                    else
+                    {
+                        @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+                    }            
+                </dd>
+
+                <dt>@Html.DisplayNameFor(m => m.HasPassedComplianceChecks)</dt>
+                <dd>
+                    @if (Model.HasPassedComplianceChecks)
+                    {
+                        @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+                    }
+                    else
+                    {
+                        @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+                    }
+                </dd>
+            </dl>
+        
+            <p class="required-message col-md-offset-2">
+                @if (Model.LastQAdForStyleOn.HasValue)
+                {
+                    @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "LastQAdForStyleOnBy", "Last Quality Assured for Style on <b>{0}</b> by <b>{1}</b>."), Model.LastQAdForStyleOn, Model.LastQAdForStyleBy))
+                }
+                else
+                {
+                    @Html.Raw(AppGlobal.Language.GetText(this, "NeverQAdForStyle", "Last Quality Assured for Style : <b>Never</b>"))
+                }  
+            </p>                
+                
+            <dl class="dl-horizontal">
+                <dt>@Html.DisplayNameFor(m => m.HasBeenQAdForStyle)</dt>
+                <dd>
+                    @if (Model.HasBeenQAdForStyle)
+                    {
+                        @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+                    }
+                    else
+                    {
+                        @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+                    }            
+                </dd>
+
+                <dt>@Html.DisplayNameFor(m => m.HasPassedStyleChecks)</dt>
+                <dd>
+                    @if (Model.HasPassedStyleChecks)
+                    {
+                        @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+                    }
+                    else
+                    {
+                        @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+                    }
+                </dd>
+            </dl>
+
+        </fieldset>
+    }
+
+    <fieldset>
+        <legend>@AppGlobal.Language.GetText(this, "DeliveryLocations", "Delivery Locations")</legend>
+        @if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditProviderApprenticeship))
+        {
+            <a href="@Url.Action("Create", "DeliveryLocation", new { Id = @Model.ApprenticeshipId })" style="float: right; margin-top: -45px;">@AppGlobal.Language.GetText(this, "AddDeliveryLocation", "Add New Delivery Location")</a>
+        }
+        <div class="col-md-12">
+            @Html.Partial("DisplayTemplates/_ListDeliveryLocations", Model.DeliveryLocations.Items)
+        </div>
+    </fieldset>
+    
+</div>

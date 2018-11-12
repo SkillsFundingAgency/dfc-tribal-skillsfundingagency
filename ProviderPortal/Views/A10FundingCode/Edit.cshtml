@@ -1,0 +1,35 @@
+﻿@using Microsoft.Ajax.Utilities
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.A10FundingCodeViewModelItem
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Edit A10 Funding Code");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Edit A10 Funding Code")</h2>
+<h4></h4>
+<hr/>
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.EditableDataValidationSummary("", new {@class = "text-danger col-md-offset-2"})
+            @Html.RequiredFields(new {@class = "col-md-offset-2"})
+
+            <div class="form-horizontal">
+            
+                @Html.Partial("_AddEditA10FundingCodePartial", Model)
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="@AppGlobal.Language.GetText(this, "Submit", "Save")" class="btn btn-default" />
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Service="IMS.NCS.CourseSearchService.ServiceImplementation.CourseSearchService" %>

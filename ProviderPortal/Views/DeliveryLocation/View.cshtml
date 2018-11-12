@@ -1,0 +1,36 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Entities
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ViewDeliveryLocationModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Delivery Location Details");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Delivery Location Details")</h2>
+<h3>@Model.ApprenticeshipName</h3>
+<hr/>
+<div class="col-md-12">
+        
+    <dl class="dl-horizontal">
+        
+        <dt>@Html.DisplayNameFor(m => m.RecordStatusName)</dt>
+        <dd>@Html.DisplayTextFor(m => m.RecordStatusName)</dd>
+    
+        <dt>@Html.DisplayNameFor(m => m.ApprenticeshipName)</dt>
+        <dd>@Html.DisplayTextFor(m => m.ApprenticeshipName)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.LocationName)</dt>
+        <dd>@Html.DisplayTextFor(m => m.LocationName)</dd>    
+    
+        <dt>@Html.DisplayNameFor(m => m.Radius)</dt>
+        <dd>@Html.DisplayTextFor(m => m.Radius)</dd>    
+            
+        <dt>@Html.DisplayNameFor(m => m.DeliveryModesChosen)</dt>
+        <dd>
+            @foreach (DeliveryMode dm in Model.DeliveryModesChosen)
+            {
+                <p>@dm.DeliveryModeName</p>
+            }
+        </dd>           
+    
+    </dl>
+
+</div>

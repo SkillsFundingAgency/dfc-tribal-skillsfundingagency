@@ -1,0 +1,79 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Models
+@model IEnumerable<ListVenueModel>
+
+<table class="dataTable dt-responsive table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProviderOwnVenueRef)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VenueName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telephone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Website)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th data-type="date-eu">
+                @Html.DisplayNameFor(model => model.LastUpdate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th data-sort='false' data-filter="false">@AppGlobal.Language.GetText(this, "Actions", "Actions")</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var venue in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => venue.ProviderOwnVenueRef)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => venue.VenueName)
+                </td>
+                <td>
+                    @Html.Raw(venue.Address.GetMultipleLineHTMLAddress())
+                </td>
+                <td>
+                    @Html.DisplayFor(model => venue.Telephone)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => venue.Website)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => venue.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => venue.LastUpdate)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => venue.Status)
+                </td>
+                <td>
+                    @if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditProviderVenue))
+                    {
+                        <a href="@Url.Action("Edit", "Venue", new {Id = venue.VenueId})">@AppGlobal.Language.GetText(this, "Edit", "Edit")<span class="hide"> @Html.DisplayFor(model => venue.VenueName)</span></a>
+                    }
+                    else if (Permission.HasPermission(false, false, Permission.PermissionName.CanViewProviderVenue))
+                    {
+                        <a href="@Url.Action("View", "Venue", new {Id = venue.VenueId})">@AppGlobal.Language.GetText(this, "View", "View")<span class="hide"> @Html.DisplayFor(model => venue.VenueName)</span></a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<hr />

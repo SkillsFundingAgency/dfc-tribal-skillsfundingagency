@@ -1,0 +1,1 @@
+﻿CREATE SYNONYM [Remote].[Audit_AspNetUsers] FOR [$(SFA_CourseDirectory)].[dbo].[Audit_AspNetUsers];

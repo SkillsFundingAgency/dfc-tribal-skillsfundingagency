@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.imservices.gov.uk/alse/coursesearch/type/1.0" xmlns:clib="http://schemas.imservices.gov.uk/alse/coursesearch/commonlibrary/1.0" xmlns:sbrowse="http://schemas.imservices.gov.uk/alse/coursesearch/subjectbrowse/1.0" xmlns:psearch="http://schemas.imservices.gov.uk/alse/coursesearch/providersearch/1.0" xmlns:clist="http://schemas.imservices.gov.uk/alse/coursesearch/courselist/1.0" xmlns:cdetail="http://schemas.imservices.gov.uk/alse/coursesearch/coursedetail/1" xmlns:pdetail="http://schemas.imservices.gov.uk/alse/coursesearch/providerdetails/1.0" targetNamespace="http://schemas.imservices.gov.uk/alse/coursesearch/type/1.0">
+	<wsdl:documentation>
+	</wsdl:documentation>
+	<wsdl:types>
+		<xsd:schema>
+			<xsd:import namespace="http://schemas.imservices.gov.uk/alse/coursesearch/providersearch/1.0" schemaLocation="xsd/providersearch.xsd"/>
+			<xsd:import namespace="http://schemas.imservices.gov.uk/alse/coursesearch/subjectbrowse/1.0" schemaLocation="xsd/subjectbrowse.xsd"/>
+			<xsd:import namespace="http://schemas.imservices.gov.uk/alse/coursesearch/courselist/1.0" schemaLocation="xsd/courselist.xsd"/>
+			<xsd:import namespace="http://schemas.imservices.gov.uk/alse/coursesearch/coursedetail/1" schemaLocation="xsd/coursedetail.xsd"/>
+			<xsd:import namespace="http://schemas.imservices.gov.uk/alse/coursesearch/providerdetails/1.0" schemaLocation="xsd/providerdetails.xsd"/>
+			<xsd:import namespace="http://schemas.imservices.gov.uk/alse/coursesearch/commonlibrary/1.0" schemaLocation="xsd/commonlibrary.xsd"/>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="SubjectBrowseMessageRequest" />
+	<wsdl:message name="SubjectBrowseMessageResponse">
+		<wsdl:part name="parameters" element="sbrowse:SubjectBrowseReponse"/>
+	</wsdl:message>
+	<wsdl:message name="SubjectBrowseMessageFault">
+		<wsdl:part name="fault" element="clib:FaultDetails"/>
+	</wsdl:message>
+	<wsdl:message name="ProviderSearchMessageRequest">
+		<wsdl:part name="parameter" element="psearch:ProviderSearchRequest"/>
+	</wsdl:message>
+	<wsdl:message name="ProviderSearchMessageResponse">
+		<wsdl:part name="parameter" element="psearch:ProviderSearchResponse"/>
+	</wsdl:message>
+	<wsdl:message name="ProviderSearchMessageFault">
+		<wsdl:part name="fault" element="clib:FaultDetails"/>
+	</wsdl:message>
+	<wsdl:message name="CourseListMessageRequest">
+		<wsdl:part name="parameter" element="clist:CourseListRequest"/>
+	</wsdl:message>
+	<wsdl:message name="CourseListSearchMessageResponse">
+		<wsdl:part name="parameter" element="clist:CourseListResponse"/>
+	</wsdl:message>
+	<wsdl:message name="CourseListMessageFault">
+		<wsdl:part name="fault" element="clib:FaultDetails"/>
+	</wsdl:message>
+	<wsdl:message name="CourseDetailMessageRequest">
+		<wsdl:part name="parameters" element="cdetail:CourseDetailRequest"/>
+	</wsdl:message>
+	<wsdl:message name="CourseDetailMessageResponse">
+		<wsdl:part name="parameters" element="cdetail:CourseDetailResponse"/>
+	</wsdl:message>
+	<wsdl:message name="CourseDetailMessageFault">
+		<wsdl:part name="fault" element="clib:FaultDetails"/>
+	</wsdl:message>
+	<wsdl:message name="ProviderDetailsMessageRequest">
+		<wsdl:part name="parameters" element="pdetail:ProviderDetailsRequest"/>
+	</wsdl:message>
+	<wsdl:message name="ProviderDetailsMessageResponse">
+		<wsdl:part name="parameters" element="pdetail:ProviderDetailsResponse"/>
+	</wsdl:message>
+	<wsdl:message name="ProviderDetailsMessageFault">
+		<wsdl:part name="fault" element="clib:FaultDetails"/>
+	</wsdl:message>
+	<wsdl:portType name="ServiceInterface">
+		<wsdl:operation name="GetCategories">
+			<wsdl:input name="SubjectBrowseInput" message="tns:SubjectBrowseMessageRequest"/>
+			<wsdl:output name="SubjectBrowseOutput" message="tns:SubjectBrowseMessageResponse"/>
+			<wsdl:fault name="CategoryFault" message="tns:SubjectBrowseMessageFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="ProviderSearch">
+			<wsdl:input name="ProviderSearchInput" message="tns:ProviderSearchMessageRequest"/>
+			<wsdl:output name="ProviderSearchOutput" message="tns:ProviderSearchMessageResponse"/>
+			<wsdl:fault name="ProviderSearchFault" message="tns:ProviderSearchMessageFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="CourseList">
+			<wsdl:input name="CourseListInput" message="tns:CourseListMessageRequest"/>
+			<wsdl:output name="CourseListOutput" message="tns:CourseListSearchMessageResponse"/>
+			<wsdl:fault name="CourseListFault" message="tns:CourseListMessageFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="CourseDetail">
+			<wsdl:input name="CourseDetailInput" message="tns:CourseDetailMessageRequest"/>
+			<wsdl:output name="CourseDetailOutput" message="tns:CourseDetailMessageResponse"/>
+			<wsdl:fault name="CourseDetailFault" message="tns:CourseDetailMessageFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="ProviderDetails">
+			<wsdl:input name="ProviderDetailsInput" message="tns:ProviderDetailsMessageRequest"/>
+			<wsdl:output name="ProviderDetailsOutput" message="tns:ProviderDetailsMessageResponse"/>
+			<wsdl:fault name="ProviderDetailsFault" message="tns:ProviderDetailsMessageFault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+</wsdl:definitions>

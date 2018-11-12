@@ -1,0 +1,41 @@
+﻿@using System.Dynamic
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditAccountViewModel
+@{
+    ViewBag.Title = Model.EditingSelf ?
+        AppGlobal.Language.GetText(this, "TitleMy", "Edit my User Details")
+        : AppGlobal.Language.GetText(this, "Title", "Edit User");
+    ViewBag.SubmitKey = "SaveButton";
+    ViewBag.SubmitValue = "Update account details";
+}
+
+<h2>@(Model.EditingSelf ?
+        AppGlobal.Language.GetText(this, "HeaderMy", "Edit my User Details")
+        : AppGlobal.Language.GetText(this, "Header", "Edit User"))</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("Edit", "Account", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+        {
+            @Html.AntiForgeryToken()
+            <h4>@(Model.EditingSelf ?
+                      AppGlobal.Language.GetText(this, "FormHeaderMy", "Please amend your details below. If you amend your email address, take care to get it correct. You will be emailed an activation link at this address, and your account will be inactive until this link is used to access the portal.")
+                      : AppGlobal.Language.GetText(this, "FormHeader", "Please amend the user's details below. If you're amending the email address, take care to get it correct. The user will be emailed an activation link at this address, and their account will be inactive until this link is used to access the portal."))</h4>
+            <hr />
+            @Html.Partial("_EditAccountPartial", Model)
+        }
+    </div>
+</div>
+
+@if (!Model.EditingSelf)
+{
+    using (Html.BeginForm(Model.IsDeleted ? "Restore" : "Delete", "Account", FormMethod.Post, new {id = "deleteForm"}))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@(Model.UserId)"/>
+    }
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Html.Partial("_EditAccountScriptPartial", Model)
+}

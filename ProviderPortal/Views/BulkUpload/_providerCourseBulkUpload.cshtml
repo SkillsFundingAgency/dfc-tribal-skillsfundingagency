@@ -1,0 +1,80 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.BulkUploadProviderViewModel
+@using (Html.BeginForm("CourseDownload", "BulkUpload"))
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="form-group">
+            @AppGlobal.Language.GetText(this, "ProviderHeader", "Bulk upload allows you to upload all your provision in a single file. If you've not bulk uploaded before, ")
+            <a href="/Help/BulkUploadCourses" target="_blank">@AppGlobal.Language.GetText(this, "ProviderHelpLink", "please click here to read the detailed instructions.")</a>
+        </div>
+        <div class="form-group">
+            @AppGlobal.Language.GetText(this, "HeaderTextProviderProvision", "The table below has a summary of your current provision.")
+        </div>
+        <table class="dt-responsive table table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-md-6">
+                        @Html.DisplayNameFor(model => model.ProviderName)
+                    </th>
+                    <th class="col-md-2">
+                        @Html.DisplayNameFor(model => model.Courses)
+                    </th>
+                    <th class="col-md-4">
+                        @Html.DisplayNameFor(model => model.Opportunities)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => model.ProviderName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.Courses)
+                    </td>
+                    <td>
+                        @if (Model.Opportunities == -1)
+                        {
+                            <span id="spanLoadingOpportunities" style="font-style: italic; font-size: smaller">
+                                @AppGlobal.Language.GetText(this, "Loading", "Loading...")
+                            </span>
+                            <span id="spanOpportunities" style="display: none;">
+                                
+                            </span>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(model => model.Opportunities)
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">
+                        <div class="form-group">
+                            <div class="col-md-1 col-md-offset-4">
+                                <input type="submit" value="@AppGlobal.Language.GetText(this, "DownloadCsvButton", "Download Current Provision as CSV")" class="btn btn-success" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label></label>
+                        </div>
+                        <div class="form-group">
+                            @AppGlobal.Language.GetText(this, "Warning", "Warning: The following will NOT be included in the downloaded csv file:")
+                        </div>
+                        <div class="form-group">
+                            @AppGlobal.Language.GetText(this, "Archived", "1. Any courses/venues/opportunities with a validationStage of 'Archived' or 'Pending'.")
+                        </div>
+                        <div class="form-group">
+                            @AppGlobal.Language.GetText(this, "Pending", "2. Any invalid courses/opportunities which you uploaded are not published on the site.")
+                        </div>
+                        <div class="form-group">
+                            @AppGlobal.Language.GetText(this, "BulkUploadFile", "These will be lost if you then Bulk Upload the file.")
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+    

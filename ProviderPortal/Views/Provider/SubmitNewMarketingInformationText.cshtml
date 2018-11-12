@@ -1,0 +1,82 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.SubmitNewMarketingInformationTextModel
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("SubmitNewMarketingInformationText", "Provider", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        
+        @Html.EditableDataValidationSummary(false)
+        
+        @Html.RequiredFields(new {@class = "col-md-offset-3"}) 
+
+        <div class="form-group">
+            <div class="col-md-2">&nbsp;</div>
+            <div class="col-md-10 alert alert-warning">
+                @Html.Raw(AppGlobal.Language.GetText(this, "GuidancePrompt", "Please remember to read the guidance before adding your information.  <a href=\"https://www.gov.uk/government/publications/find-apprenticeship-training-how-to-submit-data\" target=\"_blank\" > Click here to view the guidance documentation</a>"))
+            </div>
+
+            @Html.LanguageLabelFor(model => model.NewMarketingInformation, new {@class = "control-label col-md-12", style = "text-align: left;"})
+            <div class="col-md-12">
+                @Html.TextAreaFor(model => model.NewMarketingInformation, new { @class = "form-control markdown-editor" })
+                @Html.ValidationMessageFor(model => model.NewMarketingInformation)
+            </div>
+        </div>
+
+        <div style="clear: both;"></div>
+
+    </div>
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        convertTextAreaToMarkdown('NewMarketingInformation');
+    });
+
+    function convertTextAreaToMarkdown(id) {
+        // Convert markdown to HTML before invoking CKEditor
+        var $textarea = $("#" + id);
+        var markdown = $textarea.val();
+        // Invoke CKEditor
+        CKEDITOR.replace(id, {
+            toolbarGroups: [
+                { name: 'tools' },
+                { name: 'links' },
+                { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
+                { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'] },
+                { name: 'styles' },
+                { name: 'others' }
+            ]
+        });
+        // Update the editor with the HTML version of the markdown
+        if (typeof (markdown) === "string" && markdown != "") {
+            var html = marked(markdown, { langPrefix: 'language-' });
+            CKEDITOR.instances[id].setData(html);
+        }
+        // Force CKEditor to convert to markdown when updating the textarea
+        CKEDITOR.instances[id].updateElement = function () {
+            var htmlData = CKEDITOR.instances[id].getData();
+            // Reinstate this line if the markdown button is present in the editor
+            //var markdown = $("#cke_" + id + " a.cke_button__markdown").hasClass("cke_button_off")
+            //    ? toMarkdown(html)
+            //    : html;
+            // No markdown button so the user only has HTML
+            var markdownData = toMarkdown(htmlData);
+            $textarea.html(markdownData);
+        };
+        nanospell.ckeditor(id, {
+            dictionary: "en_uk",
+            server: "asp.net"
+        });
+
+        // Handle disabled markdown editor
+        if ($textarea.hasClass("markdown-editor-disabled")) {
+            CKEDITOR.instances[id].config.bodyClass = "cke_disabled";
+            CKEDITOR.instances[id].config.readOnly = true;
+        } 
+    }
+
+</script>

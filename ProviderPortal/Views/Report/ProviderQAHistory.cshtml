@@ -1,0 +1,105 @@
+﻿
+@{
+    ViewBag.Title = "ProviderQAHistory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ProviderQAHistoryReportViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "QA History and Details");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "QA History and Details")</h2>
+<hr/>
+@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", ""))
+
+<table class="dataTable dt-responsive table table-striped table-bordered" @*data-ajax="@Url.Action("ProviderQAHistoryJson")"*@ data-created-row="rowCreated">
+    <thead>
+        <tr>
+            <th scope="col" data-type="datetime-eu">
+                @Html.DisplayNameFor(m => m.Items.First().QADateTimeUtc)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().QAUserDisplayName)
+            </th>
+            <th scope="col" class="@(UserContext.GetUserContext().IsAdministration() ? String.Empty : "none")">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderName)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().Status)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().EntityQAed)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().ComplianceChecks)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().StyleChecks)
+            </th>
+            <th scope="col" class="none">
+                @Html.DisplayNameFor(m => m.Items.First().TextQAd)
+            </th>
+            <th scope="col" class="none">
+                @Html.DisplayNameFor(m => m.Items.First().DetailsOfQA)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().ImportBatchNames)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.QADateTimeUtc)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.QAUserDisplayName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ProviderName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.EntityQAed)
+                </td>
+                <td>
+                    @((item.ComplianceChecks ?? "").Replace(",", ", "))
+                </td>
+                <td>
+                    @((item.StyleChecks ?? "").Replace(",", ", "))
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.TextQAd)
+                </td> 
+                <td>
+                    @Html.DisplayFor(m => item.DetailsOfQA)
+                </td> 
+                <td>
+                    @Html.DisplayFor(m => item.ImportBatchNames)
+                </td> 
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    
+    <script type="text/javascript">
+
+        var rightAlignedColumns = [3];
+
+        function rowCreated(row, data, index) {
+            //$.each(rightAlignedColumns, function(idx, item) {
+            //    $("td:nth-child(" + item + ")", row).addClass("alignRight");
+            //});
+        }
+
+    </script>
+}
+
+

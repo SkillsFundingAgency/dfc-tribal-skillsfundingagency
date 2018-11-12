@@ -1,0 +1,96 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Areas.Api.Models.TypeaheadViewModel
+@Scripts.Render("~/bundles/typeahead")
+@{
+    if (Model.SearchFields == null || Model.SearchFields.Length == 0)
+    {
+        Model.SearchFields = new[] {Model.DisplayKey};
+    }
+    if (String.IsNullOrEmpty(Model.Suggestion))
+    {
+        Model.Suggestion = "function(a){return '<p>'+a." + Model.DisplayKey + "+'</p>';}";
+    }
+    if (String.IsNullOrEmpty(Model.EmptyMessage))
+    {
+        Model.EmptyMessage = AppGlobal.Language.GetText(this, "DefaultEmptyMessage", "Unable to find any items that match your current query.");
+    }
+    if (Model.SuggestionLimit == null || Model.SuggestionLimit == 0)
+    {
+        Model.SuggestionLimit = 15;
+    }
+}
+
+<script>
+    (function($) {
+        $(function() {
+            var items = new Bloodhound({
+                limit: @Model.SuggestionLimit,
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace(
+                    @{ bool first = true; }
+                    @foreach (var s in Model.SearchFields)
+                    {
+                        @(first ? String.Empty : ",")<text>'@(s)'</text>first = false;
+                    }
+                ),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                @if (!String.IsNullOrEmpty(Model.PrefetchUrl))
+                {
+                    <text>prefetch: '@Model.PrefetchUrl',</text>
+                }
+                @if (!String.IsNullOrEmpty(Model.RemoteUrl))
+                {
+                    <text>remote: '@Model.RemoteUrl',</text>
+                }
+            });
+
+            @if (Model.ClearPrefetchCache)
+            {
+                <text>items.clearPrefetchCache();</text>
+            }
+            items.initialize();
+
+            var emptyMessage = "";
+            if ("@(Model.HideEmptyMessage)" == "False") {
+                emptyMessage = '<div class="empty-message">@(Model.EmptyMessage)</div>';
+            }
+            
+            $('@(Model.JQuerySelector)').typeahead(null, {
+                    name: '@(Model.Name)',
+                    displayKey: '@(Model.DisplayKey)',
+                    valueKey: '@(Model.ValueKey ?? Model.DisplayKey)',
+                    source: items.ttAdapter(),
+                    templates: {
+                        empty: emptyMessage,
+                        suggestion: @Html.Raw(Model.Suggestion)
+                    }
+                })
+                .bind("typeahead:selected", function(obj, datum) {
+                    if ("@(Model.UseAttributeForName)" == "True") {
+                        $("#" + $(this).attr("data-typeahead-name")).val(datum['@(Model.ValueKey)']);
+                    } else {
+                        $('#@(Model.Name)').val(datum['@(Model.ValueKey)']);
+                    }
+                    @if (Model.OnSelect != null) {
+                        <text>@Html.Raw(Model.OnSelect)</text>
+                    }
+                })
+                .bind("typeahead:autocompleted", function(obj, datum) {
+                    if ("@(Model.UseAttributeForName)" == "True") {
+                        $("#" + $(this).attr("data-typeahead-name")).val(datum['@(Model.ValueKey)']);
+                    } else {
+                        $('#@(Model.Name)').val(datum['@(Model.ValueKey)']);
+                    }
+                    @if (Model.OnAutoComplete != null) {
+                        <text>@Html.Raw(Model.OnAutoComplete)</text>
+                    }
+                })
+            @if (Model.OnChange != null)
+            {
+                <text>
+                .bind("typeahead:change", function(obj, datum) {
+                    @Html.Raw(Model.OnChange)
+                })
+                </text>
+            };
+        });
+    })(jQuery);
+</script>

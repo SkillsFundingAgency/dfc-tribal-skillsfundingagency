@@ -1,0 +1,48 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.DeleteOrganisationViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Delete Organisation");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Delete Organisation")</h2>
+
+@if (Model.HasActiveMembers)
+{
+    @Html.Raw(AppGlobal.Language.GetText(this, "CannotDeleteSummary", "<p>You may not delete this Organisation until all Providers have left or been removed.</p>"))
+}
+else
+{
+    using (Html.BeginForm())
+    {
+        <div class="col-md-12">
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <hr />
+                @if (UserContext.CanGoBack())
+                {
+                    @Html.Raw(AppGlobal.Language.GetText(this, "AdminUserDeleteSummary", "<p>This Organisation currently has no providers in it so you may delete it. If you do, the Organisation details and all user details will be deleted, and you will be immediately taken back to the administration context. If you are ready to delete this Organisation press the Delete Organisation button below.</p>"))                   
+                }
+                else
+                {
+                    @Html.Raw(AppGlobal.Language.GetText(this, "OrganisationUserDeleteSummary", "<p>Your Organisation currently has no providers in it so you may delete it. If you do, the Organisation details and all user details will be deleted, including your own, and you will be immediately logged out. This process is irreversible. If you are ready to delete this Organisation press the Delete Organisation button below.</p>"))                   
+                }
+                <hr />
+
+                <div class="col-md-8">
+
+                    @Html.EditableDataValidationSummary(true)
+
+                    @Html.HiddenFor(m => m.OrganisationId)
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="submit" value="@AppGlobal.Language.GetText(this, "Submit", "Delete Organisation")" class="btn btn-success" />
+            </div>
+        </div>
+    }
+}

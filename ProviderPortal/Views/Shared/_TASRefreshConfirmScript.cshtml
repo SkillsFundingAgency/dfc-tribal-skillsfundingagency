@@ -1,0 +1,62 @@
+﻿@if (UserContext.GetUserContext().ContextName == UserContext.UserContextName.Provider
+                && Permission.HasPermission(false, true, Permission.PermissionName.CanEditProvider))
+{
+    <script>
+
+
+        function setPositionOfTASRefreshConfirmButton() {
+            var divTASRefreshConfirmHeading = $("#divTASRefreshConfirmHeading");
+            var btnTASRefreshConfirm = $("#btnTASRefreshConfirm", divTASRefreshConfirmHeading);
+            if (btnTASRefreshConfirm.length == 1) {
+                var imageWidth = 0 //$(".masthead-brand").width();
+                var pageWidth = $(".masthead-row").width() - 30;
+                var taskWizardWidth = $("a.myModal-btn").width();
+                btnTASRefreshConfirm.css("margin-right", ((pageWidth - imageWidth) / 2) - (btnTASRefreshConfirm.width() / 2) - taskWizardWidth);
+            }
+        }
+
+        $(document).ready(function () {
+
+            setPositionOfTASRefreshConfirmButton();
+
+            $("#btnTASRefreshConfirm,#btnTASRefreshConfirmMenu").click(function (e) {
+                e.preventDefault();
+
+                if (confirm("@AppGlobal.Language.GetText(this, "ConfirmTASRefreshConfirm", "Are you sure you want to confirm you have reviewed and updated your apprenticeship provision?")")) {
+
+                    $.ajax({
+                        cache: false,
+                        async: false,
+                        url: '/Provider/TASRefreshConfirm',
+                        type: 'post',
+                        success: function(data, status, xhr) {
+                            var ct = xhr.getResponseHeader("content-type") || "";
+                            if (ct.indexOf('json') > -1) {
+                                // Got JSON so everything went OK.
+                                if (data.Status == 0) {
+                                    alert(data.Message);
+                                } else {
+                                    alert("@AppGlobal.Language.GetText(this, "TASRefreshConfirm", "Thank you for confirming your apprenticeship provision")");
+
+                                    // Reload the page
+                                    window.location.reload();
+                                }
+                            } else {
+                                // Something wrong happened
+                                alert("@AppGlobal.Language.GetText(this, "ErrorConfirmingTASRefresh", "Error confirming you have reviewed your apprenticeship provision")");
+                            }
+                        },
+                        error: function (data) {
+                            alert("@AppGlobal.Language.GetText(this, "ErrorConfirmingTASRefresh", "Error confirming you have reviewed your apprenticeship provision")");
+                        }
+                    });
+                }
+            });
+        });
+
+        $(window).resize(function() {
+            setPositionOfTASRefreshConfirmButton();
+        });
+
+    </script>
+}

@@ -1,0 +1,107 @@
+﻿@model IEnumerable<Tribal.SkillsFundingAgency.ProviderPortal.Models.ApprenticeshipListViewModelItem>
+@{
+    var canView = Permission.HasPermission(false, false, Permission.PermissionName.CanViewProviderApprenticeship);
+    var canEdit = Permission.HasPermission(false, false, Permission.PermissionName.CanEditProviderApprenticeship);
+    if (canEdit)
+    {
+        HttpContext.Current.Items["_ListApprenticeships"] = true;
+    } 
+}
+
+@if (canEdit)
+{
+    <div style="float: left;">
+        <a href="@Url.Action("Create","Apprenticeship",null)" class="btn btn-apprenticeship">@AppGlobal.Language.GetText(this, "AddApprenticeship", "Add Apprenticeship")</a>
+        <a href="@Url.Action("Apprenticeships","BulkUpload",null)" class="btn btn-apprenticeship">@AppGlobal.Language.GetText(this, "UploadApprenticeships", "Upload Apprenticeships")</a>
+    </div>
+
+    <div style="float: right;">
+        <input type="button" class="btn btn-default" value="@AppGlobal.Language.GetText(this, "ArchiveSelected", "Archive Selected")" id="btnArchiveSelectedApprenticeships" />
+        <input type="button" class="btn btn-default" value="@AppGlobal.Language.GetText(this, "UnarchiveSelected", "Unarchive Selected")" id="btnUnarchiveSelectedApprenticeships" />
+    </div>
+    <div style="clear: both;"></div>
+}
+
+<table class="dataTable dt-responsive table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApprenticeshipDetails)
+            </th>
+            <th data-type="date-eu">
+                @Html.DisplayNameFor(model => model.LastUpdate)
+            </th>
+            @if (Permission.HasPermission(false, false, Permission.PermissionName.CanQAApprenticeships))
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.ComplianceQAResult)
+                </th>
+                <th class="none">
+                    @Html.DisplayNameFor(model => model.StyleQAResult)
+                </th>
+            }
+            @if (canEdit || canView)
+            {
+                <th data-sort='false' data-filter="false">
+                    @AppGlobal.Language.GetText(this, "Actions", "Actions")
+                </th>
+                if (canEdit)
+                {
+                    <th data-sort='false' data-filter="false">
+                        <label for="chkAllApprenticeships" class="hide">@AppGlobal.Language.GetText(this, "CheckUncheckAll", "Check/Uncheck All")</label>
+                        <input type="checkbox" id="chkAllApprenticeships" />
+                    </th>
+                }
+            }
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var apprenticeship in Model) {
+            <tr>
+                <td>
+                    <div id="divStatus_@apprenticeship.ApprenticeshipId">
+                        @Html.DisplayFor(model => apprenticeship.Status)
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(model => apprenticeship.ApprenticeshipDetails)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => apprenticeship.LastUpdate)
+                </td>
+                @if (Permission.HasPermission(false, false, Permission.PermissionName.CanQAApprenticeships))
+                {
+                    <td>
+                        @Html.DisplayFor(model => apprenticeship.ComplianceQAResult)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => apprenticeship.StyleQAResult)
+                    </td>
+                }
+                @if (canEdit)
+                {
+                    <td>
+                        <a href="@Url.Action("Edit", "Apprenticeship", new {Id = apprenticeship.ApprenticeshipId})">@AppGlobal.Language.GetText(this, "Edit", "Edit")<span class="hide"> @Html.DisplayFor(model => apprenticeship.ApprenticeshipDetails)</span></a>
+                    </td>
+                    <td>
+                        <label for="chkApprenticeship_@apprenticeship.ApprenticeshipId" class="hide">@apprenticeship.ApprenticeshipDetails</label>
+                        <input type="checkbox" id="chkApprenticeship_@apprenticeship.ApprenticeshipId" />
+                    </td>
+                }
+                else if (canView)
+                {
+                    <td>
+                        <a href="@Url.Action("View", "Apprenticeship", new {Id = apprenticeship.ApprenticeshipId})">@AppGlobal.Language.GetText(this, "View", "View")<span class="hide"> @Html.DisplayFor(model => apprenticeship.ApprenticeshipDetails)</span></a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+    
+</table>
+
+<hr />

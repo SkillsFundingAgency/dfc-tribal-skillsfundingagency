@@ -1,0 +1,102 @@
+﻿@using Constants = Tribal.SkillsFundingAgency.ProviderPortal.Constants
+@{
+    var isSecureAccessUser = HttpContext.Current.Session[Constants.SessionFieldNames.IsSecureAccessUser] != null && (bool) HttpContext.Current.Session[Constants.SessionFieldNames.IsSecureAccessUser];
+    var userName = isSecureAccessUser && HttpContext.Current.Session[Constants.SessionFieldNames.UserRealName] != null ? HttpContext.Current.Session[Constants.SessionFieldNames.UserRealName] : User.Identity.Name;
+    BootStrapMenu bootstrapMenu = new BootStrapMenu {Alignment = BootStrapMenuAlignment.Right};
+
+    if (UserContext.CanGoBack())
+    {
+        if (Permission.HasPermission(false, true, Permission.PermissionName.CanViewAdministratorHomePage))
+        {
+            bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "BackToSearch", "[Back to Search]"), "javascript:document.getElementById('backToSearch').submit()", BootStrapMenuItemVisibility.ShowAlways));
+        }
+        else if (Permission.HasPermission(false, true, Permission.PermissionName.CanViewOrganisationHomePage))
+        {
+            bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "BackToOrganisation", "[Back to Organisation]"), "javascript:document.getElementById('backToSearch').submit()", BootStrapMenuItemVisibility.ShowAlways));
+        }
+    }
+
+    bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "OpenDataMenuItem", "Open Data"), Url.Action("Index", "OpenData"), BootStrapMenuItemVisibility.ShowAlways));
+    var courseSearchUsageStatsLabel = AppGlobal.Language.GetText(this, "SearchStatisticsMenuItem", "");
+    if (!String.IsNullOrWhiteSpace(courseSearchUsageStatsLabel))
+    {
+        bootstrapMenu.Add(new BootStrapMenuItem(courseSearchUsageStatsLabel, Url.Action("UsageStatistics", "Report"), BootStrapMenuItemVisibility.Authenticated));
+    }
+    bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "HelpMenuItem", "Help"), "/Help", BootStrapMenuItemVisibility.ShowAlways));
+
+    if (UserContext.HasContext(false, UserContext.UserContextName.Authenticated))
+    {
+        // User's own account menu items
+        //var userMenu = new BootStrapParentItem(AppGlobal.Language.GetText(this, "UserMenuParentMenuItem", "<span class='glyphicon glyphicon-cog'></span>"));
+        var role = (string) HttpContext.Current.Session[Constants.SessionFieldNames.UserRole];
+        var userMenu = new BootStrapParentItem(String.Format("{0} ({1})", userName, role));
+        if (!isSecureAccessUser)
+        {
+            userMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "UserMenuSFAEditAccountMenuItem", "Edit my account details"), Url.Action("Edit", "Account", new {id = String.Empty}), BootStrapMenuItemVisibility.Authenticated));
+            //userMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "UserMenuSFAManageAccountMenuItem", "Manage account settings"), Url.Action("Index", "Manage"), BootStrapMenuItemVisibility.Authenticated));
+            userMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "UserMenuSFAChangePasswordMenuItem", "Change my password"), Url.Action("ChangePassword", "Manage"), BootStrapMenuItemVisibility.Authenticated));
+            userMenu.Children.Add(new BootStrapMenuItem(true));
+            userMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "LogOutSFA", "Log out"), "javascript:document.getElementById('logoutForm').submit()", BootStrapMenuItemVisibility.Authenticated));
+        }
+        else
+        {
+            userMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "UserMenuDfEEditAccountMenuItem", "Edit my account details"), Constants.ConfigSettings.SAUserAccountManagement, BootStrapMenuItemVisibility.Authenticated));
+            userMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "UserMenuDfEChangePasswordMenuItem", "Change my password"), Constants.ConfigSettings.SAUserChangePassword, BootStrapMenuItemVisibility.Authenticated));
+            userMenu.Children.Add(new BootStrapMenuItem(true));
+            userMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "LogOutDfE", "Log out"), "javascript:document.getElementById('logoutForm').submit()", BootStrapMenuItemVisibility.Authenticated));
+        }
+        bootstrapMenu.Add(userMenu);
+    }
+
+    if (UserContext.HasContext(false, UserContext.UserContextName.Unauthenticated))
+    {
+        // Registration and log in
+        var registerVisibility = Constants.ConfigSettings.AllowSelfRegistration ? BootStrapMenuItemVisibility.NotAuthenticated : BootStrapMenuItemVisibility.None;
+        bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "RegisterMenuItem", "Register"), Url.Action("Register", "Account"), registerVisibility));
+        if (Constants.ConfigSettings.SAEnabled)
+        {
+            var logInMenu = new BootStrapParentItem(AppGlobal.Language.GetText(this, "LogInParentMenuItem", "Log in"));
+            logInMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "LogInSFAMenuItem", "Log in using a Portal Account"), Url.Action("Login", "Account"), BootStrapMenuItemVisibility.NotAuthenticated));
+            logInMenu.Children.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "LogInDfEMenuItem", "Log in with DfE Secure Access"), Url.Action("Login", "SA"), BootStrapMenuItemVisibility.NotAuthenticated));
+            bootstrapMenu.Add(logInMenu);
+        }
+        else
+        {
+            bootstrapMenu.Add(new BootStrapMenuItem(AppGlobal.Language.GetText(this, "LogInMenuItem", "Log in"), Url.Action("Login", "Account"), BootStrapMenuItemVisibility.NotAuthenticated));
+        }
+    }
+}
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-header-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink(Constants.ConfigSettings.SiteName, "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            @*<div class="navbar-text">
+                @DateTime.Now.ToString(Constants.ConfigSettings.LongDateFormat)
+            </div>*@
+        </div>
+        <div class="navbar-collapse navbar-header-collapse collapse">               
+            @Html.Raw(bootstrapMenu.RenderedHtml(Request.RawUrl))
+        </div>
+    </div>
+</div>
+
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm(isSecureAccessUser ? "LogOut" : "LogOff", isSecureAccessUser ? "SA" : "Account", FormMethod.Post, new {id = "logoutForm"}))
+    {
+        @Html.AntiForgeryToken()
+    }
+}
+@if (UserContext.CanGoBack())
+{
+    using (Html.BeginForm("BackToSearch", "Home", FormMethod.Post, new {id = "backToSearch"}))
+    {
+        @Html.AntiForgeryToken()
+    }
+}

@@ -1,0 +1,45 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ImportBatchesViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Manage import batches");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Manage import batches")</h2>
+<hr/>
+
+<div class="site-content">
+    <div class="col-md-12 btn-toolbar" style="margin-top:0px;">
+        @Html.ActionLink(AppGlobal.Language.GetText(this, "Create", "Add new import batch"), "Create", "ImportBatches", null, new {@class = "pull-right btn btn-default"})
+    </div>
+</div>
+
+@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", ""))
+<table class="dataTable">
+    <thead>
+        <tr>
+            <th>
+                 @Html.DisplayNameFor(model => model.Items.First().ImportBatchName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().Current)
+            </th>
+            <th>
+                @Html.Raw(AppGlobal.Language.GetText(this, "ActionsHeader", "Actions"))
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImportBatchName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Current)
+                </td>
+                <td>
+                    @Html.ActionLink(AppGlobal.Language.GetText(this, "Edit", "Edit"), "Edit", new { id=item.ImportBatchId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

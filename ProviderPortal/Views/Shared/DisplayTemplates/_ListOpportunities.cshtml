@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Tribal.SkillsFundingAgency.ProviderPortal.Models.OpportunityListModel>
+
+<table class="dataTable dt-responsive table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OpportunityDetails)
+            </th>
+            <th data-type="date-eu">
+                @Html.DisplayNameFor(model => model.LastUpdate)
+            </th>
+            <th data-sort='false' data-filter="false">
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var opportunity in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => opportunity.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => opportunity.OpportunityDetails)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => opportunity.LastUpdate)
+                </td>
+                <td>
+                    @if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditProviderOpportunity))
+                    {
+                        <a href="@Url.Action("Edit", "Opportunity", new {Id = opportunity.OpportunityId})">@AppGlobal.Language.GetText(this, "Edit", "Edit")<span class="hide"> @Html.DisplayFor(model => opportunity.OpportunityDetails)</span></a>
+                    }
+                    else if (Permission.HasPermission(false, false, Permission.PermissionName.CanViewProviderOpportunity))
+                    {
+                        <a href="@Url.Action("View", "Opportunity", new {Id = opportunity.OpportunityId})">@AppGlobal.Language.GetText(this, "View", "View")<span class="hide"> @Html.DisplayFor(model => opportunity.OpportunityDetails)</span></a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+    
+</table>
+
+<hr />
+

@@ -1,0 +1,97 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.OrganisationTrafficLightReportViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Traffic Lighting: All Providers & Organisations");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Traffic Lighting: All Providers & Organisations")</h2>
+<hr/>
+@if (Permission.HasPermission(false, true, Permission.PermissionName.CanRecalculateQualityScores))
+{
+    <div class="col-md-12 btn-toolbar traffic-report">
+        @Html.ActionLink(AppGlobal.Language.GetText(this, "RecalculateScore", "Update Traffic Light Stats"), "TrafficLightRecalculate", "Report", null, new {@class = "btn btn-default pull-right"})
+    </div>
+}
+@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", "<p>The following table shows you the current traffic light status for Providers in your Organisation. Traffic light status is determined by the date an opportunity was last updated for each provider. The rules are:</p><ul><li>Green - 2 months ago or less</li><li>Amber - between 2 and 3 months ago</li><li>Red - more than 3 months ago</li></ul><p>Providers and Organisations are required to update their provision at least every 3 months.</p>"))
+
+<table class="dataTable dt-responsive table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th scope="col" data-type="enum-traffic">
+                @Html.DisplayNameFor(m => m.Items.First().Status)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderId)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().Ukprn)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderTypeName)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderName)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderNameAlias)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().UkrlpName)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().ModifiedDateTimeUtc)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().LastUpdateMethod)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().PrimaryContacts)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().FundingStatus)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td class="@QualityIndicator.GetTrafficBackground(item.ModifiedDateTimeUtc, item.SFAFunded, item.DFE1619Funded)">
+                    @Html.DisplayFor(m => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ProviderId)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Ukprn)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ProviderTypeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ProviderName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ProviderNameAlias)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.UkrlpName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ModifiedDateTimeUtc)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.LastUpdateMethod)
+                </td>
+                <td>
+                    @foreach (var contact in item.PrimaryContacts)
+                    {
+                        @Html.DisplayFor(m => contact)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.FundingStatus)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

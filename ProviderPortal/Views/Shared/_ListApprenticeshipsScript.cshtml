@@ -1,0 +1,141 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Areas.Api.Models
+@if (HttpContext.Current.Items.Contains("_ListApprenticeships"))
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Html.Partial("_TypeaheadPartial", new TypeaheadViewModel
+    {
+        JQuerySelector = "#Search_FrameworkOrStandard",
+        SearchFields = new[] {"Name"},
+        PrefetchUrl = "/api/typeahead/standardsandframeworks",
+        ClearPrefetchCache = true, /*For debugging*/
+        //RemoteUrl = "/api/typeahead/providers/%QUERY",
+        Name = "Search_FrameworkOrStandardId",
+        DisplayKey = "Name",
+        ValueKey = "Id",
+        EmptyMessage = AppGlobal.Language.GetText(this, "NoMatchedItems", "Unable to find any frameworks or standard codes that match your current query."),
+        Suggestion = "function(a){return '<p>' + a.Name + '</p>';}",
+        SuggestionLimit = 999
+    })
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            $("#chkAllApprenticeships").change(function() {
+                $("input[id^='chkApprenticeship_']").each(function() {
+                    $(this).prop("checked", $("#chkAllApprenticeships").prop("checked"));
+                });
+            });
+
+            $("input[id^='chkApprenticeship_']").change(function() {
+                $("#chkAllApprenticeships").prop("checked", $("input[id^='chkApprenticeship_']").length == $("input[id^='chkApprenticeship_']:checked").length);
+            });
+
+            $("#btnArchiveSelectedApprenticeships").click(function() {
+
+                var selectedIds = "";
+                $("input[id^='chkApprenticeship_']:checked").each(function() {
+                    if (selectedIds != "") {
+                        selectedIds += ",";
+                    }
+                    selectedIds += $(this).attr("id").split("_").pop();
+                });
+                if (selectedIds == "") {
+                    alert("@AppGlobal.Language.GetText(this, "SelectApprenticeshipToArchive", "Select apprenticeship(s) to archive")");
+                    return;
+                }
+                if (confirm("@AppGlobal.Language.GetText(this, "ConfirmApprenticeshipArchive", "Are you sure you want to archive the selected apprenticeship(s)?")") === false) {
+                    return;
+                }
+                var url = '@Url.Action("ArchiveSelected", "Apprenticeship", new {apprenticeshipIds = "__SelectedIds__"})';
+                url = url.replace('__SelectedIds__', selectedIds);
+                $.ajax({
+                    url: url,
+                    success: function(result) {
+                        if (result == "") {
+                            alert("@AppGlobal.Language.GetText(this, "NoApprenticeshipsArchived", "0 Apprenticeships Archived")");
+                        } else {
+                            var spanQAdApprenticeships = $("#spanQAdApprenticeships");
+                            if (spanQAdApprenticeships.length != 0) {
+                                $.ajax({
+                                    url: '@Url.Action("GetNumberOfQAdApprenticeshipsAndNumberRequiredToQA", "Provider")',
+                                    success: function(QAText) {
+                                        spanQAdApprenticeships.fadeOut("slow", function() {
+                                            spanQAdApprenticeships.html(QAText);
+                                            spanQAdApprenticeships.fadeIn("slow");
+                                        });
+                                    }
+                                });
+                            }
+                            $.each(result, function (i, item) {
+                                $("#divStatus_" + item).fadeOut("slow", function() {
+                                    $(this).text("@AppGlobal.Language.GetText(this, "Archived", "Archived")");
+                                    $(this).fadeIn("Slow", function() {
+                                        if (i == result.length - 1) {
+                                            alert(result.length + " Apprenticeship" + (result.length == 1 ? "" : "s") + " Archived");
+                                        }
+                                    });
+                                });
+                            });
+                        }
+                        $("#chkAllApprenticeships").prop("checked", false).trigger("change");
+                    },
+                    error: function() {
+                        alert("Error Archiving Apprenticeships");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/json, charset=utf-8',
+                    dataType: 'json'
+                });
+            });
+
+            $("#btnUnarchiveSelectedApprenticeships").click(function() {
+
+                var selectedIds = "";
+                $("input[id^='chkApprenticeship_']:checked").each(function() {
+                    if (selectedIds != "") {
+                        selectedIds += ",";
+                    }
+                    selectedIds += $(this).attr("id").split("_").pop();
+                });
+                if (selectedIds == "") {
+                    alert("@AppGlobal.Language.GetText(this, "SelectApprenticeshipToUnarchive", "Select apprenticeship(s) to unarchive")");
+                    return;
+                }
+                if (confirm("@AppGlobal.Language.GetText(this, "ConfirmApprenticeshipUnarchive", "Are you sure you want to unarchive the selected apprenticeship(s)?")") === false) {
+                    return;
+                }
+                var url = '@Url.Action("UnarchiveSelected", "Apprenticeship", new {apprenticeshipIds = "__SelectedIds__"})';
+                url = url.replace('__SelectedIds__', selectedIds);
+                $.ajax({
+                    url: url,
+                    success: function(result) {
+                        if (result == "") {
+                            alert("@AppGlobal.Language.GetText(this, "NoApprenticeshipsUnarchived", "0 Apprenticeships Unarchived")");
+                        } else {
+                            $.each(result, function(i, item) {
+                                $("#divStatus_" + item).fadeOut("slow", function() {
+                                    $(this).text("@AppGlobal.Language.GetText(this, "Pending", "Pending")");
+                                    $(this).fadeIn("Slow", function() {
+                                        if (i == result.length - 1) {
+                                            alert(result.length + " Apprenticeship" + (result.length == 1 ? "" : "s") + " Unarchived");
+                                        }
+                                    });
+                                });
+                            });
+                        }
+                        $("#chkAllApprenticeships").prop("checked", false).trigger("change");
+                    },
+                    error: function() {
+                        alert("Error Unarchiving Apprenticeships");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/json, charset=utf-8',
+                    dataType: 'json'
+                });
+            });
+
+        });
+
+    </script>
+}

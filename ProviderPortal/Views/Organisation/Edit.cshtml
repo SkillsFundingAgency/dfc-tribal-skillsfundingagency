@@ -1,0 +1,198 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditOrganisationModel
+
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Edit Organisation");
+    var canEditSpecialFields = Permission.HasPermission(false, true, Permission.PermissionName.CanEditOrganisationSpecialFields);
+}
+
+<h2 class="provider">@AppGlobal.Language.GetText(this, "Header", "Edit Organisation")</h2>
+
+<div class="col-md-12">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.Raw(AppGlobal.Language.GetText(this, "PageSummary", "The details below are for display on the National Careers Service. Except for Provider Type, they are not mandatory. For those fields not filled in, contact information from UKRLP will be used. Providers can update these Course Directory fields at any time and they will then be used in preference to their UKRLP information."))
+            <hr />
+
+            <div class="col-md-8">
+
+                @Html.EditableDataValidationSummary(true)
+
+                @Html.RequiredFields(new {@class="col-md-offset-2"})
+
+                @Html.HiddenFor(m => m.OrganisationId)
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.RecordStatusId, new {@class = "control-label col-md-2"})
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.RecordStatusId, (SelectList) ViewBag.RecordStatuses, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new {@class = "form-control"})
+                        @Html.ValidationMessageFor(m => m.RecordStatusId)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.UKPRN, new {@class = "control-label col-md-2"})
+                    <div class="col-md-10">
+                        @if (canEditSpecialFields)
+                        {
+                            @Html.EditorFor(model => model.UKPRN, new { htmlAttributes = new {@class = "form-control", autocomplete = "off"} })
+                            <div id="divUKPRN">
+                                <a style="display: none; cursor: pointer;" id="aCopyUKRLPData">@AppGlobal.Language.GetText(this, "CopyUKRLPDataLink", "Copy data from UKRLP Details")</a>
+                                <div id="divUKPRNMessage"></div>
+                            </div>
+                            @Html.ValidationMessageFor(m => m.UKPRN)
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(m => m.UKPRN)
+                            @Html.DisplayFor(m => m.UKPRN)
+                            @Html.ValidationMessageFor(m => m.UKPRN)
+                        }
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.IsContractingBody, new {@class = "control-label col-md-2"})
+                    <div class="col-md-10">
+                        @if (canEditSpecialFields)
+                        {
+                            @Html.EditorFor(model => model.IsContractingBody)
+                            @Html.ValidationMessageFor(m => m.IsContractingBody)
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(m => m.IsContractingBody)
+                            @Html.DisplayFor(m => m.IsContractingBody)
+                        }
+                    </div>
+                </div>
+
+                @if (canEditSpecialFields)
+                {
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(m => m.BulkUploadPending, new {@class = "control-label col-md-2"})
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.BulkUploadPending)
+                            @Html.ValidationMessageFor(m => m.BulkUploadPending)
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    @Html.HiddenFor(m => m.BulkUploadPending)
+                }
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.OrganisationTypeId, new {@class = "control-label col-md-2"})
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.OrganisationTypeId, (SelectList) ViewBag.OrganisationTypes, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new {@class = "form-control"})
+                        @Html.ValidationMessageFor(m => m.OrganisationTypeId)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.OrganisationName, new {@class = "control-label col-md-2"})
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.OrganisationName, new { htmlAttributes = new {@class = "form-control"} })
+                        @Html.ValidationMessageFor(m => m.OrganisationName)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.OrganisationAlias, new {@class = "control-label col-md-2"})
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.OrganisationAlias, new { htmlAttributes = new {@class = "form-control"} })
+                        @Html.ValidationMessageFor(m => m.OrganisationAlias)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.UPIN, new {@class = "control-label col-md-2"})
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.UPIN, new { htmlAttributes = new {@class = "form-control"} })
+                        @Html.ValidationMessageFor(m => m.UPIN)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.Loans24Plus, new {@class = "control-label col-md-2"})
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Loans24Plus)
+                        @Html.ValidationMessageFor(m => m.Loans24Plus)
+                    </div>
+                </div>
+
+               @Html.EditorFor(m => m.Address, "_EditAddressPartial")
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.Email, new {@class = "control-label col-md-2"})
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new {@class = "form-control"} })
+                        @Html.ValidationMessageFor(m => m.Email)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.Website, new {@class = "control-label col-md-2"})
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Website, new { htmlAttributes = new {@class = "form-control"} })
+                        @Html.ValidationMessageFor(m => m.Website)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.Telephone, new {@class = "control-label col-md-2"})
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new {@class = "form-control"} })
+                        @Html.ValidationMessageFor(m => m.Telephone)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.Fax, new {@class = "control-label col-md-2"})
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Fax, new { htmlAttributes = new {@class = "form-control"} })
+                        @Html.ValidationMessageFor(m => m.Fax)
+                    </div>
+                </div>
+
+                @if (canEditSpecialFields)
+                {
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(m => m.QualityEmailsPaused, new {@class = "control-label col-md-2"})
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.QualityEmailsPaused)
+                            @Html.ValidationMessageFor(m => m.QualityEmailsPaused)
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(m => m.QualityEmailStatusId, new {@class = "control-label col-md-2"})
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.QualityEmailStatusId, (SelectList) ViewBag.QualityEmailStatuses, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new {@class = "form-control"})
+                            @Html.ValidationMessageFor(m => m.QualityEmailStatusId)
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="@AppGlobal.Language.GetText(this, "Submit", "Save")" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+
+            @Html.Partial("_UKPRNDetails", Model.UKRLPData)
+
+        </div>
+    }
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

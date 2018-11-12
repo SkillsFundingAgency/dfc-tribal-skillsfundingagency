@@ -1,0 +1,26 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditAccountViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Create Account");
+    ViewBag.SubmitKey = "CreateButton";
+    ViewBag.SubmitValue = "Create new user account";
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Create a New User")</h2>
+<h3>@AppGlobal.Language.GetText(this, "SubHeader", "")</h3>
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("Create", "Account", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+        {
+            @Html.AntiForgeryToken()
+            <h4>@AppGlobal.Language.GetText(this, "FormHeader", "Please enter the user's details below. Take care to get the email address correct. The user will be emailed an activation link at this address, and their account will not be active until this link is used to access the portal and they have set their password.")</h4>
+            <hr />
+            @Html.Partial("_EditAccountPartial", Model)
+        }
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Html.Partial("_EditAccountScriptPartial", Model)
+}

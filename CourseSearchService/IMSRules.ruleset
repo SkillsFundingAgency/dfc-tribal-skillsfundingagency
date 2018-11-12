@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="IMS Rules" Description="This rule set contains IMS rules." ToolsVersion="10.0">
+  <Localization ResourceAssembly="Microsoft.VisualStudio.CodeAnalysis.RuleSets.Strings.dll" ResourceBaseName="Microsoft.VisualStudio.CodeAnalysis.RuleSets.Strings.Localized">
+    <Name Resource="AllRules_Name" />
+    <Description Resource="AllRules_Description" />
+  </Localization>
+  <IncludeAll Action="Warning" />
+  <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
+    <Rule Id="BC0001" Action="None" />
+    <Rule Id="BC0002" Action="None" />
+    <Rule Id="BC0003" Action="None" />
+    <Rule Id="BC0004" Action="None" />
+    <Rule Id="BC0005" Action="None" />
+    <Rule Id="BC0006" Action="None" />
+    <Rule Id="BC0007" Action="None" />
+    <Rule Id="BC0008" Action="None" />
+    <Rule Id="BC0009" Action="None" />
+    <Rule Id="BC0010" Action="None" />
+    <Rule Id="BC0011" Action="None" />
+    <Rule Id="BC0012" Action="None" />
+    <Rule Id="BC0013" Action="None" />
+    <Rule Id="BC0014" Action="None" />
+    <Rule Id="BC0015" Action="None" />
+    <Rule Id="BC0016" Action="None" />
+    <Rule Id="BC0017" Action="None" />
+    <Rule Id="BC0018" Action="None" />
+    <Rule Id="CA1055" Action="None" />
+    <Rule Id="CA1056" Action="None" />
+    <Rule Id="CA1300" Action="None" />
+    <Rule Id="CA1301" Action="None" />
+    <Rule Id="CA1302" Action="None" />
+    <Rule Id="CA1303" Action="None" />
+    <Rule Id="CA1304" Action="None" />
+    <Rule Id="CA1305" Action="None" />
+    <Rule Id="CA1306" Action="None" />
+    <Rule Id="CA1307" Action="None" />
+    <Rule Id="CA1308" Action="None" />
+    <Rule Id="CA1309" Action="None" />
+    <Rule Id="CA1702" Action="None" />
+    <Rule Id="CA1704" Action="None" />
+    <Rule Id="CA1707" Action="None" />
+    <Rule Id="CA1709" Action="None" />
+    <Rule Id="CA1726" Action="None" />
+    <Rule Id="CA2101" Action="None" />
+    <Rule Id="CA2204" Action="None" />
+    <Rule Id="IMS0001" Action="None" />
+    <Rule Id="IMS0002" Action="None" />
+    <Rule Id="IMS0003" Action="None" />
+    <Rule Id="IMS0004" Action="None" />
+    <Rule Id="IMS0005" Action="None" />
+  </Rules>
+</RuleSet>

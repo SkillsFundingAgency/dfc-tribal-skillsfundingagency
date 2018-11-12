@@ -1,0 +1,49 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.A10FundingCodeViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Manage A10 Funding Codes");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Manage A10 Funding Codes")</h2>
+<hr/>
+
+<div class="site-content">
+    <div class="col-md-12 btn-toolbar" style="margin-top:0px;">
+        @Html.ActionLink(AppGlobal.Language.GetText(this, "Create", "Add new A10 funding code"), "Create", "A10FundingCode", null, new {@class = "pull-right btn btn-default"})
+    </div>
+</div>
+
+@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", ""))
+<table class="dataTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().A10FundingCodeId)
+            </th>
+            <th>
+                 @Html.DisplayNameFor(model => model.Items.First().A10FundingCodeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().RecordStatusName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.A10FundingCodeId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.A10FundingCodeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RecordStatusName)
+                </td>
+                <td>
+                    @Html.ActionLink(AppGlobal.Language.GetText(this, "Edit", "Edit"), "Edit", new { id=item.A10FundingCodeId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

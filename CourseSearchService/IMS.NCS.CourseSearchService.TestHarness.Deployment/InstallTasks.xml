@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- 
+Example InstallTasks.XML showing the typical settings for the security component
+You should be able to cut & paste these sections into your application's InstallTasks.XML
+-->
+<Tasks>
+  <Xml>
+    <file name="$TARGET_DIR$Web.config">
+
+      <!-- /configuration/system.serviceModel -->
+      <change xpath="/configuration/system.serviceModel/client/endpoint">
+        <!-- WCF endpoint address -->
+        <attribute name="address" value="$imsncs_appfarm.url$/IMS.NCS.CourseSearchService/CourseSearchService.svc" />
+      </change>
+
+      <change xpath="configuration/connectionStrings/add[@name='ImportControl Database']">
+        <!-- NCS Import Control database-->
+        <attribute name="connectionString" value="server=$ikbb_kbbintegration_sqlserver.instance$;database=KBBIntegration;Integrated Security=True" />
+      </change>
+
+      <!-- Application settings -->
+      <change xpath="configuration/appSettings/add[@key='FILESRVLocation']">
+        <attribute name="value" value="$coursedatafileretriever.batch_file_share.path$\Zip"/>
+      </change>
+      <change xpath="configuration/appSettings/add[@key='ServiceAccountDomain']">
+        <attribute name="value" value="$imservices_domain.name$"/>
+      </change>
+      <change xpath="configuration/appSettings/add[@key='ServiceAccountPassword']">
+        <attribute name="value" value="$password.svc-ncs-dataimport$"/>
+      </change>
+      <change xpath="configuration/appSettings/add[@key='EnvironmentDisplayName']">
+        <attribute name="value" value="$environment.display_name$"/>
+      </change>
+
+    </file>
+  </Xml>
+
+  <Web>
+    <IIS7CreateApplication
+      websiteName="$ncs.website_name$"
+      applicationName="IMS.NCS.CourseSearchService.TestHarness"
+      folder="$TARGET_DIR$"
+      appPoolName="$ncs.app_pool_name$"
+      DeleteIfExists="true">
+    </IIS7CreateApplication>
+  </Web>
+
+</Tasks>

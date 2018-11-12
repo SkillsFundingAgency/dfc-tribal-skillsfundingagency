@@ -1,0 +1,81 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Controllers
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ApprenticeshipListViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "View all Apprenticeships");
+    Boolean showDataReadyForQAButton = new ProviderController().showDataReadyForQAButton();
+    Boolean showNumberOfApprenticeshipsQAd = Permission.HasPermission(false, false, Permission.PermissionName.CanQAApprenticeships); // && Model.DataReadyForQA;
+}
+
+<h2 class="apprenticeships">@AppGlobal.Language.GetText(this, "Header", "View all Apprenticeships")</h2>
+
+@if (Model.DisplayNotPublishedBanner)
+{
+    <div class="warning">
+        @if (Permission.HasPermission(false, false, Permission.PermissionName.CanEditProvider))
+        {
+            @Html.Raw(AppGlobal.Language.GetText(this, "NoProviderApprenticeshipContractWithEditLink", @"Apprenticeship information will not be displayed on the digital apprenticeship service website as 'Current contract with the SFA' is not checked. Click <a href=""/Provider/Edit#ApprenticeshipDelivery"">Edit Provider</a> to enter it."))
+        }
+        else
+        {
+            @Html.Raw(AppGlobal.Language.GetText(this, "NoProviderApprenticeshipContractWithoutEditLink", "Apprenticeship information will not be displayed on the digital apprenticeship service website as 'Current contract with the SFA' is not checked."))
+        }
+    </div>
+}
+
+<div class="col-md-12">
+    
+    <div class="col-md-3 sidebar">
+        @using (Html.BeginForm())
+        {          
+            @Html.HiddenFor(m => m.Search.FrameworkOrStandardId)  
+            <h4>@AppGlobal.Language.GetText(this, "ApprenticeshipSearchOptions", "Apprenticeship search options")</h4>
+        
+            <div class="form-group">
+                @Html.LanguageLabelFor(m => m.Search.FrameworkOrStandard, new {@class = "control-label"})
+                <br />
+                @Html.EditorFor(model => model.Search.FrameworkOrStandard, new { htmlAttributes = new {@class = "form-control"} })
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(m => m.Search.LocationId, new {@class = "control-label"})
+                <br />
+                @Html.DropDownListFor(m => m.Search.LocationId, Model.Search.Locations, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new {@class = "form-control"})
+            </div>
+
+            <div class="form-group">
+                @Html.LanguageLabelFor(m => m.Search.DeliveryModeId, new {@class = "control-label"})
+                <br />
+                @Html.DropDownListFor(m => m.Search.DeliveryModeId, Model.Search.DeliveryModes, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new {@class = "form-control"})
+            </div>
+            
+            <div class="form-group">
+                <div style="text-align: right;">
+                    <input type="submit" value="@AppGlobal.Language.GetText(this, "Submit", "Search")" class="btn btn-default" />
+                </div>
+            </div>            
+        }
+    </div>
+
+    <div class="col-md-9">
+        @if (showNumberOfApprenticeshipsQAd)
+        {
+            <div class="warning">
+                <span id="spanQAdApprenticeships">@Html.Raw(String.Format(AppGlobal.Language.GetText(this, "xOutOfyApprenticeshipsHaveBeenQAed", "{0} out of the {1} required apprenticeships have been quality assured."), Model.ApprenticeshipsQAed.ToString("N0"), Model.NumberOfApprenticeshipsRequiredToQA.ToString("N0")))</span>
+            </div>
+        }
+
+        @if (showDataReadyForQAButton)
+        {
+            <div id="divDataReadyForQA2" class="pull-left" style="display: none;">
+                <input id="btnDataReadyForQA2" type="button" value="@AppGlobal.Language.GetText(this, "ReadyForQAButtonText", "Ready for QA")" class="btn btn-readyforqa" />
+                @if (AppGlobal.Language.GetText(this, "DataReadyForQATooltip", "") != "")
+                {
+                    @Html.Tooltip(AppGlobal.Language.GetText(this, "DataReadyForQATooltip", ""))
+                }
+            </div>
+        }        
+        @Html.DisplayFor(m => m.Apprenticeships, "_ListApprenticeships")
+    </div>
+
+</div>
+

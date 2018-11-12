@@ -1,0 +1,201 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.BulkUploadHistoryDetailViewModel
+@using (Html.BeginForm("ConfirmUpload", "BulkUpload"))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.BulkUploadId)
+
+    <div class="form-group col-md-12 sidebar">
+        <p>
+            @Model.PartialUploadText1
+        </p>
+        <p>
+            @Model.PartialUploadText2
+        </p>
+        @if (Model.UploadStatus.Equals(Constants.BulkUploadStatus.Needs_Confirmation))
+        {
+            if (Model.ExistingCourseCount > Model.ValidCourseCount || Model.ExistingOpportunityCount > Model.ValidOpportunityCount || Model.ExistingVenueCount > Model.ValidVenueCount ||
+                Model.ExistingApprenticeshipCount > Model.ValidApprenticeshipCount || Model.ExistingDeliveryLocationCount > Model.ValidDeliveryLocationCount || Model.ExistingLocationCount > Model.ValidLocationCount)
+            {
+                <p>
+                    @AppGlobal.Language.GetText("Confirm_PartialUpload_WarningForLowRecordCount3",
+                        "In order to save your valid data to the Course Directory, " +
+                        "we need you to confirm that you understand that you will " +
+                        "be uploading fewer valid records than are currently held. " +
+                        "Please review the warnings and/or notices listed below.")
+                </p>
+            }
+            else
+            {
+                <p>
+                    @AppGlobal.Language.GetText("Confirm_PartialUpload_WarningForWarningsAndNoticesOnly",
+                        "In order to save your valid data to the Course Directory, " +
+                        "we need you to confirm that you understand and accept the warnings and/or notices listed below.")
+                </p>
+            }
+            <p class="col-md-offset-11">
+            <input type="submit" value="@AppGlobal.Language.GetText(this, "ConfirmPartialUpload", "Confirm")" class="btn btn-success"/>
+        </p>
+        }
+        @if (Model.UploadStatus.Equals(Constants.BulkUploadStatus.NoValidRecords))
+        {
+            <p>
+                @AppGlobal.Language.GetText(this, "NoValidRecordsMessage", "Publishing this file could result in all courses and opportunities for your provision being deleted, please correct any errors, ensure you have valid records in all sections and upload the file again.")
+            </p>
+        }
+    </div>
+    <div class="form-group col-md-12 sidebar">
+
+        <div>
+            <div class="col-md-4">@Html.DisplayNameFor(model => model.FileName)</div>
+            <div class="col-md-6">@Html.DisplayFor(model => model.FileName)</div>
+        </div>
+
+        <div>
+            <div class="col-md-4">@Html.DisplayNameFor(model => model.UserName)</div>
+            <div class="col-md-6">@Html.DisplayFor(model => model.UserName)</div>
+        </div>
+
+        <div>
+            <div class="col-md-4">@Html.DisplayNameFor(model => model.UploadedDateTime)</div>
+            <div class="col-md-6">@Html.DisplayFor(model => model.UploadedDateTime)</div>
+        </div>
+
+        <div>
+            <div class="col-md-4">@Html.DisplayNameFor(model => model.UploadStatusText)</div>
+            <div class="col-md-6">@Html.DisplayFor(model => model.UploadStatusText)</div>
+        </div>
+        
+        @if (Model.FileContentType == Constants.FileContentType.CourseData)
+        { 
+
+            <div>
+                <div class="col-md-4">@Html.DisplayNameFor(model => model.TotalCourseCount)</div>
+                <div class="col-md-6">@Html.DisplayFor(model => model.TotalCourseCount)</div>
+            </div>
+            if (@Model.InvalidCourseCount > 0)
+            {
+                <div>
+                    <div class="col-md-4">@Html.DisplayNameFor(model => model.ValidCourseCount)</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.ValidCourseCount)</div>
+                </div>
+                <div>
+                    <div class="col-md-4">@Html.DisplayNameFor(model => model.InvalidCourseCount)</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.InvalidCourseCount)</div>
+                </div>
+                <div>
+                    <div class="col-md-4">@Html.DisplayNameFor(model => model.ValidCoursePercent)</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.ValidCoursePercent)</div>
+                </div>
+            }
+
+            <div>
+                <div class="col-md-4">@Html.DisplayNameFor(model => model.TotalOpportunityCount)</div>
+                <div class="col-md-6">@Html.DisplayFor(model => model.TotalOpportunityCount)</div>
+            </div>
+
+            if (@Model.InvalidOpportunityCount > 0)
+            {
+                <div>
+                    <div class="col-md-4">@Html.DisplayNameFor(model => model.ValidOpportunityCount)</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.ValidOpportunityCount)</div>
+                </div>
+                <div>
+                    <div class="col-md-4">@Html.DisplayNameFor(model => model.InvalidOpportunityCount)</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.InvalidOpportunityCount)</div>
+                </div>
+                <div>
+                    <div class="col-md-4">@Html.DisplayNameFor(model => model.ValidOpportunitiesPercent)</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.ValidOpportunitiesPercent)</div>
+                </div>
+            }
+
+            <div>
+                <div class="col-md-4">@Html.DisplayNameFor(model => model.TotalVenueCount)</div>
+                <div class="col-md-6">@Html.DisplayFor(model => model.TotalVenueCount)</div>
+            </div>
+
+            if (@Model.InvalidVenueCount > 0)
+            {
+                <div>
+                    <div class="col-md-4">@Html.DisplayNameFor(model => model.ValidVenueCount)</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.ValidVenueCount)</div>
+                </div>
+                <div>
+                    <div class="col-md-4">@Html.DisplayNameFor(model => model.InvalidVenueCount)</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.InvalidVenueCount)</div>
+                </div>
+                <div>
+                    <div class="col-md-4">@Html.DisplayNameFor(model => model.ValidVenuePercent)</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.ValidVenuePercent)</div>
+                </div>
+            }
+        }
+
+        else
+        {
+            <div>
+                <div class="col-md-4">@Html.DisplayNameFor(model => model.TotalApprenticeshipCount)</div>
+                <div class="col-md-6">@Html.DisplayFor(model => model.TotalApprenticeshipCount)</div>
+            </div>
+            
+            if (@Model.InvalidApprenticeshipCount > 0)
+            {
+
+                <div>
+                    <div class="col-md-4">@Html.DisplayNameFor(model => model.ValidApprenticeshipCount)</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.ValidApprenticeshipCount)</div>
+                </div>
+                <div>
+                    <div class="col-md-4">@Html.DisplayNameFor(model => model.InvalidApprenticeshipCount)</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.InvalidApprenticeshipCount)</div>
+                </div>
+                <div>
+                    <div class="col-md-4">@Html.DisplayNameFor(model => model.ValidApprenticeshipPercent)</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.ValidApprenticeshipPercent)</div>
+                </div>
+            }
+
+            <div>
+                <div class="col-md-4">@Html.DisplayNameFor(model => model.TotalDeliveryLocationCount)</div>
+                <div class="col-md-6">@Html.DisplayFor(model => model.TotalDeliveryLocationCount)</div>
+            </div>
+            
+            if (@Model.InvalidDeliveryLocationCount > 0)
+            {
+                <div>
+                    <div class="col-md-4">@Html.DisplayNameFor(model => model.ValidDeliveryLocationCount)</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.ValidDeliveryLocationCount)</div>
+                </div>
+                <div>
+                    <div class="col-md-4">@Html.DisplayNameFor(model => model.InvalidDeliveryLocationCount)</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.InvalidDeliveryLocationCount)</div>
+                </div>
+                <div>
+                    <div class="col-md-4">@Html.DisplayNameFor(model => model.ValidDeliveryLocationsPercent)</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.ValidDeliveryLocationsPercent)</div>
+                </div>
+            }
+
+            <div>
+                <div class="col-md-4">@Html.DisplayNameFor(model => model.TotalLocationCount)</div>
+                <div class="col-md-6">@Html.DisplayFor(model => model.TotalLocationCount)</div>
+            </div>
+
+            if (@Model.InvalidLocationCount > 0)
+            {
+                <div>
+                    <div class="col-md-4">@Html.DisplayNameFor(model => model.ValidLocationCount)</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.ValidLocationCount)</div>
+                </div>
+                <div>
+                    <div class="col-md-4">@Html.DisplayNameFor(model => model.InvalidLocationCount)</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.InvalidLocationCount)</div>
+                </div>
+                <div>
+                    <div class="col-md-4">@Html.DisplayNameFor(model => model.ValidLocationPercent)</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.ValidLocationPercent)</div>
+                </div>
+            }
+        }
+    </div>
+}

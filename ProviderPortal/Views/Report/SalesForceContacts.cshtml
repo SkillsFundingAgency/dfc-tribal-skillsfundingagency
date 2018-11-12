@@ -1,0 +1,53 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Models
+@model Tribal.SkillsFundingAgency.ProviderPortal.Models.SalesForceContactsViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "SalesForce Contacts");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "SalesForce Contacts")</h2>
+<hr/>
+@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", "<p>This table contains information about provider and organisation contacts in a format ready to be imported into SalesForce. Save the table as CSV and use the Data Import Wizard to import the information.<p>"))
+
+<table class="dataTable dt-responsive table table-striped table-bordered" data-ajax="@Url.Action("SalesForceContactsJson")">
+    <thead>
+        <tr>
+            <th scope="col" data-type="string-case-insensitive">
+                @Html.DisplayNameFor(m => m.Items.First().AccountName)
+            </th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().FirstName)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().LastName)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().Email)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().MailingStreet)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().MailingCity)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().MailingState)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().MailingPostalCode)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().Phone)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().IsPrimaryContact)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().UserExternalId)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().SFAFunded)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().DFE1619Funded)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Items.First().ExternalId)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (SalesForceContactsViewModelItem item in Model.Items)
+        {
+            <tr>
+                <td>@Html.DisplayFor(m => item.AccountName)</td>
+                <td>@Html.DisplayFor(m => item.FirstName)</td>
+                <td>@Html.DisplayFor(m => item.LastName)</td>
+                <td>@Html.DisplayFor(m => item.Email)</td>
+                <td>@Html.DisplayFor(m => item.MailingStreet)</td>
+                <td>@Html.DisplayFor(m => item.MailingCity)</td>
+                <td>@Html.DisplayFor(m => item.MailingState)</td>
+                <td>@Html.DisplayFor(m => item.MailingPostalCode)</td>
+                <td>@Html.DisplayFor(m => item.Phone)</td>
+                <td>@Html.DisplayFor(m => item.IsPrimaryContact)</td>
+                <td>@Html.DisplayFor(m => item.UserExternalId)</td>
+                <td>@Html.DisplayFor(m => item.SFAFunded)</td>
+                <td>@Html.DisplayFor(m => item.DFE1619Funded)</td>
+                <td>@Html.DisplayFor(m => item.ExternalId)</td>
+            </tr>
+        }
+    </tbody>
+</table>

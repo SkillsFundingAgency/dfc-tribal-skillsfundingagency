@@ -1,0 +1,12 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditApprenticeshipViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Add New Apprenticeship");
+}
+
+<h2 class="apprenticeships">@AppGlobal.Language.GetText(this, "Header", "Add New Apprenticeship")</h2>
+
+@Html.Partial("_EditApprenticeship", Model)
+
+@section Scripts {   
+    @Html.Partial("_EditApprenticeshipScripts", Model)
+}

@@ -1,0 +1,510 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>SFA_Database</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{fe86b375-ee1a-4ade-8685-389d34f5ead3}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql120DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>SFA_Database</RootNamespace>
+    <AssemblyName>SFA_Database</AssemblyName>
+    <ModelCollation>1033,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>Latin1_General_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <!-- VS10 without SP1 will not have VisualStudioVersion set, so do that here -->
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <!-- Default to the v10.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'sfa-test-s-vi|AnyCPU' " />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'sfa-test-s-vi-import|AnyCPU' ">
+    <OutputPath>bin\sfa-test-s-vi\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'sfa-prod-live|AnyCPU' " />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'sfa-prod-test|AnyCPU' " />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'sfa-prod-dev|AnyCPU' ">
+    <OutputPath>bin\sfa-prod-live\</OutputPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="Data" />
+    <Folder Include="dbo\User Defined Types\" />
+    <Folder Include="dbo\Functions\" />
+    <Folder Include="dbo\Triggers" />
+    <Folder Include="Data migration" />
+    <Folder Include="Data migration\Legacy LAR CSV creation" />
+    <Folder Include="Search\" />
+    <Folder Include="Search\Tables\" />
+    <Folder Include="Schemas" />
+    <Folder Include="Search\Stored Procedures\" />
+    <Folder Include="PostDeployment" />
+    <Folder Include="dbo\User Defined Table Types" />
+    <Folder Include="dbo\Views" />
+    <Folder Include="dbo\CLR Functions" />
+    <Folder Include="UCAS" />
+    <Folder Include="UCAS\Stored Procedures" />
+    <Folder Include="UCAS\Tables" />
+    <Folder Include="PreDeployment" />
+    <Folder Include="UCAS_PG" />
+    <Folder Include="UCAS_PG\Stored Procedures" />
+    <Folder Include="onspd" />
+    <Folder Include="onspd\Synonyms" />
+    <Folder Include="Search\Views" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\LearningAimAwardOrg.sql" />
+    <Build Include="dbo\Tables\LearningAim.sql" />
+    <Build Include="dbo\Tables\Venue.sql" />
+    <Build Include="dbo\Tables\A10FundingCode.sql" />
+    <Build Include="dbo\Tables\CourseInstanceA10FundingCode.sql" />
+    <Build Include="dbo\Tables\QualificationLevel.sql" />
+    <Build Include="dbo\Tables\CourseInstanceVenue.sql" />
+    <Build Include="dbo\Tables\ProviderRegion.sql" />
+    <Build Include="dbo\Tables\DurationUnit.sql" />
+    <Build Include="dbo\Tables\ProviderType.sql" />
+    <Build Include="dbo\Tables\CourseInstance.sql" />
+    <Build Include="dbo\Tables\Course.sql" />
+    <Build Include="dbo\Tables\StudyMode.sql" />
+    <Build Include="dbo\Tables\Application.sql" />
+    <Build Include="dbo\Tables\RecordStatus.sql" />
+    <Build Include="dbo\Tables\OrganisationType.sql" />
+    <Build Include="dbo\Tables\AttendanceType.sql" />
+    <Build Include="dbo\Tables\Organisation.sql" />
+    <Build Include="dbo\Tables\AttendancePattern.sql" />
+    <Build Include="dbo\Tables\OrganisationProvider.sql" />
+    <Build Include="dbo\Tables\CourseInstanceStartDate.sql" />
+    <Build Include="dbo\Tables\StatisticType.sql" />
+    <Build Include="dbo\Tables\StatisticAction.sql" />
+    <Build Include="dbo\Tables\ProviderPortalUsageStatistics.sql" />
+    <Build Include="dbo\Tables\Provider.sql" />
+    <Build Include="dbo\Stored Procedures\up_TestDataOut.sql" />
+    <None Include="Data\LookupData.sql" />
+    <Build Include="dbo\Tables\Ukrlp.sql" />
+    <Build Include="dbo\Tables\Address.sql" />
+    <Build Include="dbo\Tables\Prison.sql" />
+    <None Include="Data\SampleUkrlpData.sql" />
+    <Build Include="dbo\Tables\QualificationType.sql" />
+    <Build Include="dbo\Tables\CourseLearnDirectClassification.sql" />
+    <Build Include="dbo\Tables\LearnDirectClassification.sql" />
+    <None Include="Data\SampleLearnDirectClassificationData.sql" />
+    <None Include="Data\SampleVenueLocationData.sql" />
+    <Build Include="dbo\Tables\UcasStudyModeMapping.sql" />
+    <Build Include="dbo\Tables\VenueLocation.sql" />
+    <Build Include="dbo\User Defined Types\GEL_Computer_t.sql" />
+    <Build Include="dbo\User Defined Types\GEL_DateTime_t.sql" />
+    <Build Include="dbo\User Defined Types\GEL_Event_t.sql" />
+    <Build Include="dbo\User Defined Types\GEL_ID_t.sql" />
+    <Build Include="dbo\User Defined Types\GEL_Source_t.sql" />
+    <Build Include="dbo\User Defined Types\GEL_Type_t.sql" />
+    <Build Include="dbo\User Defined Types\GEL_User_t.sql" />
+    <Build Include="dbo\Tables\GlobalEventComputer.sql" />
+    <Build Include="dbo\Tables\GlobalEventLog.sql" />
+    <Build Include="dbo\Tables\GlobalEventSource.sql" />
+    <Build Include="dbo\Tables\GlobalEventType.sql" />
+    <Build Include="dbo\Tables\GlobalEventUser.sql" />
+    <Build Include="dbo\Stored Procedures\up_GlobalEventComputerGetID.sql" />
+    <Build Include="dbo\Stored Procedures\up_GlobalEventLogAdd.sql" />
+    <Build Include="dbo\Stored Procedures\up_GlobalEventLogDelete.sql" />
+    <Build Include="dbo\Stored Procedures\up_GlobalEventLogList.sql" />
+    <Build Include="dbo\Stored Procedures\up_GlobalEventLogListByID.sql" />
+    <Build Include="dbo\Stored Procedures\up_GlobalEventLogListComputer.sql" />
+    <Build Include="dbo\Stored Procedures\up_GlobalEventLogListTypes.sql" />
+    <Build Include="dbo\Stored Procedures\up_GlobalEventLogListUser.sql" />
+    <Build Include="dbo\Stored Procedures\up_GlobalEventLogRelationshipPurge.sql" />
+    <Build Include="dbo\Stored Procedures\up_GlobalEventSourceGetID.sql" />
+    <Build Include="dbo\Stored Procedures\up_GlobalEventTypeGetID.sql" />
+    <Build Include="dbo\Stored Procedures\up_GlobalEventUserGetID.sql" />
+    <Build Include="dbo\Tables\ConfigurationSettings.sql" />
+    <Build Include="dbo\Tables\Permission.sql" />
+    <Build Include="dbo\Tables\PermissionInRole.sql" />
+    <Build Include="dbo\Tables\AspNetRoles.sql" />
+    <Build Include="dbo\Tables\AspNetUserClaims.sql" />
+    <Build Include="dbo\Tables\AspNetUserLogins.sql" />
+    <Build Include="dbo\Tables\AspNetUserRoles.sql" />
+    <Build Include="dbo\Tables\AspNetUsers.sql" />
+    <Build Include="dbo\Tables\EmailTemplate.sql" />
+    <Build Include="dbo\Tables\EmailTemplateGroup.sql" />
+    <Build Include="dbo\Tables\Language.sql" />
+    <Build Include="dbo\Tables\LanguageKeyChild.sql" />
+    <Build Include="dbo\Tables\LanguageKeyGroup.sql" />
+    <Build Include="dbo\Tables\LanguageText.sql" />
+    <Build Include="dbo\Tables\LanguageField.sql" />
+    <Build Include="dbo\Stored Procedures\up_LanguageDeleteAllFields.sql" />
+    <Build Include="dbo\Stored Procedures\up_LanguageFieldAddSetDefaultByFieldName.sql" />
+    <Build Include="dbo\Stored Procedures\up_LanguageFieldDelete.sql" />
+    <Build Include="dbo\Stored Procedures\up_LanguageFieldListTablesWithLanguageFields.sql" />
+    <Build Include="dbo\Stored Procedures\up_LanguageFieldSetupTables.sql" />
+    <Build Include="dbo\Stored Procedures\up_LanguageFullTextListStopWords.sql" />
+    <Build Include="dbo\Stored Procedures\up_LanguageKeyChildList.sql" />
+    <Build Include="dbo\Stored Procedures\up_LanguageKeyGroupList.sql" />
+    <Build Include="dbo\Stored Procedures\up_LanguageList.sql" />
+    <Build Include="dbo\Stored Procedures\up_LanguageListDefaultLanguageId.sql" />
+    <Build Include="dbo\Stored Procedures\up_LanguageTextListByKeyGroupId.sql" />
+    <Build Include="dbo\Stored Procedures\up_LanguageTextListByLanguageId.sql" />
+    <Build Include="dbo\Stored Procedures\up_LanguageTextSetByQualifiedFieldName.sql" />
+    <Build Include="dbo\Functions\Split.sql" />
+    <None Include="Data\DefaultRolePermissions.sql" />
+    <None Include="Data\DefaultConfigurationSettings.sql" />
+    <Build Include="dbo\Functions\GetLanguageTextForQualifiedFieldName.sql" />
+    <Build Include="dbo\Functions\GetPrimaryKeyForTable.sql" />
+    <Build Include="dbo\Tables\ProviderUserType.sql" />
+    <Build Include="dbo\Tables\ProviderUserTypeInRole.sql" />
+    <Build Include="dbo\Tables\ProviderUser.sql" />
+    <Build Include="dbo\Tables\OrganisationUser.sql" />
+    <Build Include="dbo\Triggers\TR_AspNetUsers_Update.sql" />
+    <Build Include="dbo\Tables\AddressBase.sql" />
+    <Build Include="dbo\Tables\GeoLocation.sql" />
+    <Build Include="dbo\Tables\QualificationTitle.sql" />
+    <None Include="Data\DefaultUsers.sql">
+      <ApplicationScope>False</ApplicationScope>
+    </None>
+    <Build Include="dbo\Functions\GetCsvDataTimeString.sql" />
+    <Build Include="dbo\Stored Procedures\up_VenueListForCsvExport.sql" />
+    <Build Include="dbo\Stored Procedures\up_CourseListForCsvExport.sql" />
+    <Build Include="dbo\Stored Procedures\up_CourseInstanceA10CodesForCsvExport.sql" />
+    <Build Include="dbo\Stored Procedures\up_CourseInstanceStartDatesListForCsvExport.sql" />
+    <Build Include="dbo\Functions\GetCsvDateString.sql" />
+    <Build Include="dbo\Stored Procedures\up_CourseInstanceListForCsvExport.sql" />
+    <Build Include="dbo\Functions\GetCourseInstanceSummaryText.sql" />
+    <Build Include="dbo\Stored Procedures\up_ReportProviderVenues.sql" />
+    <Build Include="dbo\Stored Procedures\up_ReportProviderCourses.sql" />
+    <Build Include="dbo\Stored Procedures\up_ReportProviderOpportunities.sql" />
+    <Build Include="dbo\Functions\GetCourseInstanceStartDates.sql" />
+    <Build Include="dbo\Functions\GetCourseInstanceVenues.sql" />
+    <Build Include="dbo\Stored Procedures\up_ProviderSearchListForCsvExport.sql" />
+    <Build Include="dbo\Tables\LegacyCourseSubjectBrowseCategories.sql" />
+    <None Include="Data\LegacyCourseCategory.sql" />
+    <Build Include="dbo\Functions\GetA10CommaDelimited.sql" />
+    <Build Include="dbo\Functions\GetLdcsCodeList.sql" />
+    <Build Include="dbo\Functions\GetPostcodeOutcode.sql" />
+    <Build Include="dbo\Tables\CourseLanguage.sql" />
+    <Build Include="dbo\Tables\QualityScore.sql" />
+    <Build Include="dbo\Stored Procedures\up_ReportProviderDashboard.sql" />
+    <Build Include="dbo\Stored Procedures\up_CourseBrowseListForCsvExport.sql" />
+    <Build Include="dbo\Tables\LearningAimValidity.sql" />
+    <Build Include="dbo\Stored Procedures\up_CourseSearchTextForCsvExport.sql" />
+    <None Include="Data migration\1 - Check data tables.sql" />
+    <None Include="Data migration\2 - Add functions and indexes to prepare for import.sql" />
+    <None Include="Data migration\3 - Data migration.sql" />
+    <None Include="Data migration\4 - Tidy up.sql" />
+    <Build Include="dbo\Stored Procedures\up_ProviderUpdateQualityScore.sql" />
+    <Build Include="dbo\Stored Procedures\up_ProviderUpdateAllQualityScores.sql" />
+    <Build Include="dbo\Tables\QualityEmailStatus.sql" />
+    <Build Include="dbo\Stored Procedures\up_ReportOrganisationTrafficLight.sql" />
+    <Build Include="dbo\Stored Procedures\up_OrganisationGetProviderPrimaryContacts.sql" />
+    <Build Include="dbo\Stored Procedures\up_ProviderGetPrimaryContacts.sql" />
+    <Build Include="dbo\Tables\BulkUploadStatusName.sql" />
+    <Build Include="dbo\Tables\BulkUploadErrorType.sql" />
+    <Build Include="dbo\Stored Procedures\up_ReportAdminReport.sql" />
+    <Build Include="dbo\Stored Procedures\Backup_DB.sql" />
+    <Build Include="dbo\Stored Procedures\Backup_DB_to_disk_with_copy_only.sql" />
+    <Build Include="dbo\Stored Procedures\up_ProviderListForCsvExport.sql" />
+    <Build Include="dbo\Tables\Audit_Course.sql" />
+    <Build Include="dbo\Tables\Audit_CourseInstance.sql" />
+    <Build Include="dbo\Tables\Audit_CourseInstanceA10FundingCode.sql" />
+    <Build Include="dbo\Tables\Audit_CourseInstanceStartDate.sql" />
+    <Build Include="dbo\Tables\Audit_CourseInstanceVenue.sql" />
+    <Build Include="dbo\Tables\Audit_CourseLearnDirectClassification.sql" />
+    <Build Include="dbo\Tables\Audit_Organisation.sql" />
+    <Build Include="dbo\Tables\Audit_OrganisationProvider.sql" />
+    <Build Include="dbo\Tables\Audit_OrganisationUser.sql" />
+    <Build Include="dbo\Tables\Audit_Provider.sql" />
+    <Build Include="dbo\Tables\Audit_ProviderUser.sql" />
+    <Build Include="dbo\Tables\Audit_Venue.sql" />
+    <Build Include="dbo\Tables\Audit_AspNetUsers.sql" />
+    <Build Include="dbo\Tables\Audit_Address.sql" />
+    <None Include="Data\QualificationTypeMap.sql" />
+    <Build Include="Search\Tables\Venue.sql" />
+    <Build Include="Search\Tables\ProviderText.sql" />
+    <Build Include="Search\Tables\Provider.sql" />
+    <Build Include="Search\Tables\LearningAim.sql" />
+    <Build Include="Search\Tables\CourseInstanceA10FundingCode.sql" />
+    <Build Include="Search\Tables\CategoryCode.sql" />
+    <Build Include="Schemas\Search.sql" />
+    <Build Include="Search\Stored Procedures\VenueList.sql" />
+    <Build Include="Search\Stored Procedures\ProviderList.sql" />
+    <Build Include="Search\Stored Procedures\CourseSearchText.sql" />
+    <Build Include="Search\Stored Procedures\CourseList.sql" />
+    <Build Include="Search\Stored Procedures\CourseInstanceStartDatesList.sql" />
+    <Build Include="Search\Stored Procedures\CourseInstanceList.sql" />
+    <Build Include="Search\Stored Procedures\CourseInstanceA10Codes.sql" />
+    <Build Include="Search\Stored Procedures\CourseBrowseList.sql" />
+    <Build Include="Search\Tables\CourseText.sql" />
+    <Build Include="Search\Tables\CourseInstance.sql" />
+    <Build Include="Search\Tables\CourseInstanceStartDate.sql" />
+    <Build Include="Search\Tables\Course.sql" />
+    <Build Include="Search\Stored Procedures\ProviderTextSearchList.sql" />
+    <Build Include="Search\Stored Procedures\PopulateSearchData.sql" />
+    <Build Include="dbo\Tables\QualificationTypeMap.sql" />
+    <Build Include="Search\Tables\DataExportLogDetail.sql" />
+    <Build Include="Search\Tables\DataExportLog.sql" />
+    <Build Include="Search\Tables\DataExportException.sql" />
+    <Build Include="Search\Tables\DataExportConfiguration.sql" />
+    <Build Include="dbo\Tables\FEChoices.sql" />
+    <Build Include="dbo\Functions\GetDistance.sql" />
+    <Build Include="dbo\Stored Procedures\up_DailyReport.sql" />
+    <Build Include="dbo\Stored Procedures\up_WeeklyReport.sql" />
+    <Build Include="dbo\Stored Procedures\up_OrganisationUpdateAllQualityScores.sql" />
+    <Build Include="dbo\Stored Procedures\up_OrganisationUpdateQualityScore.sql" />
+    <Build Include="dbo\Tables\OrganisationQualityScore.sql" />
+    <Build Include="dbo\Stored Procedures\up_ReportSalesForceAccounts.sql" />
+    <Build Include="dbo\Stored Procedures\up_ReportSalesForceContacts.sql" />
+    <Build Include="dbo\User Defined Table Types\IntList.sql" />
+    <Build Include="dbo\Stored Procedures\up_GetOrganisationUsers.sql" />
+    <Build Include="dbo\Stored Procedures\up_SFAWeeklyReport.sql" />
+    <Build Include="dbo\Tables\Import_LearnDirectClassification.sql" />
+    <Build Include="dbo\Tables\Import_LearningAim.sql" />
+    <Build Include="dbo\Tables\Import_LearningAimAwardOrg.sql" />
+    <Build Include="dbo\Tables\Import_LearningAimValidity.sql" />
+    <Build Include="dbo\Tables\DfEProviderType.sql" />
+    <Build Include="dbo\Tables\DfERegion.sql" />
+    <Build Include="dbo\Tables\DfEProviderStatus.sql" />
+    <Build Include="dbo\Tables\DfEWsProviderStatus.sql" />
+    <Build Include="dbo\Tables\DfEEstablishmentType.sql" />
+    <Build Include="dbo\Tables\DfEEstablishmentPhase.sql" />
+    <Build Include="dbo\Tables\DfELocalAuthority.sql" />
+    <Build Include="dbo\Tables\DfEEstablishmentStatus.sql" />
+    <Build Include="dbo\Tables\OpenDataDownload.sql" />
+    <Build Include="dbo\Tables\PublicAPIUser.sql" />
+    <Build Include="dbo\Tables\Audit_PublicAPIUser.sql" />
+    <Build Include="dbo\Tables\QualityEmailLog.sql" />
+    <Build Include="dbo\Stored Procedures\up_QualityEmailLogDeleteDuplicateRows.sql" />
+    <Build Include="dbo\Stored Procedures\up_ReportBulkUploadHistory.sql" />
+    <Build Include="dbo\Tables\Content.sql" />
+    <Build Include="dbo\Tables\BulkUpload.sql" />
+    <Build Include="dbo\Tables\BulkUploadStatusHistory.sql" />
+    <Build Include="dbo\Stored Procedures\up_BulkUploadValidationQueueNext.sql" />
+    <Build Include="dbo\Views\v_BulkUploadCurrentStatus.sql" />
+    <Build Include="dbo\Tables\BulkUploadProvider.sql" />
+    <Build Include="dbo\Tables\BulkUploadExceptionItem.sql" />
+    <Build Include="dbo\Tables\Import_AddressBase.sql" />
+    <Build Include="dbo\Tables\ProgressMessage.sql" />
+    <Build Include="dbo\Stored Procedures\up_BulkUploadPendingOrganisationUploadForProvider.sql" />
+    <Build Include="dbo\Stored Procedures\up_BulkUploadConfirmedQueueNext.sql" />
+    <Build Include="dbo\Stored Procedures\up_BulkUploadMigration.sql" />
+    <Build Include="dbo\Stored Procedures\up_BulkUploadProviderClearData.sql" />
+    <Build Include="dbo\Functions\ConvertTimeToHHMMSS.sql" />
+    <Build Include="dbo\Stored Procedures\up_BulkUploadProcessingTime.sql" />
+    <Build Include="dbo\Functions\ConvertFileSizeToHumanReadable.sql" />
+    <Build Include="dbo\Stored Procedures\up_UpdateLDCSHierarchy.sql" />
+    <Build Include="dbo\Tables\MetaDataUpload.sql" />
+    <Build Include="dbo\Tables\MetaDataUploadType.sql" />
+    <Build Include="UCAS\Tables\CourseEntry.sql" />
+    <Build Include="UCAS\Tables\Courses.sql" />
+    <Build Include="UCAS\Tables\CoursesIndex.sql" />
+    <Build Include="UCAS\Tables\Currencies.sql" />
+    <Build Include="UCAS\Tables\Deletions.sql" />
+    <Build Include="UCAS\Tables\Fees.sql" />
+    <Build Include="UCAS\Tables\Orgs.sql" />
+    <Build Include="UCAS\Tables\PlacesOfStudy.sql" />
+    <Build Include="UCAS\Tables\Starts.sql" />
+    <Build Include="UCAS\Tables\StartsIndex.sql" />
+    <Build Include="UCAS\Tables\Towns.sql" />
+    <Build Include="UCAS\Stored Procedures\up_UCAS_PrepareForImport.sql" />
+    <Build Include="Schemas\UCAS.sql" />
+    <Build Include="dbo\Tables\UserProvisionHistory.sql" />
+    <Build Include="dbo\Stored Procedures\up_GetProviderUsers.sql" />
+    <Build Include="UCAS\Tables\FeeYears.sql" />
+    <Build Include="dbo\Tables\Standard.sql" />
+    <Build Include="dbo\Tables\Import_Standard.sql" />
+    <Build Include="dbo\Tables\SectorSubjectAreaTier1.sql" />
+    <Build Include="dbo\Tables\SectorSubjectAreaTier2.sql" />
+    <Build Include="dbo\Tables\Import_SectorSubjectAreaTier1.sql" />
+    <Build Include="dbo\Tables\Import_SectorSubjectAreaTier2.sql" />
+    <Build Include="dbo\Tables\StandardSectorCode.sql" />
+    <Build Include="dbo\Tables\Import_StandardSectorCode.sql" />
+    <Build Include="dbo\Tables\LearnDirectClassificationToJACS3Mapping.sql" />
+    <Build Include="dbo\Tables\Import_Framework.sql" />
+    <Build Include="dbo\Tables\Import_ProgType.sql" />
+    <Build Include="dbo\Tables\Framework.sql" />
+    <Build Include="dbo\Tables\ProgType.sql" />
+    <Build Include="dbo\Tables\DeliveryMode.sql" />
+    <Build Include="dbo\Tables\Apprenticeship.sql" />
+    <Build Include="dbo\Tables\Audit_Apprenticeship.sql" />
+    <Build Include="dbo\Tables\Location.sql" />
+    <Build Include="dbo\Tables\Audit_Location.sql" />
+    <Build Include="dbo\Tables\ApprenticeshipLocation.sql" />
+    <Build Include="dbo\Tables\Audit_ApprenticeshipLocation.sql" />
+    <Build Include="dbo\Tables\ApprenticeshipLocationDeliveryMode.sql" />
+    <Build Include="dbo\Tables\Audit_ApprenticeshipLocationDeliveryMode.sql" />
+    <Build Include="Search\Tables\DAS_Provider.sql" />
+    <Build Include="Search\Stored Procedures\DAS_ProviderList.sql" />
+    <Build Include="Search\Stored Procedures\DAS_PopulateSearchData.sql" />
+    <Build Include="Search\Tables\DAS_Location.sql" />
+    <Build Include="Search\Stored Procedures\DAS_LocationList.sql" />
+    <Build Include="Search\Tables\DAS_Apprenticeship.sql" />
+    <Build Include="Search\Stored Procedures\DAS_ApprenticeshipList.sql" />
+    <Build Include="Search\Tables\DAS_ApprenticeshipLocation.sql" />
+    <Build Include="Search\Stored Procedures\DAS_ApprenticeshipLocationList.sql" />
+    <Build Include="Search\Tables\DAS_ApprenticeshipLocationDeliveryMode.sql" />
+    <Build Include="Search\Stored Procedures\DAS_ApprenticeshipLocationDeliveryModeList.sql" />
+    <Build Include="Search\Tables\DAS_DeliveryMode.sql" />
+    <Build Include="Search\Stored Procedures\DAS_DeliveryModeList.sql" />
+    <Build Include="UCAS\Tables\Qualifications.sql" />
+    <Build Include="dbo\Tables\BulkUploadSection.sql" />
+    <Build Include="UCAS_PG\Course.sql" />
+    <Build Include="UCAS_PG\CourseOption.sql" />
+    <Build Include="UCAS_PG\CourseOptionFee.sql" />
+    <Build Include="UCAS_PG\Location.sql" />
+    <Build Include="UCAS_PG\Provider.sql" />
+    <Build Include="UCAS\Stored Procedures\up_UCAS_HandleDeletions.sql" />
+    <Build Include="UCAS_PG\Stored Procedures\up_UCAS_PG_PrepareForImport.sql" />
+    <Build Include="dbo\Tables\Import_GeoLocation.sql" />
+    <Build Include="dbo\Tables\ApprenticeshipQACompliance.sql" />
+    <Build Include="dbo\Tables\QAComplianceFailureReasons.sql" />
+    <Build Include="dbo\Tables\ApprenticeshipQAComplianceFailureReason.sql" />
+    <Build Include="dbo\Tables\QAStyleFailureReason.sql" />
+    <Build Include="dbo\Tables\ApprenticeshipQAStyleFailureReason.sql" />
+    <Build Include="dbo\Tables\ApprenticeshipQAStyle.sql" />
+    <Build Include="dbo\Tables\ProviderQACompliance.sql" />
+    <Build Include="dbo\Tables\ProviderQAStyle.sql" />
+    <Build Include="dbo\Tables\ProviderQAComplianceFailureReason.sql" />
+    <Build Include="dbo\Tables\ProviderQAStyleFailureReason.sql" />
+    <Build Include="dbo\Functions\GetApprenticeshipQAComplianceFailureReasonsCommaDelimited.sql" />
+    <Build Include="dbo\Functions\GetApprenticeshipQAStyleFailureReasonsCommaDelimited.sql" />
+    <Build Include="dbo\Functions\GetProviderQAComplianceFailureReasonsCommaDelimited.sql" />
+    <Build Include="dbo\Functions\GetProviderQAStyleFailureReasonsCommaDelimited.sql" />
+    <Build Include="dbo\Stored Procedures\up_ReportProviderQAHistory.sql" />
+    <Build Include="dbo\Functions\GetApprenticeshipName.sql" />
+    <Build Include="dbo\Stored Procedures\up_ReportQualityAssuredProviders.sql" />
+    <Build Include="dbo\Tables\AutomatedTask.sql" />
+    <Build Include="dbo\Stored Procedures\up_CanRunAutomatedTask.sql" />
+    <Build Include="Search\Views\v_VenueLocation.sql" />
+    <Build Include="dbo\Tables\LocationAliasType.sql" />
+    <Build Include="dbo\Tables\LocationAlias.sql" />
+    <Build Include="Search\Views\v_CountyAlias.sql" />
+    <Build Include="Search\Tables\VenueText.sql" />
+    <Build Include="Search\Stored Procedures\VenueSearchText.sql" />
+    <Build Include="onspd\Synonyms\VenueEnhancement.sql" />
+    <Build Include="Schemas\ONSPD.sql" />
+    <Build Include="dbo\Functions\SplitAndRejoinDistinct.sql" />
+    <Build Include="dbo\Stored Procedures\up_GetProviderCoursesOutOfDate.sql" />
+    <Build Include="dbo\Stored Procedures\up_GetProviderCoursesWithExpiredLAR.sql" />
+    <Build Include="dbo\Tables\Provider_AllCoursesOKConfirmations.sql" />
+    <Build Include="dbo\Tables\RoATPProviderType.sql" />
+    <Build Include="dbo\Tables\ImportBatchProvider.sql" />
+    <Build Include="dbo\Tables\ImportBatch.sql" />
+    <Build Include="dbo\Tables\UnableToCompleteFailureReasons.sql" />
+    <Build Include="dbo\Tables\ProviderUnableToComplete.sql" />
+    <Build Include="dbo\Tables\ProviderUnableToCompleteFailureReason.sql" />
+    <Build Include="dbo\Stored Procedures\up_ReportProviderUnableToCompleteHistory.sql" />
+    <Build Include="dbo\Functions\GetUnableToCompleteFailureReasonsCommaDelimited.sql" />
+    <Build Include="dbo\Stored Procedures\up_ReportRegisterOpening.sql" />
+    <Build Include="dbo\Stored Procedures\up_ReportRegisterOpeningDetail.sql" />
+    <Build Include="dbo\Stored Procedures\up_ReportHeadlineStats.sql" />
+    <Build Include="dbo\Stored Procedures\up_ReportBulkUploadHistoryApprentice.sql" />
+    <Build Include="dbo\Functions\GetProviderIsTASOnly.sql" />
+    <Build Include="dbo\Stored Procedures\up_GetProviderCoursesDateStatus.sql" />
+    <Build Include="dbo\Functions\GetRegionLevel.sql" />
+    <Build Include="dbo\Stored Procedures\up_GetProviderOpportunitiesDateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\up_ReportProvidersWithArchivedApprenticeships.sql" />
+    <Build Include="dbo\Stored Procedures\up_ReportProvidersWithArchivedApprenticeshipsDetailed.sql" />
+    <Build Include="Search\Tables\SearchPhrase.sql" />
+    <Build Include="Search\Tables\SearchPhrase_QualificationLevel.sql" />
+    <Build Include="Search\Tables\SearchPhrase_AttendanceType.sql" />
+    <Build Include="Search\Tables\SearchPhrase_StudyMode.sql" />
+    <Build Include="Search\Tables\SearchPhrase_AttendancePattern.sql" />
+    <Build Include="dbo\Tables\ProviderTASRefresh.sql" />
+    <Build Include="dbo\Stored Procedures\up_ReportRoATPProviderRefreshed.sql" />
+    <Build Include="dbo\Stored Procedures\up_ReportRoATPProviderNotRefreshed.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeployment.sql">
+      <ExcludeFromSourceAnalysis>True</ExcludeFromSourceAnalysis>
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </PostDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\DefaultEmailTemplates.sql" />
+    <None Include="Data\S_LEARNING_AIMS.zip" />
+    <None Include="SFA_Database_Live.publish.xml" />
+    <None Include="Data migration\Legacy LAR CSV creation\Create Csv-Psv files.ps1" />
+    <None Include="Data migration\Legacy LAR CSV creation\Running the PowerShell script.docx" />
+    <None Include="Data migration\Instructions for Data migration.docx" />
+    <None Include="SFA_Database-Jon.publish.xml" />
+    <None Include="PostDeployment\Custom.sql" />
+    <None Include="SFA_Database-itsdb01-2014-test.publish.xml" />
+    <None Include="SFA_Database_sfa-prod-dev.publish.xml" />
+    <None Include="SFA_Database_sfa-prod-test.publish.xml" />
+    <None Include="SFA_Database_sfa-prod-live.publish.xml" />
+    <None Include="Data\DefaultContent.sql" />
+    <Build Include="dbo\Stored Procedures\up_ReportProviderQualityEmailHistory.sql" />
+    <None Include="PreDeployment\Custom.sql" />
+    <None Include="SFA_Database-Steve.publish.xml" />
+    <Build Include="Schemas\UCAS_PG.sql" />
+    <None Include="SFA_Database-Jon-Test.publish.xml" />
+    <None Include="SFA_Database-Paula.publish.xml" />
+    <None Include="SFA_Database-Brian.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="SFA_Database.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Web" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="dbo\CLR Functions\AppendTrackingCode.cs" />
+    <Compile Include="dbo\CLR Functions\GetTrafficLightStatus.cs" />
+    <Compile Include="dbo\CLR Functions\GetNumberOfApprenticeshipsToQA.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PreDeploy Include="Script.PreDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="ONS_PostcodeDirectory">
+      <DefaultValue>ONS_PostcodeDirectory</DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
+  </ItemGroup>
+</Project>

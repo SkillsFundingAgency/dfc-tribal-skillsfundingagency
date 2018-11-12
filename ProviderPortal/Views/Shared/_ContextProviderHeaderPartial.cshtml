@@ -1,0 +1,156 @@
+﻿@using Tribal.SkillsFundingAgency.ProviderPortal.Classes
+@using Tribal.SkillsFundingAgency.ProviderPortal.Controllers
+@* The contents of this file go to the left of the masthead logo in the Provider UserContext*@
+@{
+    QualityIndicator.CheckQAUpToDate();
+    var date = (DateTime?)HttpContext.Current.Session[Constants.SessionFieldNames.ProviderLastActivity];
+    var lastProvisionUpdate = (DateTime?)HttpContext.Current.Session[Constants.SessionFieldNames.ProviderLastProvisionUpdate];
+    var score = (decimal)HttpContext.Current.Session[Constants.SessionFieldNames.ProviderQualityScore];
+    var isSfaFunded = (bool)HttpContext.Current.Session[Constants.SessionFieldNames.ProviderIsSfaFunded];
+    var isDfe1619Funded = (bool)HttpContext.Current.Session[Constants.SessionFieldNames.ProviderIsDfe1619Funded];
+    var providerType = (string)(HttpContext.Current.Session[Constants.SessionFieldNames.ProviderType] ?? "");
+    var trafficOrb = QualityIndicator.GetTrafficOrb(date, isSfaFunded, isDfe1619Funded);
+    var trafficText = QualityIndicator.GetTrafficText(date, isSfaFunded, isDfe1619Funded);
+    var qualityOrb = QualityIndicator.GetQualityOrb(QualityIndicator.GetQualityScore(score));
+    var qualityText = QualityIndicator.GetQualityText(score, false);
+    var bulkUploadPending = BulkUploadIndicator.Pending();
+    Boolean showDataReadyForQAButton = new ProviderController().showDataReadyForQAButton();
+    Boolean showTASRefreshConfirmButton = new ProviderController().showTASRefreshConfirmButton();
+    Boolean showSecondRow = ProvisionDataCurrent.ShowSecondRowOfHeader;
+    Int32 numberOfOutOfDateCourses = !showSecondRow ? 0 : ProvisionDataCurrent.GetCountOfCoursesOutOfDate();
+    Int32 numberOfCoursesWithExpiredLAR = !showSecondRow ? 0 : ProvisionDataCurrent.GetCountOfCoursesWithExpiredLAR();
+    Boolean isTASOnly = ProvisionDataCurrent.IsTASOnly;
+}
+@if (!isTASOnly)
+{
+    <div class="pull-right masthead-provider">
+        <div class="masthead-toprow">
+            <span class="quality-score">
+                <strong>@AppGlobal.Language.GetText(this, "LastActivity", "Last activity:")</strong>
+                @(date == null ? AppGlobal.Language.GetText(this, "NeverUpdated", "Never") : date.Value.ToString(Constants.ConfigSettings.ShortDateFormat))
+            </span>
+            <span class="quality-score">
+                <strong>@AppGlobal.Language.GetText(this, "TrafficScore", "Traffic light status:")</strong>
+                <span class="quality @trafficOrb" title="@trafficText"></span>
+                @trafficText
+            </span>
+            <span class="quality-score">
+                <strong>@AppGlobal.Language.GetText(this, "QualityScore", "Data quality score:")</strong>
+                <span class="quality @qualityOrb" title="@qualityText (@score.ToString("0.#%"))"></span>
+                @qualityText (@score.ToString("0.#%"))
+            </span>
+            @if (isSfaFunded || isDfe1619Funded)
+            {
+                <span class="quality-score">
+                    @if (isSfaFunded)
+                    {
+                        <span title="@string.Format(AppGlobal.Language.GetText(this, "SFAHint", "This {0} provider receives SFA funding."), providerType)">
+                            @AppGlobal.Language.GetText(this, "SFA", "SFA")
+                        </span>
+                    }
+                    @(isSfaFunded && isDfe1619Funded ? "/" : "")
+                    @if (isDfe1619Funded)
+                    {
+                        <span title="@string.Format(AppGlobal.Language.GetText(this, "DFEHint", "This {0} provider receives DfE EFA funding."), providerType))">
+                            @AppGlobal.Language.GetText(this, "DfE", "DfE")
+                        </span>
+                    }
+                </span>
+            }
+            @if (bulkUploadPending)
+            {
+                <span class="quality-score">
+                    <span class="pending-bulk-upload" title="@AppGlobal.Language.GetText(this, "ProviderBulkUploadPendingDescription", "This provider has a pending Bulk Upload to be processed.  Any changes you make may be discarded when the Bulk Upload is complete.")">
+                        @AppGlobal.Language.GetText(this, "ProviderBulkUploadPending", "Pending Bulk Upload")
+                    </span>
+                </span>
+            }
+        </div>
+        @if (showSecondRow)
+        {
+            <div class="masthead-secondrow">
+                <span class="quality-score">
+                    <strong>@AppGlobal.Language.GetText(this, "LastProvisionUpdate", "Last provision update:")</strong>
+                    @(lastProvisionUpdate == null ? AppGlobal.Language.GetText(this, "NeverUpdated", "Never") : lastProvisionUpdate.Value.ToString(Constants.ConfigSettings.ShortDateFormat))
+                    @if (AppGlobal.Language.GetText(this, "LastProvisionUpdateTooltip", "") != "")
+                    {
+                        @Html.Tooltip(AppGlobal.Language.GetText(this, "LastProvisionUpdateTooltip", ""))
+                    }
+                </span>
+                <span class="quality-score">
+                    <strong>@AppGlobal.Language.GetText(this, "NumberOfOutOfDateCourses", "Out of date courses:")</strong>
+                    @if (numberOfOutOfDateCourses != 0)
+                    {
+                        @Html.ActionLink(numberOfOutOfDateCourses.ToString("N0"), "List", "Course", new { qualitySearchMode = Constants.CourseSearchQAFilter.CoursesOutOfDate }, null)
+                    }
+                    else
+                    {
+                        @numberOfOutOfDateCourses
+                    }
+                    @if (AppGlobal.Language.GetText(this, "NumberOfOutOfDateCoursesTooltip", "") != "")
+                    {
+                        @Html.Tooltip(AppGlobal.Language.GetText(this, "NumberOfOutOfDateCoursesTooltip", ""))
+                    }
+                </span>
+                <span class="quality-score">
+                    <strong>@AppGlobal.Language.GetText(this, "NumberOfCoursesWithExpiredLARS", "Courses with expired learning aims:")</strong>
+                    @if (numberOfCoursesWithExpiredLAR != 0)
+                    {
+                        @Html.ActionLink(numberOfCoursesWithExpiredLAR.ToString("N0"), "List", "Course", new { qualitySearchMode = Constants.CourseSearchQAFilter.LearningAimExpired }, null)
+                    }
+                    else
+                    {
+                        @numberOfCoursesWithExpiredLAR
+                    }
+                    @if (AppGlobal.Language.GetText(this, "NumberOfCoursesWithExpiredLARSTooltip", "") != "")
+                    {
+                        @Html.Tooltip(AppGlobal.Language.GetText(this, "NumberOfCoursesWithExpiredLARSTooltip", ""))
+                    }
+                </span>
+            </div>
+            if (Permission.HasPermission(false, false, new[] { Permission.PermissionName.CanSetAllCoursesUpToDate }) && numberOfOutOfDateCourses == 0 && numberOfCoursesWithExpiredLAR == 0)
+            {
+                <div class="masthead-thirdrow">
+                    <span class="quality-score">
+                        <a id="lnkConfirmAllCoursesUpToDate" href="#">@AppGlobal.Language.GetText(this, "ConfirmAllCoursesUpToDate", "All Courses up to Date")</a>
+                        @if (AppGlobal.Language.GetText(this, "ConfirmAllCoursesUpToDateTooltip", "") != "")
+                        {
+                            @Html.Tooltip(AppGlobal.Language.GetText(this, "ConfirmAllCoursesUpToDateTooltip", ""))
+                        }
+                    </span>
+                </div>
+            }
+        }
+    </div>
+}
+else
+{
+    <div class="pull-right masthead-provider">&nbsp;</div>
+}
+
+<div style="clear: both" class="pull-right">
+    <a class="myModal-btn" href="#userWizardModal" data-toggle="modal"><img alt="Task Wizard icon" src="~/Content/UserWizard/images/task-wizard.svg"> @AppGlobal.Language.GetText(this, "WizardTitle", "Task Wizard")</a>
+</div>
+
+@if (showDataReadyForQAButton)
+{
+    <div id="divReadyForQAHeading" style="margin-top: 0px;" class="pull-right">
+        <input id="btnDataReadyForQA" type="button" value="@AppGlobal.Language.GetText(this, "ReadyForQAButtonText", "Ready for QA")" class="btn btn-readyforqa" style="/* z-index: 2000; position: relative; */" />
+        @if (AppGlobal.Language.GetText(this, "DataReadyForQATooltip", "") != "")
+        {
+            @Html.Tooltip(AppGlobal.Language.GetText(this, "DataReadyForQATooltip", ""))
+        }
+    </div>
+}
+
+@if (showTASRefreshConfirmButton)
+{
+    <div id="divTASRefreshConfirmHeading" style="margin-top: 0px;" class="pull-right">
+        <input id="btnTASRefreshConfirm" type="button" value="@AppGlobal.Language.GetText(this, "TASRefreshConfirmButtonText", "Confirm Apprenticeships Up to Date")" class="btn btn-readyforqa" style="/* z-index: 2000; position: relative; */" />
+        @if (AppGlobal.Language.GetText(this, "TASRefreshConfirmTooltip", "") != "")
+        {
+            @Html.Tooltip(AppGlobal.Language.GetText(this, "TASRefreshConfirmTooltip", ""))
+        }
+    </div>
+}
+

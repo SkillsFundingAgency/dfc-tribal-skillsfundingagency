@@ -1,0 +1,163 @@
+﻿@model  Tribal.SkillsFundingAgency.ProviderPortal.Models.BulkUploadOrganisationViewModels
+@{
+    var isDownloadableProviderExists = Model.IsAnyDownloadableProviderExists;
+}
+@using (Html.BeginForm("CourseDownload", "BulkUpload"))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @AppGlobal.Language.GetText(this, "OrganisationHeader", "Bulk upload allows you upload provision for any or all of your member providers in a single file, unless they have disallowed this. If you've not bulk uploaded before, ")
+        <a href="/Help/BulkUploadCourses" target="_blank">@AppGlobal.Language.GetText(this, "OrganisationHelpLink", "please click here to read the detailed instructions.")</a>
+    </div>
+    <div class="form-group">
+        @AppGlobal.Language.GetText(this, "HeaderOrganisationProvision", "The table below has a summary of your current provision.")
+    </div>
+    <div class="row">
+        <table class="dt-responsive table table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-md-6">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().ProviderName)
+                    </th>
+                    <th class="col-md-1" colspan="4">
+                        @AppGlobal.Language.GetText(this, "Course", "Courses")
+                    </th>
+                    <th class="col-md-3" colspan="5">
+                        @AppGlobal.Language.GetText(this, "Opportunities", "Opportunities")
+                    </th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th colspan="3">
+                        @AppGlobal.Language.GetText(this, "Type", "Type")
+                    </th>
+                    <th rowspan="2">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().CourseTypeSum)
+                    </th>
+                    <th colspan="2">
+                        @AppGlobal.Language.GetText(this, "Scope", "Scope")
+                    </th>
+                    <th rowspan="2">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().OpportunityForOrganisation)
+                    </th>
+                    <th rowspan="2">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().OpportunityForProvider)
+                    </th>
+                    <th rowspan="2">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().OpportunityForTotal)
+                    </th>
+
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().CourseType1)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().CourseType2)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().CourseType3)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().OpportunityScopeIn)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().OpportunityScopeOut)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var organisationProvider in Model.OrderBy(m => m.ProviderName))
+                { 
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => organisationProvider.ProviderName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => organisationProvider.CourseType1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => organisationProvider.CourseType2)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => organisationProvider.CourseType3)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => organisationProvider.CourseTypeSum)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => organisationProvider.OpportunityScopeIn)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => organisationProvider.OpportunityScopeOut)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => organisationProvider.OpportunityForOrganisation)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => organisationProvider.OpportunityForProvider)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => organisationProvider.OpportunityForTotal)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td colspan="10">
+                        @if (isDownloadableProviderExists)
+                        {
+                            <div class="form-group">
+                                <div class="col-md-1 col-md-offset-4">
+                                    <input type="submit" value="@AppGlobal.Language.GetText(this, "DownloadCsvButton", "Download Current Provision as CSV")" class="btn btn-success" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                @AppGlobal.Language.GetText(this, "Warning", "Warning: The following will NOT be included in the downloaded csv file:")
+                            </div>
+                            <div class="form-group">
+                                @AppGlobal.Language.GetText(this, "Archived", "1. Any courses/venues/opportunities with a validationStage of 'Archived' or 'Pending'")
+                            </div>
+                            <div class="form-group">
+                                @AppGlobal.Language.GetText(this, "Pending", "2. Any invalid courses/opportunities which you uploaded Bulk Upload functionality which are not published on the site")
+                            </div>
+                            <div class="form-group">
+                                @AppGlobal.Language.GetText(this, "BulkUploadFile", "These will be lost if you then Bulk Upload the file.")
+                            </div> 
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <label>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                @AppGlobal.Language.GetText(this, "OrganisationNoDownloadProviderMessage", "It is not possible to download your provision as a CSV file as there are no providers within this organisation for which you have bulk upload privilages.")
+                            </div> 
+                        }
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="row table-bordered" style="margin: 0">          
+            <div style="margin: 5px">
+                <div class="form-group">
+                    @AppGlobal.Language.GetText(this, "CurrentCourseData", "This is where you can see the details about your current course data. This data will be replaced by the data in the file you are about to upload.")
+                </div>
+                @if (Model.All(x => x.OpportunityForTotal == 0))
+                {
+                    <div class="form-group">
+                        @AppGlobal.Language.GetText(this, "CurrentCourseDataOrganisation", "Currently there is no data held on the system for any member provider.")
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

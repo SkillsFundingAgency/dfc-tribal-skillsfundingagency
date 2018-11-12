@@ -1,0 +1,180 @@
+﻿<script type="text/javascript">
+        $(function () {
+            $('.filterQualityScore').click(function (e) {
+                var linkClicked = $(this).data('id');
+                $("#QualitySearchMode").val(linkClicked);
+                e.preventDefault();
+                $("form#formOpportunityListSearch").submit();
+            });
+        });
+
+        $("#chkAllOpportunities").change(function () {
+            $("input[id^='chkOpportunity_']").each(function () {
+                $(this).prop("checked", $("#chkAllOpportunities").prop("checked"));
+            });
+        });
+
+        $("input[id^='chkOpportunity_']").change(function () {
+            $("#chkAllOpportunities").prop("checked", $("input[id^='chkOpportunity_']").length == $("input[id^='chkOpportunity_']:checked").length);
+        });
+
+        $("#btnAdvanceStartDates").click(function (e) {
+            e.preventDefault();
+
+            var selectedIds = "";
+            $("input[id^='chkOpportunity_']:checked").each(function() {
+                if (selectedIds != "") {
+                    selectedIds += ",";
+                }
+                selectedIds += $(this).attr("id").split("_").pop();
+            });
+            if (selectedIds == "") {
+                alert("@AppGlobal.Language.GetText(this, "SelectOpportunitiesToAdvance", "Please select opportunities(s) to advance start dates")");
+                return;
+            }
+
+            var url = '@Url.Action("AdvanceStartDates", "Opportunity", new { opportunityIds = "__SelectedIds__"})';
+            url = url.replace('__SelectedIds__', selectedIds);
+
+            BootstrapDialog.show({
+                title: '@AppGlobal.Language.GetText(this, "AdvanceStartDates", "Advance Start Dates")',
+                //message: $('<div></div>').load('@Url.Action("AdvanceStartDates", "Opportunity")'),
+                message: $('<div></div>').load(url),
+                buttons: [
+                    {
+                        id : 'btnContinue',
+                        label: '@AppGlobal.Language.GetText(this, "Continue", "Continue")',
+                        cssClass: 'btn-success',
+                        action: function (dialog) {
+                             $.ajax({
+                                cache: false,
+                                async: false,
+                                url: '@Url.Action("AdvanceStartDates", "Opportunity")',
+                                type: 'post',
+                                data: $("form[action='@Url.Action("AdvanceStartDates", "Opportunity")']").serialize(),
+                                success: function (data) {
+                                    // Display confirmation of opportunities updated or not updated
+                                    dialog.setMessage($('<div></div>').html(data));
+                                    if (data.indexOf("||Input**Mode||") <= 0) {
+                                        //Change from Continue / Cancel buttons to Close button if no validation errors
+                                        var $continueButton = dialog.getButton('btnContinue');
+                                        $continueButton.hide();
+                                        var $cancelButton = dialog.getButton('btnCancel');
+                                        $cancelButton.text("@AppGlobal.Language.GetText(this, "Close", "Close")");
+                                    }
+                                },
+                                error: function () {
+                                    alert("@AppGlobal.Language.GetText(this, "ErrorAdvanceStartDates", "An unexpected error ooccurred advancing start dates for selected opportunities")");
+                                }
+                            });
+                        }
+                    },
+                    {
+                        id : "btnCancel",
+                        label: "@AppGlobal.Language.GetText(this, "Cancel", "Cancel")",
+                        action: function (dialog) {
+                            dialog.close();
+                        }
+                    }
+                ],
+                onhide: function () {
+                    //update the opportunity list with any changes
+                    window.location.reload();
+                }
+            });
+        });
+
+        $("#btnArchiveSelectedOpportunities").click(function() {
+
+                var selectedIds = "";
+                $("input[id^='chkOpportunity_']:checked").each(function() {
+                    if (selectedIds != "") {
+                        selectedIds += ",";
+                    }
+                    selectedIds += $(this).attr("id").split("_").pop();
+                });
+                if (selectedIds == "") {
+                    alert("@AppGlobal.Language.GetText(this, "SelectOpportunityToArchive", "Select opportunities to archive")");
+                    return;
+                }
+                if (confirm("@AppGlobal.Language.GetText(this, "ConfirmOpportunityArchive", "Are you sure you want to archive the selected opportunities?")") === false) {
+                    return;
+                }
+                var url = '@Url.Action("ArchiveSelected", "Opportunity", new {opportunityIds = "__SelectedIds__"})';
+                url = url.replace('__SelectedIds__', selectedIds);
+                $.ajax({
+                    url: url,
+                    success: function(result) {
+                        if (result == "") {
+                            alert("@AppGlobal.Language.GetText(this, "NoOpportunitiesArchived", "0 Opportunities Archived")");
+                        } else {
+                            $.each(result, function(i, item) {
+                                $("#divStatus_" + item).fadeOut("slow", function() {
+                                    $(this).text("@AppGlobal.Language.GetText(this, "Archived", "Archived")");
+                                    $(this).fadeIn("Slow", function() {
+                                        if (i == result.length - 1) {
+                                            alert(result.length + (result.length == 1 ? " opportunity" : " opportunities") + " Archived");
+                                        }
+                                    });
+                                });
+                            });
+                        }
+                        $("#chkAllOpportunities").prop("checked", false).trigger("change");
+                    },
+                    error: function () {
+                        alert("Error Archiving Opportunities");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/json, charset=utf-8',
+                    dataType: 'json'
+                });
+            });
+
+        $("#btnUnarchiveSelectedOpportunities").click(function () {
+
+                var selectedIds = "";
+                $("input[id^='chkOpportunity_']:checked").each(function () {
+                    if (selectedIds != "") {
+                        selectedIds += ",";
+                    }
+                    selectedIds += $(this).attr("id").split("_").pop();
+                });
+                if (selectedIds == "") {
+                    alert("@AppGlobal.Language.GetText(this, "SelectOpportunityToUnarchive", "Select opportunities to unarchive")");
+                    return;
+                }
+                if (confirm("@AppGlobal.Language.GetText(this, "ConfirmOpportunityUnarchive", "Are you sure you want to unarchive the selected opportunities?")") === false) {
+                    return;
+                }
+                var url = '@Url.Action("UnarchiveSelected", "Opportunity", new {opportunityIds = "__SelectedIds__"})';
+                url = url.replace('__SelectedIds__', selectedIds);
+                $.ajax({
+                    url: url,
+                    success: function(result) {
+                        if (result == "") {
+                            alert("@AppGlobal.Language.GetText(this, "NoOpportunitiesUnarchived", "0 Opportunities Unarchived")");
+                        } else {
+                            $.each(result, function(i, item) {
+                                $("#divStatus_" + item).fadeOut("slow", function() {
+                                    $(this).text("@AppGlobal.Language.GetText(this, "Live", "Live")");
+                                    $(this).fadeIn("Slow", function() {
+                                        if (i == result.length - 1) {
+                                            alert(result.length + (result.length == 1 ? " opportunity" : " opportunities") + " Unarchived");
+                                        }
+                                    });
+                                });
+                            });
+                        }
+                        $("#chkAllOpportunities").prop("checked", false).trigger("change");
+                    },
+                    error: function () {
+                        alert("Error Unarchiving Opportunities");
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/json, charset=utf-8',
+                    dataType: 'json'
+                });
+            });
+</script>

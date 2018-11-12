@@ -1,0 +1,17 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ContentListViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Archived Content");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Archived Content")</h2>
+<hr/>
+
+<div class="site-content">
+    <div class="col-md-12 btn-toolbar">
+        @Html.ActionLink(AppGlobal.Language.GetText(this, "Index", "View current content"), "Index", "SiteContent", null, new {@class = "pull-right btn btn-default"})
+        @Html.ActionLink(AppGlobal.Language.GetText(this, "Create", "Create new page"), "Create", "SiteContent", null, new {@class = "pull-right btn btn-default"})
+    </div>
+</div>
+
+@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", ""))
+@Html.Partial("_ContentListPartial", Model)

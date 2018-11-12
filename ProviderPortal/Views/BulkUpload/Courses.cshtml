@@ -1,0 +1,92 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.BulkUploadViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Bulk Upload Course Data");
+}
+
+<h2 class="courses">@AppGlobal.Language.GetText(this, "Header", "Bulk Upload Course Data")</h2>
+
+@if (Model.UserCntxName.Equals(UserContext.UserContextName.Provider))
+{
+    @Html.Partial("_providerCourseBulkUpload", Model.ProviderViewModel)
+}
+else if (Model.UserCntxName.Equals(UserContext.UserContextName.Organisation))
+{ 
+    @Html.Partial("_organisationCourseBulkUpload", Model.OrganisationViewModel)
+}
+@using (Html.BeginForm("CourseUpload", "BulkUpload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{   
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <table class="dt-responsive table table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-md-6">
+                        @AppGlobal.Language.GetText(this, "UploadSectionHeader", "Upload a new file")
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            @AppGlobal.Language.GetText(this, "UploadText", "Click Browse and select your bulk upload file. Click upload.")
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.File, new { type = "file", @class = "btn btn-success" })
+                            @Html.ValidationMessageFor(m => m.File)
+                        </div>
+                        <div class="form-group">
+                            @Html.CheckBoxFor(m => m.IsTncSelected)
+                            @AppGlobal.Language.GetText(this, "IsCoursesTncSelected", "I understand this replaces all existing data for each group of courses offered by a single organisation/provider.")
+                            <br />
+                            @Html.ValidationMessageFor(m => m.IsTncSelected)
+                            <br />
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="@AppGlobal.Language.GetText(this, "SubmitUpload", "Upload")" class="btn btn-success" />
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $.validator.unobtrusive.adapters.addBool("mustbetrue", "required");
+    </script>
+    
+    @if (Model.ProviderViewModel != null && Model.ProviderViewModel.Opportunities == -1)
+    {
+        <script type="text/javascript">
+            $(document).ready(function() {
+
+                var url = '@Url.Action("GetCourseInstanceCount", "BulkUpload", new {providerId = "__ProviderId__"})';
+                url = url.replace('__ProviderId__', @Model.ProviderViewModel.ProviderId);
+                $.ajax({
+                    url: url,
+                    success: function(result) {
+                        $("#spanLoadingOpportunities").fadeOut("slow", function() {
+                            $("#spanOpportunities").text(result);
+                            $("#spanOpportunities").fadeIn("slow");
+                        });
+                    },
+                    error: function() {
+                        $("#spanLoadingOpportunities").fadeOut("slow", function() {
+                            $("#spanOpportunities").text("@AppGlobal.Language.GetText(this, "ErrorFetchingOpportunityCount", "Error Fetching Opportunity Count")");
+                            $("#spanOpportunities").fadeIn("slow");
+                        });
+                    },
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/json, charset=utf-8',
+                    dataType: 'json'
+                });
+
+            });
+        </script>
+    }
+}
+

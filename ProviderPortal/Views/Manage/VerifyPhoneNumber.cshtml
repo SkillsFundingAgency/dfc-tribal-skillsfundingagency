@@ -1,0 +1,32 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.VerifyPhoneNumberViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Verify Phone Number");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Verify Phone Number")</h2>
+
+@using (Html.BeginForm("VerifyPhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("phoneNumber", @Model.PhoneNumber)
+    <h4>@AppGlobal.Language.GetText(this, "FormHeader", "Enter verification code")</h4>
+    <h5>@ViewBag.Status</h5>
+    <hr />
+    @Html.EditableDataValidationSummary("", new { @class = "text-danger" })
+    @Html.RequiredFields(new {@class = "col-md-offset-2"})
+    <div class="form-group">
+        @Html.LanguageLabelFor(m => m.Code, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="@AppGlobal.Language.GetText(this, "Submit", "Submit")" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

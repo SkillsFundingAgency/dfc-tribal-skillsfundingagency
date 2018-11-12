@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="33px" height="45px" viewBox="0 0 33 45" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>view-locations</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Artboard-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-538.000000, -221.000000)">
+        <g id="view-locations" transform="translate(539.000000, 222.000000)">
+            <rect id="Rectangle-8" fill="#000000" transform="translate(25.242641, 23.242641) rotate(-45.000000) translate(-25.242641, -23.242641) " x="24.2426407" y="15.2426407" width="2" height="16" rx="1"></rect>
+            <g id="Group-6" stroke="#000000" stroke-width="2">
+                <g id="Group-8" transform="translate(6.000000, 5.000000)" fill="#FFFFFF">
+                    <circle id="Oval-4" cx="8.5" cy="8.5" r="8.5"></circle>
+                </g>
+                <path d="M14.5,41.9493044 C24.1666667,28.9885207 29,19.8387526 29,14.5 C29,6.49187113 22.5081289,0 14.5,0 C6.49187113,0 0,6.49187113 0,14.5 C0,19.8387526 4.83333333,28.9885207 14.5,41.9493044 Z" id="Combined-Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

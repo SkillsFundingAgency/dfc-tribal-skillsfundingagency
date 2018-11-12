@@ -1,0 +1,38 @@
+﻿@if (UserContext.GetUserContext().ContextName == UserContext.UserContextName.Provider
+    && Permission.HasPermission(false, true, Permission.PermissionName.CanSetAllCoursesUpToDate))
+{
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#lnkConfirmAllCoursesUpToDate").click(function(e) {
+                e.preventDefault();
+
+                if (!confirm("@AppGlobal.Language.GetText(this, "ConfirmConfirmAllCoursesUpToDate", "This action is asserting that the information on all your courses is up to date, and correct for potential learners.\\n\\nAre you sure?")")) {
+                    return;
+                }
+
+                $.ajax({
+                    cache: false,
+                    async: false,
+                    url: '@Url.Action("ConfirmAllCoursesUpToDate", "Provider")',
+                    type: 'post',
+                    success: function(data, status, xhr) {
+                        var ct = xhr.getResponseHeader("content-type") || "";
+                        if (ct.indexOf('json') > -1) {
+                            if (data.Result != 0) {
+                                // Result 1 - Show error
+                                alert(data.Message);
+                            } else {
+                                alert("@AppGlobal.Language.GetText(this, "AllCoursesUpToDateConfirmed", "Thank you for confirming that your courses are all up to date")");
+                                // All OK - Reload the page
+                                window.location.reload();
+                            }
+                        }
+                    },
+                    error: function() {
+                        alert("@AppGlobal.Language.GetText(this, "ErrorConfirmingAllCoursesUpToDate", "Error confirming courses are up to date")");
+                    }
+                });
+            });
+        });
+    </script>
+}

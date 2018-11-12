@@ -1,0 +1,64 @@
+﻿<script type="text/javascript">
+
+    $("#addVenueDialog").click(function(e) {
+        e.preventDefault();
+
+        BootstrapDialog.show({
+            size: BootstrapDialog.SIZE_WIDE,
+            title: '@AppGlobal.Language.GetText(this, "AddVenue", "Add Venue")',
+            message: $('<div></div>').load('@Url.Action("CreateFromDialog", "Venue")'),
+            buttons: [
+                {
+                    label: '@AppGlobal.Language.GetText(this, "Create", "Create")',
+                    cssClass: 'btn-success',
+                    action: function (dialog) {
+                        $.ajax({
+                            cache: false,
+                            async: false,
+                            url: '/Venue/CreateFromDialog',
+                            type: 'post',
+                            //dataType: 'html',
+                            data: $("form[action='/Venue/CreateFromDialog']").serialize(),
+                            success: function(data, status, xhr) {
+                                var ct = xhr.getResponseHeader("content-type") || "";
+                                if (ct.indexOf('html') > -1) {
+                                    // Got HTML so there must have been a problem
+                                    dialog.setMessage($('<div></div>').html(data));
+                                }
+                                if (ct.indexOf('json') > -1) {
+                                    // Got JSON so everything went OK.
+                                    // Add the new venue to the drop down list
+                                    $("#VenueId").append('<option value="' + data.VenueId + '">' + data.VenueName + '</option>');
+
+                                    // Sort the venues
+                                    var foption = $("#VenueId option:first");
+                                    $("#VenueId").html($("#VenueId option:not(:first)").sort(function (x, y) {
+                                        return $(x).text().toLowerCase() < $(y).text().toLowerCase() ? -1 : 1;
+                                    }));
+                                    $("#VenueId").prepend(foption);
+
+                                    // Select the new venue
+                                    $("#VenueId").val(data.VenueId);
+
+                                    // Close the dialog
+                                    dialog.close();
+                                }
+                            },
+                            error: function () {
+                                alert("@AppGlobal.Language.GetText(this, "ErrorCreatingVenue", "Error creating venue")");
+                            }
+                        });
+                    }
+                },
+                {
+                    label: "@AppGlobal.Language.GetText(this, "Cancel", "Cancel")",
+                    action: function(dialog) {
+                        dialog.close();
+                        return;
+                    }
+                }
+            ]
+        });
+    });
+
+</script>

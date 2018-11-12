@@ -1,0 +1,766 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.AddEditProviderModel
+
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Edit Provider");
+    Boolean canEditSpecialFields = Permission.HasPermission(false, true, Permission.PermissionName.CanEditProviderSpecialFields);
+    Boolean canManuallyAssignImportBatches = Permission.HasPermission(false, true, Permission.PermissionName.CanManuallyAssignImportBatches);
+    String apprenticeshipContractExplanation = AppGlobal.Language.GetText(this, "ApprenticeshipContractExplanation", "<br /><span style=\"font-size: 0.8em;\">Apprenticeship information will only be displayed on the Digital Apprenticeship Service website if '<strong>Current contract with the SFA</strong>' is checked</span>");
+    Boolean isMarketingInformationLocked = Model.PassedOverallQAChecks == "1" && !Permission.HasPermission(false, true, Permission.PermissionName.CanQAProviders);
+    String newProviderLabel = AppGlobal.Language.GetText(this, "NewProviderLabel", "New Provider:");
+    String hadProviderLevelInfoLabel = AppGlobal.Language.GetText(this, "HadProviderInfoLabel", "Had Provider Level Info:");
+    String hadApprenticeshipsLabel = AppGlobal.Language.GetText(this, "HadApprenticeshipsLabel", "Had Apprenticeships:");
+    String importDateLabel = AppGlobal.Language.GetText(this, "ImportDateLabel", "Date Imported:");
+    String manuallyAddedByLabel = AppGlobal.Language.GetText(this, "ImportBatchManuallyAddedByLabel", "Manually Added by:");
+    String yesLabel = AppGlobal.Language.GetText(this, "Yes", "Yes");
+    String noLabel = AppGlobal.Language.GetText(this, "No", "No");
+    String assignImportBatchLabelText = AppGlobal.Language.GetText(this, "AssignImportBatchLabel", "Manually Assign RoATP Import Batch");
+    String assignImportBatchTooltipText = AppGlobal.Language.GetText("AddEditProviderModel_Description_AssignImportBatch", "Manually assign a RoATP import batch to this provider");
+}
+
+<h2 class="provider">@AppGlobal.Language.GetText(this, "Header", "Edit Provider")</h2>
+
+<div class="col-md-12">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.Raw(AppGlobal.Language.GetText(this, "PageSummary", "The details below are for display on the National Careers Service. For those fields not filled in, contact information from UKRLP will be used. Providers can update these Course Directory fields at any time and they will then be used in preference to their UKRLP information."))
+            <hr />
+
+            <div class="col-md-8">
+
+                @Html.EditableDataValidationSummary(false)
+
+                @Html.RequiredFields(new { @class = "col-md-offset-2" })
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.ProviderId, new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.TextBoxFor(model => model.ProviderId, new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(m => m.ProviderId)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.CreatedDateTimeUTC, new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.TextBoxFor(model => model.CreatedDateTimeUTC, String.Format("{0:dd/MM/yyyy}", Model.CreatedDateTimeUTC), new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.RecordStatusId, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.RecordStatusId, (SelectList)ViewBag.RecordStatuses, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.RecordStatusId)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.UKPRN, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @if (canEditSpecialFields)
+                        {
+                            @Html.EditorFor(model => model.UKPRN, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                            <div id="divUKPRN">
+                                <a style="display: none; cursor: pointer;" id="aCopyUKRLPData">@AppGlobal.Language.GetText(this, "CopyUKRLPDataLink", "Copy data from UKRLP Details")</a>
+                                <div id="divUKPRNMessage">
+                                </div>
+                            </div>
+                            @Html.ValidationMessageFor(m => m.UKPRN)
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(m => m.UKPRN)
+                            @Html.DisplayFor(model => model.UKPRN)
+                            @Html.ValidationMessageFor(m => m.UKPRN)
+                        }
+                    </div>
+                </div>
+
+                @if (canEditSpecialFields)
+                {
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(m => m.PublishData, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.PublishData)
+                            @Html.ValidationMessageFor(m => m.PublishData)
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    @Html.HiddenFor(m => m.PublishData)
+                }
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.IsContractingBody, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @if (canEditSpecialFields)
+                        {
+                            @Html.EditorFor(model => model.IsContractingBody)
+                            @Html.ValidationMessageFor(m => m.IsContractingBody)
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(m => m.IsContractingBody)
+                            @Html.DisplayFor(m => m.IsContractingBody)
+                        }
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.SFAFunded, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @if (canEditSpecialFields)
+                        {
+                            @Html.EditorFor(model => model.SFAFunded)
+                            @Html.ValidationMessageFor(m => m.SFAFunded)
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(m => m.SFAFunded)
+                            @Html.DisplayFor(m => m.SFAFunded)
+                        }
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.DFE1619Funded, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @if (canEditSpecialFields)
+                        {
+                            @Html.EditorFor(model => model.DFE1619Funded)
+                            @Html.ValidationMessageFor(m => m.DFE1619Funded)
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(m => m.DFE1619Funded)
+                            @Html.DisplayFor(m => m.DFE1619Funded)
+                        }
+                    </div>
+                </div>
+
+                @if (canEditSpecialFields)
+                {
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(m => m.BulkUploadPending, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.BulkUploadPending)
+                            @Html.ValidationMessageFor(m => m.BulkUploadPending)
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    @Html.HiddenFor(m => m.BulkUploadPending)
+                }
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.ProviderTypeId, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @if (canEditSpecialFields)
+                        {
+                            @Html.DropDownListFor(m => m.ProviderTypeId, (SelectList)ViewBag.ProviderTypes, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.ProviderTypeId)
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(m => m.ProviderTypeId)
+                            @Html.DisplayFor(model => model.ProviderTypeName)
+                        }
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.ProviderName, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @if (canEditSpecialFields)
+                        {
+                            @Html.EditorFor(model => model.ProviderName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.ProviderName)
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(m => m.ProviderName)
+                            @Html.DisplayFor(model => model.ProviderName)
+                        }
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.TradingName, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @if (canEditSpecialFields)
+                        {
+                            @Html.EditorFor(model => model.TradingName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.TradingName)
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(m => m.TradingName)
+                            @Html.DisplayFor(model => model.TradingName)
+                        }
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.ProviderAlias, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ProviderAlias, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(m => m.ProviderAlias)
+                    </div>
+                </div>
+
+                <div id="dfeLookupArea" style="@Model.DfELookupAreaStyle">
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(m => m.SecureAccessId, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @if (canEditSpecialFields)
+                            {
+                                @Html.EditorFor(model => model.SecureAccessId, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                                @Html.ValidationMessageFor(m => m.SecureAccessId)
+                            }
+                            else
+                            {
+                                @Html.HiddenFor(m => m.SecureAccessId)
+                                @Html.DisplayFor(model => model.SecureAccessId)
+                            }
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(m => m.DfEProviderTypeId, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.DfEProviderTypeId, (SelectList)ViewBag.DfEProviderTypes, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.DfEProviderTypeId)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(m => m.DfEProviderStatusId, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.DfEProviderStatusId, (SelectList)ViewBag.DfEProviderStatuses, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.DfEProviderStatusId)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(m => m.DfELocalAuthorityId, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.DfELocalAuthorityId, (SelectList)ViewBag.DfELocalAuthorities, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.DfELocalAuthorityId)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(m => m.DfERegionId, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.DfERegionId, (SelectList)ViewBag.DfERegions, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.DfERegionId)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(m => m.DfEEstablishmentTypeId, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.DfEEstablishmentTypeId, (SelectList)ViewBag.DfEEstablishmentTypes, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.DfEEstablishmentTypeId)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.UPIN, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.UPIN, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(m => m.UPIN)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.Loans24Plus, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Loans24Plus)
+                        @Html.ValidationMessageFor(m => m.Loans24Plus)
+                    </div>
+                </div>
+
+                @Html.EditorFor(m => m.Address, "_EditAddressPartial")
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.Email, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(m => m.Email)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.Website, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-control", data_url = "true" } })
+                        @Html.ValidationMessageFor(m => m.Website)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.Telephone, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(m => m.Telephone)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LanguageLabelFor(m => m.Fax, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Fax, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(m => m.Fax)
+                    </div>
+                </div>
+
+                <fieldset>
+                    <legend>
+                        @AppGlobal.Language.GetText(this, "TrackingCodes", "Analytics Tracking Codes")
+                        @Html.TooltipFor(m => m.TrackingCodes)
+                    </legend>
+
+                    <span class="explanation">
+                        @Html.Raw(AppGlobal.Language.GetText(this, "TrackingCodesSummary", ""))
+                    </span>
+
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(m => m.ProviderTrackingUrl, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ProviderTrackingUrl, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.ProviderTrackingUrl)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(m => m.VenueTrackingUrl, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.VenueTrackingUrl, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.VenueTrackingUrl)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(m => m.CourseTrackingUrl, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.CourseTrackingUrl, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.CourseTrackingUrl)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(m => m.BookingTrackingUrl, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.BookingTrackingUrl, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.BookingTrackingUrl)
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset id="ApprenticeshipDelivery">
+                    <legend>
+                        @AppGlobal.Language.GetText(this, "MarketingInformationHeader", "Apprenticeships")
+                        @if (AppGlobal.Language.GetText(this, "MarketingInformationHeaderTooltip", "") != "")
+                        {
+                            @Html.Tooltip(AppGlobal.Language.GetText(this, "MarketingInformationHeaderTooltip", ""))
+                        }
+                    </legend>
+
+                    @if (canEditSpecialFields)
+                    {
+                        <div class="form-group">
+                            @Html.LanguageLabelFor(m => m.RoATP, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.RoATP)
+                                @Html.ValidationMessageFor(m => m.RoATP)
+                            </div>
+                        </div>
+                    }
+
+                    @if (canEditSpecialFields)
+                    {
+                        <div class="form-group">
+                            @Html.LanguageLabelFor(m => m.ApprenticeshipContract, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ApprenticeshipContract)
+                                @if (apprenticeshipContractExplanation != "")
+                                {
+                                    @Html.Raw(apprenticeshipContractExplanation)
+                                }
+                                @Html.ValidationMessageFor(m => m.ApprenticeshipContract)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LanguageLabelFor(m => m.TASRefreshOverride, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.TASRefreshOverride)
+                                @if (Model.RoATPLastRefreshed.HasValue)
+                                {
+                                    @Html.Raw(string.Format(@AppGlobal.Language.GetText(this, "RoATPLastRefreshedMessage", "<br /><span style=\"font-size: 0.8em;\">Provider last confirmed their apprenticeships were up to date on {0}</span>"), Model.RoATPLastRefreshed.Value))
+                                }
+                                @Html.ValidationMessageFor(m => m.TASRefreshOverride)
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            @Html.LanguageLabelFor(m => m.ImportBatches, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10" id="divImportBatches">
+                                @foreach (Tribal.SkillsFundingAgency.ProviderPortal.Entities.ImportBatchProvider importBatch in Model.ImportBatches)
+                                {
+                                    <div class="importbatch">
+                                        <span class="header">@importBatch.ImportBatch.ImportBatchName</span>
+                                        <span class="information">
+                                            @Html.Raw(newProviderLabel) <span class="data">@(importBatch.ExistingProvider ? noLabel : yesLabel)</span>
+                                            <br />
+                                            @Html.Raw(hadProviderLevelInfoLabel) <span class="data">@(importBatch.HasProviderLevelData ? yesLabel : noLabel)</span>
+                                            <br />
+                                            @Html.Raw(hadApprenticeshipsLabel) <span class="data">@(importBatch.HasApprenticeshipLevelData ? yesLabel : noLabel)</span>
+                                            <br />
+                                            @Html.Raw(importDateLabel) <span class="data">@importBatch.ImportDateTimeUtc.ToString(Constants.ConfigSettings.ShortDateTimeFormat)</span>
+                                            <br />
+                                            @if (!String.IsNullOrWhiteSpace(importBatch.ManuallyAddedByUserId))
+                                            {
+                                                @Html.Raw(manuallyAddedByLabel) <span class="data">@importBatch.AspNetUser.Name</span>
+                                                <br />
+                                            }
+                                        </span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        if (canManuallyAssignImportBatches && ((SelectList)ViewBag.ImportBatches).Any())
+                        {
+                            <div class="form-group" id="divAssignImportBatch">
+                                <div class="hinted-control-label control-label col-md-2">
+                                    <label for="ddlAssignImportBatch">@Html.Raw(assignImportBatchLabelText)</label>
+                                    @if (!String.IsNullOrWhiteSpace(assignImportBatchTooltipText))
+                                    {
+                                        @Html.Tooltip(assignImportBatchTooltipText)
+                                    }
+                                </div>
+                                <div class="col-md-10">
+                                    @Html.DropDownList("ddlAssignImportBatch", (SelectList)ViewBag.ImportBatches, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control", style = "display: inline; width: 75%; margin-right: 20px;" })
+                                    <input id="btnAssignImportBatchToProvider" type="button" name="btnAssignImportBatchToProvider" value="@AppGlobal.Language.GetText(this, "AddImportBatchButtonText", "Assign")" class="btn btn-default" />
+                                </div>
+                            </div>
+                        }
+
+                        <div class="form-group">
+                            @Html.LanguageLabelFor(m => m.RoATPProviderTypeName, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.Raw(Model.RoATPProviderTypeName)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LanguageLabelFor(m => m.RoATPStartDate, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.Raw(Model.RoATPStartDate)
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        @Html.HiddenFor(m => m.ApprenticeshipContract)
+                    }
+
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(m => m.NationalApprenticeshipProvider, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.NationalApprenticeshipProvider)
+                            @Html.ValidationMessageFor(m => m.NationalApprenticeshipProvider)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-2">&nbsp;</div>
+                        <div class="col-md-10 alert alert-warning" style="border:1px solid red;">
+                            @Html.Raw(AppGlobal.Language.GetText(this, "GuidancePrompt", "Please remember to read the guidance before adding your information.  <a href=\"https://www.gov.uk/government/publications/find-apprenticeship-training-how-to-submit-data\" target=\"_blank\" > Click here to view the guidance documentation</a>"))
+                        </div>
+
+                        @Html.LanguageLabelFor(model => model.MarketingInformation, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.MarketingInformation, new { @class = "form-control markdown-editor" + (isMarketingInformationLocked ? " markdown-editor-disabled" : "") })
+                            @Html.ValidationMessageFor(model => model.MarketingInformation)
+                            @if (isMarketingInformationLocked)
+                            {
+                                @Html.Raw(AppGlobal.Language.GetText(this, "CantEditMarketingInformation", "This data has passed quality assurance and is locked for editing"))
+                                <br />
+                                <input id="btnSubmitNewTextForQA" type="button" value="Submit new text" class="btn btn-default" />
+                                @Html.TooltipFor(m => m.SubmitNewTextToolTip)
+                            }
+                        </div>
+                    </div>
+                </fieldset>
+
+                @if (canEditSpecialFields && Model.ProviderId > 0)
+                {
+                    <div class="form-group">
+                        @Html.LanguageLabelFor(m => m.MaxNumberOfLocations, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10" style="padding-top: 2px;">
+                            @if (Model.MaxNumberOfLocations.HasValue)
+                            {
+                                @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "NumberOfLocationsOverridden", "<b>{0}</b> overridden by <b>{1}</b> on <b>{2}</b>. "), Model.MaxNumberOfLocations.Value.ToString("N0"), Model.MaxNumberOfLocationsOverriddenBy, Model.MaxNumberOfLocationsOverriddenOn.Value.ToLocalTime().ToString(Constants.ConfigSettings.ShortDateTimeFormat)))
+                            }
+                            else
+                            {
+                                @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "DefaultMaxNumberOfLocations", "Default ({0}). "), Constants.ConfigSettings.MaxLocations.ToString("N0")))
+                            }
+                            @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "CurrentNumberOfLocations", "This provider currently has {0} locations."), Model.NumberOfLocations))
+                            @if (Permission.HasPermission(false, false, Permission.PermissionName.CanOverrideMaxLocations))
+                            {
+                                <br /><br />
+                                <input id="btnOverrideMaxLocations" type="button" name="btnOverrideMaxLocations" value="@AppGlobal.Language.GetText(this, "OverrideMaxLocations", "Override Default for Provider")" class="btn btn-default" />
+                                if (Model.MaxNumberOfLocations.HasValue)
+                                {
+                                    <input id="btnClearOverrideMaxLocations" type="button" name="btnClearOverrideMaxLocations" value="@String.Format(AppGlobal.Language.GetText(this, "RevertMaxLocationsToDefault", "Revert to System Default Value ({0})"), Constants.ConfigSettings.MaxLocations.ToString("N0"))" class="btn btn-default col-md-offset-1" />
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+
+                @if (Permission.HasPermission(false, false, new[] { Permission.PermissionName.CanQAProviders, Permission.PermissionName.CanViewApprenticeshipQA }) && Model.ProviderId > 0)
+                {
+                    <fieldset>
+                        <legend>
+                            @AppGlobal.Language.GetText(this, "QualityAssuranceOptions", "Quality Assurance Options")
+                            @if (AppGlobal.Language.GetText(this, "QualityAssuranceOptionsTooltip", "") != "")
+                            {
+                                @Html.Tooltip(AppGlobal.Language.GetText(this, "QualityAssuranceOptionsTooltip", ""))
+                            }
+                        </legend>
+                        <a href="@Url.Action("ProviderQAHistory", "Report", new { Id = @Model.ProviderId })" style="float: right; margin-top: -45px;">@AppGlobal.Language.GetText(this, "ViewQAHistory", "View QA History")</a>
+
+                        <div class="form-group">
+                            @Html.LanguageLabelFor(m => m.DataReadyForQA, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10" style="padding-top: 7px;">
+                                @if (Model.DataReadyForQA)
+                                {
+                                    @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+                                }
+                                else
+                                {
+                                    @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+                                }
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        <p class="required-message col-md-offset-2">
+                            @if (Model.LastQAdForComplianceOn.HasValue)
+                            {
+                                @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "LastQAdForComplianceOnBy", "Last Quality Assured for Compliance on <b>{0}</b> by <b>{1}</b>."), Model.LastQAdForComplianceOn.Value.ToLocalTime().ToString(Constants.ConfigSettings.ShortDateTimeFormat), Server.HtmlEncode(Model.LastQAdForComplianceBy)))
+                            }
+                            else
+                            {
+                                @Html.Raw(AppGlobal.Language.GetText(this, "NeverQAdForCompliance", "Last Quality Assured for Compliance : <b>Never</b>"))
+                            }
+                        </p>
+
+                        <div class="form-group">
+                            @Html.LanguageLabelFor(m => m.HasBeenQAdForCompliance, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10" style="padding-top: 7px;">
+                                @if (Model.HasBeenQAdForCompliance)
+                                {
+                                    @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+                                }
+                                else
+                                {
+                                    @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+                                }
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LanguageLabelFor(m => m.HasPassedComplianceChecks, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10" style="padding-top: 2px;">
+                                @if (Model.HasPassedComplianceChecks)
+                                {
+                                    @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+                                }
+                                else
+                                {
+                                    @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+                                }
+                                @if (Permission.HasPermission(false, false, Permission.PermissionName.CanQAApprenticeships) && Model.ApprenticeshipsQAed >= Model.NumberOfApprenticeshipsRequiredToQA)
+                                {
+                                    <input id="btnQAForCompliance" type="button" name="btnQAForCompliance" value="@AppGlobal.Language.GetText(this, "QAForCompliance", "QA for Compliance")" class="btn btn-default col-md-offset-1" />
+                                }
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        <p class="required-message col-md-offset-2">
+                            @if (Model.LastQAdForStyleOn.HasValue)
+                            {
+                                @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "LastQAdForStyleOnBy", "Last Quality Assured for Style on <b>{0}</b> by <b>{1}</b>."), Model.LastQAdForStyleOn.Value.ToLocalTime().ToString(Constants.ConfigSettings.ShortDateTimeFormat), Server.HtmlEncode(Model.LastQAdForStyleBy)))
+                            }
+                            else
+                            {
+                                @Html.Raw(AppGlobal.Language.GetText(this, "NeverQAdForStyle", "Last Quality Assured for Style : <b>Never</b>"))
+                            }
+                        </p>
+
+                        <div class="form-group">
+                            @Html.LanguageLabelFor(m => m.HasBeenQAdForStyle, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10" style="padding-top: 7px;">
+                                @if (Model.HasBeenQAdForStyle)
+                                {
+                                    @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+                                }
+                                else
+                                {
+                                    @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+                                }
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LanguageLabelFor(m => m.HasPassedStyleChecks, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10" style="padding-top: 2px;">
+                                @if (Model.HasPassedStyleChecks)
+                                {
+                                    @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+                                }
+                                else
+                                {
+                                    @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+                                }
+                                @if (Permission.HasPermission(false, false, Permission.PermissionName.CanQAApprenticeships) && Model.ApprenticeshipsQAed >= Model.NumberOfApprenticeshipsRequiredToQA)
+                                {
+                                    <input id="btnQAForStyle" type="button" name="btnQAForStyle" value="@AppGlobal.Language.GetText(this, "QAForStyle", "QA for Style")" class="btn btn-default col-md-offset-1" />
+                                }
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LanguageLabelFor(m => m.PassedOverallQAChecks, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(m => m.PassedOverallQAChecks, (SelectList)ViewBag.YesNo, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control", style = "width: 40%; display: inline;" })
+                                @if (Model.ShowSendFailedQAEmailButton)
+                                {
+                                    <input id="btnSendQAFailEmail" type="button" name="btnSendQAFailEmail" value="@AppGlobal.Language.GetText(this, "SendQAFailEmail", "Send QA Fail Email")" class="btn btn-warning col-md-offset-1" />
+                                }
+                                <br />
+                                <span style="font-size: 0.85em;">
+                                    @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "xOutOfyApprenticeshipsHaveBeenQAed", "{0} out of the {1} required apprenticeships have been quality assured."), Model.ApprenticeshipsQAed.ToString("N0"), Model.NumberOfApprenticeshipsRequiredToQA.ToString("N0")))
+                                    &nbsp;
+                                    @if (Model.ApprenticeshipsQAed > 0)
+                                    {
+                                        @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "xPassed", "({0} Passed)"), Model.ApprenticeshipPassedQA.ToString("N0")))
+                                    }
+                                </span>
+                                <br />
+                                @Html.ValidationMessageFor(m => m.PassedOverallQAChecks)
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>
+                            @AppGlobal.Language.GetText(this, "UnableToCompleteHeader", "Unable To Complete")
+                            @if (AppGlobal.Language.GetText(this, "UnableToCompleteOptionsTooltip", "") != "")
+                            {
+                                @Html.Tooltip(AppGlobal.Language.GetText(this, "UnableToCompleteOptionsTooltip", ""))
+                            }
+                        </legend>
+
+                        <span class="explanation">
+                            @Html.Raw(AppGlobal.Language.GetText(this, "UnableToCompleteSummary", ""))
+                        </span>
+                        <p class="required-message col-md-offset-2">
+                            @if (Model.UnableToCompleteProcess)
+                            {
+                                @Html.Raw(String.Format(AppGlobal.Language.GetText(this, "UnableToCompleteWhenBy", "Reported inability to complete on <b>{0}</b> by <b>{1}</b>."), Model.UnableToCompleteDate.Value.ToLocalTime().ToString(Constants.ConfigSettings.ShortDateTimeFormat), Server.HtmlEncode(Model.UnableToCompleteName)))
+                            }
+
+                        </p>
+                        <div class="form-group">
+                            @Html.LanguageLabelFor(m => m.UnableToCompleteProcess, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+
+                                @if (Model.UnableToCompleteProcess)
+                                {
+                                    @Html.Raw(AppGlobal.Language.GetText(this, "Yes", "Yes"))
+                                }
+                                else
+                                {
+                                    @Html.Raw(AppGlobal.Language.GetText(this, "No", "No"))
+                                }
+
+
+                                @if (Permission.HasPermission(false, false, Permission.PermissionName.CanManageUnableToComplete))
+                                {
+                                    <input id="btnUnableToComplete" type="button" name="btnUnableToComplete" value="@AppGlobal.Language.GetText(this, "UnableToCompleteButton", "Record Reason")" class="btn btn-default col-md-offset-1" />
+                                    <input id="btnUnableToCompleteClear" type="button" name="btnUnableToCompleteClear" value="@AppGlobal.Language.GetText(this, "UnableToCompleteClearButton", "Clear Reasons")" class="btn btn-default col-md-offset-1" />
+                                }
+                            </div>
+                        </div>
+                    </fieldset>
+                }
+
+                @if (canEditSpecialFields)
+                {
+                    <fieldset>
+                        <legend>@AppGlobal.Language.GetText(this, "QualityEmails", "Quality Email Options")</legend>
+
+                        <span class="explanation">
+                            @Html.Raw(AppGlobal.Language.GetText(this, "QualityEmailsSummary", ""))
+                        </span>
+
+                        <div class="form-group">
+                            @Html.LanguageLabelFor(m => m.QualityEmailsPaused, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.QualityEmailsPaused)
+                                @Html.ValidationMessageFor(m => m.QualityEmailsPaused)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LanguageLabelFor(m => m.QualityEmailStatusId, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(m => m.QualityEmailStatusId, (SelectList)ViewBag.QualityEmailStatuses, AppGlobal.Language.GetText(this, "PleaseSelect", "Please Select"), new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.QualityEmailStatusId)
+                            </div>
+                        </div>
+                    </fieldset>
+                }
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="@AppGlobal.Language.GetText(this, "Submit", "Save")" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+
+            @Html.Partial("_UKPRNDetails", Model.UKRLPData)
+
+        </div>
+    }
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Html.Partial("_UKPRNScript")
+    @Html.Partial("_DfEProviderPartial")
+    @Html.Partial("_CKEditorScripts")
+    @Html.Partial("_AddEditProviderScripts")
+}

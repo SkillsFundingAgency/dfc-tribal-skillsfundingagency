@@ -1,0 +1,62 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ManageLoginsViewModel
+@using System.ServiceModel.Configuration
+@using Microsoft.Owin.Security
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Manage your external logins");
+    var removeOtherLogInHint = AppGlobal.Language.GetText(this, "RemoveOtherLogIn", "Remove this {0} login from your account");
+    var logInWithOtherAccountHint = AppGlobal.Language.GetText(this, "LogInWithOtherAccountHint", "Log in using your {0} account");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Header", "Manage your external logins")</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+@if (Model.CurrentLogins.Count > 0)
+{
+    <h4>@AppGlobal.Language.GetText(this, "FormHeader", "Registered Logins")</h4>
+    <table class="table">
+        <tbody>
+            @foreach (var account in Model.CurrentLogins)
+            {
+                <tr>
+                    <td>@account.LoginProvider</td>
+                    <td>
+                        @if (ViewBag.ShowRemoveButton)
+                        {
+                            using (Html.BeginForm("RemoveLogin", "Manage"))
+                            {
+                                @Html.AntiForgeryToken()
+                                <div>
+                                    @Html.Hidden("loginProvider", account.LoginProvider)
+                                    @Html.Hidden("providerKey", account.ProviderKey)
+                                    <input type="submit" class="btn btn-default" value="@AppGlobal.Language.GetText(this, "Remove", "Remove")" title="@String.Format(removeOtherLogInHint, @account.LoginProvider)" />
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            @: &nbsp;
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (Model.OtherLogins.Count > 0)
+{
+    <h4>@AppGlobal.Language.GetText(this, "AddOtherLogIn", "Add another service to log in.")</h4>
+    <hr />
+    using (Html.BeginForm("LinkLogin", "Manage"))
+    {
+        @Html.AntiForgeryToken()
+        <div id="socialLoginList">
+        <p>
+            @foreach (AuthenticationDescription p in Model.OtherLogins)
+            {
+                <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="@String.Format(logInWithOtherAccountHint, p.Caption)">@p.AuthenticationType</button>
+            }
+        </p>
+        </div>
+    }
+}
+

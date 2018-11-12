@@ -1,0 +1,1 @@
+﻿CREATE SYNONYM [Remote].[PermissionInRole] FOR [$(SFA_CourseDirectory)].[dbo].[PermissionInRole];

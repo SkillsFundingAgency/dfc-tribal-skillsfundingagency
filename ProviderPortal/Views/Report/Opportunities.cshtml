@@ -1,0 +1,83 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.ProviderOpportunityReportViewModel
+@{
+    ViewBag.Title = AppGlobal.Language.GetText(this, "Title", "Opportunities");
+}
+
+<h2>@AppGlobal.Language.GetText(this, "Title", "Opportunities")</h2>
+<hr/>
+@Html.Raw(AppGlobal.Language.GetText(this, "TableHeader", "<p>Using the table below you can filter and order your opportunities. Use the buttons on the top right of the table to copy to your clipboard, save in comma separated values (CSV) format, save in Microsoft Excel format or print.<p>"))
+@Html.Partial("_BulkUploadMessagePartial")
+
+<table class="dataTable dt-responsive table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().RecordStatusName)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().ProviderOwnCourseInstanceRef)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().StudyModeName)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().AttendanceTypeName)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().AttendancePatternName)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().DurationForDisplay)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().StartDateForDisplay)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().EndDate)
+            </th>
+            <th scope="col" data-type="num">
+                @Html.DisplayNameFor(m => m.Items.First().PriceAsText)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(m => m.Items.First().VenueOrRegionName)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.RecordStatusName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ProviderOwnCourseInstanceRef)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.StudyModeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AttendanceTypeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AttendancePatternName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.DurationForDisplay)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.StartDateForDisplay)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.VenueOrRegionName)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

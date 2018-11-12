@@ -1,0 +1,24 @@
+﻿@model Tribal.SkillsFundingAgency.ProviderPortal.Models.UsageStatisticsReportViewModel
+@{
+    ViewBag.Title = "NCS Course Search Usage Statistics";
+}
+<h2>NCS Course Search Usage Statistics</h2>
+<hr/>
+<div>
+    
+    @foreach (var item in Model.Items)
+    {
+        <h4>@item.Key.ToLongDateString()</h4>
+        <ul class="list-unstyled">
+            @foreach (var jtem in item.Value)
+            {
+                <li>
+                    @Html.ActionLink(jtem, "GetFile", "CourseSearchStatsAdmin",
+                         new { id = item.Key.ToString("yyyyMMdd"), filename = jtem }, null)
+                </li>
+            }
+        </ul>
+        
+    }
+
+</div>

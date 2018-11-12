@@ -1,0 +1,2 @@
+﻿CREATE TYPE [dbo].[GEL_ID_t]
+    FROM INT NOT NULL;
