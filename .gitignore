@@ -259,3 +259,7 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/SFA_CourseDirectory
+/SFA_Database
+/SFA_DataWarehouse
+
