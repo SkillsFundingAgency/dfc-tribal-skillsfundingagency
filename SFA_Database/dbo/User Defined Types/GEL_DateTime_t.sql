@@ -1,2 +1,0 @@
-﻿CREATE TYPE [dbo].[GEL_DateTime_t]
-    FROM DATETIME NULL;

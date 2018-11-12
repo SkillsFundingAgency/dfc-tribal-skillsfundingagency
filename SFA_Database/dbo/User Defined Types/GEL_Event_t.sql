@@ -1,2 +1,0 @@
-﻿CREATE TYPE [dbo].[GEL_Event_t]
-    FROM NVARCHAR (4000) NULL;

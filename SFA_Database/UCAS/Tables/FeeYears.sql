@@ -1,5 +1,0 @@
-﻿CREATE TABLE [UCAS].[FeeYears]
-(
-	[FeeYearId] INT NOT NULL PRIMARY KEY, 
-    [FeeYear] NVARCHAR(50) NOT NULL
-)

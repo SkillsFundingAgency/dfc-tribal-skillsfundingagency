@@ -1,2 +1,0 @@
-﻿CREATE TYPE [dbo].[GEL_User_t]
-    FROM NVARCHAR (75) NULL;

@@ -1,1 +1,0 @@
-﻿CREATE SYNONYM [Remote].[Audit_Address] FOR [$(SFA_CourseDirectory)].[dbo].[Audit_Address];

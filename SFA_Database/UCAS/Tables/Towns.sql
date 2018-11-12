@@ -1,5 +1,0 @@
-﻿CREATE TABLE [UCAS].[Towns]
-(
-	[TownId] INT NOT NULL PRIMARY KEY, 
-    [Town] NVARCHAR(50) NOT NULL
-)
