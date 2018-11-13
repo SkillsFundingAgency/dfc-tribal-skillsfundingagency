@@ -267,3 +267,4 @@ __pycache__/
 /ProviderPortal/Web.Release.config
 /ProviderPortal/Web.sfa-test-s-vi-import.config
 
+/ProviderPortal.CsvExport/App.config

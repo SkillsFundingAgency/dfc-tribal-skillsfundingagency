@@ -111,6 +111,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="App.config.template" />
     <None Include="Data\S_LEARNING_AIMS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
