@@ -549,6 +549,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config" />
     <None Include="App.Config.template" />
     <None Include="Model.Context.tt">
       <DependentUpon>Model.edmx</DependentUpon>
