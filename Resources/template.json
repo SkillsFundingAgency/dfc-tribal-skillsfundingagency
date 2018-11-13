@@ -5,10 +5,16 @@
         "envPrefixName": {
             "type": "string",
             "metadata": {
-                "description": "Prefix for the environment (2-5 characters)"
+                "description": "Prefix for the environment (2-11 characters)"
             },
             "minLength": 2,
             "maxLength": 11
+        },
+        "storageAccountName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the storage account (as it follows a different naming convention)"
+            }
         },
         "username": {
             "type": "string",
@@ -67,6 +73,9 @@
         }
     },
     "variables": {
+        "storageAccountType": "Standard_LRS",
+        "storageAccessTier": "Hot",
+        "storageKind": "StorageV2",
         "virtualNetworkName": "[concat(parameters('envPrefixName'), '-vnet')]",
         "addressPrefix": "10.0.0.0/16",
         "feSubnetPrefix": "10.0.0.0/24",
@@ -87,11 +96,38 @@
         "webSrvNicName": "[concat(variables('webSrvName'), '-nic')]",
         "webSrvSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), 'FESubnetName')]",
         "webSrvPublicIP": "[concat(variables('webSrvName'), '-pip')]",
+        "webPublicIPRef": "[resourceId('Microsoft.Network/publicIPAddresses', variables('webSrvPublicIP'))]",
         "webImagePublisher": "MicrosoftWindowsServer",
         "webImageOffer": "WindowsServer",
         "webImageSku": "2016-Datacenter"
     },
     "resources": [
+        {
+            "apiVersion": "2018-02-01",
+            "name": "[parameters('storageAccountName')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "name": "[variables('storageAccountType')]"
+            },
+            "kind": "[variables('storageKind')]",
+            "tags": {},
+            "properties": {
+                "encryption": {
+                    "services": {
+                        "blob": {
+                            "enabled": true
+                        },
+                        "file": {
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                },
+                "accessTier": "[variables('storageAccessTier')]",
+                "supportsHttpsTrafficOnly": true
+            }
+        },
         {
             "apiVersion": "2015-06-15",
             "type": "Microsoft.Network/networkSecurityGroups",
@@ -374,6 +410,9 @@
                             "privateIPAllocationMethod": "Dynamic",
                             "subnet": {
                                 "id": "[variables('webSrvSubnetRef')]"
+                            },
+                            "publicIPAddress": {
+                                "id": "[variables('webPublicIPRef')]"
                             }
                         }
                     }
