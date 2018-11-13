@@ -1430,15 +1430,6 @@
     </Content>
     <Content Include="Content\report-dashboard-pdf.css" />
     <Content Include="Views\Shared\DisplayTemplates\MailAddress.cshtml" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
@@ -1720,18 +1711,27 @@
     <None Include="Web References\uk.co.ukrlp.webservices\UKRLP-CommonLibrary-v1-6.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Web.config.template" />
+    <Content Include="Web.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Debug.config.template" />
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config.template" />
     <None Include="Web.sfa-prod-dev.config">
       <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
     </None>
     <None Include="Web.sfa-prod-live.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-    <None Include="Web.sfa-prod-test.config">
-      <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Web.sfa-test-s-vi-import.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.sfa-test-s-vi-import.config.template" />
+    <None Include="Web.sfa-test-s-vi.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
