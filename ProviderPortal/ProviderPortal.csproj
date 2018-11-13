@@ -1720,20 +1720,11 @@
     <None Include="Web References\uk.co.ukrlp.webservices\UKRLP-CommonLibrary-v1-6.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web.sfa-prod-dev.config">
-      <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Web.sfa-prod-live.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.sfa-prod-test.config">
-      <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
+    <Content Include="Web.config.template" />
     <None Include="Web.sfa-test-s-vi-import.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <None Include="Web.sfa-test-s-vi-import.config.template" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
