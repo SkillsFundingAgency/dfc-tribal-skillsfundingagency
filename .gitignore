@@ -262,4 +262,5 @@ __pycache__/
 /SFA_CourseDirectory
 /SFA_Database
 /SFA_DataWarehouse
-
+/ProviderPortal/Web.config
+/ProviderPortal/Web.sfa-test-s-vi-import.config
