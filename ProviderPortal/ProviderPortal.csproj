@@ -1716,9 +1716,11 @@
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <None Include="Web.Debug.config.template" />
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <None Include="Web.Release.config.template" />
     <None Include="Web.sfa-prod-dev.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
