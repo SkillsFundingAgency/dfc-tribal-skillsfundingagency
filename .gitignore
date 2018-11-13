@@ -263,4 +263,7 @@ __pycache__/
 /SFA_Database
 /SFA_DataWarehouse
 /ProviderPortal/Web.config
+/ProviderPortal/Web.Debug.config
+/ProviderPortal/Web.Release.config
 /ProviderPortal/Web.sfa-test-s-vi-import.config
+
