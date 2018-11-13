@@ -1,0 +1,439 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "envPrefixName": {
+            "type": "string",
+            "metadata": {
+                "description": "Prefix for the environment (2-5 characters)"
+            },
+            "minLength": 2,
+            "maxLength": 11
+        },
+        "username": {
+            "type": "string",
+            "metadata": {
+                "description": "SQL IaaS VM local administrator username"
+            }
+        },
+        "password": {
+            "type": "securestring",
+            "metadata": {
+                "description": "SQL IaaS VM local administrator password"
+            }
+        },
+        "webSrvVMSize": {
+            "type": "string",
+            "allowedValues": [
+                "Standard_D2s_v3",
+                "Standard_D4s_v3",
+                "Standard_D8s_v3",
+                "Standard_DS11_v2",
+                "Standard_DS12_v2",
+                "Standard_DS13_v2",
+                "Standard_DS14_v2"
+            ],
+            "metadata": {
+                "description": "The size of the Web Server VMs Created"
+            },
+            "defaultValue": "Standard_D2s_v3"
+        },
+        "sqlVMSize": {
+            "type": "string",
+            "allowedValues": [
+                "Standard_D2s_v3",
+                "Standard_D4s_v3",
+                "Standard_D8s_v3",
+                "Standard_DS11_v2",
+                "Standard_DS12_v2",
+                "Standard_DS13_v2",
+                "Standard_DS14_v2"
+            ],
+            "metadata": {
+                "description": "The size of the SQL VM Created"
+            },
+            "defaultValue": "Standard_D2s_v3"
+        },
+        "diskType": {
+            "type": "string",
+            "allowedValues": [
+                "Standard_LRS",
+                "Premium_LRS"
+            ],
+            "metadata": {
+                "description": "The type of the Storage Account created"
+            },
+            "defaultValue": "Premium_LRS"
+        }
+    },
+    "variables": {
+        "virtualNetworkName": "[concat(parameters('envPrefixName'), '-vnet')]",
+        "addressPrefix": "10.0.0.0/16",
+        "feSubnetPrefix": "10.0.0.0/24",
+        "dbSubnetPrefix": "10.0.2.0/24",
+        "feNSGName": "[concat(parameters('envPrefixName'), '-public-vnet')]",
+        "dbNSGName": "[concat(parameters('envPrefixName'), '-data-vnet')]",
+        "sqlSrvDBName": "[concat(parameters('envPrefixName'), '-sql')]",
+        "sqlVmSize": "[parameters('sqlVMSize')]",
+        "sqlSrvDBNicName": "[concat(variables('sqlSrvDBName'), '-nic')]",
+        "sqlSvrDBSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), 'DBSubnetName')]",
+        "sqlPublicIP": "[concat(variables('sqlSrvDBName'), '-pip')]",
+        "sqlPublicIPRef": "[resourceId('Microsoft.Network/publicIPAddresses', variables('sqlPublicIP'))]",
+        "sqlImagePublisher": "MicrosoftSQLServer",
+        "sqlImageOffer": "SQL2017-WS2016",
+        "sqlImageSku": "Enterprise",
+        "webSrvName": "[concat(parameters('envPrefixName'), '-vm')]",
+        "webSrvVMSize": "[parameters('webSrvVMSize')]",
+        "webSrvNicName": "[concat(variables('webSrvName'), '-nic')]",
+        "webSrvSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), 'FESubnetName')]",
+        "webSrvPublicIP": "[concat(variables('webSrvName'), '-pip')]",
+        "webImagePublisher": "MicrosoftWindowsServer",
+        "webImageOffer": "WindowsServer",
+        "webImageSku": "2016-Datacenter"
+    },
+    "resources": [
+        {
+            "apiVersion": "2015-06-15",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[variables('feNSGName')]",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "FrontEndNSG"
+            },
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "rdp_rule",
+                        "properties": {
+                            "description": "Allow RDP",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "Internet",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "web_rule",
+                        "properties": {
+                            "description": "Allow WEB",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "80",
+                            "sourceAddressPrefix": "Internet",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 101,
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2015-06-15",
+            "name": "[variables('dbNSGName')]",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "BackEndNSG"
+            },
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "Allow_FE",
+                        "properties": {
+                            "description": "Allow FE Subnet",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "1433",
+                            "sourceAddressPrefix": "10.0.0.0/24",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "rdp_rule",
+                        "properties": {
+                            "description": "Allow RDP",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "Internet",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 110,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "Block_FE",
+                        "properties": {
+                            "description": "Block App Subnet",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "10.0.0.0/24",
+                            "destinationAddressPrefix": "*",
+                            "access": "Deny",
+                            "priority": 121,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "Block_Internet",
+                        "properties": {
+                            "description": "Block Internet",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "Internet",
+                            "access": "Deny",
+                            "priority": 200,
+                            "direction": "Outbound"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "apiVersion": "2015-06-15",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[variables('virtualNetworkName')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkSecurityGroups/', variables('feNSGName'))]",
+                "[concat('Microsoft.Network/networkSecurityGroups/', variables('dbNSGName'))]"
+            ],
+            "tags": {
+                "displayName": "VirtualNetwork"
+            },
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[variables('addressPrefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "FESubnetName",
+                        "properties": {
+                            "addressPrefix": "[variables('feSubnetPrefix')]",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('feNSGName'))]"
+                            }
+                        }
+                    },
+                    {
+                        "name": "DBSubnetName",
+                        "properties": {
+                            "addressPrefix": "[variables('dbSubnetPrefix')]",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('dbNSGName'))]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[variables('sqlPublicIP')]",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-06-15",
+            "tags": {
+                "displayName": "SqlPIP"
+            },
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4
+            }
+        },
+        {
+            "name": "[variables('sqlSrvDBNicName')]",
+            "type": "Microsoft.Network/networkInterfaces",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+            ],
+            "tags": {
+                "displayName": "SQLSrvDBNic"
+            },
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('sqlSvrDBSubnetRef')]"
+                            },
+                            "publicIPAddress": {
+                                "id": "[variables('sqlPublicIPRef')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[concat(parameters('envPrefixName'), 'sqlSrv17')]",
+            "type": "Microsoft.Compute/virtualMachines",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2017-03-30",
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkInterfaces/', variables('sqlSrvDBNicName'))]",
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('sqlPublicIP'))]"
+            ],
+            "tags": {
+                "displayName": "SQL-Svr-DB"
+            },
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[variables('sqlVmSize')]"
+                },
+                "osProfile": {
+                    "computerName": "[variables('sqlSrvDBName')]",
+                    "adminUsername": "[parameters('username')]",
+                    "adminPassword": "[parameters('password')]",
+                    "windowsConfiguration": {
+                        "provisionVmAgent": "true"
+                    }
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "[variables('sqlImagePublisher')]",
+                        "offer": "[variables('sqlImageOffer')]",
+                        "sku": "[variables('sqlImageSku')]",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "[concat(variables('sqlSrvDBName'),'_OSDisk')]",
+                        "createOption": "FromImage",
+                        "managedDisk": {
+                            "storageAccountType": "[parameters('diskType')]"
+                        }
+                    },
+                    "dataDisks": [
+                        {
+                            "name": "[concat(variables('sqlSrvDBName'),'_DataDisk')]",
+                            "createOption": "Empty",
+                            "lun": 0,
+                            "diskSizeGB": 1023,
+                            "managedDisk": {
+                                "storageAccountType": "[parameters('diskType')]"
+                            }
+                        }
+                    ]
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('sqlSrvDBNicName'))]"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "[variables('webSrvPublicIP')]",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-06-15",
+            "tags": {
+                "displayName": "WebSrvPIP for LB"
+            },
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4
+            }
+        },
+        {
+            "name": "[variables('webSrvNicName')]",
+            "type": "Microsoft.Network/networkInterfaces",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+            ],
+            "tags": {
+                "displayName": "WebSrvNic"
+            },
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('webSrvSubnetRef')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[variables('webSrvName')]",
+            "type": "Microsoft.Compute/virtualMachines",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2017-03-30",
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkInterfaces/', variables('webSrvNicName'))]"
+            ],
+            "tags": {
+                "displayName": "WebSrv"
+            },
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[variables('webSrvVMSize')]"
+                },
+                "osProfile": {
+                    "computerName": "[variables('webSrvName')]",
+                    "adminUsername": "[parameters('username')]",
+                    "adminPassword": "[parameters('password')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "[variables('webImagePublisher')]",
+                        "offer": "[variables('webImageOffer')]",
+                        "sku": "[variables('webImageSku')]",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "[concat(variables('webSrvName'),'_OSDisk')]",
+                        "createOption": "FromImage",
+                        "managedDisk": {
+                            "storageAccountType": "[parameters('diskType')]"
+                        }
+                    },
+                    "dataDisks": [
+                        {
+                            "name": "[concat(variables('webSrvName'),'_DataDisk')]",
+                            "createOption": "Empty",
+                            "lun": 0,
+                            "diskSizeGB": 511,
+                            "managedDisk": {
+                                "storageAccountType": "[parameters('diskType')]"
+                            }
+                        }
+                    ]
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('webSrvNicName'))]"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
