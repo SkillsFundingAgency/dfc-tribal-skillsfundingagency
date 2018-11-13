@@ -1712,7 +1712,26 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Web.config.template" />
+    <Content Include="Web.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.sfa-prod-dev.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.sfa-prod-live.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.sfa-test-s-vi-import.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Web.sfa-test-s-vi-import.config.template" />
+    <None Include="Web.sfa-test-s-vi.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
