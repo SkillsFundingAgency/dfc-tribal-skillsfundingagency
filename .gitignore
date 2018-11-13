@@ -268,3 +268,4 @@ __pycache__/
 /ProviderPortal/Web.sfa-test-s-vi-import.config
 
 /ProviderPortal.CsvExport/App.config
+/CourseSearchService/IMS.NCS.CourseSearchService.DatabaseContext/App.config

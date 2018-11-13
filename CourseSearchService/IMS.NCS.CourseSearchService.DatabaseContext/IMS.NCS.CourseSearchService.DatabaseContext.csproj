@@ -189,6 +189,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="App.config" />
     <None Include="App.config.template" />
     <None Include="Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
