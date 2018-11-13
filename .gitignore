@@ -269,3 +269,4 @@ __pycache__/
 
 /ProviderPortal.CsvExport/App.config
 /CourseSearchService/IMS.NCS.CourseSearchService.DatabaseContext/App.config
+/ProviderPortal.DataWarehouse.Entities/App.Config
