@@ -910,10 +910,11 @@ namespace Tribal.SkillsFundingAgency.ProviderPortal
 
                 AppGlobal.Log.WriteLog("Configuration settings loaded successfully from the database");
             }
-            catch
+            catch(Exception ex)
             {
-                throw new ConfigurationErrorsException(
-                    "Failed to retrieve configuration settings from database, please check that the database is started and that the connection string in the web.config file is correct.");
+                throw ex;
+                //throw new ConfigurationErrorsException(
+                //    "Failed to retrieve configuration settings from database, please check that the database is started and that the connection string in the web.config file is correct.");
             }
         }
 

@@ -655,7 +655,6 @@
     <Content Include="Scripts\ace\mode-javascript.js" />
     <Content Include="Scripts\ace\mode-json.js" />
     <Content Include="Scripts\ace\mode-plain_text.js" />
-    <Content Include="Scripts\ace\mode-text.js" />
     <Content Include="Scripts\ace\mode-xml.js" />
     <Content Include="Scripts\ace\snippets\css.js" />
     <Content Include="Scripts\ace\snippets\diff.js" />
@@ -1045,8 +1044,6 @@
     <Content Include="Scripts\nanospell\nanospell.ckeditor\theme\nanospell.css" />
     <Content Include="Scripts\nanospell\nanospell.ckeditor\theme\wiggle.png" />
     <Content Include="Scripts\nanospell\server\ajax\asp.net\tinyspell.aspx" />
-    <Content Include="Scripts\nanospell\server\dictionaries\custom.txt" />
-    <Content Include="Scripts\nanospell\server\dictionaries\language-rules\banned-words.txt" />
     <Content Include="Scripts\nanospell\server\dictionaries\language-rules\common-mistakes.txt" />
     <Content Include="Scripts\nanospell\server\dictionaries\language-rules\enforced-corrections.txt" />
     <Content Include="Scripts\nanospell\server\dictionaries\README.txt" />
@@ -1349,6 +1346,9 @@
     <Content Include="Scripts\ckeditor\LICENSE.md" />
     <Content Include="Scripts\ckeditor\CHANGES.md" />
     <Content Include="Content\RoATP Provider CSV File Format.docx" />
+    <None Include="Properties\PublishProfiles\esfacoursedirectory - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\esfacoursedirectory - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\sfa-prod-dev.pubxml" />
     <Content Include="Scripts\nanospell\server\ajax\asp.net\Web.config" />
     <Content Include="Scripts\nanospell\server\dictionaries\en.dic" />
@@ -1711,12 +1711,18 @@
     <None Include="Web References\uk.co.ukrlp.webservices\UKRLP-CommonLibrary-v1-6.xsd">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Web.config.template" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config.template">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-    <None Include="Web.Debug.config.template" />
+    <None Include="Web.Debug.config.template">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
