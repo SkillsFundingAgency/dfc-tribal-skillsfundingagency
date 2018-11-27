@@ -271,3 +271,5 @@ __pycache__/
 /CourseSearchService/IMS.NCS.CourseSearchService.DatabaseContext/App.config
 /ProviderPortal.DataWarehouse.Entities/App.Config
 /ProviderPortal.Entities/App.Config
+/ProviderPortal/Properties/PublishProfiles/esfacoursedirectory - Web Deploy.pubxml
+/ProviderPortal/Properties/PublishProfiles/sfacoursedirectory - Web Deploy.pubxml
