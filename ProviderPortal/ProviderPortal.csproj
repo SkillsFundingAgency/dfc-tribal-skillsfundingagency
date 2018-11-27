@@ -1347,7 +1347,6 @@
     <Content Include="Scripts\ckeditor\CHANGES.md" />
     <Content Include="Content\RoATP Provider CSV File Format.docx" />
     <None Include="Properties\PublishProfiles\esfacoursedirectory - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\esfacoursedirectory - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\sfa-prod-dev.pubxml" />
     <Content Include="Scripts\nanospell\server\ajax\asp.net\Web.config" />
@@ -1357,7 +1356,6 @@
     <Content Include="Scripts\nanospell\server\license\web.config" />
     <Content Include="Scripts\nanospell\server\dictionaries\en_uk.dic" />
     <None Include="Properties\PublishProfiles\sfacoursedirectory - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\sfacoursedirectory - Web Deploy.pubxml" />
     <None Include="Service References\BulkUploadWCFService\Arrays.xsd">
       <SubType>Designer</SubType>
     </None>
