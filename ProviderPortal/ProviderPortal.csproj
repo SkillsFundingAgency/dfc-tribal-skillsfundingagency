@@ -1356,6 +1356,8 @@
     <Content Include="Scripts\nanospell\server\license\key.lic" />
     <Content Include="Scripts\nanospell\server\license\web.config" />
     <Content Include="Scripts\nanospell\server\dictionaries\en_uk.dic" />
+    <None Include="Properties\PublishProfiles\sfacoursedirectory - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\sfacoursedirectory - Web Deploy.pubxml" />
     <None Include="Service References\BulkUploadWCFService\Arrays.xsd">
       <SubType>Designer</SubType>
     </None>
